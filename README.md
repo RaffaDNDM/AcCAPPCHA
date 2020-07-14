@@ -1,2 +1,2 @@
 # Invisible-Cappcha
-Master thesis about cappcha.
+Master thesis about Invisible CAPPCHA.
