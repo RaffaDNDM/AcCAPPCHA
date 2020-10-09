@@ -1,7 +1,74 @@
 \chapter{Introduction}
+\begin{itemize}
+\item{\textbf{Arithmetic}\\
+}
+\item{\textbf{Audio-based}\\
+}
+\item{\textbf{Game-based}\\
+}
+\item{\textbf{Image-based}\\
+}
+\item{\textbf{Puzzle-based}\\
+}
+\item{\textbf{Text-based}\\
+}
+\item{\textbf{Video-based}\\
+}
+\end{itemize}
+
 \begin{table}
 \centering \footnotesize
-\begin{tabular}{|r|l|}
+\renewcommand*\arraystretch{1.3}
+\begin{tabular}{cll}
+\hline
+{\textbf{CAPTCHA type}} & {\textbf{Usability issues}} & {\textbf{Security}}\\
+\hline
+\textit{Arithmetic} & {} & {}\\
+\hline
+\textit{Audio-based} & {
+  \begin{minipage} [t] {0.4\textwidth}
+  Issues of recognition:
+      \begin{itemize}
+        \item{Previous knowledge of English dictionary by the user.}
+        \item{Some character sounds very similar to others.}
+       \end{itemize} 
+  \end{minipage}
+} & {}\\
+\tabularnewline
+\hline
+\textit{Game-based} & {} & {}\\
+\hline
+\textit{Image-based} & {
+ \begin{minipage} [t] {0.4\textwidth}
+Difficulty of identification of images caused by:
+      \begin{itemize}
+        \item{Blur of images.}
+        \item{Low vision condition.}
+       \end{itemize} 
+  \end{minipage}
+} & {}\\
+\tabularnewline
+\hline
+\multirow{2}{*}{\textit{Puzzle-based}} & {It takes too much time to solve the puzzle} & {}\\
+{} & {and to identify the arrangement of puzzles.} & {}\\
+\hline
+\textit{Text-based} & {
+  \begin{minipage} [t] {0.4\textwidth}
+	Many problems have to be solved by user:
+      \begin{itemize}
+        \item{Multiple fonts.}
+        \item{Font size.}
+        \item{Blurred Letters}
+        \item{Wave Motion.}
+       \end{itemize} 
+  \end{minipage}
+}
+& {It can be identified by OCR (Optical Character Recognition) technique.}\\
+\tabularnewline
+\hline
+\textit{Video-based} & {
+Issues downloading videos to find correct} & {}\\
+{} & {captcha because of large size of files.} & {}\\
 
 \end{tabular}
 \end{table}
