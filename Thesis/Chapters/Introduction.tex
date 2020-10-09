@@ -1,4 +1,31 @@
 \chapter{Introduction}
+The CAPTCHAs are traditionally used in Web applications for:
+\begin{enumerate}
+\item{\textbf{Online Polls}\\
+CAPTCHAs prevent the creation and the submission of a large number of votes, favouring a party.
+}
+\item{\textbf{Protecting Web Registration}\\
+CAPTCHAs prevent the creation of free mail account to bot instead of human users. The goal of the use of CAPTCHAs is to remove the possibility that the hacker could take advantages from the large amount of registrations.
+}
+\item{\textbf{Preventing comment spam}\\
+CAPTCHAs precent the insertion of a large amount of posts made by bot on pages of social platforms or blogs.
+}
+\item{\textbf{Search engine bots}\\
+CAPTCHAs are used to guarantee that a website should be unindexed to prevent the reading of the page through search engine bots. The CAPTCHAs are added because the html tag, used to unindex the web page, doesn't guarantee unindexing.}
+\item{\textbf{E-Ticketing}\\
+Ticket brokers like Ticketmaster also use CAPTCHA applications. These applications help prevent ticket scalpers from bombarding the service with massive ticket purchases for big events. Without some sort of filter, it's possible for a scalper to use a boot to place hundreds or thousands of ticket orders in a matter of seconds. Legitimate customers become victims as events sell out minutes after tickets become available. Scalpers then try to sell the tickets above face value. While CAPTCHA applications don't prevent scalping; they do make it more difficult to scalp tickets on a l
+}
+\item{\textbf{Email spam}\\
+CAPTCHAs also present a plausible solution to the problem of spam emails. All we have to do is to use a CAPTCHA challenge to verify that an indeed a human has sent the email.
+}
+\item{\textbf{Preventing Dictionary Attacks}\\
+CAPTCHAs can also be used to prevent dictionary attacks in password systems. The idea is simple: prevent a computer from being able to iterate through the entire space of passwords by requiring it to solve a CAPTCHA after a certain number of unsuccessful logins. This is better than the classic approach of locking an account after a sequence of unsuccessful logins, since doing so allows an attacker to lock accounts at will.
+}
+\item{\textbf{As a tool to verify digitized books: This is a way of increasing the value of CAPTCHA as an application. An application called reCAPTCHA harnesses users responses in CAPTCHA fields to verify the contents of a scanned piece of paper. Because computers aren‘t always able to identify words from a digital scan, humans have to verify what a printed page says. Then it‘s possible for search engines to search and index the contents of a scanned document. This is how it works: The application already recognizes one of the words. If the visitor types that word into a field correctly, the application assumes the second word the user types is also correct. That second word goes into a pool of words that the application will present to other users. As each user types in a word, the application compares the word to the original answer. Eventually, the application receives enough responses to verify the word with a high degree of certainty. That word can then go into the verified pool.
+}
+\end{enumerate}
+
+\section{Traditional CAPTCHA}
 \begin{itemize}
 \item{\textbf{Arithmetic}\\
 }
@@ -15,36 +42,41 @@
 \item{\textbf{Video-based}\\
 }
 \end{itemize}
+Some types of CAPTCHA don't destroy a session, after the correct answer is inserted by the user\cite{TEXT_AUDIO}. Hence, the hacker can crack following accesses using the same session id with the related solution of the challenge, after connecting to the web page of CAPTCHA. In this way the attacker can make hundreds of requests before the session expires and the previous operation must be computed again.
 
-\begin{table}
+\begin{sidewaystable}
 \centering \footnotesize
 \renewcommand*\arraystretch{1.3}
 \begin{tabular}{cll}
 \hline
-{\textbf{CAPTCHA type}} & {\textbf{Usability issues}} & {\textbf{Security}}\\
+\multicolumn{1}{c}{\textbf{CAPTCHA type}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
 \hline
 \textit{Arithmetic} & {} & {}\\
 \hline
 \textit{Audio-based} & {
   \begin{minipage} [t] {0.4\textwidth}
-  Issues of recognition:
-      \begin{itemize}
+  Issues of recognition:\\
+      \begin{tabitem}
         \item{Previous knowledge of English dictionary by the user.}
         \item{Some character sounds very similar to others.}
-       \end{itemize} 
+      \end{tabitem} 
   \end{minipage}
-} & {}\\
+} & {
+  \begin{minipage} [t] {0.4\textwidth}
+  It can be broken by Automatic Speech Recognition (ASR) programs (as mentioned in \cite{improving_AUDIO}).
+  \end{minipage}
+}\\
 \tabularnewline
 \hline
 \textit{Game-based} & {} & {}\\
 \hline
 \textit{Image-based} & {
  \begin{minipage} [t] {0.4\textwidth}
-Difficulty of identification of images caused by:
-      \begin{itemize}
+Difficulty of identification of images caused by:\\
+      \begin{tabitem}
         \item{Blur of images.}
         \item{Low vision condition.}
-       \end{itemize} 
+       \end{tabitem} 
   \end{minipage}
 } & {}\\
 \tabularnewline
@@ -52,23 +84,42 @@ Difficulty of identification of images caused by:
 \multirow{2}{*}{\textit{Puzzle-based}} & {It takes too much time to solve the puzzle} & {}\\
 {} & {and to identify the arrangement of puzzles.} & {}\\
 \hline
-\textit{Text-based} & {
+\textit{Text-based} & 
+{
   \begin{minipage} [t] {0.4\textwidth}
-	Many problems have to be solved by user:
-      \begin{itemize}
+	Many problems have to be solved by user:\\
+      \begin{tabitem}
         \item{Multiple fonts.}
         \item{Font size.}
         \item{Blurred Letters}
         \item{Wave Motion.}
-       \end{itemize} 
+       \end{tabitem} 
   \end{minipage}
-}
-& {It can be identified by OCR (Optical Character Recognition) technique.}\\
+} & 
+{
+  \begin{minipage} [t] {0.4\textwidth}
+	It can be identified by:\\
+      \begin{tabitem}
+        \item{OCR (Optical Character Recognition) technique}
+        \item{Segmentation techniques (e.g. DECAPTCHA\cite{DECAPTCHA})}
+        \item{Machine Learning and Deep Learning techniques}
+       \end{tabitem} 
+  \end{minipage}
+}\\
 \tabularnewline
 \hline
-\textit{Video-based} & {
-Issues downloading videos to find correct} & {}\\
+\textit{Video-based} & {Issues downloading videos to find correct} & {}\\
 {} & {captcha because of large size of files.} & {}\\
-
+\hline
 \end{tabular}
-\end{table}
+\end{sidewaystable}
+
+\section{Alternatives}
+\begin{itemize}
+\item{\textbf{Biometrics-based}\\
+}
+\item{\textbf{Behavioural-based}\\
+}
+\item{\textbf{Social media sign-in}\\
+}
+\end{itemize}

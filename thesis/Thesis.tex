@@ -21,6 +21,8 @@
 \newcommand{\minitab}[2][l]{\begin{tabular}#1 #2\end{tabular}}
 \usepackage{rotating}
 \usepackage{url}
+\newlist{tabitem}{itemize}{1}
+\setlist[tabitem]{wide=0pt, nosep, leftmargin= * ,label=\textbullet,after=\vspace{-\baselineskip},before=\vspace{-0.6\baselineskip}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -175,5 +177,6 @@ and support me reaching my goals.
 
 \mainmatter
 \input{Chapters/Introduction.tex}
+\input{Chapters/Bibliography.tex}
 
 \end{document}
