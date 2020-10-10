@@ -1,20 +1,47 @@
-\chapter{State of Art}
-\section{History}
-CAPTCHA is related to three main elements\cite{types_CAPTCHA}:
+\chapter{State of Art}\label{StateOfArt}
+\section{Design of CAPTCHA}
+CAPTCHA takes inspiration and is related to three main elements\cite{types_CAPTCHA}:
 \begin{enumerate}
 \item{\textbf{Turing test}\\
-
+it's used to determine how much a machine can think like a human. The test is made by three figures: a human examiner, an human and a machine. The examiner asks some questions to both other two figures and, after a fixed amount of time, evaluates if the two answers are different or not.\\
+If they are similar w.r.t. the point of view of the examiner, the machine is an AI (Artificial Intelligence) similar to an human. The test is very important if the answers have many possibilities. 
 }
 \item{\textbf{Human-Computer Interaction (HCI)}\\
-
+according to cognitive psychology studies, a human process data in a specific way and this test evaluates the interaction between humans and machines. The HCI model is divided into five levels:
+\begin{itemize}
+\item{task level}
+\item{semantic level}
+\item{syntactic level}
+\item{interactive level}
+\item{a level of physical devices}
+\end{itemize}   
+Then the obtained information is processed by:
+\begin{itemize}
+\item{reasoning}
+\item{problem solving}
+\item{skill acquisition}
+\item{error}
+\end{itemize}   
 }
 \item{\textbf{Human Interactive Proof (HIP)}\\
-
+it's used to make differentiation between machine and human users and computer user programs. The test require a type of interaction, that is simple to be done by human instead of bot. The main goals of this type of test are:
+\begin{itemize}
+\item{To differentiate the humans from the computers}
+\item{To differentiate a category of the humans}
+\item{To differentiate a specific human from the category of humans}
+\end{itemize}
+HIP has the test program that is subjected to the human and the computer. As a result, only a specific group of humans can positively solve the test and then the test results can be validated by the computer.
 }
 \end{enumerate}
+In order to guarantee a good level of security, a CAPTCHA has to satisfy the following requirements:
+\begin{itemize}
+\item{The solution to the CAPTCHA isn't conditional and shouldn't depend on the user's language and/or age.}
+\item{The solution of the CAPTCHA must be easy for the humans and hard for the bots. Hence, humans in no longer than 30 seconds with very high success rate}
+\item{The creation of the CAPTCHA must not disturb the user privacy (not linked to the user).}
+\end{itemize}
 
 \section{Traditional CAPTCHA}
-The following types of CAPTCHA are the challenges most related to the historical Turing test: 
+The traditional CAPTCHAs are based on the knowledge and correct insertion of solution by the user. The main types of this CAPTCHAs are: 
 \begin{itemize}
 \item{\textbf{Arithmetic}\\
 }
