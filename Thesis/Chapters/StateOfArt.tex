@@ -1,0 +1,115 @@
+\chapter{State of Art}
+\section{History}
+CAPTCHA is related to three main elements\cite{types_CAPTCHA}:
+\begin{enumerate}
+\item{\textbf{Turing test}\\
+
+}
+\item{\textbf{Human-Computer Interaction (HCI)}\\
+
+}
+\item{\textbf{Human Interactive Proof (HIP)}\\
+
+}
+\end{enumerate}
+
+\section{Traditional CAPTCHA}
+The following types of CAPTCHA are the challenges most related to the historical Turing test: 
+\begin{itemize}
+\item{\textbf{Arithmetic}\\
+}
+\item{\textbf{Audio-based}\\
+}
+\item{\textbf{Game-based}\\
+}
+\item{\textbf{Image-based}\\
+}
+\item{\textbf{Puzzle-based}\\
+}
+\item{\textbf{Text-based}\\
+}
+\item{\textbf{Video-based}\\
+}
+\end{itemize}
+Some types of CAPTCHA don't destroy a session, after the correct answer is inserted by the user\cite{text_audio}. Hence, the hacker can crack following accesses using the same session id with the related solution of the challenge, after connecting to the web page of CAPTCHA. In this way the attacker can make hundreds of requests before the session expires and the previous operation must be computed again.
+
+\begin{sidewaystable}
+\centering \footnotesize
+\renewcommand*\arraystretch{1.3}
+\begin{tabular}{cll}
+\hline
+\multicolumn{1}{c}{\textbf{CAPTCHA type}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
+\hline
+\textit{Arithmetic} & {} & {}\\
+\hline
+\textit{Audio-based} & {
+  \begin{minipage} [t] {0.4\textwidth}
+  Issues of recognition:\\
+      \begin{tabitem}
+        \item{Previous knowledge of English dictionary by the user.}
+        \item{Some character sounds very similar to others.}
+      \end{tabitem} 
+  \end{minipage}
+} & {
+  \begin{minipage} [t] {0.4\textwidth}
+  It can be broken by Automatic Speech Recognition (ASR) programs (as mentioned in \cite{improving_audio}).
+  \end{minipage}
+}\\
+\tabularnewline
+\hline
+\textit{Game-based} & {} & {}\\
+\hline
+\textit{Image-based} & {
+ \begin{minipage} [t] {0.4\textwidth}
+Difficulty of identification of images caused by:\\
+      \begin{tabitem}
+        \item{Blur of images.}
+        \item{Low vision condition.}
+       \end{tabitem} 
+  \end{minipage}
+} & {}\\
+\tabularnewline
+\hline
+\multirow{2}{*}{\textit{Puzzle-based}} & {It takes too much time to solve the puzzle} & {}\\
+{} & {and to identify the arrangement of puzzles.} & {}\\
+\hline
+\textit{Text-based} & 
+{
+  \begin{minipage} [t] {0.4\textwidth}
+	Many problems have to be solved by user:\\
+      \begin{tabitem}
+        \item{Multiple fonts.}
+        \item{Font size.}
+        \item{Blurred Letters}
+        \item{Wave Motion.}
+       \end{tabitem} 
+  \end{minipage}
+} & 
+{
+  \begin{minipage} [t] {0.4\textwidth}
+	It can be identified by:\\
+      \begin{tabitem}
+        \item{OCR (Optical Character Recognition) technique}
+        \item{Segmentation techniques (e.g. DECAPTCHA\cite{DECAPTCHA})}
+        \item{Machine Learning and Deep Learning techniques}
+       \end{tabitem} 
+  \end{minipage}
+}\\
+\tabularnewline
+\hline
+\textit{Video-based} & {Issues downloading videos to find correct} & {}\\
+{} & {captcha because of large size of files.} & {}\\
+\hline
+\end{tabular}
+\end{sidewaystable}
+
+\section{Alternatives}
+This types of CAPTCHA and authentication mechanisms are far from traditional CAPTCHAs and aren't based on cognitive knowledge of the human user but on other parameters:
+\begin{itemize}
+\item{\textbf{Biometrics-based}\\
+}
+\item{\textbf{Behavioural-based}\\
+}
+\item{\textbf{Social media sign-in}\\
+}
+\end{itemize}
