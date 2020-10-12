@@ -43,19 +43,34 @@ In order to guarantee a good level of security, a CAPTCHA has to satisfy the fol
 \section{Traditional CAPTCHA}
 The traditional CAPTCHAs are based on the knowledge and correct insertion of solution by the user. The main types of this CAPTCHAs are: 
 \begin{itemize}
-\item{\textbf{Arithmetic}\\
+\item{\textbf{Arithmetic (Math)}\\
+Looking to an operation specified in a frame, the user needs to insert the result in a text field. The operation is written in plain text or, to improve the security of this challenge, it's warped like text-based CAPTCHAs. These classical math-CAPTCHAs, also known as \textit{arithmetic CAPTCHAs}, are vulnerable to OCR (Optical Character Recognition) techniques. An advanced version of this CAPTCHA is used in the Quantum Random Bit Generator Service (QRBGS) sign-up Web Page\cite{math_CAPTCHA} (see Figure \ref{QRBGS}). This type of CAPTCHA asks user to solve an advanced math expression. It prevents the use of free or commercial OCRs because many mathematical symbols are not considered in their detection algorithm. Hence many math symbols are wrongly translated by bot programs and the challenge is very secure. The only problem is that this CAPTCHA is very complex for normal users and many of them could not solve the challenge correctly.
 }
 \item{\textbf{Audio-based}\\
-}
+this type of CAPTCHAs asks the user to type the words listened by an audio file. It's developed for vision-impaired users. It usually has problems related to the language dictionary, from which words are taken, and the similarity of the sound between several words. This type of CAPTCHAs is vulnerable to many Automatic Speech Recognition (ASR) programs\cite{improving_audio}.}
 \item{\textbf{Game-based}\\
+This type of CAPTCHAs performs the verification of the user nature through a set of several kind of games. This type of CAPTCHAs is called \textit{Dynamic Cognitive Game (DCG)} is usually developed using Flash and HTML5 with JavaScript. These technologies download the game code to the client and execute it locally. The only difficult for the bot to attack the challenge is the encryption/obfuscation of the code. This strategy prevent the store of the code onto different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{math_CAPTCHA}.
 }
 \item{\textbf{Image-based}\\
+this type of CAPTCHAs asks to select the images that contain a requested subject. The set of images, on which the user needs to identify the subject, can be implemented in different ways, for example:
+\begin{itemize}
+\item{An image is divided into a set of sub-squares and each of them is a candidate image\ref{image_CAPTHA}}
+\item{There are many images, each one with a unique different subject (see Figure \ref{image_CAPTHA2})}
+\end{itemize}
 }
 \item{\textbf{Puzzle-based}\\
+
 }
 \item{\textbf{Text-based}\\
-}
+a series of wrapped characters and/or numbers is displayed on the screen. The users needs to understand which are the characters that composes the shown sequence and then type them inside a text-field. This type of CAPTCHAs is vulnerable to several type of attacks, related to Computer Vision techniques, that are:
+\begin{itemize}
+\item{OCR techniques\cite{OCR}}
+\item{Segmentation techniques (e.g. DECAPTCHA\cite{DECAPTCHA})}
+\item{Machine Learning and Deep Learning techniques}
+\end{itemize}
+In the design phase of a text-based CAPTCHA there are many issues, related to Computer Vision techniques, to be considered. For each of them, there is usually a solution in the design phase of the CAPTCHA that reduces the possibility that the challenge would be broken by a bot\cite{DECAPTCHA}.}
 \item{\textbf{Video-based}\\
+
 }
 \end{itemize}
 Some types of CAPTCHA don't destroy a session, after the correct answer is inserted by the user\cite{text_audio}. Hence, the hacker can crack following accesses using the same session id with the related solution of the challenge, after connecting to the web page of CAPTCHA. In this way the attacker can make hundreds of requests before the session expires and the previous operation must be computed again.
@@ -67,7 +82,7 @@ Some types of CAPTCHA don't destroy a session, after the correct answer is inser
 \hline
 \multicolumn{1}{c}{\textbf{CAPTCHA type}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
 \hline
-\textit{Arithmetic} & {} & {}\\
+\textit{Arithmetic (Math)} & {To be more effective, it requires advanced math knowledge.} & {Vulnerable to OCR techniques.}\\
 \hline
 \textit{Audio-based} & {
   \begin{minipage} [t] {0.4\textwidth}
@@ -79,7 +94,7 @@ Some types of CAPTCHA don't destroy a session, after the correct answer is inser
   \end{minipage}
 } & {
   \begin{minipage} [t] {0.4\textwidth}
-  It can be broken by Automatic Speech Recognition (ASR) programs (as mentioned in \cite{improving_audio}).
+  It's vulnerable to ASR programs.
   \end{minipage}
 }\\
 \tabularnewline
@@ -116,8 +131,8 @@ Difficulty of identification of images caused by:\\
   \begin{minipage} [t] {0.4\textwidth}
 	It can be identified by:\\
       \begin{tabitem}
-        \item{OCR (Optical Character Recognition) technique}
-        \item{Segmentation techniques (e.g. DECAPTCHA\cite{DECAPTCHA})}
+        \item{OCR technique}
+        \item{Segmentation techniques}
         \item{Machine Learning and Deep Learning techniques}
        \end{tabitem} 
   \end{minipage}

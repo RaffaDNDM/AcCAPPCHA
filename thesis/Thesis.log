@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  10 OCT 2020 17:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  12 OCT 2020 14:22
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -861,14 +861,19 @@ Overfull \hbox (38.99643pt too wide) in paragraph at lines 100--111
 {C:/Users/raffa/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./Images/un
 ipd-light.png (PNG copy)> <./Images/unipd-bn.png>] [2
 
-] [3] [4
+]
+Overfull \hbox (1.18042pt too wide) in paragraph at lines 159--160
+[]\T1/cmr/m/it/12 Most peo-ple as-sume that once se-cu-rity soft-ware is in-sta
+lled, they're
+ []
+
+[3] [4
 
 ] (Thesis.toc)
 \tf@toc=\write4
 \openout4 = `Thesis.toc'.
 
-
-[5] [6
+ [5] [6
 
 
 ] (Chapters/Introduction.tex
@@ -888,26 +893,15 @@ Chapter 2.
 [3
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 46--48
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 48--50
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 50--52
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 52--54
-
- []
+LaTeX Warning: Reference `QRBGS' on page 4 undefined on input line 47.
 
 [4]
+Underfull \hbox (badness 10000) in paragraph at lines 49--51
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 54--56
 
  []
@@ -922,19 +916,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 58--60
 
  []
 
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
 
-Overfull \hbox (12.46544pt too wide) in paragraph at lines 66--131
+Underfull \hbox (badness 10000) in paragraph at lines 60--62
+
+ []
+
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 78.
+
+Overfull \hbox (28.80168pt too wide) in paragraph at lines 68--133
  [][] 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 136--138
-
- []
-
-
+[5] [6]
 Underfull \hbox (badness 10000) in paragraph at lines 138--140
 
  []
@@ -944,27 +938,42 @@ Underfull \hbox (badness 10000) in paragraph at lines 140--142
 
  []
 
-) (Chapters/Bibliography.tex [5] [6])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 183.
- [7
+
+Underfull \hbox (badness 10000) in paragraph at lines 142--144
+
+ []
+
+) (Chapters/Bibliography.tex [7] [8
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 183.
+Underfull \hbox (badness 4634) in paragraph at lines 10--11
+[]\T1/cmr/m/n/12 Carlos Javier Hernandez-Castro, Ar-turo Rib-agorda, "Pit-falls
+ in
+ []
+
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 185.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 185.
  (Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 183.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 183.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 185.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 185.
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
 (rerunfilecheck)             Checksum: E598DA852C7723614986F5C1D77FC91D;280.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 183.
+
+
+LaTeX Warning: There were undefined references.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 185.
  ) 
 Here is how much of TeX's memory you used:
- 23950 strings out of 492452
- 431223 string characters out of 3134016
- 607100 words of memory out of 3000000
- 28041 multiletter control sequences out of 15000+200000
+ 23957 strings out of 492452
+ 431304 string characters out of 3134016
+ 608100 words of memory out of 3000000
+ 28044 multiletter control sequences out of 15000+200000
  553019 words of font info for 69 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 50i,14n,67p,998b,1020s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 50i,14n,67p,1012b,1020s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
 ecrm1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
 ec/dpi600\ecti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
@@ -981,9 +990,9 @@ r/jknappen/ec/dpi600\ecti1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\font
 s/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk> <C:\Users\raffa\AppData\Local\MiKTe
 X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1728.pk><D:/Programs/Miktex/fonts/
 type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Thesis.pdf (13 pages, 504539 bytes).
+Output written on Thesis.pdf (15 pages, 517926 bytes).
 PDF statistics:
- 569 PDF objects out of 1000 (max. 8388607)
- 30 named destinations out of 1000 (max. 500000)
+ 606 PDF objects out of 1000 (max. 8388607)
+ 34 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 
