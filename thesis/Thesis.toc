@@ -3,4 +3,4 @@
 \contentsline {chapter}{\numberline {2}State of Art}{3}{chapter.2}% 
 \contentsline {section}{\numberline {2.1}Design of CAPTCHA}{3}{section.2.1}% 
 \contentsline {section}{\numberline {2.2}Traditional CAPTCHA}{4}{section.2.2}% 
-\contentsline {section}{\numberline {2.3}Alternatives}{7}{section.2.3}% 
+\contentsline {section}{\numberline {2.3}Alternatives}{6}{section.2.3}% 
