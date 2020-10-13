@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  12 OCT 2020 21:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  13 OCT 2020 21:04
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -359,8 +359,8 @@ Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
 \verbatim@line=\toks23
 \verbatim@in@stream=\read2
 )
-(D:\Programs\Miktex\tex/latex/subfig\subfig.sty
-Package: subfig 2005/06/28 ver: 1.3 subfig package
+(D:\Programs\Miktex\tex/latex/caption\subcaption.sty
+Package: subcaption 2020/01/03 v1.3b Sub-captions (AR)
 
 (D:\Programs\Miktex\tex/latex/caption\caption.sty
 Package: caption 2020/01/03 v3.4h Customizing captions (AR)
@@ -382,66 +382,55 @@ Package caption Info: Standard document class detected.
 Package caption Info: float package is loaded.
 Package caption Info: wrapfig package is loaded.
 )
-\c@KVtest=\count270
-\sf@farskip=\skip64
-\sf@captopadj=\dimen162
-\sf@capskip=\skip65
-\sf@nearskip=\skip66
-\c@subfigure=\count271
-\c@subfigure@save=\count272
-\c@lofdepth=\count273
-\c@subtable=\count274
-\c@subtable@save=\count275
-\c@lotdepth=\count276
-\sf@top=\skip67
-\sf@bottom=\skip68
+\c@subfigure=\count270
+\c@subtable=\count271
 )
 (D:\Programs\Miktex\tex/latex/amsmath\amsmath.sty
 Package: amsmath 2019/04/01 v2.17c AMS math features
-\@mathmargin=\skip69
+\@mathmargin=\skip64
 
 For additional information on amsmath, use the `?' option.
 (D:\Programs\Miktex\tex/latex/amsmath\amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen163
+\pmbraise@=\dimen162
 )
 (D:\Programs\Miktex\tex/latex/amsmath\amsopn.sty
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count277
+\inf@bad=\count272
 LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count278
-\leftroot@=\count279
+\uproot@=\count273
+\leftroot@=\count274
 LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count280
-\DOTSCASE@=\count281
+\classnum@=\count275
+\DOTSCASE@=\count276
 LaTeX Info: Redefining \ldots on input line 486.
 LaTeX Info: Redefining \dots on input line 489.
 LaTeX Info: Redefining \cdots on input line 610.
 \Mathstrutbox@=\box58
 \strutbox@=\box59
-\big@size=\dimen164
+\big@size=\dimen163
 LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count282
-\c@MaxMatrixCols=\count283
+\macc@depth=\count277
+\c@MaxMatrixCols=\count278
 \dotsspace@=\muskip16
-\c@parentequation=\count284
-\dspbrk@lvl=\count285
+\c@parentequation=\count279
+\dspbrk@lvl=\count280
 \tag@help=\toks24
-\row@=\count286
-\column@=\count287
-\maxfields@=\count288
+\row@=\count281
+\column@=\count282
+\maxfields@=\count283
 \andhelp@=\toks25
-\eqnshift@=\dimen165
-\alignsep@=\dimen166
-\tagshift@=\dimen167
-\tagwidth@=\dimen168
-\totwidth@=\dimen169
-\lineht@=\dimen170
+\eqnshift@=\dimen164
+\alignsep@=\dimen165
+\tagshift@=\dimen166
+\tagwidth@=\dimen167
+\totwidth@=\dimen168
+\lineht@=\dimen169
 \@envbody=\toks26
-\multlinegap=\skip70
-\multlinetaggap=\skip71
+\multlinegap=\skip65
+\multlinetaggap=\skip66
 \mathdisplay@stack=\toks27
 LaTeX Info: Redefining \[ on input line 2855.
 LaTeX Info: Redefining \] on input line 2856.
@@ -454,7 +443,7 @@ nment
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \@float@every@algorithm=\toks28
-\c@algorithm=\count289
+\c@algorithm=\count284
 )
 (D:\Programs\Miktex\tex/latex/algorithmicx\algpseudocode.sty
 Package: algpseudocode 
@@ -463,39 +452,39 @@ Package: algpseudocode
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
-\c@ALG@line=\count290
-\c@ALG@rem=\count291
-\c@ALG@nested=\count292
-\ALG@tlm=\skip72
-\ALG@thistlm=\skip73
-\c@ALG@Lnr=\count293
-\c@ALG@blocknr=\count294
-\c@ALG@storecount=\count295
-\c@ALG@tmpcounter=\count296
-\ALG@tmplength=\skip74
+\c@ALG@line=\count285
+\c@ALG@rem=\count286
+\c@ALG@nested=\count287
+\ALG@tlm=\skip67
+\ALG@thistlm=\skip68
+\c@ALG@Lnr=\count288
+\c@ALG@blocknr=\count289
+\c@ALG@storecount=\count290
+\c@ALG@tmpcounter=\count291
+\ALG@tmplength=\skip69
 )
 Document Style - pseudocode environments for use with the `algorithmicx' style
 ) (D:\Programs\Miktex\tex/latex/multirow\multirow.sty
 Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
-\multirow@colwidth=\skip75
-\multirow@cntb=\count297
-\multirow@dima=\skip76
-\bigstrutjot=\dimen171
+\multirow@colwidth=\skip70
+\multirow@cntb=\count292
+\multirow@dima=\skip71
+\bigstrutjot=\dimen170
 )
 (D:\Programs\Miktex\tex/latex/enumitem\enumitem.sty
 Package: enumitem 2019/06/20 v3.9 Customized lists
-\labelindent=\skip77
-\enit@outerparindent=\dimen172
+\labelindent=\skip72
+\enit@outerparindent=\dimen171
 \enit@toks=\toks29
 \enit@inbox=\box60
-\enit@count@id=\count298
-\enitdp@description=\count299
+\enit@count@id=\count293
+\enitdp@description=\count294
 )
 (D:\Programs\Miktex\tex/latex/graphics\rotating.sty
 Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
-\c@r@tfl@t=\count300
-\rotFPtop=\skip78
-\rotFPbot=\skip79
+\c@r@tfl@t=\count295
+\rotFPtop=\skip73
+\rotFPbot=\skip74
 \rot@float@box=\box61
 \rot@mess@toks=\toks30
 )
@@ -503,7 +492,7 @@ Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-\enitdp@tabitem=\count301
+\enitdp@tabitem=\count296
 
 (D:\Programs\Miktex\tex/latex/xcolor\xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
@@ -517,9 +506,9 @@ Package xcolor Info: Driver file: pdftex.def on input line 225.
 (D:\Programs\Miktex\tex/latex/colortbl\colortbl.sty
 Package: colortbl 2018/12/12 v1.0d Color table columns (DPC)
 \everycr=\toks31
-\minrowclearance=\skip80
+\minrowclearance=\skip75
 )
-\rownum=\count302
+\rownum=\count297
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
 Package xcolor Info: Model `RGB' extended on input line 1364.
@@ -534,23 +523,23 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 ))
 (D:\Programs\Miktex\tex/latex/listings\listings.sty
-\lst@mode=\count303
+\lst@mode=\count298
 \lst@gtempboxa=\box62
 \lst@token=\toks32
-\lst@length=\count304
-\lst@currlwidth=\dimen173
-\lst@column=\count305
-\lst@pos=\count306
-\lst@lostspace=\dimen174
-\lst@width=\dimen175
-\lst@newlines=\count307
-\lst@lineno=\count308
-\lst@maxwidth=\dimen176
+\lst@length=\count299
+\lst@currlwidth=\dimen172
+\lst@column=\count300
+\lst@pos=\count301
+\lst@lostspace=\dimen173
+\lst@width=\dimen174
+\lst@newlines=\count302
+\lst@lineno=\count303
+\lst@maxwidth=\dimen175
 
 (D:\Programs\Miktex\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
-\c@lstnumber=\count309
-\lst@skipnumbers=\count310
+\c@lstnumber=\count304
+\lst@skipnumbers=\count305
 \lst@framebox=\box63
 )
 (D:\Programs\Miktex\tex/latex/listings\listings.cfg
@@ -616,16 +605,16 @@ Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 (D:\Programs\Miktex\tex/latex/oberdiek\kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
-\@linkdim=\dimen177
-\Hy@linkcounter=\count311
-\Hy@pagecounter=\count312
+\@linkdim=\dimen176
+\Hy@linkcounter=\count306
+\Hy@pagecounter=\count307
 
 (D:\Programs\Miktex\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2019/09/28 v7.00a Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count313
+\Hy@SavedSpaceFactor=\count308
 
 (D:\Programs\Miktex\tex/latex/00miktex\hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -638,12 +627,12 @@ Package hyperref Info: Plain pages OFF on input line 4555.
 Package hyperref Info: Backreferencing OFF on input line 4560.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4793.
-\c@Hy@tempcnt=\count314
+\c@Hy@tempcnt=\count309
 LaTeX Info: Redefining \url on input line 5152.
-\XeTeXLinkMargin=\dimen178
-\Fld@menulength=\count315
-\Field@Width=\dimen179
-\Fld@charsize=\dimen180
+\XeTeXLinkMargin=\dimen177
+\Fld@menulength=\count310
+\Field@Width=\dimen178
+\Fld@charsize=\dimen179
 Package hyperref Info: Hyper figures OFF on input line 6423.
 Package hyperref Info: Link nesting OFF on input line 6428.
 Package hyperref Info: Hyper index ON on input line 6431.
@@ -653,23 +642,23 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6448.
 Package hyperref Info: PDF/A mode OFF on input line 6453.
 LaTeX Info: Redefining \ref on input line 6493.
 LaTeX Info: Redefining \pageref on input line 6497.
-\Hy@abspage=\count316
-\c@Item=\count317
-\c@Hfootnote=\count318
+\Hy@abspage=\count311
+\c@Item=\count312
+\c@Hfootnote=\count313
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (D:\Programs\Miktex\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2019/09/28 v7.00a Hyperref driver for pdfTeX
-\Fld@listcount=\count319
-\c@bookmark@seq@number=\count320
+\Fld@listcount=\count314
+\c@bookmark@seq@number=\count315
 
 (D:\Programs\Miktex\tex/latex/oberdiek\rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip81
+\Hy@SectionHShift=\skip76
 )
 (D:\Programs\Miktex\tex/latex/acronym\acronym.sty
 Package: acronym 2019/11/11 v1.42 Support for acronyms (Tobias Oetiker)
@@ -679,13 +668,20 @@ Package: suffix 2006/07/15 1.5a Variant command support
 )
 (D:\Programs\Miktex\tex/latex/xstring\xstring.sty
 (D:\Programs\Miktex\tex/generic/xstring\xstring.tex
-\integerpart=\count321
-\decimalpart=\count322
+\integerpart=\count316
+\decimalpart=\count317
 )
 Package: xstring 2019/02/06 v1.83 String manipulations (CT)
 )
 \AC@clearlist=\toks33
-) (Thesis.aux)
+) (Thesis.aux
+
+LaTeX Warning: Label `soa:audio_CAPTCHA' multiply defined.
+
+
+LaTeX Warning: Label `soa:traditional_table' multiply defined.
+
+)
 \openout1 = `Thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 93.
@@ -702,19 +698,18 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 93.
 LaTeX Font Info:    ... okay on input line 93.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 93.
 LaTeX Font Info:    ... okay on input line 93.
-
-(D:\Programs\Miktex\tex/context/base/mkii\supp-pdf.mkii
+ (D:\Programs\Miktex\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count323
-\scratchdimen=\dimen181
+\scratchcounter=\count318
+\scratchdimen=\dimen180
 \scratchbox=\box64
-\nofMPsegments=\count324
-\nofMParguments=\count325
+\nofMPsegments=\count319
+\nofMParguments=\count320
 \everyMPshowfont=\toks34
-\MPscratchCnt=\count326
-\MPscratchDim=\dimen182
-\MPnumerator=\count327
-\makeMPintoPDFobject=\count328
+\MPscratchCnt=\count321
+\MPscratchDim=\dimen181
+\MPnumerator=\count322
+\makeMPintoPDFobject=\count323
 \everyMPtoPDFconversion=\toks35
 ) (D:\Programs\Miktex\tex/latex/oberdiek\epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -814,12 +809,11 @@ Dictionary: translator-basic-dictionary, Language: English
 File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 )
 Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: subfig package v1.3 is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count329
+\c@lstlisting=\count324
 \AtBeginShipoutBox=\box65
 Package hyperref Info: Link coloring ON on input line 93.
 
@@ -829,7 +823,7 @@ Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (D:\Programs\Miktex\tex/generic/oberdiek\gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count330
+\c@section@level=\count325
 )
 LaTeX Info: Redefining \ref on input line 93.
 LaTeX Info: Redefining \pageref on input line 93.
@@ -915,59 +909,148 @@ Chapter 2.
 [3
 
 ]
+<Images/StateOfArt/math_CAPTCHA.png, id=100, 295.1025pt x 136.51pt>
+File: Images/StateOfArt/math_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/math_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/math_CAPTCHA.png  used on input line
+ 52.
+(pdftex.def)             Requested size: 131.03825pt x 60.61656pt.
+<Images/StateOfArt/math_CAPTCHA2.jpg, id=101, 390.70969pt x 376.40625pt>
+File: Images/StateOfArt/math_CAPTCHA2.jpg Graphic file (type jpg)
+<use Images/StateOfArt/math_CAPTCHA2.jpg>
+Package pdftex.def Info: Images/StateOfArt/math_CAPTCHA2.jpg  used on input lin
+e 58.
+(pdftex.def)             Requested size: 131.03825pt x 126.24188pt.
+<Images/StateOfArt/QRBGS.jpg, id=104, 312.74362pt x 370.94336pt>
+File: Images/StateOfArt/QRBGS.jpg Graphic file (type jpg)
+<use Images/StateOfArt/QRBGS.jpg>
+Package pdftex.def Info: Images/StateOfArt/QRBGS.jpg  used on input line 68.
+(pdftex.def)             Requested size: 312.00119pt x 370.08775pt.
+ [4]
 
-LaTeX Warning: Reference `QRBGS' on page 4 undefined on input line 47.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[4]
+<Images/StateOfArt/audio_CAPTCHA.png, id=114, 326.21875pt x 136.51pt>
+File: Images/StateOfArt/audio_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/audio_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/audio_CAPTCHA.png  used on input lin
+e 78.
+(pdftex.def)             Requested size: 234.00238pt x 97.92468pt.
+[5 <./Images/StateOfArt/math_CAPTCHA.png> <./Images/StateOfArt/math_CAPTCHA2.jp
+g>]
 
-LaTeX Warning: Reference `image_CAPTHA' on page 5 undefined on input line 57.
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<Images/StateOfArt/game_CAPTCHA.png, id=127, 361.35pt x 158.5925pt>
+File: Images/StateOfArt/game_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/game_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA.png  used on input line
+ 88.
+(pdftex.def)             Requested size: 168.47736pt x 73.94316pt.
+<Images/StateOfArt/game_CAPTCHA2.png, id=128, 139.52126pt x 63.23625pt>
+File: Images/StateOfArt/game_CAPTCHA2.png Graphic file (type png)
+<use Images/StateOfArt/game_CAPTCHA2.png>
+Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA2.png  used on input lin
+e 93.
+(pdftex.def)             Requested size: 168.47736pt x 76.36266pt.
+<Images/StateOfArt/game_CAPTCHA3.png, id=129, 460.72125pt x 363.3575pt>
+File: Images/StateOfArt/game_CAPTCHA3.png Graphic file (type png)
+<use Images/StateOfArt/game_CAPTCHA3.png>
+Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA3.png  used on input lin
+e 98.
+(pdftex.def)             Requested size: 214.50119pt x 169.17017pt.
+
+Underfull \vbox (badness 4765) has occurred while \output is active []
+
+ [6 <./Images/StateOfArt/QRBGS.jpg>] [7 <./Images/StateOfArt/audio_CAPTCHA.png>
+ <./Images/StateOfArt/game_CAPTCHA.png> <./Images/StateOfArt/game_CAPTCHA2.png>
+ <./Images/StateOfArt/game_CAPTCHA3.png>]
+
+LaTeX Warning: Citation `FaceDCAPCTHA' on page 8 undefined on input line 111.
+
+<Images/StateOfArt/image_CAPTCHA.jpg, id=148, 176.5797pt x 255.354pt>
+File: Images/StateOfArt/image_CAPTCHA.jpg Graphic file (type jpg)
+<use Images/StateOfArt/image_CAPTCHA.jpg>
+Package pdftex.def Info: Images/StateOfArt/image_CAPTCHA.jpg  used on input lin
+e 116.
+(pdftex.def)             Requested size: 168.47736pt x 243.63695pt.
+<Images/StateOfArt/image_CAPTCHA2.jpg, id=149, 444.66125pt x 643.40375pt>
+File: Images/StateOfArt/image_CAPTCHA2.jpg Graphic file (type jpg)
+<use Images/StateOfArt/image_CAPTCHA2.jpg>
+Package pdftex.def Info: Images/StateOfArt/image_CAPTCHA2.jpg  used on input li
+ne 123.
+(pdftex.def)             Requested size: 168.47736pt x 243.77928pt.
+<Images/StateOfArt/puzzle_CAPTCHA.png, id=154, 698.61pt x 409.53pt>
+File: Images/StateOfArt/puzzle_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/puzzle_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA.png  used on input li
+ne 137.
+(pdftex.def)             Requested size: 149.75923pt x 87.79102pt.
+<Images/StateOfArt/puzzle_CAPTCHA2.png, id=155, 351.3125pt x 382.42876pt>
+File: Images/StateOfArt/puzzle_CAPTCHA2.png Graphic file (type png)
+<use Images/StateOfArt/puzzle_CAPTCHA2.png>
+Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA2.png  used on input l
+ine 144.
+(pdftex.def)             Requested size: 149.75923pt x 163.02899pt.
+[8 <./Images/StateOfArt/image_CAPTCHA.jpg> <./Images/StateOfArt/image_CAPTCHA2.
+jpg>]
+<Images/StateOfArt/text_CAPTCHA.png, id=165, 453.695pt x 286.06876pt>
+File: Images/StateOfArt/text_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/text_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/text_CAPTCHA.png  used on input line
+ 161.
+(pdftex.def)             Requested size: 214.50119pt x 135.25113pt.
 
 
-LaTeX Warning: Reference `image_CAPTHA2' on page 5 undefined on input line 58.
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 61--62
+<Images/StateOfArt/video_CAPTCHA.jpg, id=171, 250.9375pt x 143.53625pt>
+File: Images/StateOfArt/video_CAPTCHA.jpg Graphic file (type jpg)
+<use Images/StateOfArt/video_CAPTCHA.jpg>
+Package pdftex.def Info: Images/StateOfArt/video_CAPTCHA.jpg  used on input lin
+e 172.
+(pdftex.def)             Requested size: 187.19833pt x 107.08246pt.
+<Images/StateOfArt/video_CAPTCHA2.jpg, id=172, 215.1293pt x 164.37224pt>
+File: Images/StateOfArt/video_CAPTCHA2.jpg Graphic file (type jpg)
+<use Images/StateOfArt/video_CAPTCHA2.jpg>
+Package pdftex.def Info: Images/StateOfArt/video_CAPTCHA2.jpg  used on input li
+ne 179.
+(pdftex.def)             Requested size: 187.19833pt x 143.03278pt.
+[9 <./Images/StateOfArt/puzzle_CAPTCHA.png> <./Images/StateOfArt/puzzle_CAPTCHA
+2.png>] [10 <./Images/StateOfArt/text_CAPTCHA.png> <./Images/StateOfArt/video_C
+APTCHA.jpg> <./Images/StateOfArt/video_CAPTCHA2.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 193--195
 
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 72--73
+
+Underfull \hbox (badness 10000) in paragraph at lines 195--197
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 197--199
 
  []
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 91.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 214.
 
-Overfull \hbox (28.80168pt too wide) in paragraph at lines 81--146
+Overfull \hbox (28.80168pt too wide) in paragraph at lines 204--267
  [][] 
  []
 
+) (Chapters/Bibliography.tex [11] [12] [13] [14
 
-Underfull \hbox (badness 10000) in paragraph at lines 151--153
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 153--155
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 155--157
-
- []
-
-) (Chapters/Bibliography.tex [6] [7] [8
-
-]
-Underfull \hbox (badness 4634) in paragraph at lines 12--13
+] [15]
+Underfull \hbox (badness 3068) in paragraph at lines 20--21
 []\T1/cmr/m/n/12 Carlos Javier Hernandez-Castro, Ar-turo Rib-agorda, "Pit-falls
  in
  []
 
 )
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 193.
- [9]
+ [16]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 193.
  (Thesis.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 193.
@@ -978,35 +1061,39 @@ Package rerunfilecheck Info: File `Thesis.out' has not changed.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 193.
  ) 
 Here is how much of TeX's memory you used:
- 23963 strings out of 492452
- 431363 string characters out of 3134016
- 608100 words of memory out of 3000000
- 28047 multiletter control sequences out of 15000+200000
- 553019 words of font info for 69 fonts, out of 3000000 for 9000
+ 24056 strings out of 492452
+ 435115 string characters out of 3134016
+ 605740 words of memory out of 3000000
+ 28102 multiletter control sequences out of 15000+200000
+ 553788 words of font info for 70 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 50i,14n,67p,1012b,1020s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,14n,67p,744b,1020s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
-ecrm1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
-ec/dpi600\ecti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX
-\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\raffa\AppData\Lo
-cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\raffa\
-AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Us
-ers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1200.
+ecti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
+ec/dpi600\ecrm1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX
+\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\raffa\AppData\Lo
+cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\raffa\
+AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Us
+ers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.
 pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
-\ecbx1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
-/ec/dpi600\ecti1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
-r/jknappen/ec/dpi600\ecti1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\font
-s/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk> <C:\Users\raffa\AppData\Local\MiKTe
-X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1728.pk><D:/Programs/Miktex/fonts/
-type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on Thesis.pdf (17 pages, 523554 bytes).
+\eccc1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
+/ec/dpi600\ecbx1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
+r/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\font
+s/pk/ljfour/jknappen/ec/dpi600\ecti1728.pk> <C:\Users\raffa\AppData\Local\MiKTe
+X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk> <C:\Users\raffa\AppData\L
+ocal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1728.pk><D:/Programs/Mik
+tex/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on Thesis.pdf (24 pages, 1637498 bytes).
 PDF statistics:
- 625 PDF objects out of 1000 (max. 8388607)
- 37 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 744 PDF objects out of 1000 (max. 8388607)
+ 60 named destinations out of 1000 (max. 500000)
+ 121 words of extra memory for PDF output out of 10000 (max. 10000000)
 
