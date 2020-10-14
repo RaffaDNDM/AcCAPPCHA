@@ -74,14 +74,15 @@
   tabsize=2
 }
 
+\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
+
 %------------------------------ define Abstract environment, missing in the 'book' class
 \newenvironment{abstract}{\cleardoublepage \null \vfill \begin{center}\bfseries\abstractname \end{center}}{\vfill\null}
 \addto\captionsenglish{\renewcommand*\abstractname{Abstract}} % change Abstract title
 
 %------------------------------ active url
 \usepackage{url}
-\renewcommand{\UrlFont}{\color{black}\small\ttfamily}
-\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref} % active ref
+\renewcommand{\UrlFont}{\color{black}\small\ttfamily} % active ref
 %------------------------------ macros
 \newcommand{\sectionname}{Section} % define Section ref
 \newcommand{\subsectionname}{Sub-section} % define Sub-section ref
@@ -188,6 +189,7 @@ Leonardo da Vinci\\\\}
 \mainmatter
 \input{Chapters/Introduction.tex}
 \input{Chapters/StateOfArt.tex}
+\input{Chapters/InvisibleCAPPCHA.tex}
 \input{Chapters/Bibliography.tex}
 
 \end{document}
