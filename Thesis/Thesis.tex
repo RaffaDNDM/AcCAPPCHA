@@ -74,7 +74,7 @@
   tabsize=2
 }
 
-\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
+\usepackage[colorlinks=true, linkcolor=black, citecolor=blue, urlcolor=black]{hyperref}
 
 %------------------------------ define Abstract environment, missing in the 'book' class
 \newenvironment{abstract}{\cleardoublepage \null \vfill \begin{center}\bfseries\abstractname \end{center}}{\vfill\null}
@@ -91,93 +91,22 @@
 %acronimi
 \usepackage[printonlyused]{acronym}
 
+%Formatted quote
+\usepackage[autostyle]{csquotes}
+\newcommand{\myquote}[2]{
+\begin{quote}
+	\textbf{\Large ``}{\textit{#1}}\textbf{\Large ''}\\
+	\textbf{#2}\\\\
+\end{quote}
+}
+
 \begin{document}
 \frontmatter
+\input{Chapters/Title.tex}
+\input{Chapters/Dedication.tex}
+\input{Chapters/Quotations.tex}
+\input{Chapters/Abstract.tex}
 
-\begin{titlepage} %------------------------------ TITLE PAGE
-\begin{center}
-\vbox to0pt{\vbox to\textheight{\vfill \includegraphics[width=11.5cm]{./Images/unipd-light} \vfill}\vss}
-
-\begin{minipage}{.20\textwidth}
-  \includegraphics[height=2.5cm]{./Images/unipd-bn}
-\end{minipage}\begin{minipage}{.90\textwidth}
-  \begin{table}[H]
-  \begin{tabular}{l}
-  \scshape{\Large{\bfseries{University of Padova}}} \\
-  \hline
-  \scshape{\Large{Engineering~Departement}} \\
-  \end{tabular}
-  \end{table}
-\end{minipage}
-
-\vspace{1cm}
-\emph{\Large{Computer~Engineering~Master~Degree}} \\
-\vspace{1.5cm}
-\scshape{\Large{\bfseries{Invisible CAPPCHA}}} \\
-\vspace{0.2cm} \linespread{1} 
-\scshape{\large{\bfseries{}}}
-\end{center}
-
-\vfill
-\begin{normalsize}
-\begin{flushleft}
-  %\hspace{45pt} \textit{Laureando} \hspace{160pt} \textit{Relatore}\\
-  \hspace{65pt} \textit{Candidate} \hspace{130pt} \textit{Supervisor}\\
-  \vspace{5pt}
-  \hspace{25pt} \large{\textbf{\footnotesize{Di Nardo Di Maio Raffaele}}} \hspace{55pt} \large{\textbf{\footnotesize{Prof. Migliardi Mauro}}}\\
-  \vspace{50pt}
-  %\hspace{260pt} \normalsize{\textit{Co-relatore}}\\
-  \hspace{240pt} \normalsize{\textit{Co-Supervisors}}\\
-  \vspace{5pt}
-  \hspace{242pt} \large{\textbf{\footnotesize{Guerar Meriem}}}
-\end{flushleft}
-\end{normalsize}
-
-\vfill
-\begin{center}
-\textsc{DD-MM-YYYY}
-\hspace{-0.2cm}
-\line(1, 0){360}
-
-\textsc{Accademic Year 2020-2021}
-\end{center}
-\end{titlepage}
-
-
-\cleardoublepage % make left page blank
-\thispagestyle{empty} %------------------------------ DEDICA
-\null
-\vspace{2cm}
-\begin{flushright}
- To my parents, that always help\\
-me to be happy doing what I love\\
-and support me reaching my goals.
-\end{flushright}
-\vfill
-\cleardoublepage % make left page blank
-\null
-\vspace{2cm}
-\thispagestyle{empty}
-\begin{quote}
-  \textit{Most people assume that once security software is installed, they're protected. 
-This isn't the case. It's critical that companies be proactive in thinking about security on a long-term basis.\\
-Kevin Mitnick\\\\
-Devi imparare le regole del gioco. E poi devi giocare meglio di chiunque altro.\\
-Albert Einstein\\\\
-Si come il ferro s'arrugginisce sanza esercizio, e l'acqua si putrefà o nel freddo s'addiaccia, così lo 'ngegno sanza esercizio si guasta.\\
-Leonardo da Vinci\\\\}
-\end{quote}
-\vfill
-\null
-
-%\begin{abstract} %------------------------------ ABSTRACT
-%\addcontentsline{toc}{chapter}{Abstract}
-%\markboth{}{} % remove header
-%\thispagestyle{empty}
-%This is the abstract
-%\end{abstract}
-
-%\input{Chapters/Abstract.tex}
 \begingroup %------------------------------ CONTENTS
   \makeatletter
   \let\ps@plain\ps@empty
@@ -191,5 +120,6 @@ Leonardo da Vinci\\\\}
 \input{Chapters/StateOfArt.tex}
 \input{Chapters/InvisibleCAPPCHA.tex}
 \input{Chapters/Bibliography.tex}
+\input{Chapters/Acknowledgements.tex}
 
 \end{document}
