@@ -92,12 +92,16 @@
 \usepackage[printonlyused]{acronym}
 
 %Formatted quote
-\usepackage[autostyle]{csquotes}
 \newcommand{\myquote}[2]{
 \begin{quote}
 	\textbf{\Large ``}{\textit{#1}}\textbf{\Large ''}\\
 	\textbf{#2}\\\\
 \end{quote}
+}
+
+%Formatted item with description
+\newcommand{\descItem}[2]{
+\item{\textbf{#1}\\#2}
 }
 
 \begin{document}

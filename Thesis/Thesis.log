@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  17 OCT 2020 15:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  17 OCT 2020 18:27
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -674,66 +674,37 @@ Package: suffix 2006/07/15 1.5a Variant command support
 Package: xstring 2019/02/06 v1.83 String manipulations (CT)
 )
 \AC@clearlist=\toks33
-)
-(D:\Programs\Miktex\tex/latex/csquotes\csquotes.sty
-Package: csquotes 2019-12-06 v5.2j context-sensitive quotations (JAW)
-
-(D:\Programs\Miktex\tex/latex/etoolbox\etoolbox.sty
-Package: etoolbox 2019/09/21 v2.5h e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count318
-)
-\csq@reset=\count319
-\csq@gtype=\count320
-\csq@glevel=\count321
-\csq@qlevel=\count322
-\csq@maxlvl=\count323
-\csq@tshold=\count324
-\csq@ltx@everypar=\toks34
-
-(D:\Programs\Miktex\tex/latex/csquotes\csquotes.def
-File: csquotes.def 2019-12-06 v5.2j csquotes generic definitions (JAW)
-)
-Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
-Package csquotes Info: ... configuration file loaded successfully.
-
-(D:\Programs\Miktex\tex/latex/csquotes\csquotes.cfg
-File: csquotes.cfg 
-)
-Package csquotes Info: Enabling multilingual quotes.
-)
-Package csquotes Info: Checking for multilingual support...
-Package csquotes Info: ... found 'babel' package.
- (Thesis.aux)
+) (Thesis.aux)
 \openout1 = `Thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
-LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
 
 (D:\Programs\Miktex\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count325
+\scratchcounter=\count318
 \scratchdimen=\dimen180
 \scratchbox=\box64
-\nofMPsegments=\count326
-\nofMParguments=\count327
-\everyMPshowfont=\toks35
-\MPscratchCnt=\count328
+\nofMPsegments=\count319
+\nofMParguments=\count320
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count321
 \MPscratchDim=\dimen181
-\MPnumerator=\count329
-\makeMPintoPDFobject=\count330
-\everyMPtoPDFconversion=\toks36
+\MPnumerator=\count322
+\makeMPintoPDFobject=\count323
+\everyMPtoPDFconversion=\toks35
 ) (D:\Programs\Miktex\tex/latex/oberdiek\epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -836,9 +807,9 @@ Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count331
+\c@lstlisting=\count324
 \AtBeginShipoutBox=\box65
-Package hyperref Info: Link coloring ON on input line 103.
+Package hyperref Info: Link coloring ON on input line 107.
 
 (D:\Programs\Miktex\tex/latex/hyperref\nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -846,23 +817,23 @@ Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (D:\Programs\Miktex\tex/generic/oberdiek\gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count332
+\c@section@level=\count325
 )
-LaTeX Info: Redefining \ref on input line 103.
-LaTeX Info: Redefining \pageref on input line 103.
-LaTeX Info: Redefining \nameref on input line 103.
+LaTeX Info: Redefining \ref on input line 107.
+LaTeX Info: Redefining \pageref on input line 107.
+LaTeX Info: Redefining \nameref on input line 107.
  (Thesis.out)
 (Thesis.out)
 \@outlinefile=\write3
 \openout3 = `Thesis.out'.
 
  (Chapters/Title.tex
-<./Images/unipd-light.png, id=31, 452.892pt x 455.7828pt>
+<./Images/unipd-light.png, id=59, 452.892pt x 455.7828pt>
 File: ./Images/unipd-light.png Graphic file (type png)
 <use ./Images/unipd-light.png>
 Package pdftex.def Info: ./Images/unipd-light.png  used on input line 3.
 (pdftex.def)             Requested size: 327.20668pt x 329.30394pt.
-<./Images/unipd-bn.png, id=32, 192.72pt x 193.6836pt>
+<./Images/unipd-bn.png, id=60, 192.72pt x 193.6836pt>
 File: ./Images/unipd-bn.png Graphic file (type png)
 <use ./Images/unipd-bn.png>
 Package pdftex.def Info: ./Images/unipd-bn.png  used on input line 6.
@@ -930,13 +901,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--3
 ]
 (Chapters/Introduction.tex
 Chapter 1.
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 5
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 6
 .
 (D:\Programs\Miktex\tex/latex/base\omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 5.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 6.
  [1
 
 ]) (Chapters/StateOfArt.tex
@@ -944,163 +915,159 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 Chapter 2.
 [3
 
-]
-<Images/StateOfArt/math_CAPTCHA.png, id=111, 295.1025pt x 136.51pt>
+] [4]
+<Images/StateOfArt/math_CAPTCHA.png, id=156, 295.1025pt x 136.51pt>
 File: Images/StateOfArt/math_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/math_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/math_CAPTCHA.png  used on input line
- 52.
+ 50.
 (pdftex.def)             Requested size: 131.03825pt x 60.61656pt.
-<Images/StateOfArt/math_CAPTCHA2.jpg, id=112, 390.70969pt x 376.40625pt>
+<Images/StateOfArt/math_CAPTCHA2.jpg, id=157, 390.70969pt x 376.40625pt>
 File: Images/StateOfArt/math_CAPTCHA2.jpg Graphic file (type jpg)
 <use Images/StateOfArt/math_CAPTCHA2.jpg>
 Package pdftex.def Info: Images/StateOfArt/math_CAPTCHA2.jpg  used on input lin
-e 58.
+e 56.
 (pdftex.def)             Requested size: 131.03825pt x 126.24188pt.
-<Images/StateOfArt/QRBGS.jpg, id=115, 312.74362pt x 370.94336pt>
+<Images/StateOfArt/QRBGS.jpg, id=160, 206.57707pt x 112.56212pt>
 File: Images/StateOfArt/QRBGS.jpg Graphic file (type jpg)
 <use Images/StateOfArt/QRBGS.jpg>
-Package pdftex.def Info: Images/StateOfArt/QRBGS.jpg  used on input line 68.
-(pdftex.def)             Requested size: 312.00119pt x 370.08775pt.
- [4]
+Package pdftex.def Info: Images/StateOfArt/QRBGS.jpg  used on input line 66.
+(pdftex.def)             Requested size: 234.00238pt x 127.51315pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/StateOfArt/audio_CAPTCHA.png, id=126, 326.21875pt x 136.51pt>
+<Images/StateOfArt/audio_CAPTCHA.png, id=166, 326.21875pt x 136.51pt>
 File: Images/StateOfArt/audio_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/audio_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/audio_CAPTCHA.png  used on input lin
-e 78.
-(pdftex.def)             Requested size: 234.00238pt x 97.92468pt.
+e 74.
+(pdftex.def)             Requested size: 195.0pt x 81.60251pt.
 [5 <./Images/StateOfArt/math_CAPTCHA.png> <./Images/StateOfArt/math_CAPTCHA2.jp
 g>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [6 <./Images/StateOfArt/QRBGS.jpg>]
-<Images/StateOfArt/game_CAPTCHA.png, id=146, 361.35pt x 158.5925pt>
+<Images/StateOfArt/game_CAPTCHA.png, id=182, 361.35pt x 158.5925pt>
 File: Images/StateOfArt/game_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/game_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA.png  used on input line
- 88.
+ 84.
 (pdftex.def)             Requested size: 168.47736pt x 73.94316pt.
-<Images/StateOfArt/game_CAPTCHA2.png, id=147, 139.52126pt x 63.23625pt>
+<Images/StateOfArt/game_CAPTCHA2.png, id=183, 139.52126pt x 63.23625pt>
 File: Images/StateOfArt/game_CAPTCHA2.png Graphic file (type png)
 <use Images/StateOfArt/game_CAPTCHA2.png>
 Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA2.png  used on input lin
-e 93.
+e 89.
 (pdftex.def)             Requested size: 168.47736pt x 76.36266pt.
-<Images/StateOfArt/game_CAPTCHA3.png, id=148, 460.72125pt x 363.3575pt>
+<Images/StateOfArt/game_CAPTCHA3.png, id=184, 460.72125pt x 363.3575pt>
 File: Images/StateOfArt/game_CAPTCHA3.png Graphic file (type png)
 <use Images/StateOfArt/game_CAPTCHA3.png>
 Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA3.png  used on input lin
-e 98.
+e 94.
 (pdftex.def)             Requested size: 214.50119pt x 169.17017pt.
- [7 <./Images/StateOfArt/audio_CAPTCHA.png> <./Images/StateOfArt/game_CAPTCHA.p
-ng> <./Images/StateOfArt/game_CAPTCHA2.png> <./Images/StateOfArt/game_CAPTCHA3.
-png>]
-<Images/StateOfArt/image_CAPTCHA.jpg, id=162, 176.5797pt x 255.354pt>
-File: Images/StateOfArt/image_CAPTCHA.jpg Graphic file (type jpg)
-<use Images/StateOfArt/image_CAPTCHA.jpg>
-Package pdftex.def Info: Images/StateOfArt/image_CAPTCHA.jpg  used on input lin
-e 117.
-(pdftex.def)             Requested size: 140.39874pt x 203.03273pt.
-<Images/StateOfArt/image_CAPTCHA2.jpg, id=163, 444.66125pt x 643.40375pt>
-File: Images/StateOfArt/image_CAPTCHA2.jpg Graphic file (type jpg)
-<use Images/StateOfArt/image_CAPTCHA2.jpg>
-Package pdftex.def Info: Images/StateOfArt/image_CAPTCHA2.jpg  used on input li
-ne 124.
-(pdftex.def)             Requested size: 140.39874pt x 203.14449pt.
-<Images/StateOfArt/puzzle_CAPTCHA.png, id=168, 698.61pt x 409.53pt>
-File: Images/StateOfArt/puzzle_CAPTCHA.png Graphic file (type png)
-<use Images/StateOfArt/puzzle_CAPTCHA.png>
-Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA.png  used on input li
-ne 138.
-(pdftex.def)             Requested size: 149.75923pt x 87.79102pt.
-<Images/StateOfArt/puzzle_CAPTCHA2.png, id=169, 351.3125pt x 382.42876pt>
-File: Images/StateOfArt/puzzle_CAPTCHA2.png Graphic file (type png)
-<use Images/StateOfArt/puzzle_CAPTCHA2.png>
-Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA2.png  used on input l
-ine 145.
-(pdftex.def)             Requested size: 149.75923pt x 163.02899pt.
- [8 <./Images/StateOfArt/image_CAPTCHA.jpg> <./Images/StateOfArt/image_CAPTCHA2
-.jpg>]
-<Images/StateOfArt/text_CAPTCHA.png, id=182, 453.695pt x 286.06876pt>
-File: Images/StateOfArt/text_CAPTCHA.png Graphic file (type png)
-<use Images/StateOfArt/text_CAPTCHA.png>
-Package pdftex.def Info: Images/StateOfArt/text_CAPTCHA.png  used on input line
- 162.
-(pdftex.def)             Requested size: 214.50119pt x 135.25113pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/StateOfArt/video_CAPTCHA.jpg, id=188, 250.9375pt x 143.53625pt>
+[6 <./Images/StateOfArt/QRBGS.jpg> <./Images/StateOfArt/audio_CAPTCHA.png>]
+<Images/StateOfArt/image_CAPTCHA.jpg, id=199, 176.5797pt x 255.354pt>
+File: Images/StateOfArt/image_CAPTCHA.jpg Graphic file (type jpg)
+<use Images/StateOfArt/image_CAPTCHA.jpg>
+Package pdftex.def Info: Images/StateOfArt/image_CAPTCHA.jpg  used on input lin
+e 113.
+(pdftex.def)             Requested size: 140.39874pt x 203.03273pt.
+<Images/StateOfArt/image_CAPTCHA2.jpg, id=200, 444.66125pt x 643.40375pt>
+File: Images/StateOfArt/image_CAPTCHA2.jpg Graphic file (type jpg)
+<use Images/StateOfArt/image_CAPTCHA2.jpg>
+Package pdftex.def Info: Images/StateOfArt/image_CAPTCHA2.jpg  used on input li
+ne 120.
+(pdftex.def)             Requested size: 112.32013pt x 162.51952pt.
+
+[7 <./Images/StateOfArt/game_CAPTCHA.png> <./Images/StateOfArt/game_CAPTCHA2.pn
+g> <./Images/StateOfArt/game_CAPTCHA3.png>]
+<Images/StateOfArt/puzzle_CAPTCHA.png, id=214, 698.61pt x 409.53pt>
+File: Images/StateOfArt/puzzle_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/puzzle_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA.png  used on input li
+ne 133.
+(pdftex.def)             Requested size: 112.32013pt x 65.83858pt.
+<Images/StateOfArt/puzzle_CAPTCHA2.png, id=215, 351.3125pt x 382.42876pt>
+File: Images/StateOfArt/puzzle_CAPTCHA2.png Graphic file (type png)
+<use Images/StateOfArt/puzzle_CAPTCHA2.png>
+Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA2.png  used on input l
+ine 140.
+(pdftex.def)             Requested size: 112.32013pt x 122.26881pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[8 <./Images/StateOfArt/image_CAPTCHA.jpg> <./Images/StateOfArt/image_CAPTCHA2.
+jpg>]
+<Images/StateOfArt/text_CAPTCHA.png, id=229, 453.695pt x 286.06876pt>
+File: Images/StateOfArt/text_CAPTCHA.png Graphic file (type png)
+<use Images/StateOfArt/text_CAPTCHA.png>
+Package pdftex.def Info: Images/StateOfArt/text_CAPTCHA.png  used on input line
+ 156.
+(pdftex.def)             Requested size: 214.50119pt x 135.25113pt.
+<Images/StateOfArt/video_CAPTCHA.jpg, id=235, 250.9375pt x 143.53625pt>
 File: Images/StateOfArt/video_CAPTCHA.jpg Graphic file (type jpg)
 <use Images/StateOfArt/video_CAPTCHA.jpg>
 Package pdftex.def Info: Images/StateOfArt/video_CAPTCHA.jpg  used on input lin
-e 173.
+e 167.
 (pdftex.def)             Requested size: 187.19833pt x 107.08246pt.
-<Images/StateOfArt/video_CAPTCHA2.jpg, id=189, 215.1293pt x 164.37224pt>
+<Images/StateOfArt/video_CAPTCHA2.jpg, id=236, 215.1293pt x 164.37224pt>
 File: Images/StateOfArt/video_CAPTCHA2.jpg Graphic file (type jpg)
 <use Images/StateOfArt/video_CAPTCHA2.jpg>
 Package pdftex.def Info: Images/StateOfArt/video_CAPTCHA2.jpg  used on input li
-ne 180.
+ne 174.
 (pdftex.def)             Requested size: 187.19833pt x 143.03278pt.
-[9 <./Images/StateOfArt/puzzle_CAPTCHA.png> <./Images/StateOfArt/puzzle_CAPTCHA
-2.png>] [10 <./Images/StateOfArt/text_CAPTCHA.png> <./Images/StateOfArt/video_C
-APTCHA.jpg> <./Images/StateOfArt/video_CAPTCHA2.jpg>]
-
-LaTeX Warning: Citation `rtCAPTCHA' on page 11 undefined on input line 204.
-
-[11]
-
-LaTeX Warning: Citation `Google' on page 12 undefined on input line 211.
-
-<Images/StateOfArt/noCAPTCHA.png, id=227, 238.64156pt x 67.0003pt>
+ [9 <./Images/StateOfArt/puzzle_CAPTCHA.png> <./Images/StateOfArt/puzzle_CAPTCH
+A2.png> <./Images/StateOfArt/text_CAPTCHA.png>] [10 <./Images/StateOfArt/video_
+CAPTCHA.jpg> <./Images/StateOfArt/video_CAPTCHA2.jpg>]
+<Images/StateOfArt/noCAPTCHA.png, id=257, 238.64156pt x 67.0003pt>
 File: Images/StateOfArt/noCAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/noCAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/noCAPTCHA.png  used on input line 21
-6.
-(pdftex.def)             Requested size: 214.50119pt x 60.222pt.
+1.
+(pdftex.def)             Requested size: 155.99762pt x 43.79707pt.
 
-LaTeX Warning: Citation `break_Google' on page 12 undefined on input line 223.
 
-[12 <./Images/StateOfArt/noCAPTCHA.png>]
-Overfull \hbox (15.71382pt too wide) in paragraph at lines 231--236
+LaTeX Warning: Citation `break_Google' on page 11 undefined on input line 211.
+
+[11 <./Images/StateOfArt/noCAPTCHA.png>]
+Overfull \hbox (15.71382pt too wide) in paragraph at lines 227--227
 \T1/cmr/m/n/12 sam-ple data to per-fectly fine-tune their Google in-vis-i-ble r
 e-CAPTCHA
  []
 
 
-Overfull \hbox (11.8841pt too wide) in paragraph at lines 231--236
+Overfull \hbox (11.8841pt too wide) in paragraph at lines 227--227
 \T1/cmr/m/n/12 Some char-ac-ter-is-tics re-lated to this ver-sion of \T1/cmr/m/
 it/12 In-vis-i-ble Re-CAPTCHA
  []
 
-
-Overfull \hbox (8.77766pt too wide) in paragraph at lines 242--245
+[12]
+Overfull \hbox (8.77766pt too wide) in paragraph at lines 229--231
 \T1/cmr/m/n/12 this is a way to en-force the PIN au-then-ti-ca-tion phase by mo
 -bile phone[[]].
  []
 
-[13]
-Overfull \hbox (5.92285pt too wide) in paragraph at lines 245--248
+
+Overfull \hbox (5.92285pt too wide) in paragraph at lines 231--232
 \T1/cmr/m/n/12 CAPTCHA chal-lenge is hid-den be-hind the PIN au-then-ti-ca-tion
  phase[[]].
  []
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 264.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 248.
 
-Underfull \hbox (badness 3271) in paragraph at lines 283--285
+Underfull \hbox (badness 3271) in paragraph at lines 267--269
 []\T1/cmr/m/n/10 Difficulty of iden-ti-fi-ca-tion of im-ages
  []
 
-) (Chapters/InvisibleCAPPCHA.tex [14] [15] [16]
-Chapter 3.
-) (Chapters/Bibliography.tex [17
+) (Chapters/InvisibleCAPPCHA.tex [13] [14] [15] [16
 
-] [18
+]
+Chapter 3.
+) (Chapters/Bibliography.tex [17] [18
 
 ] [19]
 Underfull \hbox (badness 3068) in paragraph at lines 22--23
@@ -1109,7 +1076,7 @@ Underfull \hbox (badness 3068) in paragraph at lines 22--23
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 37--38
+Underfull \hbox (badness 10000) in paragraph at lines 38--39
 [][][]\T1/cmr/m/n/12 https://tehnoblog.org/google-no-captcha-invisible-recaptch
 a-first-
  []
@@ -1117,72 +1084,72 @@ a-first-
 [20]) (Chapters/Acknowledgements.tex [21] [22
 
 ])
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--124
+Underfull \hbox (badness 10000) in paragraph at lines 2--128
 
  []
 
@@ -1190,64 +1157,52 @@ Underfull \hbox (badness 10000) in paragraph at lines 2--124
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [23]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 125.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 129.
 
 [24]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 125.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 129.
  (Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 125.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 125.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 129.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 129.
+Package rerunfilecheck Info: File `Thesis.out' has not changed.
+(rerunfilecheck)             Checksum: 5558F9F8A92584D97BB8F847F86A7284;872.
 
-
-Package rerunfilecheck Warning: File `Thesis.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `Thesis.out':
-(rerunfilecheck)             Before: F85CDC3B8BA328B25ADD880DE75F8AB6;412
-(rerunfilecheck)             After:  03DAA1ADE9572C2F26D3DE4B1A73EFC3;475.
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 125.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 129.
  ) 
 Here is how much of TeX's memory you used:
- 24996 strings out of 492452
- 449285 string characters out of 3134016
- 604740 words of memory out of 3000000
- 28988 multiletter control sequences out of 15000+200000
+ 24140 strings out of 492452
+ 436810 string characters out of 3134016
+ 605740 words of memory out of 3000000
+ 28139 multiletter control sequences out of 15000+200000
  553788 words of font info for 70 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,14n,67p,938b,1068s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{subsection.2.2.2} has been referenced but does no
-t exist, replaced by a fixed one
-
-pdfTeX warning (dest): name{subsection.2.2.1} has been referenced but does not 
-exist, replaced by a fixed one
-
- <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ec
-ti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec
-/dpi600\ecbx1440.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/j
-knappen/ec/dpi600\ecrm1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/p
-k/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2
-.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\raffa\AppData\Loca
-l\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\raffa\Ap
-pData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\User
-s\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk
-> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\e
-crm1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/e
-c/dpi600\eccc1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/
-jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/
-pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\
-2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1728.pk> <C:\Users\raffa\AppData\Loc
-al\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk> <C:\Users\raffa\A
-ppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1728.pk><D:/Prog
-rams/Miktex/fonts/type1/public/amsfonts/cm/cmmi12.pfb><D:/Programs/Miktex/fonts
-/type1/public/amsfonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb>
-Output written on Thesis.pdf (32 pages, 1689787 bytes).
+ 48i,14n,67p,744b,1100s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
+ecti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
+ec/dpi600\ecrm1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\raffa\AppData\Local\MiKTeX
+\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Users\raffa\AppData\Lo
+cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx2488.pk> <C:\Users\raffa\
+AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Us
+ers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.
+pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
+\ecrm1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
+/ec/dpi600\eccc1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
+r/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\font
+s/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\raffa\AppData\Local\MiKTe
+X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1728.pk> <C:\Users\raffa\AppData\L
+ocal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1728.pk> <C:\Users\raffa
+\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1728.pk><D:/Pr
+ograms/Miktex/fonts/type1/public/amsfonts/cm/cmmi12.pfb><D:/Programs/Miktex/fon
+ts/type1/public/amsfonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb>
+Output written on Thesis.pdf (32 pages, 1665205 bytes).
 PDF statistics:
- 872 PDF objects out of 1000 (max. 8388607)
- 84 named destinations out of 1000 (max. 500000)
- 142 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 919 PDF objects out of 1000 (max. 8388607)
+ 89 named destinations out of 1000 (max. 500000)
+ 198 words of extra memory for PDF output out of 10000 (max. 10000000)
 
