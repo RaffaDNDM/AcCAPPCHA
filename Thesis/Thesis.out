@@ -1,10 +1,10 @@
 \BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
 \BOOKMARK [0][-]{chapter.2}{State of the Art}{}% 2
 \BOOKMARK [1][-]{section.2.1}{Traditional CAPTCHAs}{chapter.2}% 3
-\BOOKMARK [2][-]{subsection.2.1.1}{Math CAPTCHAs}{section.2.1}% 4
-\BOOKMARK [2][-]{subsection.2.1.2}{Audio-based CAPTCHAs}{section.2.1}% 5
-\BOOKMARK [2][-]{subsection.2.1.3}{Game-based CAPTCHAs}{section.2.1}% 6
-\BOOKMARK [2][-]{subsection.2.1.4}{Image-based CAPTCHAs}{section.2.1}% 7
+\BOOKMARK [2][-]{subsection.2.1.1}{Audio-based CAPTCHAs}{section.2.1}% 4
+\BOOKMARK [2][-]{subsection.2.1.2}{Game-based CAPTCHAs}{section.2.1}% 5
+\BOOKMARK [2][-]{subsection.2.1.3}{Image-based CAPTCHAs}{section.2.1}% 6
+\BOOKMARK [2][-]{subsection.2.1.4}{Math CAPTCHAs}{section.2.1}% 7
 \BOOKMARK [2][-]{subsection.2.1.5}{Slider CAPTCHAs}{section.2.1}% 8
 \BOOKMARK [2][-]{subsection.2.1.6}{Text-based CAPTCHAs}{section.2.1}% 9
 \BOOKMARK [2][-]{subsection.2.1.7}{Video-based CAPTCHAs}{section.2.1}% 10
@@ -12,5 +12,5 @@
 \BOOKMARK [2][-]{subsection.2.2.1}{Biometrics-based CAPTCHAs}{section.2.2}% 12
 \BOOKMARK [2][-]{subsection.2.2.2}{Behavioural-based CAPTCHAs}{section.2.2}% 13
 \BOOKMARK [2][-]{subsection.2.2.3}{Sensor-based CAPTCHAs}{section.2.2}% 14
-\BOOKMARK [1][-]{section.2.3}{CAPTCHA attacks}{chapter.2}% 15
+\BOOKMARK [1][-]{section.2.3}{CAPTCHA security}{chapter.2}% 15
 \BOOKMARK [0][-]{chapter.3}{Invisible CAPPCHA}{}% 16

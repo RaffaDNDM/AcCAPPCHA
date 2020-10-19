@@ -39,39 +39,12 @@ In order to guarantee a good level of security, a CAPTCHA has to satisfy the fol
 %\vspace{4cm}
 \section{Traditional CAPTCHAs}
 The traditional CAPTCHAs are based on the knowledge and correct insertion of solution by the user. These CAPTCHA schemes are designed to exploit character recognition, image understanding and speech recognition to guarantee that the challenges will successfully block bots.\\
-Some types of CAPTCHA have a big issue because they don't destroy the session, after the correct answer is inserted by the user\cite{text_audio}. Hence, the hacker can crack following accesses using the same session id with the related solution of the challenge, after connecting to the web page of CAPTCHA. In this way the attacker can make hundreds of requests before the session expires and the previous operation must be computed again.\\
 The main types of these CAPTCHAs are described in the following sections but the details about specific implementations can be found in the article of Walid Khalifa Abdullah Hasan\cite{survey_advanced_CAPTCHA}. With respect to user experience, the most enjoyable traditional CAPTCHAs are usually the game-based and image-based ones but the most frustrating CAPTCHA is the text-based one\cite{usability_CAPTCHA}. A summary of usability and security issues is shown in Table \ref{soa:traditional_table}.
 
-\subsection{Math  CAPTCHAs}
-Looking to an operation specified in a frame, the user needs to insert the result in a text field. The operation is written in plain text or, to improve the security of this challenge, it's warped like text-based CAPTCHAs (Figure \ref{soa:arithmetic}). These classical math-CAPTCHAs, also known as \textit{arithmetic CAPTCHAs}, are vulnerable to OCR (Optical Character Recognition) techniques.\\
-\begin{figure}[h]
-     \centering
-     \begin{subfigure}[b]{0.48\textwidth}
-         \centering
-         \includegraphics[width=.7\linewidth]{Images/StateOfArt/math_CAPTCHA}
-         \caption{\footnotesize{With plain text.}}
-     \end{subfigure}
-     \hfill
-     \begin{subfigure}[b]{0.48\textwidth}
-         \centering
-         \includegraphics[width=.7\textwidth]{Images/StateOfArt/math_CAPTCHA2}
-         \caption{\footnotesize{With wrapped text.}}
-     \end{subfigure}
-		\caption{\footnotesize{Example of arithmetic CAPTCHAs.}}
-		\label{soa:arithmetic}
-\end{figure}
-An advanced version of this CAPTCHA is used in the Quantum Random Bit Generator Service (QRBGS) sign-up Web Page\cite{math_CAPTCHA} (see Figure \ref{soa:QRBGS}). This type of CAPTCHA asks user to solve an advanced math expression. It prevents the use of free or commercial OCRs because many mathematical symbols are not considered in their detection algorithm.\\
-Hence many math symbols are wrongly translated by bot programs and the challenge is very secure. The only problem is that this CAPTCHA is very complex for normal users and many of them could not solve the challenge correctly.
-\begin{figure}[h]
-     \centering
-     \includegraphics[width=.6\linewidth]{Images/StateOfArt/QRBGS}
-     \caption{\footnotesize{Example of Quantum Random Bit Generator Service (QRBGS) sign-up Web Page \cite{math_CAPTCHA}.}}\label{soa:QRBGS}
-\end{figure}
-\vspace{4cm}
 \subsection{Audio-based CAPTCHAs}
-This type of CAPTCHAs asks the user to type the words listened by an audio file (see Figure \ref{soa:audio_CAPTCHA}). It's developed for vision-impaired users. It usually has problems related to the language dictionary, from which words are taken, and the similarity of the sound between several words.\\
-One of the most popular CAPTCHAs is \textit{audio reCAPTCHA}, developed at Carnegie Mellon University and then bought by Google. In this scheme, the user needs to recognize and write a set of 8 spoken characters from a noisy audio file with background voices. If the user makes a mistake, the test declares that he's a bot.\\
-Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) programs\cite{improving_audio} but also Deep Learning techniques (e.g. DeepCRACk\cite{DeepCRACk}).
+This type of CAPTCHAs asks the user to type the words listened by an audio file (see Figure \ref{soa:audio_CAPTCHA}). It's developed for vision-impaired users. It usually has problems in usability related to the language dictionary, from which words are taken, and the similarity of the sound between several words. It has been proofed that this CAPTCHA is a hard task even for blind users, in fact  only 46\% of the challenges were solved by participants to an experiment\cite{}.\\
+One of the most popular CAPTCHAs is \textit{Audio reCAPTCHA}, developed at Carnegie Mellon University and then bought by Google. In this scheme, the user needs to recognize and write a set of 8 spoken characters from a noisy audio file with background voices. If the user makes a mistake, the test declares that he's a bot.\\
+Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) programs\cite{improving_audio} but also Deep Learning techniques (e.g. DeepCRACk\cite{DeepCRACk}). A good overview about results, obtained by several classification methods, is described in the work of Jennifer Tam et al.\cite{break_audio}.
 \begin{figure}[h]
      \centering
      \includegraphics[width=.5\linewidth]{Images/StateOfArt/audio_CAPTCHA}
@@ -81,7 +54,7 @@ Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) p
 \subsection{Game-based CAPTCHAs}
 This type of CAPTCHAs performs the verification of the user nature through a set of several kind of games (see Figure \ref{soa:game}). The strength of this CAPTCHAs is relative to the comprehension phase of the rules that only humans can perform.\\
 This type of CAPTCHAs is called \textit{Dynamic Cognitive Game (DCG)} is usually developed using Flash and HTML5 with JavaScript. These technologies download the game code to the client and execute it locally.\\
-The only difficult for the bot to attack the challenge is the encryption/obfuscation of the code. This strategy prevent the store of the code onto different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA}.
+The only difficult for the bot to attack the challenge is the encryption/obfuscation of the code. This strategy prevent the store of the code onto different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see Section \ref{soa:security_CAPTCHAs}).
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -190,6 +163,32 @@ Face, fingerprint and eye detections in images remain also a difficult challenge
 }
 \end{itemize}
 
+\subsection{Math CAPTCHAs}
+Looking to an operation specified in a frame, the user needs to insert the result in a text field. The operation is written in plain text or, to improve the security of this challenge, it's warped like text-based CAPTCHAs (Figure \ref{soa:arithmetic}). These classical math-CAPTCHAs, also known as \textit{arithmetic CAPTCHAs}, are vulnerable to OCR (Optical Character Recognition) techniques.\\
+\begin{figure}[h]
+     \centering
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=.7\linewidth]{Images/StateOfArt/math_CAPTCHA}
+         \caption{\footnotesize{With plain text.}}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[width=.7\textwidth]{Images/StateOfArt/math_CAPTCHA2}
+         \caption{\footnotesize{With wrapped text.}}
+     \end{subfigure}
+		\caption{\footnotesize{Example of arithmetic CAPTCHAs.}}
+		\label{soa:arithmetic}
+\end{figure}
+An advanced version of this CAPTCHA is used in the Quantum Random Bit Generator Service (QRBGS) sign-up Web Page\cite{math_CAPTCHA} (see Figure \ref{soa:QRBGS}). This type of CAPTCHA asks user to solve an advanced math expression. It prevents the use of free or commercial OCRs because many mathematical symbols are not considered in their detection algorithm. However, it's vulnerable to side-channel attack \cite{math_CAPTCHA}.\\
+Hence many math symbols are wrongly translated by bot programs and the challenge is very secure. The only problem is that this CAPTCHA is very complex for normal users and many of them could not solve the challenge correctly.
+\begin{figure}[h]
+     \centering
+     \includegraphics[width=.6\linewidth]{Images/StateOfArt/QRBGS}
+     \caption{\footnotesize{Example of Quantum Random Bit Generator Service (QRBGS) sign-up Web Page \cite{math_CAPTCHA}.}}\label{soa:QRBGS}
+\end{figure}
+
 \subsection{Slider CAPTCHAs}
 Slider CAPTCHAs only asks users to move the slider across the screen. Hence, image recognition is not part of the challenge to be classified as a human.\\
 The most popular CAPTCHAs are the following:
@@ -197,6 +196,7 @@ The most popular CAPTCHAs are the following:
 \descItem{CAPTCHA used by Taobao.com}{it asks the user to drag the slider from the start to the end of the sliding bar to verify his identity (see Figure \ref{soa:slider}).}
 \descItem{CAPTCHA used by TheyMakeApps.com}{it asks the user to move the slider to the end of the line to submit a form\cite{sliding_CAPTCHA} (see Figure \ref{soa:slider2}).}
 \end{itemize}
+Different variations of this type of CAPTCHAs have been bypassed with a simple JavaScript code and puppeteer.
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -237,7 +237,7 @@ In the design phase of a text-based CAPTCHA there are many issues, related to Co
 \subsection{Video-based CAPTCHAs}
 This type of CAPTCHA is not very common because of the weight of the file to be downloaded\cite{survey_advanced_CAPTCHA}. The traditional video-based CAPTCHA is composed by a video in which a sliding text is shown (see Figure \ref{soa:video}). The user needs to type this message in a text field to pass the challenge. Some implementations of this type of CAPTCHAs are vulnerable to machine learning attacks.\\
 Another variant of this CAPTCHA is the \textit{Motion CAPTCHA}\cite{Motion_CAPTCHA}, developed by M. Shirali-shahreza and S. Shirali-shahreza, in which the user needs to watch a video. Then he needs to select which action was performed in the played file, choosing it from multiple answers (see Figure \ref{soa:video2}). The strength of these implementations of CAPTCHAs depends on the relationship between the multiple choices submitted to the user\cite{video_attack}.\\
-A similar implementation of the previous variant, it's the one developed by Kluever et al. in which the user watches a video and needs to write three words that describe what he sees.
+A similar implementation of the previous variant, it's the one developed by Kluever et al. in which the user watches a video and needs to write three words that describe what he sees. The same authors also performed a tag frequency-based attack to evaluate the security of their CAPTCHA schemes achieving a success rate of 13\%.
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -271,9 +271,7 @@ In the work of Erkam Uzun, Simon Pak Ho Chung, Irfan Essa and Wenke Lee\cite{rtC
 \end{itemize}
 
 \subsection{Behavioural-based  CAPTCHAs}
-In 2014 Google announced that today’s Artificial
-Intelligence can solve even the most difficult
-variant of text-based CAPTCHAs at 99.8\% accuracy\cite{break_text}. For this reason, the company develops the following CAPTCHA schemes:
+In 2014 Google announced that today’s Artificial Intelligence can solve even the most difficult variant of text-based CAPTCHAs at 99.8\% accuracy\cite{break_text}. For this reason, the company develops the following CAPTCHA schemes:
 \begin{itemize}
 \descItem{Google no CAPTCHA}
 {Google developed in 2015 a new CAPTCHA system that is simpler than traditional CAPTCHAs in terms of user interaction\cite{google}. This CAPTCHA system is composed by two layers of protection:
@@ -308,7 +306,7 @@ Some characteristics related to this version of \textit{Invisible ReCAPTCHA} are
 }
 \end{itemize}
 
-\subsection{Sensor-based  CAPTCHAs}
+\subsection{Sensor-based CAPTCHAs}
 This type of devices have natively many sensors, like gyroscope and accelerometer, and the CAPTCHA schemes, described in the following sections, exploit their presence to improve security of the authentication.
 \begin{itemize}
 \descItem{Completely Automated Public Physical test to tell Computer and Humans Apart (CAPPCHA)}
@@ -317,95 +315,7 @@ This type of devices have natively many sensors, like gyroscope and acceleromete
 {it's an evolution of the CAPPCHA, in terms of usability, and the CAPTCHA challenge is hidden behind the PIN authentication phase\cite{Invisible_CAPPCHA}. The micro-movements of the device, generated by the interaction of the user with the touch-screen, are evaluated and the \textit{Secure Element} (\textit{SE}) tells to Service Provider if the input is inserted by a human or not. More details about Invisible CAPPCHA are reported in Chapter \ref{chapter:InvisibleCAPPCHA}.}
 \end{itemize}
 
-\begin{sidewaystable}
-\centering \footnotesize
-\renewcommand*\arraystretch{1.3}
-\begin{tabular}{cll}
-\hline
-\multicolumn{1}{c}{\textbf{CAPTCHA type}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
-\hline
-\textit{Arithmetic (Math)} & {To be more effective, it requires advanced math knowledge.} & {Vulnerable to OCR techniques.}\\
-\hline
-\textit{Audio-based} & {
-  \begin{minipage} [t] {0.3\textwidth}
-  Issues of recognition:\\
-      \begin{tabitem}
-        \item{Previous knowledge of English dictionary by the user.}
-        \item{Some character sounds very similar to others.}
-      \end{tabitem} 
-  \end{minipage}
-} & {
-  \begin{minipage} [t] {0.3\textwidth}
-  It's vulnerable to: \\
-      \begin{tabitem}
-        \item{ASR programs.}
-        \item{Deep learning techniques.}
-      \end{tabitem}
-  \end{minipage}
-}\\
-\tabularnewline
-\hline
-\textit{Game-based} & {No problem} & {Vulnerable to Stream Relay Attack}\\
-\hline
-\textit{Image-based} & {
- \begin{minipage} [t] {0.3\textwidth}
-Difficulty of identification of images caused by:\\
-      \begin{tabitem}
-        \item{Blur of images.}
-        \item{Low vision condition.}
-       \end{tabitem} 
-  \end{minipage}
-} & {}\\
-\tabularnewline
-\hline
-\textit{Puzzle-based} & {Too much time to solve the puzzle} & {No significant issues}\\
-\hline
-\textit{Text-based} & 
-{
-  \begin{minipage} [t] {0.3\textwidth}
-	Many problems have to be solved by user:\\
-      \begin{tabitem}
-        \item{Multiple fonts}
-        \item{Font size}
-        \item{Blurred Letters}
-        \item{Wave Motion}
-       \end{tabitem} 
-  \end{minipage}
-} & 
-{
-  \begin{minipage} [t] {0.3\textwidth}
-	It can be identified by:\\
-      \begin{tabitem}
-        \item{OCR technique}
-        \item{Segmentation techniques}
-        \item{Machine Learning and Deep Learning techniques}
-       \end{tabitem}
-  \end{minipage}
-}\\
-\tabularnewline
-\hline
-\textit{Video-based} & {Heavy file to be downloaded} & {}\\
-\hline
-\end{tabular}
-\caption{\footnotesize{Survey of main types of traditional CAPTCHAs\cite{survey_CAPTCHA}.}}
-\label{soa:traditional_table}
-\end{sidewaystable}
-
-\begin{sidewaystable}
-\centering \footnotesize
-\renewcommand*\arraystretch{1.3}
-\begin{tabular}{ccll}
-\hline
-\multicolumn{1}{c}{\textbf{Alternative Type}} & \multicolumn{1}{c}{\textbf{Name of implementation}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
-\hline
-\textit{} & {} & {}\\
-\hline
-\end{tabular}
-\caption{\footnotesize{Survey of main types of alternatives of CAPTCHAs\cite{survey_CAPTCHA}.}}
-\label{soa:modern_table}
-\end{sidewaystable}
-
-\section{CAPTCHA attacks}
+\section{CAPTCHA security}\label{soa:security_CAPTCHAs}
 The process used for breaking CAPTCHAs is organized into the following phases\cite{CAPTCHA_attack_process}:
 \begin{enumerate}
 \descItem{Pre-processing phase}
@@ -425,3 +335,141 @@ The process used for breaking CAPTCHAs is organized into the following phases\ci
 \end{itemize}
 }
 \end{enumerate}
+Many CAPTCHAs have yet the following known issues:
+\begin{itemize}
+\descItem{Session issue}
+{Some types of CAPTCHAs have a big issue because they don't destroy the session, after the correct answer is inserted by the user\cite{text_audio}.\\
+Hence, the hacker can crack following accesses using the same session id with the related solution of the challenge, after connecting to the web page of CAPTCHA. In this way the attacker can make hundreds of requests before the session expires and the previous operation must be computed again.}
+\descItem{Resilience to both automated and human solver relay attacks}
+{Many CAPTCHA schemes are designed to be robust against a possible AI attack but the new generation of CAPTCHA involves the use of remote bot or human solver. Traditional CAPTCHA schemes are vulnerable to this type of attacks.\\
+Invisible reCAPTCHA and other academic proposals haven't been attacked yet, but works over thousands of different IP addresses and simulate the human behavior. Sensor-based CAPTCHAs are also vulnerable to solver relay attacks. An exception of this issue is the \textit{Invisible CAPPCHA}, that will be analysed in following sectionsand is designed to block this type of attacks.
+}
+\textbf{Limited-number of challenges}
+{Another weakness of sensor-based CAPTCHA
+schemes is the limited number of challenges. This is due to
+the fact that designing a large number of usable gestures for
+instance, to ensure high security against automated attacks,
+is very challenging. However, this weakness may be solved
+relying on trusted hardware.
+On the basis of the above observations, we identified the
+following open problems that require further study in order to
+design robust and usable CAPTCHA schemes: it is necessary
+to investigate 1) the resilience of currently unbroken behaviorbased
+CAPTCHAs against fourth generation bots; 2) the
+security strength of sensor-based CAPTCHA schemes against
+replay attacks, sensor manipulation [130] and human solver
+relay attacks 3) the security of CAPTCHA schemes that make
+validation process at the client-side either with or without
+secure hardware as they may be hacked.}
+\descItem{Trade-off between Friction-heavy and Frictionless CAPTCHAs}
+{}
+\descItem{User's privacy}
+{}
+\descItem{Compatibility with different devices}
+{}
+\end{itemize}
+
+\begin{table}
+\centering \footnotesize
+\renewcommand*\arraystretch{1.3}
+\begin{tabular}{ccll}
+\toprule
+\multicolumn{1}{c}{\textbf{Type}} & \multicolumn{1}{c}{\textbf{Scheme}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
+\midrule
+%Audio row
+\multirow{5}{*}{\textbf{\textit{Audio}}} & & {Issues of recognition:} & {It's vulnerable to:}\\
+&&{\itemCell{Knowledge of English}}&{\itemCell{ASR programs.}}\\
+&{\textit{Audio reCAPTCHA}}& {\hspace{1em}dictionary by the user.} &{\itemCell{Deep Learning and ML}}\\
+&&{\itemCell{Some character sounds}}& {\hspace{1em}techniques.}\\
+&& {\hspace{1em}very similar to others.} & \\
+\midrule
+\multirow{2}{*}{\textbf{\textit{Game}}} & {\textit{Dynamic Cognitive}} & {Comprehension of rules.} & {Vulnerable to Stream Relay}\\
+& {\textit{Game (DCG)}} &&{Attack.}\\
+\midrule
+\multirow{5}{*}{\textbf{\textit{Image}}} & {\textit{Click-based}} & {Difficulty in identification} & {Vulnerable to:}\\
+& {\textit{Drag \& Drop-based}} & {of images caused by:} & {\itemCell{Segmentation techniques}}\\
+& {\textit{Sliding-based}} & {\itemCell{Blur of images.}} & {\itemCell{Deep Learning and ML}}\\
+& {\textit{Selection-based}} & {\itemCell{Low vision condition.}} & {\hspace{1em}techniques}\\
+& {\textit{Interactive-based}} &&{\itemCell{OCR techniques}}\\
+\midrule
+%Math row
+\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires minimum or} & {Vulnerable to:}\\
+{} & {\textit{QRBGS}} & {advanced math knowledge.} & {\itemCell{OCR techniques}}\\
+&&&{\itemCell{Side-channel attacks}}\\
+\midrule
+\multirow{2}{*}{\textbf{\textit{Slider}}} & {Taobao.com} & {Simple and intuitive} & {Simple bypassed by Javascript}\\
+& {TheyMakeApps.com} & {interaction.} & {code and pupeeteer.}\\
+\midrule
+\multirow{6}{*}{\textbf{\textit{Text}}} & & {Many problems have to} & {It can be identified by:}\\
+&&{be solved by user:}&{\itemCell{OCR technique}}\\
+&{\textit{2D}}&{\itemCell{Multiple fonts}}&{\itemCell{Segmentation techniques}}\\
+&{\textit{3D}}&{\itemCell{Font size}}&{\itemCell{Deep Learning and ML}}\\
+&&{\itemCell{Blurred Letters}}& {\hspace{1em}techniques}\\
+&&{\itemCell{Wave Motion}}&\\
+\midrule
+{\textbf{\textit{Video}}} & {\textit{Motion CAPTCHA}} & {Heavy file to be downloaded} & {}\\
+\bottomrule
+\end{tabular}
+\caption{\footnotesize{Survey of main types of traditional CAPTCHAs\cite{survey_CAPTCHA}.}}
+\label{soa:traditional_table}
+\end{table}
+
+\begin{comment}
+\begin{sidewaystable}
+\centering \footnotesize
+\renewcommand*\arraystretch{1.3}
+\begin{tabular}{ccll}
+\toprule
+\multicolumn{1}{c}{\textbf{Type}} & \multicolumn{1}{c}{\textbf{Scheme}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
+\midrule
+%Audio row
+\multirow{3}{*}{\textbf{\textit{Audio}}} & {\textit{Audio reCAPTCHA}} & {Issues of recognition:} & {It's vulnerable to:}\\
+&&{\itemCell{Knowledge of English dictionary by the user.}}&{\itemCell{ASR programs.}}\\
+&&{\itemCell{Some character sounds very similar to others.}}&{\itemCell{Deep Learning and ML techniques.}}\\
+\midrule
+\multirow{2}{*}{\textbf{\textit{Game}}} & {\textit{Dynamic Cognitive}} & {Comprehension of rules.} & {Vulnerable to Stream Relay Attack}\\
+& {\textit{Game (DCG)}} &&\\
+\midrule
+\multirow{5}{*}{\textbf{\textit{Image}}} & {\textit{Click-based}} & {Difficulty in identification of images caused by:} & {Vulnerable to:}\\
+& {\textit{Drag \& Drop-based}} & {\itemCell{Blur of images.}} & {\itemCell{Segmentation techniques}}\\
+& {\textit{Sliding-based}} & {\itemCell{Low vision condition.}} & {\itemCell{Deep Learning and ML techniques}}\\
+& {\textit{Selection-based}} && {OCR techniques}\\
+& {\textit{Interactive-based}} &&\\
+\midrule
+%Math row
+\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires minimum or} & {Vulnerable to:}\\
+{} & {\textit{QRBGS}} & {advanced math knowledge.} & {\itemCell{OCR techniques}}\\
+&&&{Side-channel attacks}\\
+\midrule
+\multirow{2}{*}{\textbf{\textit{Slider}}} & {Taobao.com} & {Simple and intuitive interaction} & {Simple bypassed by Javascript code}\\
+& {TheyMakeApps.com} & {} & {and pupeeteer}\\
+\midrule
+\multirow{5}{*}{\textbf{\textit{Text}}} & {\textit{2D}} & {Many problems have to be solved by user:} & {It can be identified by:}\\
+&{\textit{3D}}&{\itemCell{Multiple fonts}}&{\itemCell{OCR technique}}\\
+&&{\itemCell{Font size}}&{\itemCell{Segmentation techniques}}\\
+&&{\itemCell{Blurred Letters}}&{\itemCell{Deep Learning and ML techniques}}\\
+&&{\itemCell{Wave Motion}}&\\
+\midrule
+{\textbf{\textit{Video}}} & {\textit{Motion CAPTCHA}} & {Heavy file to be downloaded} & {}\\
+\bottomrule
+\end{tabular}
+\caption{\footnotesize{Survey of main types of traditional CAPTCHAs\cite{survey_CAPTCHA}.}}
+\label{soa:traditional_table}
+\end{sidewaystable}
+\end{comment}
+
+\begin{comment}
+\begin{sidewaystable}
+\centering \footnotesize
+\renewcommand*\arraystretch{1.3}
+\begin{tabular}{ccll}
+\toprule
+\multicolumn{1}{c}{\textbf{Alternative Type}} & \multicolumn{1}{c}{\textbf{Name of implementation}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
+\midrule
+\textit{} & {} & {}\\
+\bottomrule
+\end{tabular}
+\caption{\footnotesize{Survey of main types of alternatives of CAPTCHAs\cite{survey_CAPTCHA}.}}
+\label{soa:modern_table}
+\end{sidewaystable}
+\end{comment}

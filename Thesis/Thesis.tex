@@ -21,9 +21,6 @@
 \newcommand{\minitab}[2][l]{\begin{tabular}#1 #2\end{tabular}}
 \usepackage{rotating}
 \usepackage{url}
-\newlist{tabitem}{itemize}{1}
-\setlist[tabitem]{wide=0pt, nosep, leftmargin= * ,label=\textbullet,after=\vspace{-\baselineskip},before=\vspace{-0.6\baselineskip}}
-
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
@@ -91,6 +88,9 @@
 %acronimi
 \usepackage[printonlyused]{acronym}
 
+%Rules in tables
+\usepackage{booktabs}
+
 %Formatted quote
 \newcommand{\myquote}[2]{
 \begin{quote}
@@ -107,6 +107,16 @@
 %Formatted item with description
 \newcommand{\myBibItem}[4]{
 \bibitem{#1}#2,"#3" in \emph{#4}.
+}
+
+%Cell with vertical text
+\newcommand{\verticalCell}[2]{
+\multirow{#1}{*}{\rotatebox[origin=c]{90}{#2}}
+}
+
+%Tab Item Cell
+\newcommand{\itemCell}[1]{
+\textbullet\ {#1}
 }
 
 \begin{document}
