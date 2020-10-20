@@ -109,6 +109,10 @@
 \bibitem{#1}#2,"#3" in \emph{#4}.
 }
 
+\newcommand{\myBibRef}[5]{
+\bibitem{#1}#2, \href{#3}{"#4"}, \emph{#5}.
+}
+
 %Cell with vertical text
 \newcommand{\verticalCell}[2]{
 \multirow{#1}{*}{\rotatebox[origin=c]{90}{#2}}

@@ -42,7 +42,7 @@ The traditional CAPTCHAs are based on the knowledge and correct insertion of sol
 The main types of these CAPTCHAs are described in the following sections but the details about specific implementations can be found in the article of Walid Khalifa Abdullah Hasan\cite{survey_advanced_CAPTCHA}. With respect to user experience, the most enjoyable traditional CAPTCHAs are usually the game-based and image-based ones but the most frustrating CAPTCHA is the text-based one\cite{usability_CAPTCHA}. A summary of usability and security issues is shown in Table \ref{soa:traditional_table}.
 
 \subsection{Audio-based CAPTCHAs}
-This type of CAPTCHAs asks the user to type the words listened by an audio file (see Figure \ref{soa:audio_CAPTCHA}). It's developed for vision-impaired users. It usually has problems in usability related to the language dictionary, from which words are taken, and the similarity of the sound between several words. It has been proofed that this CAPTCHA is a hard task even for blind users, in fact  only 46\% of the challenges were solved by participants to an experiment\cite{}.\\
+This type of CAPTCHAs asks the user to type the words listened by an audio file (see Figure \ref{soa:audio_CAPTCHA}). It's developed for vision-impaired users. It usually has problems in usability related to the language dictionary, from which words are taken, and the similarity of the sound between several words. It has been proofed that this CAPTCHA is a hard task even for blind users, in fact  only 46\% of the challenges were solved by participants to an experiment\cite{usability_audio}.\\
 One of the most popular CAPTCHAs is \textit{Audio reCAPTCHA}, developed at Carnegie Mellon University and then bought by Google. In this scheme, the user needs to recognize and write a set of 8 spoken characters from a noisy audio file with background voices. If the user makes a mistake, the test declares that he's a bot.\\
 Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) programs\cite{improving_audio} but also Deep Learning techniques (e.g. DeepCRACk\cite{DeepCRACk}). A good overview about results, obtained by several classification methods, is described in the work of Jennifer Tam et al.\cite{break_audio}.
 \begin{figure}[h]
@@ -237,7 +237,7 @@ In the design phase of a text-based CAPTCHA there are many issues, related to Co
 \subsection{Video-based CAPTCHAs}
 This type of CAPTCHA is not very common because of the weight of the file to be downloaded\cite{survey_advanced_CAPTCHA}. The traditional video-based CAPTCHA is composed by a video in which a sliding text is shown (see Figure \ref{soa:video}). The user needs to type this message in a text field to pass the challenge. Some implementations of this type of CAPTCHAs are vulnerable to machine learning attacks.\\
 Another variant of this CAPTCHA is the \textit{Motion CAPTCHA}\cite{Motion_CAPTCHA}, developed by M. Shirali-shahreza and S. Shirali-shahreza, in which the user needs to watch a video. Then he needs to select which action was performed in the played file, choosing it from multiple answers (see Figure \ref{soa:video2}). The strength of these implementations of CAPTCHAs depends on the relationship between the multiple choices submitted to the user\cite{video_attack}.\\
-A similar implementation of the previous variant, it's the one developed by Kluever et al. in which the user watches a video and needs to write three words that describe what he sees. The same authors also performed a tag frequency-based attack to evaluate the security of their CAPTCHA schemes achieving a success rate of 13\%.
+A similar implementation of the previous variant, it's the one developed by Kluever et al. in which the user watches a video and needs to write three words that describe what he sees\cite{video_desc}. The same authors also performed a tag frequency-based attack to evaluate the security of their CAPTCHA schemes achieving a success rate of 13\%.
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -259,7 +259,7 @@ A similar implementation of the previous variant, it's the one developed by Klue
 \section{Modern CAPTCHAs}
 The type of CAPTCHAs and authentication mechanisms described in the following section are far from traditional CAPTCHAs and aren't based on cognitive knowledge of the human user but on other parameters, such as behavioural analysis and sensors readings. In the following sections there is a summary of the most known CAPTCHA schemes of this type.
 
-\subsection{Biometrics-based  CAPTCHAs}
+\subsection{Biometrics-based CAPTCHAs}
 The most known authentication mechanisms, that use biometric parameters of the user, are based on the following CAPTCHA schemes:
 \begin{itemize}
 \descItem{Bio-CAPTCHA voice-based Authentication}
@@ -270,7 +270,7 @@ This implementation of CAPTCHA solves many problems of similar CAPTCHAs that are
 In the work of Erkam Uzun, Simon Pak Ho Chung, Irfan Essa and Wenke Lee\cite{rtCAPTCHA}, there is a detailed comparison between other similar authentication mechanisms and rtCAPTCHA, looking to all possible Computer Vision attacks.}
 \end{itemize}
 
-\subsection{Behavioural-based  CAPTCHAs}
+\subsection{Behavioural-based CAPTCHAs}
 In 2014 Google announced that today’s Artificial Intelligence can solve even the most difficult variant of text-based CAPTCHAs at 99.8\% accuracy\cite{break_text}. For this reason, the company develops the following CAPTCHA schemes:
 \begin{itemize}
 \descItem{Google no CAPTCHA}
@@ -286,10 +286,10 @@ In 2014 Google announced that today’s Artificial Intelligence can solve even t
 \item{Traditional text-based CAPTCHA with two warped words}
 \end{enumerate}
 The second layer is reached only if the user doesn't succeed in the first one. For the checkbox step, the application evaluates in background the user's behaviour (e.g. the mouse movement, where the users click, how long they linger over a checkbox). Then the program performs an \textit{advanced risk analysis}, by looking results of first step but also spam traffic and passed/failed CAPTCHAs. It understands in this way if the test is passed or not.\\
-The tests done confirms that this phase was very inefficient and many times the first layer failed even if a human user was performing correctly the task. A problem of this type of CAPTCHA is that many attacks exploits the image-based CAPTCHA and text-based CAPTCHA using attacks based on known Computer Vision techniques or their variants (e.g. CAPTCHA breaker made by Suphannee Sivakorn, Jason Polakis and Angelos D. Keromytis\cite{break_Google}).
+The tests done confirms that this phase was very inefficient and many times the first layer failed even if a human user was performing correctly the task. A problem of this type of CAPTCHA is that many attacks exploits the image-based CAPTCHA and text-based CAPTCHA using attacks based on known Computer Vision techniques or their variants (e.g. CAPTCHA breaker made by Suphannee Sivakorn, Jason Polakis and Angelos D. Keromytis\cite{break_google}).
 }
 \descItem{Google Invisible ReCAPTCHA}
-{It's a top layer over the \textit{Google noCAPTCHA v2.0}, adding the option to bind directly to the form's submit element\cite{google}. There exist two version of this CAPTCHA:
+{It's a top layer over the \textit{Google noCAPTCHA v2.0}, adding the option to bind directly to the form's submit element\cite{google}. It usually requires the use of cookies, used to track the user's behaviour. There exist two version of this CAPTCHA:
 \begin{itemize}
 \descItem{ReCAPTCHA v2.0}
 {it was developed in 2017. It's not really invisible because Privacy \& Policy badge must be included on every page of app or website in which the CAPTCHA is used. Computer Vision and Artificial Intelligence algorithms can break the challenges by recognizing object in the pictures in the image-based CAPTCHA phase.}
@@ -322,7 +322,7 @@ The process used for breaking CAPTCHAs is organized into the following phases\ci
 {In this phase, several techniques are applied to remove background, separate foreground from the background, to delete noise and to remove some particular pattern (e.g. Canny Detection and Scale-Invariant Feature Transform (SIFT) application).
 }
 \descItem{Attack phase}
-{the following techniques are usually applied:\\
+{the following techniques are usually applied:
 \begin{itemize}
 \descItem{\textit{Object Segmentation attacks}}
 {Segmentation techniques (e.g. vertical histogram, colorfilling, snake segmentation and JSEG) are used to split the CAPTCHA image into segments to facilitate recognition}
@@ -342,31 +342,19 @@ Many CAPTCHAs have yet the following known issues:
 Hence, the hacker can crack following accesses using the same session id with the related solution of the challenge, after connecting to the web page of CAPTCHA. In this way the attacker can make hundreds of requests before the session expires and the previous operation must be computed again.}
 \descItem{Resilience to both automated and human solver relay attacks}
 {Many CAPTCHA schemes are designed to be robust against a possible AI attack but the new generation of CAPTCHA involves the use of remote bot or human solver. Traditional CAPTCHA schemes are vulnerable to this type of attacks.\\
-Invisible reCAPTCHA and other academic proposals haven't been attacked yet, but works over thousands of different IP addresses and simulate the human behavior. Sensor-based CAPTCHAs are also vulnerable to solver relay attacks. An exception of this issue is the \textit{Invisible CAPPCHA}, that will be analysed in following sectionsand is designed to block this type of attacks.
+Invisible reCAPTCHA and other academic proposals haven't been attacked yet, but works over thousands of different IP addresses and simulate the human behavior. Sensor-based CAPTCHAs are also vulnerable to solver relay attacks. An exception of this issue is the \textit{Invisible CAPPCHA}, that will be analysed in following sections and it's designed to block this type of attacks.
 }
-\textbf{Limited-number of challenges}
-{Another weakness of sensor-based CAPTCHA
-schemes is the limited number of challenges. This is due to
-the fact that designing a large number of usable gestures for
-instance, to ensure high security against automated attacks,
-is very challenging. However, this weakness may be solved
-relying on trusted hardware.
-On the basis of the above observations, we identified the
-following open problems that require further study in order to
-design robust and usable CAPTCHA schemes: it is necessary
-to investigate 1) the resilience of currently unbroken behaviorbased
-CAPTCHAs against fourth generation bots; 2) the
-security strength of sensor-based CAPTCHA schemes against
-replay attacks, sensor manipulation [130] and human solver
-relay attacks 3) the security of CAPTCHA schemes that make
-validation process at the client-side either with or without
-secure hardware as they may be hacked.}
+\descItem{Limited number of challenges}
+{An issue of sensor-based CAPTCHA schemes is the limited number of challenges because the design of many usable gestures is very hard. This problem could be solved
+relying on trusted hardware.}
 \descItem{Trade-off between Friction-heavy and Frictionless CAPTCHAs}
-{}
+{A trade-off between usability and security aspects is always considered analysing CAPTCHA schemes. This condition is highlighted in behavioural and sensor-based CAPTCHAs.}
 \descItem{User's privacy}
-{}
+{Sensor-based and behavioural CAPTCHAs usually send useful information to a remote server that analyses it to establish if the user was a human or a bot. If an hacker attacks the server side of this application, he can access to users' private data.\\
+In some CAPTCHAs, the information are evaluated on the client side by a trusted hardware and the server receives only the results of the analysis. In this case, we need to be sure that trusted hardware is secure enough to guarantee privacy of user's information.
+}
 \descItem{Compatibility with different devices}
-{}
+{Many CAPTCHA schemes, e.g. behavioural ones, use specific forms factors but a good challenge should be compatible with different factors.}
 \end{itemize}
 
 \begin{table}
@@ -393,8 +381,8 @@ secure hardware as they may be hacked.}
 & {\textit{Interactive-based}} &&{\itemCell{OCR techniques}}\\
 \midrule
 %Math row
-\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires minimum or} & {Vulnerable to:}\\
-{} & {\textit{QRBGS}} & {advanced math knowledge.} & {\itemCell{OCR techniques}}\\
+\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires basic or advanced} & {Vulnerable to:}\\
+{} & {\textit{QRBGS}} & {math knowledge.} & {\itemCell{OCR techniques}}\\
 &&&{\itemCell{Side-channel attacks}}\\
 \midrule
 \multirow{2}{*}{\textbf{\textit{Slider}}} & {Taobao.com} & {Simple and intuitive} & {Simple bypassed by Javascript}\\
@@ -414,7 +402,6 @@ secure hardware as they may be hacked.}
 \label{soa:traditional_table}
 \end{table}
 
-\begin{comment}
 \begin{sidewaystable}
 \centering \footnotesize
 \renewcommand*\arraystretch{1.3}
@@ -437,9 +424,9 @@ secure hardware as they may be hacked.}
 & {\textit{Interactive-based}} &&\\
 \midrule
 %Math row
-\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires minimum or} & {Vulnerable to:}\\
-{} & {\textit{QRBGS}} & {advanced math knowledge.} & {\itemCell{OCR techniques}}\\
-&&&{Side-channel attacks}\\
+\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires basic or advanced} & {Vulnerable to:}\\
+{} & {\textit{QRBGS}} & {math knowledge.} & {\itemCell{OCR techniques}}\\
+&&&{\itemCell{Side-channel attacks}}\\
 \midrule
 \multirow{2}{*}{\textbf{\textit{Slider}}} & {Taobao.com} & {Simple and intuitive interaction} & {Simple bypassed by Javascript code}\\
 & {TheyMakeApps.com} & {} & {and pupeeteer}\\
@@ -456,7 +443,6 @@ secure hardware as they may be hacked.}
 \caption{\footnotesize{Survey of main types of traditional CAPTCHAs\cite{survey_CAPTCHA}.}}
 \label{soa:traditional_table}
 \end{sidewaystable}
-\end{comment}
 
 \begin{comment}
 \begin{sidewaystable}
