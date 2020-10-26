@@ -1,1 +1,31 @@
-\chapter{Side-channel attack}\label{chapter:SideCH}
+\chapter{Attacks}\label{chapter:SideCH}
+A side-channel attack is an attack in which the malicious user exploits a side-information of transmitted encrypted data, to give access to user private data. This type of extra information is usually: timing information, power consumption, electromagnetic radiations, sound and so on.\\
+For example a Web-application works between two parties: the client and the server. For this reason the communication channel is usually encrypted and the requests made by the user work through the \textit{HTTPS} protocol. This solution isn't enough to prevent an attacker to exploit reserved data because each web page has a distinct size, loads resources of different sizes. Hence the attacker can fingerprint the page even if HTTPS protocol is used. Another cause of these attack on Web-services is given by the trend of Web to work on Stateful Protocols, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.
+
+\section{Popular side-channel attacks}
+Through the use of side-channel information, the attacker can also detect keys used to encrypt the communication in the most know cryptographic models.
+\begin{itemize}
+\descItem{Power Analysis}
+{Simple ... (SPA), Differential ... (DPA), High Order DPA (HO-DPA)\cite{intro_DPA}
+}
+\descItem{Acoustic Keyboard}
+{}
+\descItem{Acoustic Information on Keyboard typing}
+{}
+\end{itemize}
+%https://www.wired.com/story/what-is-side-channel-attack/
+\begin{comment}
+\descItem{Relay attack}
+{
+\begin{itemize}
+	\descItem{MITM attack}
+	{}
+	\descItem{Replay attack}
+	{}
+\end{itemize}
+}
+\end{itemize}
+\end{comment}
+
+
+\section{Authentication using also side-channel attacks}
