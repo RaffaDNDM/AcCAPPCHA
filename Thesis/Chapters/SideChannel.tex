@@ -1,31 +1,155 @@
-\chapter{Attacks}\label{chapter:SideCH}
-A side-channel attack is an attack in which the malicious user exploits a side-information of transmitted encrypted data, to give access to user private data. This type of extra information is usually: timing information, power consumption, electromagnetic radiations, sound and so on.\\
-For example a Web-application works between two parties: the client and the server. For this reason the communication channel is usually encrypted and the requests made by the user work through the \textit{HTTPS} protocol. This solution isn't enough to prevent an attacker to exploit reserved data because each web page has a distinct size, loads resources of different sizes. Hence the attacker can fingerprint the page even if HTTPS protocol is used. Another cause of these attack on Web-services is given by the trend of Web to work on Stateful Protocols, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.
+\chapter{Side-channel attacks}\label{chapter:SideCH}
+A side-channel attack is an attack in which the malicious user exploits a side-information of transmitted encrypted data, to give access to user private data. 
+This type of extra information is usually: timing information, power consumption, electromagnetic radiations, sound and so on.\\
+The first types of side-channel attacks requires the physical access to the victim's device. Nowadays, side-channel attacks are evolved and can be conducted by remote hackers using malicious code (e.g. cache-timing attacks, DRAM row buffer attacks), even exploiting information from sensors on mobile devices\cite{side_classification}.\\
+Side-channel attacks can be classified as:
+\begin{itemize}
+\descItem{active}{the hacker influences the behaviour of the victim's device}
+\descItem{passive}{the attacker only analyses the leaking information}
+\end{itemize}
+Another categorization can be the following one:
+\begin{itemize}
+\item{Local attacks}
+\item{Vicinity attacks}
+\item{Remote attacks}
+\end{itemize}
+In the following sections there is a survey of the most popular attacks, organized with respect to the previous classifications (see Table \ref{sc:review}). 
+
+\begin{table}[h]
+\centering \footnotesize
+\renewcommand*\arraystretch{1.3}
+\begin{tabular}{rlll}
+\toprule
+{} & \multicolumn{1}{c}{\textbf{Local}} & \multicolumn{1}{c}{\textbf{Vicinity}} & \multicolumn{1}{c}{\textbf{Remote}}\\
+\midrule
+\multirow{9}{*}{\textbf{Passive}} & {Power Analysis} & {Network Traffic Analysis} & {Linux-inherited procfs Leaks}\\
+& {Differential Computation Analysis} &  {USB Power Analysis} & {Data-Usage Statistics}\\
+& {Shoulder Surfing and Reflections} & {Wi-Fi Signal Monitoring} & {Page Deduplication}\\
+& {Hand/Device Movements} &  & {Microarchitectural Attacks}\\
+&  &  & {Sensor-based Keyloggers}\\
+&  &  & {Fingerprinting Devices/Users}\\
+&  &  & {Location Inference}\\
+&  &  & {Speech Recognition}\\
+&  &  & {Soundcomber}\\
+\midrule
+\multirow{6}{*}{\textbf{Active}} & {Clock/Power Glitching} &\\
+& {Electromagnetic Fault Injection (EMFI)} & {Network Traffic Analysis} & {Rowhammer}\\
+& {Laser/Optical Faults} &  & \\
+& {Temperature Variation} &  & \\
+& {Differential Computation Analysis} &  & \\
+& {NAND Mirroring} &  & \\
+\bottomrule
+\end{tabular}
+\caption{\footnotesize{Survey of the most popular side-channel attacks\cite{side_classification}.}}
+\label{sc:review}
+\end{table}
+
+\section{Local side-channel attacks}
+The attacker needs to get the target device or to be very near to it. In many cases the hacker physically needs to manipulate the the device or to obtain access to the chip.
+\subsection{Passive}
+The following attacks are used to break cryptographic system implementations:
+\begin{itemize}
+\descItem{Power Analysis}
+{this type of attacks are based on the analysis of the power variations in transistors. There exist several attacks\cite{intro_DPA}:
+\begin{itemize}
+\descItem{Simple Power Analysis (SPA)}
+{the attacker analyses the power consumption of the system, that depends on the microprocessor used. This analysis can be useful to understand which operations are performed by different implementations of cryptographic algorithm (e.g. RSA, DES).}
+\descItem{Differential Power Analysis (DPA)}
+{these attacks collect data and then makes statistical analysis and error correction techniques from data to extract information correlated to secret keys.}
+\descItem{High Order DPA (HO-DPA)}
+{While DPA obtains information across a single event, HO-DPA correlates between multiple cryptographic sub-operations.}
+\end{itemize}}
+\descItem{Differential Computation Analysis}
+{}
+\descItem{Shoulder Surfing and Reflections}
+{}
+\descItem{Hand/Device Movements}
+{}
+\end{itemize}
+
+\subsection{Active}
+\begin{itemize}
+\descItem{Clock/Power Glitching}
+{}
+\descItem{Electromagnetic Fault Injection (EMFI)}
+{}
+\descItem{Laser/Optical Faults}
+{}
+\descItem{Temperature Variation}
+{}
+\descItem{Differential Computation Analysis}
+{}
+\descItem{NAND Mirroring}
+{}
+\end{itemize}
+
+
+\section{Vicinity side-channel attacks}
+The attacker needs to wiretap or eavesdrop the network communication of the victim or to be in the neighbourhood of the target.
+\subsection{Passive}
+\begin{itemize}
+\descItem{Network Traffic Analysis}
+{}
+\descItem{USB Power Analysis}
+{}
+\descItem{Wi-Fi Signal Monitoring}
+{}
+\end{itemize}
+
+\subsection{Active}
+\begin{itemize}
+\descItem{Network Traffic Analysis}
+{}
+\end{itemize}
+
+
+\section{Remote side-channel attacks}
+\subsection{Passive}
+\begin{itemize}
+\descItem{Linux-inherited procfs Leaks}
+{}
+\descItem{Data-Usage Statistics}
+{}
+\descItem{Page Deduplication}
+{}
+\descItem{Microarchitectural Attacks}
+{}
+\descItem{Sensor-based Keyloggers}
+{}
+\descItem{Fingerprinting Devices/Users}
+{}
+\descItem{Location Inference}
+{}
+\descItem{Speech Recognition}
+{}
+\descItem{Soundcomber}
+{}
+\end{itemize}
+
+\subsection{Active}
+\begin{itemize}
+\descItem{Rowhammer}
+{}
+\end{itemize}
+
+
 
 \section{Popular side-channel attacks}
 Through the use of side-channel information, the attacker can also detect keys used to encrypt the communication in the most know cryptographic models.
-\begin{itemize}
-\descItem{Power Analysis}
-{Simple ... (SPA), Differential ... (DPA), High Order DPA (HO-DPA)\cite{intro_DPA}
-}
-\descItem{Acoustic Keyboard}
-{}
-\descItem{Acoustic Information on Keyboard typing}
-{}
-\end{itemize}
 %https://www.wired.com/story/what-is-side-channel-attack/
-\begin{comment}
-\descItem{Relay attack}
-{
 \begin{itemize}
-	\descItem{MITM attack}
-	{}
-	\descItem{Replay attack}
-	{}
+\descItem{Analysis of information from sensors}
+{The main sensors, that are usually exploited in an attack by an hacker, are\cite{}:
+\begin{itemize}
+\item{Location sensors (e.g. GPS, proximity)}
+\item{Motion sensors (e.g. accelerometer, gyroscope, magnetometer)}
+\item{Environmental sensors (e.g. for ambient light, temperature, barometer)}
+\item{Biometric sensors for wearable devices (e.g. heart rate sensor, ECG)}
+\item{Audio sensors (microphone)}
+\item{Video sensors (camera)}
+\end{itemize}}
 \end{itemize}
-}
-\end{itemize}
-\end{comment}
+For example a Web-application works between two parties: the client and the server. For this reason the communication channel is usually encrypted and the requests made by the user work through the \textit{HTTPS} protocol. This solution isn't enough to prevent an attacker to exploit reserved data because each web page has a distinct size, loads resources of different sizes. Hence the attacker can fingerprint the page even if HTTPS protocol is used.\\
+Another cause of these attack on Web-services is given by the trend of Web to work on Stateful Protocols, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.\\
 
-
-\section{Authentication using also side-channel attacks}
+\section{Authentication}

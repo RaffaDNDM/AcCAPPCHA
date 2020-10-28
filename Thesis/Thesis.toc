@@ -22,7 +22,16 @@
 \contentsline {section}{\numberline {3.3}Security}{21}{section.3.3}% 
 \contentsline {subsection}{\numberline {3.3.1}Threat model}{21}{subsection.3.3.1}% 
 \contentsline {subsection}{\numberline {3.3.2}Strength against known attacks}{21}{subsection.3.3.2}% 
-\contentsline {chapter}{\numberline {4}Attacks}{23}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Popular side-channel attacks}{23}{section.4.1}% 
-\contentsline {section}{\numberline {4.2}Authentication using also side-channel attacks}{24}{section.4.2}% 
-\contentsline {chapter}{Bibliography}{24}{section.4.2}% 
+\contentsline {chapter}{\numberline {4}Side-channel attacks}{23}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}Local side-channel attacks}{24}{section.4.1}% 
+\contentsline {subsection}{\numberline {4.1.1}Passive}{24}{subsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.1.2}Active}{25}{subsection.4.1.2}% 
+\contentsline {section}{\numberline {4.2}Vicinity side-channel attacks}{25}{section.4.2}% 
+\contentsline {subsection}{\numberline {4.2.1}Passive}{26}{subsection.4.2.1}% 
+\contentsline {subsection}{\numberline {4.2.2}Active}{26}{subsection.4.2.2}% 
+\contentsline {section}{\numberline {4.3}Remote side-channel attacks}{26}{section.4.3}% 
+\contentsline {subsection}{\numberline {4.3.1}Passive}{26}{subsection.4.3.1}% 
+\contentsline {subsection}{\numberline {4.3.2}Active}{27}{subsection.4.3.2}% 
+\contentsline {section}{\numberline {4.4}Popular side-channel attacks}{27}{section.4.4}% 
+\contentsline {section}{\numberline {4.5}Authentication}{28}{section.4.5}% 
+\contentsline {chapter}{Bibliography}{28}{section.4.5}% 
