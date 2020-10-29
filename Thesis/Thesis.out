@@ -13,24 +13,18 @@
 \BOOKMARK [2][-]{subsection.2.2.2}{Behavioural-based CAPTCHAs}{section.2.2}% 13
 \BOOKMARK [2][-]{subsection.2.2.3}{Sensor-based CAPTCHAs}{section.2.2}% 14
 \BOOKMARK [1][-]{section.2.3}{CAPTCHA security}{chapter.2}% 15
-\BOOKMARK [0][-]{chapter.3}{Invisible CAPPCHA}{}% 16
-\BOOKMARK [1][-]{section.3.1}{Motion detection}{chapter.3}% 17
-\BOOKMARK [2][-]{subsection.3.1.1}{Secure Element}{section.3.1}% 18
-\BOOKMARK [1][-]{section.3.2}{Communication between Client and Server}{chapter.3}% 19
-\BOOKMARK [2][-]{subsection.3.2.1}{Elliptic Curve Digital Signature Algorithm \(ECDSA\)}{section.3.2}% 20
-\BOOKMARK [1][-]{section.3.3}{Security}{chapter.3}% 21
-\BOOKMARK [2][-]{subsection.3.3.1}{Threat model}{section.3.3}% 22
-\BOOKMARK [2][-]{subsection.3.3.2}{Strength against known attacks}{section.3.3}% 23
-\BOOKMARK [0][-]{chapter.4}{Side-channel attacks}{}% 24
-\BOOKMARK [1][-]{section.4.1}{Local side-channel attacks}{chapter.4}% 25
-\BOOKMARK [2][-]{subsection.4.1.1}{Passive}{section.4.1}% 26
-\BOOKMARK [2][-]{subsection.4.1.2}{Active}{section.4.1}% 27
-\BOOKMARK [1][-]{section.4.2}{Vicinity side-channel attacks}{chapter.4}% 28
-\BOOKMARK [2][-]{subsection.4.2.1}{Passive}{section.4.2}% 29
-\BOOKMARK [2][-]{subsection.4.2.2}{Active}{section.4.2}% 30
-\BOOKMARK [1][-]{section.4.3}{Remote side-channel attacks}{chapter.4}% 31
-\BOOKMARK [2][-]{subsection.4.3.1}{Passive}{section.4.3}% 32
-\BOOKMARK [2][-]{subsection.4.3.2}{Active}{section.4.3}% 33
-\BOOKMARK [1][-]{section.4.4}{Popular side-channel attacks}{chapter.4}% 34
-\BOOKMARK [1][-]{section.4.5}{Authentication}{chapter.4}% 35
-\BOOKMARK [0][-]{section.4.5}{Bibliography}{}% 36
+\BOOKMARK [0][-]{chapter.3}{Side-channel attacks}{}% 16
+\BOOKMARK [1][-]{section.3.1}{Local side-channel attacks}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.2}{Vicinity side-channel attacks}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.3}{Remote side-channel attacks}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.4}{Popular side-channel attacks}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.5}{Authentication}{chapter.3}% 21
+\BOOKMARK [0][-]{chapter.4}{Invisible CAPPCHA}{}% 22
+\BOOKMARK [1][-]{section.4.1}{Motion detection}{chapter.4}% 23
+\BOOKMARK [2][-]{subsection.4.1.1}{Secure Element}{section.4.1}% 24
+\BOOKMARK [1][-]{section.4.2}{Communication between Client and Server}{chapter.4}% 25
+\BOOKMARK [2][-]{subsection.4.2.1}{Elliptic Curve Digital Signature Algorithm \(ECDSA\)}{section.4.2}% 26
+\BOOKMARK [1][-]{section.4.3}{Security}{chapter.4}% 27
+\BOOKMARK [2][-]{subsection.4.3.1}{Threat model}{section.4.3}% 28
+\BOOKMARK [2][-]{subsection.4.3.2}{Strength against known attacks}{section.4.3}% 29
+\BOOKMARK [0][-]{subsection.4.3.2}{Bibliography}{}% 30

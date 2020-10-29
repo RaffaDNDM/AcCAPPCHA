@@ -23,11 +23,11 @@ In the following sections there is a survey of the most popular attacks, organiz
 {} & \multicolumn{1}{c}{\textbf{Local}} & \multicolumn{1}{c}{\textbf{Vicinity}} & \multicolumn{1}{c}{\textbf{Remote}}\\
 \midrule
 \multirow{9}{*}{\textbf{Passive}} & {Power Analysis} & {Network Traffic Analysis} & {Linux-inherited procfs Leaks}\\
-& {Differential Computation Analysis} &  {USB Power Analysis} & {Data-Usage Statistics}\\
-& {Shoulder Surfing and Reflections} & {Wi-Fi Signal Monitoring} & {Page Deduplication}\\
-& {Hand/Device Movements} &  & {Microarchitectural Attacks}\\
-&  &  & {Sensor-based Keyloggers}\\
-&  &  & {Fingerprinting Devices/Users}\\
+& {Electromagnetic Analysis Attacks} &  {USB Power Analysis} & {Data-Usage Statistics}\\
+& {Differential Computation Analysis} & {Wi-Fi Signal Monitoring} & {Page Deduplication}\\
+& {Smudge Attacks} &  & {Microarchitectural Attacks}\\
+& {Shoulder Surfing and Reflections} &  & {Sensor-based Keyloggers}\\
+& {Hand/Device Movements} &  & {Fingerprinting Devices/Users}\\
 &  &  & {Location Inference}\\
 &  &  & {Speech Recognition}\\
 &  &  & {Soundcomber}\\
@@ -45,90 +45,96 @@ In the following sections there is a survey of the most popular attacks, organiz
 \end{table}
 
 \section{Local side-channel attacks}
-The attacker needs to get the target device or to be very near to it. In many cases the hacker physically needs to manipulate the the device or to obtain access to the chip.
-\subsection{Passive}
+The attacker needs to get the target device or to be very near to it. In many cases the hacker physically needs to manipulate the the device or to obtain access to the chip.\\\\
+\textbf{Passive attacks}\\
 The following attacks are used to break cryptographic system implementations:
 \begin{itemize}
-\descItem{Power Analysis}
+\descItem{\textit{Power Analysis}}
 {this type of attacks are based on the analysis of the power variations in transistors. There exist several attacks\cite{intro_DPA}:
 \begin{itemize}
-\descItem{Simple Power Analysis (SPA)}
+\descItem{\textit{Simple Power Analysis (SPA)}}
 {the attacker analyses the power consumption of the system, that depends on the microprocessor used. This analysis can be useful to understand which operations are performed by different implementations of cryptographic algorithm (e.g. RSA, DES).}
-\descItem{Differential Power Analysis (DPA)}
+\descItem{\textit{Differential Power Analysis (DPA)}}
 {these attacks collect data and then makes statistical analysis and error correction techniques from data to extract information correlated to secret keys.}
-\descItem{High Order DPA (HO-DPA)}
+\descItem{\textit{High Order DPA (HO-DPA)}}
 {While DPA obtains information across a single event, HO-DPA correlates between multiple cryptographic sub-operations.}
 \end{itemize}}
-\descItem{Differential Computation Analysis}
-{}
-\descItem{Shoulder Surfing and Reflections}
-{}
-\descItem{Hand/Device Movements}
-{}
+\descItem{\textit{Electromagnetic Analysis Attacks}}
+{the attacker can analyse indirectly the power consumption by accessing electromagnetic. This type of attacks depends on the used instruments (e.g. EM probes) and on the analysed location of the chip, affecting the signal-to-noise ratio.}
+\descItem{\textit{Differential Computation Analysis}}
+{the attacker tries to exploit white-box cryptographic implementations. In this model the attacker, even if he has access to code, can't extract the secret key. The attacker needs to have full control over the target device and the execution environment. Then using binary instruments, he can control the intermediate state or memory operations (e.g. reading/writing operations)\cite{side_DCA}.}
+\descItem{\textit{Smudge Attacks}}
+{the attacker can exploit fingerprints and smudges on the screen of mobile devices to evaluate the user's input.}
+\descItem{\textit{Shoulder Surfing and Reflections}}
+{the attacker can exploit the lightness of the device display and obtain the user's activity by its reflection on sunglasses or tea pods.}
+\descItem{\textit{Hand/Device Movements}}
+{the attacker exploits the user's movements of fingers and hand to understand the interaction of the victim with the device.}
 \end{itemize}
-
-\subsection{Active}
+\textbf{Active attacks}\\
+The following attacks require that the hacker physically gets the device for a while:
 \begin{itemize}
-\descItem{Clock/Power Glitching}
-{}
-\descItem{Electromagnetic Fault Injection (EMFI)}
-{}
-\descItem{Laser/Optical Faults}
-{}
-\descItem{Temperature Variation}
-{}
-\descItem{Differential Computation Analysis}
-{}
-\descItem{NAND Mirroring}
-{}
+\descItem{\textit{Clock/Power Glitching}}
+{in the past the attacker can fault inject on embedded devices by exploiting variations of the clock signal, (e.g. overclocking). To do it, he needs to use an external clock source.}
+\descItem{\textit{Electromagnetic Fault Injection (EMFI)}}
+{the attacker uses short (e.g. nanoseconds), high-energy electromagnetic pulses to change the state of memory cells. This attack allows to target specific regions of a microchip by locating the EM probe (e.g. on the instruction memory, the data memory, or CPU registers).}
+\descItem{\textit{Laser/Optical Faults}}
+{the attacker needs to decapsulate the chip to obtain access to it and, using a laser beam, it change the state of a transistor (e.g. changing bit value of a memory cell).}
+\descItem{\textit{Temperature Variation}}
+{the attacker can change the temperature in which the target device, causing malfunctioning of the hardware. Temperature higher than the maximum one, supported by hardware, causes faults in memory cells. Temperature too lower changes the speed, for which the content of the RAM disappear, after turning the device off.}
+\descItem{\textit{Differential Computation Analysis}}
+{the attacker needs to have full control of the white-box environment, manipulating intermediate values in the system computation.}
+\descItem{\textit{NAND Mirroring}}
+{the attacker exploits the duplication of the data, usually used to recover data after faults, to restore a previous system state. The hacker can force the reset of the state as demonstrated by Skorobogatov for the Apple case\cite{side_apple}.}
 \end{itemize}
 
 
 \section{Vicinity side-channel attacks}
-The attacker needs to wiretap or eavesdrop the network communication of the victim or to be in the neighbourhood of the target.
-\subsection{Passive}
+The attacker needs to wiretap or eavesdrop the network communication of the victim or to be in the neighbourhood of the target.\\\\
+\textbf{Passive attacks}
 \begin{itemize}
-\descItem{Network Traffic Analysis}
-{}
-\descItem{USB Power Analysis}
-{}
-\descItem{Wi-Fi Signal Monitoring}
-{}
+\descItem{\textit{Network Traffic Analysis}}
+{the attacker can exploit meta data, related to the encrypted data, transmitted over the network. This information gives access to sensitive information about the traffic.\\
+For example a Web-application works between two parties: the client and the server. For this reason the communication channel is usually encrypted and the requests made by the user work through the \textit{HTTPS} protocol.\\
+This solution isn't enough to prevent an attacker to exploit reserved data because each web page has a distinct size, loads resources of different sizes. Hence the attacker can fingerprint the page even if HTTPS protocol is used.\\
+Another cause of these attack on Web-services is given by the trend of Web to work on Stateful Protocols, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.\\}
+\descItem{\textit{USB Power Analysis}}
+{the attacker can modify USB charging stations for mobile devices to obtain analysis about power consumption and related sensitive information.}
+\descItem{\textit{Wi-Fi Signal Monitoring}}
+{Wi-Fi devices continuously monitor the wireless channel (channel state information (CSI))
+to transmit data. Any environmental variation (e.g. finger motion) affects Wireless signals, generating unique pattern in CSI series. For example the attacker can exploit these variations to unlock patterns on smartphones\cite{side_CSI}.}
 \end{itemize}
-
-\subsection{Active}
+\textbf{Active attacks}
 \begin{itemize}
 \descItem{Network Traffic Analysis}
-{}
+{the attacker, after obtaining information about transmitted packets, can interfere the traffic (e.g. delay of packets).}
 \end{itemize}
 
 
 \section{Remote side-channel attacks}
-\subsection{Passive}
+\textbf{Passive attacks}
 \begin{itemize}
-\descItem{Linux-inherited procfs Leaks}
+\descItem{\textit{Linux-inherited procfs Leaks}}
 {}
-\descItem{Data-Usage Statistics}
+\descItem{\textit{Data-Usage Statistics}}
 {}
-\descItem{Page Deduplication}
+\descItem{\textit{Page Deduplication}}
 {}
-\descItem{Microarchitectural Attacks}
+\descItem{\textit{Microarchitectural Attacks}}
 {}
-\descItem{Sensor-based Keyloggers}
+\descItem{\textit{Sensor-based Keyloggers}}
 {}
-\descItem{Fingerprinting Devices/Users}
+\descItem{\textit{Fingerprinting Devices/Users}}
 {}
-\descItem{Location Inference}
+\descItem{\textit{Location Inference}}
 {}
-\descItem{Speech Recognition}
+\descItem{\textit{Speech Recognition}}
 {}
-\descItem{Soundcomber}
+\descItem{\textit{Soundcomber}}
 {}
 \end{itemize}
-
-\subsection{Active}
+\textbf{Active attacks}
 \begin{itemize}
-\descItem{Rowhammer}
+\descItem{\textit{Rowhammer}}
 {}
 \end{itemize}
 
@@ -149,7 +155,5 @@ Through the use of side-channel information, the attacker can also detect keys u
 \item{Video sensors (camera)}
 \end{itemize}}
 \end{itemize}
-For example a Web-application works between two parties: the client and the server. For this reason the communication channel is usually encrypted and the requests made by the user work through the \textit{HTTPS} protocol. This solution isn't enough to prevent an attacker to exploit reserved data because each web page has a distinct size, loads resources of different sizes. Hence the attacker can fingerprint the page even if HTTPS protocol is used.\\
-Another cause of these attack on Web-services is given by the trend of Web to work on Stateful Protocols, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.\\
 
 \section{Authentication}
