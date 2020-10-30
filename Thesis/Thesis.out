@@ -17,14 +17,11 @@
 \BOOKMARK [1][-]{section.3.1}{Local side-channel attacks}{chapter.3}% 17
 \BOOKMARK [1][-]{section.3.2}{Vicinity side-channel attacks}{chapter.3}% 18
 \BOOKMARK [1][-]{section.3.3}{Remote side-channel attacks}{chapter.3}% 19
-\BOOKMARK [1][-]{section.3.4}{Popular side-channel attacks}{chapter.3}% 20
-\BOOKMARK [1][-]{section.3.5}{Authentication}{chapter.3}% 21
-\BOOKMARK [0][-]{chapter.4}{Invisible CAPPCHA}{}% 22
-\BOOKMARK [1][-]{section.4.1}{Motion detection}{chapter.4}% 23
-\BOOKMARK [2][-]{subsection.4.1.1}{Secure Element}{section.4.1}% 24
-\BOOKMARK [1][-]{section.4.2}{Communication between Client and Server}{chapter.4}% 25
-\BOOKMARK [2][-]{subsection.4.2.1}{Elliptic Curve Digital Signature Algorithm \(ECDSA\)}{section.4.2}% 26
-\BOOKMARK [1][-]{section.4.3}{Security}{chapter.4}% 27
-\BOOKMARK [2][-]{subsection.4.3.1}{Threat model}{section.4.3}% 28
-\BOOKMARK [2][-]{subsection.4.3.2}{Strength against known attacks}{section.4.3}% 29
-\BOOKMARK [0][-]{subsection.4.3.2}{Bibliography}{}% 30
+\BOOKMARK [0][-]{chapter.4}{Invisible CAPPCHA}{}% 20
+\BOOKMARK [1][-]{section.4.1}{Motion detection}{chapter.4}% 21
+\BOOKMARK [1][-]{section.4.2}{Communication between Client and Server}{chapter.4}% 22
+\BOOKMARK [2][-]{subsection.4.2.1}{Elliptic Curve Digital Signature Algorithm \(ECDSA\)}{section.4.2}% 23
+\BOOKMARK [1][-]{section.4.3}{Security analysis}{chapter.4}% 24
+\BOOKMARK [2][-]{subsection.4.3.1}{Threat model}{section.4.3}% 25
+\BOOKMARK [2][-]{subsection.4.3.2}{Strength against known attacks}{section.4.3}% 26
+\BOOKMARK [0][-]{subsection.4.3.2}{Bibliography}{}% 27

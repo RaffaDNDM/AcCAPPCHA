@@ -18,14 +18,11 @@
 \contentsline {section}{\numberline {3.1}Local side-channel attacks}{22}{section.3.1}% 
 \contentsline {section}{\numberline {3.2}Vicinity side-channel attacks}{24}{section.3.2}% 
 \contentsline {section}{\numberline {3.3}Remote side-channel attacks}{25}{section.3.3}% 
-\contentsline {section}{\numberline {3.4}Popular side-channel attacks}{26}{section.3.4}% 
-\contentsline {section}{\numberline {3.5}Authentication}{27}{section.3.5}% 
 \contentsline {chapter}{\numberline {4}Invisible CAPPCHA}{29}{chapter.4}% 
 \contentsline {section}{\numberline {4.1}Motion detection}{29}{section.4.1}% 
-\contentsline {subsection}{\numberline {4.1.1}Secure Element}{29}{subsection.4.1.1}% 
-\contentsline {section}{\numberline {4.2}Communication between Client and Server}{29}{section.4.2}% 
-\contentsline {subsection}{\numberline {4.2.1}Elliptic Curve Digital Signature Algorithm (ECDSA)}{29}{subsection.4.2.1}% 
-\contentsline {section}{\numberline {4.3}Security}{29}{section.4.3}% 
-\contentsline {subsection}{\numberline {4.3.1}Threat model}{29}{subsection.4.3.1}% 
-\contentsline {subsection}{\numberline {4.3.2}Strength against known attacks}{29}{subsection.4.3.2}% 
-\contentsline {chapter}{Bibliography}{29}{subsection.4.3.2}% 
+\contentsline {section}{\numberline {4.2}Communication between Client and Server}{30}{section.4.2}% 
+\contentsline {subsection}{\numberline {4.2.1}Elliptic Curve Digital Signature Algorithm (ECDSA)}{30}{subsection.4.2.1}% 
+\contentsline {section}{\numberline {4.3}Security analysis}{30}{section.4.3}% 
+\contentsline {subsection}{\numberline {4.3.1}Threat model}{30}{subsection.4.3.1}% 
+\contentsline {subsection}{\numberline {4.3.2}Strength against known attacks}{30}{subsection.4.3.2}% 
+\contentsline {chapter}{Bibliography}{30}{subsection.4.3.2}% 
