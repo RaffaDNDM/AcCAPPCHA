@@ -5,6 +5,7 @@ import wave
 import sys
 import scipy
 import scipy.fftpack as fftpk
+from time import sleep
 
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
@@ -15,6 +16,8 @@ WAVE_OUTPUT_FILENAME = "output.wav"
 
 p = pyaudio.PyAudio()
 
+sleep(1)
+print('Type')
 stream = p.open(format=FORMAT,
                 channels=CHANNELS,
                 rate=RATE,
@@ -40,30 +43,21 @@ p.terminate()
 time = np.linspace(0, RECORD_SECONDS, num=len(frames))
 
 fig = plt.figure()
-s = fig.add_subplot(111)
-s1 = fig.add_subplot(321)
-s2 = fig.add_subplot(322)
-s3 = fig.add_subplot(323)
-s4 = fig.add_subplot(324)
-s5 = fig.add_subplot(325)
-s6 = fig.add_subplot(326)
+gs = fig.add_gridspec(2, 2)
+s_top = fig.add_subplot(gs[0, :])
+s1 = fig.add_subplot(gs[1,0])
+s2 = fig.add_subplot(gs[1,1])
 fig.tight_layout(pad=3.0)
 amplitude = np.fromstring(amplitude, np.int16)
-s.plot(amplitude)
-s1.plot(amplitude)
-s1.specgram(amplitude)
+s_top.plot(amplitude)
 fft_amplitude = np.fft.fft(amplitude)
-s3.plot(fft_amplitude)
-s4.specgram(fft_amplitude)
-s5.plot(np.abs(fft_amplitude))
-s6.specgram(np.abs(fft_amplitude))
+s1.plot(np.abs(fft_amplitude))
+s2.specgram(np.abs(fft_amplitude)
 plt.show()
 
-'''
 wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
 wf.setnchannels(CHANNELS)
 wf.setsampwidth(p.get_sample_size(FORMAT))
 wf.setframerate(RATE)
 wf.writeframes(b''.join(frames))
 wf.close()
-'''
