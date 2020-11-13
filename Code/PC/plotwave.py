@@ -8,8 +8,14 @@ import scipy
 class Plot:
 	DATA_FOLDER = 'data/'
 
-	def __init__(self):
-		self.wave_files = [x for x in os.listdir(self.DATA_FOLDER) if x.endswith('.wav')]
+	def __init__(self, filename):
+		if filename:
+			if os.path.exists(self.DATA_FOLDER+filename):
+				self.wave_files = [filename, ]
+			else:
+				exit(0)
+		else:
+			self.wave_files = [x for x in os.listdir(self.DATA_FOLDER) if x.endswith('.wav')]
 
 	
 	def plot_waves(self, f, time_ms, signal, freqs, fft_signal, freqs_side, fft_signal_side):
@@ -61,4 +67,5 @@ class Plot:
 				self.plot_waves(f, time_ms, signal, fft_freqs, fft_signal, fft_freqs_side, fft_signal_side)
 
 		except KeyboardInterrupt:
+			plt.close()
 			exit(0)

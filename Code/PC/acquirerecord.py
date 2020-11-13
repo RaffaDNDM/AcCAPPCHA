@@ -15,20 +15,20 @@ class AcquireAudio:
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
     RATE = 44100
-    TIMES_KEY_PRESSED = 10
     DATA_FOLDER = 'data/'
     WAVE_OUTPUT_FILENAME = ''
     CHECK_TYPING = True
     FIRST_KEY = True
+    KILLED = False
 
-
-    def __init__(self):
+    def __init__(self, times_key):
         self.mutex = threading.Lock()
         self.count = 0
+        self.TIMES_KEY_PRESSED = times_key
 
     def audio_logging(self):
         p = pyaudio.PyAudio()
-        
+
         stream = p.open(format=self.FORMAT,
                     channels=self.CHANNELS,
                     rate=self.RATE,
@@ -40,6 +40,9 @@ class AcquireAudio:
         frames = []
 
         while self.CHECK_TYPING:
+            if self.KILLED:
+                exit(0)
+
             data = stream.read(self.CHUNK)
             frames.append(data)
 
@@ -75,7 +78,7 @@ class AcquireAudio:
 
         if self.count < self.TIMES_KEY_PRESSED:
             self.count = self.count + 1
-            print(self.count)
+            print('\r'+str(self.count), end='')
 
             if self.count == self.TIMES_KEY_PRESSED:
                 self.mutex.acquire()
@@ -104,15 +107,20 @@ class AcquireAudio:
             finally:
                 self.mutex.release()
 
-
     def record(self):
-        while True:
-            cprint('\nType first letter 30 times', 'green', attrs=['bold'])
 
-            audiologger = threading.Thread(target=self.audio_logging)
-            audiologger.start()        
-            with keyboard.Listener(on_press=self.press_key) as listener:
-                #Manage keyboard input
-                listener.join()
+        try:
+            while True:
+                cprint('\nType first letter 30 times', 'green', attrs=['bold'])
 
-            audiologger.join()
+                audiologger = threading.Thread(target=self.audio_logging)
+                audiologger.start()
+                with keyboard.Listener(on_press=self.press_key) as listener:
+                    #Manage keyboard input
+                    listener.join()
+
+                audiologger.join()
+
+        except KeyboardInterrupt:
+            self.KILLED = True
+            cprint('\nClosing the program', 'red', attrs=['bold'], end='\n\n')
