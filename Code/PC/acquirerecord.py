@@ -15,13 +15,15 @@ class AcquireAudio:
     FORMAT = pyaudio.paInt16
     CHANNELS = 2
     RATE = 44100
-    DATA_FOLDER = 'data/'
-    WAVE_OUTPUT_FILENAME = ''
+    DATA_FOLDER = 'dat/audio/'
+    WAVE_OUTPUT_FILENAME = None
     CHECK_TYPING = True
     FIRST_KEY = True
     KILLED = False
+    LETTERS = { chr(ord('a')+x):0 for x in range(25)}
 
     def __init__(self, times_key):
+        self.LETTERS['t']=29
         self.mutex = threading.Lock()
         self.count = 0
         self.TIMES_KEY_PRESSED = times_key
@@ -58,6 +60,9 @@ class AcquireAudio:
 
         cprint('\n*** End recording ***', 'green', attrs=['bold'])
 
+        while not self.WAVE_OUTPUT_FILENAME:
+            sleep(1)
+
         wf = wave.open(self.DATA_FOLDER+self.WAVE_OUTPUT_FILENAME, 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(p.get_sample_size(self.FORMAT))
@@ -67,27 +72,15 @@ class AcquireAudio:
 
         self.mutex.acquire()
         try:
-            self.WAVE_OUTPUT_FILENAME = ''
+            self.WAVE_OUTPUT_FILENAME = None
             self.CHECK_TYPING = True
             self.count = 0
+            self.FIRST_KEY = True
         finally:
             self.mutex.release()
 
 
     def press_key(self, key):
-
-        if self.count < self.TIMES_KEY_PRESSED:
-            self.count = self.count + 1
-            print('\r'+str(self.count), end='')
-
-            if self.count == self.TIMES_KEY_PRESSED:
-                self.mutex.acquire()
-                try:
-                    self.CHECK_TYPING = False
-                    exit(0)
-                finally:
-                    self.mutex.release()
-        
         #Obtain string of key inserted
         try:
             key_string = str(key.char)
@@ -98,20 +91,39 @@ class AcquireAudio:
                 key_string = 'SPACE'
             else:
                 key_string = str(key)
-        
-        sleep(1)
-        if self.FIRST_KEY:
+
+        if self.count < self.TIMES_KEY_PRESSED:
+            self.count = self.count + 1
+            print('\r'+str(self.count), end='')
+
+            sleep(1)
             self.mutex.acquire()
             try:
-                self.WAVE_OUTPUT_FILENAME = key_string+'.wav'
+                self.WAVE_OUTPUT_FILENAME = key_string+'/'+str(self.LETTERS[key_string])+'.wav'
+                self.LETTERS[key_string] = self.LETTERS[key_string] + 1 
             finally:
                 self.mutex.release()
 
-    def record(self):
+            if self.FIRST_KEY:
+                self.mutex.acquire()
+                try:
+                    self.FIRST_KEY = False
+                finally:
+                    self.mutex.release()
 
+            if self.count == self.TIMES_KEY_PRESSED:
+                self.mutex.acquire()
+                try:
+                    self.CHECK_TYPING = False
+                    exit(0)
+                finally:
+                    self.mutex.release()
+
+
+    def record(self):
         try:
             while True:
-                cprint('\nType first letter 30 times', 'green', attrs=['bold'])
+                cprint(f'\nType first letter {self.TIMES_KEY_PRESSED} times', 'green', attrs=['bold'])
 
                 audiologger = threading.Thread(target=self.audio_logging)
                 audiologger.start()
