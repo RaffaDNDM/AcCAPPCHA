@@ -98,7 +98,7 @@ class Plot:
 		ts = 1.0/fs #Sampling rate in time (ms)
 		time_ms = scipy.arange(0, secs, ts)
 
-		return time_ms, signal_updated
+		return ts, time_ms, signal_updated
 
 
 	def FFT_evaluation(self, time_ms, signal):
@@ -128,13 +128,13 @@ class Plot:
 
 		x = 0
 		y = 0
-		for (time_ms, signal) in signals:
+		for (ts, time_ms, signal) in signals:
 			print(f'({y},{x})')
 			s = fig.add_subplot(gs[y,x])
 			s.plot(time_ms, signal, 'b')
 			s.tick_params(axis='both', which='major', labelsize=6)
-			#max_point = np.argmax(np.abs(signal))
-			#s.plot([max_point,], [signal[max_point],], 'x', color='red')
+			max_point = np.argmax(np.abs(signal))
+			s.plot([max_point*ts,], [signal[max_point],], 'x', color='red')
 
 			if self.OUTPUT_FOLDER:
 				print(os.path.dirname(self.OUTPUT_FOLDER))
@@ -149,10 +149,11 @@ class Plot:
 				x = x + 1
 
 
-	def plot_extract(self, subfolder, time_ms, signal):
+	def plot_extract(self, subfolder, ts, time_ms, signal):
 		fig = plt.figure(subfolder)
 		max_point = np.argmax(np.abs(signal))
-		plt.plot([max_point,], [signal[max_point],], 'x', color='red')
+		plt.plot(time_ms, signal)
+		plt.plot([max_point*ts,], [signal[max_point],], 'x', color='red')
 		plt.show()
 
 
@@ -165,8 +166,8 @@ class Plot:
 					print(subfolder)
 					for f in subfolder_files:
 						fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+f)
-						time_ms, signal = self.signal_adjustment(fs, signal)
-						signals.append((time_ms,signal))
+						ts, time_ms, signal = self.signal_adjustment(fs, signal)
+						signals.append((ts, time_ms,signal))
 						#FFT
 						#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.FFT_evaluation(time_ms, signal)
 
@@ -175,8 +176,8 @@ class Plot:
 			else:
 				for f in self.wave_files:
 					fs, signal = wave.read(self.DATA_FOLDER+f)
-					time_ms, signal = self.signal_adjustment(fs, signal)
-					self.plot_extract(f, time_ms, signal)
+					ts, time_ms, signal = self.signal_adjustment(fs, signal)
+					self.plot_extract(f, ts, time_ms, signal)
 					#FFT
 					fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.FFT_evaluation(time_ms, signal)
 

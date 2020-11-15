@@ -23,7 +23,7 @@ class AcquireAudio:
     LETTERS = { chr(ord('a')+x):0 for x in range(25)}
 
     def __init__(self, times_key):
-        self.LETTERS['t']=29
+        #self.LETTERS['t']=29
         self.mutex = threading.Lock()
         self.count = 0
         self.TIMES_KEY_PRESSED = times_key
