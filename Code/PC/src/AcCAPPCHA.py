@@ -66,7 +66,7 @@ def main():
             plot_data = pwave.Plot(False, filename= filename, audio_dir= audio_dir,output_dir=output)
             plot_data.plot()
         elif extract_option:
-            plot_data = pwave.Plot(True, filename= filename, audio_dir= audio_dir,output_dir=output)
+            plot_data = pwave.Plot(True, filename= filename, audio_dir= audio_dir, output_dir=output)
             plot_data.plot_extract()
         else:
             cprint('[ERROR]', end=' ')

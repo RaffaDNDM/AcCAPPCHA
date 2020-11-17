@@ -18,7 +18,7 @@ class Plot:
 		if output_dir and (not os.path.exists(output_dir) or not os.path.isdir(output_dir)):
 			os.mkdir(output_dir)
 		
-		if is_extract and output_dir:
+		if output_dir:
 			self.OUTPUT_FOLDER = utility.uniform_dir_path(output_dir)
 
 		if filename:
@@ -54,9 +54,11 @@ class Plot:
 				self.wave_files= [x for x in os.listdir(self.DATA_FOLDER) if x.endswith('.wav')]
 					
 
-	def plot_waves(self, filename, analysis):
-		ts = analysis.get_time_rate()
-		freqs, fft_freqs, fft_signal, freqs_side, fft_freqs_side, fft_signal_side = analysis.FFT_evaluation()
+	def plot_wave(self, filename, analysis):
+		ts = analysis.ts
+		signal = analysis.signal
+		press_peak, hit_peak = analysis.press_peaks()
+		freqs, fft_freqs, fft_signal, freqs_side, fft_freqs_side, fft_signal_side = analysis.extract()
 
 		key = filename[:-len('.wav')]
 		fig = plt.figure(key)
@@ -65,7 +67,9 @@ class Plot:
 		s1 = fig.add_subplot(gs[1,0])
 		s2 = fig.add_subplot(gs[1,1])
 		fig.tight_layout(pad=3.0)
-		s_top.plot(analysis.get_time(), analysis.get_signal(), 'b')
+		s_top.plot(analysis.get_time(), signal, color='blue')
+		s_top.plot(press_peak*ts, signal[press_peak], color='red')
+		s_top.plot(hit_peak*ts, signal[hit_peak], color='green')
 		s_top.set_title('Amplitude')
 		s_top.set_xlabel('Time(ms)')
 		s_top.tick_params(axis='both', which='major', labelsize=6)
@@ -90,7 +94,7 @@ class Plot:
 			for filename in self.wave_files:
 				fs, signal = wave.read(self.DATA_FOLDER+filename)
 				analysis = extractfeatures.ExtractFeauters(fs, signal)
-				self.plot_waves(filename, analysis)
+				self.plot_wave(filename, analysis)
 
 		except KeyboardInterrupt:
 			plt.close()
@@ -116,7 +120,7 @@ class Plot:
 		x = 0
 		y = 0
 		for (filename, analysis) in signals:
-			push_peak, hit_peak = analysis.press_peaks()
+			press_peak, hit_peak = analysis.press_peaks()
 			ts = analysis.get_time_rate()
 			signal = analysis.get_signal()
 	
@@ -125,7 +129,7 @@ class Plot:
 			s = fig.add_subplot(gs[y,x])
 			s.tick_params(axis='both', which='major', labelsize=6)
 			s.plot(analysis.get_time(), analysis.get_signal(), color='blue')
-			s.plot(push_peak*ts, signal[push_peak], color='red')
+			s.plot(press_peak*ts, signal[press_peak], color='red')
 			s.plot(hit_peak*ts, signal[hit_peak], color='green')
 
 			if self.OUTPUT_FOLDER:
@@ -141,17 +145,52 @@ class Plot:
 
 
 	def plot_extract_single(self, filename, analysis):
-		#Evaluation of push peak and hit peak
-		push_peak, hit_peak = analysis.press_peaks()
+		#Evaluation of press peak and hit peaks
+		features = analysis.extract()
+		press_feature = features['press']
+		hit_feature = features['hit']
+		#Time in ms in the behaviour of press peak (10 ms before and 10 ms after the detected one)
+		first_time = press_feature.peak[0] - analysis.num_samples(1e-2)
+		last_time = hit_feature.peak[-1] + analysis.num_samples(1e-2)
+		time_ms = np.arange(first_time, last_time)
 		#Time sample step
-		ts = analysis.get_time_rate()
-		signal = analysis.get_signal()
+		ts = analysis.ts
+		#Signal rearranged
+		signal = analysis.signal
 
-		#Plot of push peak and hit peak
-		fig = plt.figure(filename)
-		plt.plot(analysis.get_time(), signal)
-		plt.plot(push_peak*ts, signal[push_peak], color='red')
-		plt.plot(hit_peak*ts, signal[hit_peak], color='green')
+		#Initialize the figure
+		key = filename[:-len('.wav')]
+		fig = plt.figure(key)
+		gs = fig.add_gridspec(2, 2)
+		s_top = fig.add_subplot(gs[0, :])
+		s1 = fig.add_subplot(gs[1,0])
+		s2 = fig.add_subplot(gs[1,1])
+		fig.tight_layout(pad=3.0)
+
+		#Plot of press peak and hit peak with the signal
+		s_top.plot(time_ms*ts, signal[time_ms], color='blue')
+		s_top.plot(press_feature.peak*ts, signal[press_feature.peak], color='red')
+		s_top.plot(hit_feature.peak*ts, signal[hit_feature.peak], color='green')
+		s_top.set_title('Amplitude')
+		s_top.set_xlabel('Time(ms)')
+		s_top.tick_params(axis='both', which='major', labelsize=6)
+
+		#Plot FFT double-sided transform of PRESS peak
+		s1.plot(press_feature.freqs, press_feature.fft_signal, color='red')
+		s1.set_xlabel('Frequency (Hz)')
+		s1.set_ylabel('FFT of PRESS PEAK')
+		s1.tick_params(axis='both', which='major', labelsize=6)
+		s1.set_xscale('log')
+		s1.set_yscale('log')
+
+		#Plot FFT single-sided transform of HIT peak
+		s2.plot(hit_feature.freqs, hit_feature.fft_signal, color='green')
+		s2.set_xlabel('Frequency(Hz)')
+		s2.set_ylabel('FFT of HIT PEAK')
+		s2.tick_params(axis='both', which='major', labelsize=6)
+		s2.set_xscale('log')
+		s2.set_yscale('log')
+
 		plt.show()
 
 
@@ -169,7 +208,7 @@ class Plot:
 						analysis = extractfeatures.ExtractFeauters(fs, signal)
 						signals.append((f, analysis))
 						#FFT
-						#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.FFT_evaluation(time_ms, signal)
+						#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.extract(time_ms, signal)
 
 					self.plot_extract_many(subfolder, signals)
 					
@@ -179,7 +218,7 @@ class Plot:
 					analysis = extractfeatures.ExtractFeauters(fs, signal)
 					self.plot_extract_single(filename, analysis)
 					#FFT
-					#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = analysis.FFT_evaluation()
+					#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = analysis.extract()
 
 		except KeyboardInterrupt:
 			plt.close()

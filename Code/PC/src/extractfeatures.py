@@ -19,17 +19,15 @@ class ExtractFeauters:
 
     def __init__(self, fs, signal):
         self.ts, self.time_ms, self.signal = self.signal_adjustment(fs, signal)
+        self.fs = fs
 
-    def get_time(self):
-        return self.time_ms
-
-
-    def get_signal(self):
-        return self.signal
+    def extract(self):
+        push_peak, hit_peak = self.press_peaks()
+        return self.FFT_evaluation(push_peak, hit_peak)
 
 
-    def get_time_rate(self):
-        return self.ts
+    def num_samples(self, seconds):
+        return math.floor(seconds/self.ts)
 
 
     def press_peaks(self):
@@ -40,7 +38,7 @@ class ExtractFeauters:
         #press_peak = np.arange(max_point - 1*num_samples_1ms, max_point + 9*num_samples_1ms)
         #plt.plot([max_point*ts,], [signal[max_point],], 'x', color='red')
         #plt.plot(press_peak*ts, signal[press_peak], color='red')
-        push_peak_start = max_point - (self.START_PUSH_PEAK*self.STEP_PEAKS)*num_samples_STEP
+        push_peak_start = max_point - self.START_PUSH_PEAK*num_samples_STEP
         push_peak_end = push_peak_start + self.WIDTH_PUSH_PEAK*num_samples_STEP
         hit_peak_end = push_peak_start + self.WIDTH_PRESS_PEAK*num_samples_STEP
         hit_peak_start = hit_peak_end - self.WIDTH_HIT_PEAK*num_samples_STEP
@@ -67,12 +65,41 @@ class ExtractFeauters:
         return ts, time_ms, signal_updated
 
 
-    def FFT_evaluation(self):
-        fft_signal = fft.fft(self.signal)
-        fft_signal_side = fft_signal[range(len(fft_signal)//2)]
-        freqs = fft.fftfreq(len(self.signal), self.time_ms[1]-self.time_ms[0])
-        fft_freqs = np.array(freqs)
-        freqs_side = freqs[range(len(fft_signal)//2)]
-        fft_freqs_side = np.array(freqs_side)
+    def FFT_evaluation(self, press_peak, hit_peak):
+        peaks = {}
 
-        return freqs, fft_freqs, fft_signal, freqs_side, fft_freqs_side, fft_signal_side
+        N_press = len(press_peak)
+        f_press = self.fs*np.arange(math.floor(N_press/2))/N_press
+        fft_signal_press = np.fft.fft(press_peak)[0:int(N_press/2)]/N_press 
+        fft_signal_press[1:] = 2*fft_signal_press[1:]
+        fft_signal_press = np.abs(fft_signal_press)
+        
+        
+        peaks['press'] = Feature(press_peak,
+                                 f_press, 
+                                 fft_signal_press)
+
+        N_hit = len(hit_peak)
+        f_hit = self.fs*np.arange(math.floor(N_hit/2))/N_hit
+        fft_signal_hit = np.fft.fft(hit_peak)[0:int(N_hit/2)]/N_hit 
+        fft_signal_hit[1:] = 2*fft_signal_hit[1:]
+        fft_signal_hit = np.abs(fft_signal_hit)
+        
+        
+        peaks['hit'] = Feature(hit_peak,
+                               f_hit, 
+                               fft_signal_hit)
+
+        return peaks
+
+
+class Feature:
+
+    def __init__(self, 
+                 peak,
+                 freqs,
+                 fft_signal):
+
+        self.peak = peak
+        self.freqs = freqs
+        self.fft_signal = fft_signal
