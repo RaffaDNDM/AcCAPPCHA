@@ -62,12 +62,15 @@ def main():
     plot_option, record_option, extract_option, filename, audio_dir, output = args_parser()
 
     if plot_option or extract_option:
-        plot_data = pwave.Plot(filename= filename, audio_dir= audio_dir,output_dir=output)
-
         if plot_option:
+            plot_data = pwave.Plot(False, filename= filename, audio_dir= audio_dir,output_dir=output)
             plot_data.plot()
+        elif extract_option:
+            plot_data = pwave.Plot(True, filename= filename, audio_dir= audio_dir,output_dir=output)
+            plot_data.plot_extract()
         else:
-            plot_data.extract()
+            cprint('[ERROR]', end=' ')
+            print('You cannot insert -p and -e option at the same time')
 
     elif record_option:
         acquisition = ar.AcquireAudio(audio_dir, 1)

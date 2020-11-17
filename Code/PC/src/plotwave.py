@@ -1,24 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from scipy import fftpack as fft
 from scipy.io import wavfile as wave
-from scipy.signal import find_peaks
-import scipy
 import math
 from termcolor import cprint
 import utility
+import extractfeatures
+
 
 class Plot:
 	DATA_FOLDER = ''
 	EXTENSION = '.png'
 	RECURSIVE = False
 
-	def __init__(self, filename, audio_dir, output_dir):
-		self.OUTPUT_FOLDER = utility.uniform_dir_path(output_dir)
+
+	def __init__(self, is_extract, filename, audio_dir, output_dir):
+		if output_dir and (not os.path.exists(output_dir) or not os.path.isdir(output_dir)):
+			os.mkdir(output_dir)
 		
-		if self.OUTPUT_FOLDER and (not os.path.exists(self.OUTPUT_FOLDER) or not os.path.isdir(self.OUTPUT_FOLDER)):
-			os.mkdir(self.OUTPUT_FOLDER)
+		if is_extract and output_dir:
+			self.OUTPUT_FOLDER = utility.uniform_dir_path(output_dir)
 
 		if filename:
 			if os.path.exists(self.DATA_FOLDER+filename):
@@ -53,15 +54,18 @@ class Plot:
 				self.wave_files= [x for x in os.listdir(self.DATA_FOLDER) if x.endswith('.wav')]
 					
 
-	def plot_waves(self, f, time_ms, signal, freqs, fft_signal, freqs_side, fft_signal_side):
-		key = f[:-len('.wav')]
+	def plot_waves(self, filename, analysis):
+		ts = analysis.get_time_rate()
+		freqs, fft_freqs, fft_signal, freqs_side, fft_freqs_side, fft_signal_side = analysis.FFT_evaluation()
+
+		key = filename[:-len('.wav')]
 		fig = plt.figure(key)
 		gs = fig.add_gridspec(2, 2)
 		s_top = fig.add_subplot(gs[0, :])
 		s1 = fig.add_subplot(gs[1,0])
 		s2 = fig.add_subplot(gs[1,1])
 		fig.tight_layout(pad=3.0)
-		s_top.plot(time_ms, signal, 'b')
+		s_top.plot(analysis.get_time(), analysis.get_signal(), 'b')
 		s_top.set_title('Amplitude')
 		s_top.set_xlabel('Time(ms)')
 		s_top.tick_params(axis='both', which='major', labelsize=6)
@@ -83,44 +87,17 @@ class Plot:
 
 	def plot(self):
 		try:
-			for f in self.wave_files:
-				fs, signal = wave.read(self.DATA_FOLDER+f)
-				time_ms, signal = self.signal_adjustment(fs, signal)
-				fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.FFT_evaluation(time_ms, signal)
-				self.plot_waves(f, time_ms, signal, fft_freqs, fft_signal, fft_freqs_side, fft_signal_side)
+			for filename in self.wave_files:
+				fs, signal = wave.read(self.DATA_FOLDER+filename)
+				analysis = extractfeatures.ExtractFeauters(fs, signal)
+				self.plot_waves(filename, analysis)
 
 		except KeyboardInterrupt:
 			plt.close()
 			exit(0)
 
 
-	def signal_adjustment(self, fs, signal):
-		# Extract Raw Audio from Wav File
-		l_audio = len(signal.shape)
-		
-		if l_audio == 2:
-			signal_updated = np.mean(signal, axis=1)
-
-		N = signal.shape[0]
-
-		secs = N / float(fs)
-		ts = 1.0/fs #Sampling rate in time (ms)
-		time_ms = scipy.arange(0, secs, ts)
-
-		return ts, time_ms, signal_updated
-
-
-	def FFT_evaluation(self, time_ms, signal):
-		fft_signal = fft.fft(signal)
-		fft_signal_side = fft_signal[range(len(fft_signal)//2)]
-		freqs = fft.fftfreq(len(signal), time_ms[1]-time_ms[0])
-		fft_freqs = np.array(freqs)
-		freqs_side = freqs[range(len(fft_signal)//2)]
-		fft_freqs_side = np.array(freqs_side)
-
-		return fft_freqs, fft_signal, fft_freqs_side, fft_signal_side
-
-	def plot_more_signals(self, subfolder, signals):
+	def plot_extract_many(self, subfolder, signals):
 		n = int(math.sqrt(len(signals)))
 		m = math.ceil(len(signals)/n)
 
@@ -138,14 +115,18 @@ class Plot:
 
 		x = 0
 		y = 0
-		for (name, ts, time_ms, signal) in signals:
-			print('{:6s} ----> '.format(name), end='')
+		for (filename, analysis) in signals:
+			push_peak, hit_peak = analysis.press_peaks()
+			ts = analysis.get_time_rate()
+			signal = analysis.get_signal()
+	
+			print('{:6s} ----> '.format(filename), end='')
 			cprint(f'({y},{x})', 'cyan')
 			s = fig.add_subplot(gs[y,x])
-			s.plot(time_ms, signal, 'b')
 			s.tick_params(axis='both', which='major', labelsize=6)
-			max_point = np.argmax(np.abs(signal))
-			s.plot([max_point*ts,], [signal[max_point],], 'x', color='red')
+			s.plot(analysis.get_time(), analysis.get_signal(), color='blue')
+			s.plot(push_peak*ts, signal[push_peak], color='red')
+			s.plot(hit_peak*ts, signal[hit_peak], color='green')
 
 			if self.OUTPUT_FOLDER:
 				fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION)
@@ -159,15 +140,22 @@ class Plot:
 				x = x + 1
 
 
-	def plot_extract(self, subfolder, ts, time_ms, signal):
-		fig = plt.figure(subfolder)
-		max_point = np.argmax(np.abs(signal))
-		plt.plot(time_ms, signal)
-		plt.plot([max_point*ts,], [signal[max_point],], 'x', color='red')
+	def plot_extract_single(self, filename, analysis):
+		#Evaluation of push peak and hit peak
+		push_peak, hit_peak = analysis.press_peaks()
+		#Time sample step
+		ts = analysis.get_time_rate()
+		signal = analysis.get_signal()
+
+		#Plot of push peak and hit peak
+		fig = plt.figure(filename)
+		plt.plot(analysis.get_time(), signal)
+		plt.plot(push_peak*ts, signal[push_peak], color='red')
+		plt.plot(hit_peak*ts, signal[hit_peak], color='green')
 		plt.show()
 
 
-	def extract(self):
+	def plot_extract(self):
 		try:
 			if self.RECURSIVE:			
 				for subfolder in self.wave_files.keys():
@@ -178,20 +166,20 @@ class Plot:
 					cprint('\n'+subfolder, 'red')
 					for f in subfolder_files:
 						fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+f)
-						ts, time_ms, signal = self.signal_adjustment(fs, signal)
-						signals.append((f, ts, time_ms,signal))
+						analysis = extractfeatures.ExtractFeauters(fs, signal)
+						signals.append((f, analysis))
 						#FFT
 						#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.FFT_evaluation(time_ms, signal)
 
-					self.plot_more_signals(subfolder, signals)
+					self.plot_extract_many(subfolder, signals)
 					
 			else:
-				for f in self.wave_files:
-					fs, signal = wave.read(self.DATA_FOLDER+f)
-					ts, time_ms, signal = self.signal_adjustment(fs, signal)
-					self.plot_extract(f, ts, time_ms, signal)
+				for filename in self.wave_files:
+					fs, signal = wave.read(self.DATA_FOLDER+filename)
+					analysis = extractfeatures.ExtractFeauters(fs, signal)
+					self.plot_extract_single(filename, analysis)
 					#FFT
-					fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = self.FFT_evaluation(time_ms, signal)
+					#fft_freqs, fft_signal, fft_freqs_side, fft_signal_side = analysis.FFT_evaluation()
 
 		except KeyboardInterrupt:
 			plt.close()
