@@ -70,7 +70,7 @@ class ExtractFeauters:
 
         N_press = len(press_peak)
         f_press = self.fs*np.arange(math.floor(N_press/2))/N_press
-        fft_signal_press = np.fft.fft(press_peak)[0:int(N_press/2)]/N_press 
+        fft_signal_press = np.fft.fft(self.signal[press_peak])[0:int(N_press/2)]/N_press 
         fft_signal_press[1:] = 2*fft_signal_press[1:]
         fft_signal_press = np.abs(fft_signal_press)
         
@@ -81,7 +81,7 @@ class ExtractFeauters:
 
         N_hit = len(hit_peak)
         f_hit = self.fs*np.arange(math.floor(N_hit/2))/N_hit
-        fft_signal_hit = np.fft.fft(hit_peak)[0:int(N_hit/2)]/N_hit 
+        fft_signal_hit = np.fft.fft(self.signal[hit_peak])[0:int(N_hit/2)]/N_hit 
         fft_signal_hit[1:] = 2*fft_signal_hit[1:]
         fft_signal_hit = np.abs(fft_signal_hit)
         
