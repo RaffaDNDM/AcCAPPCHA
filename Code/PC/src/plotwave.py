@@ -10,8 +10,9 @@ import extractfeatures
 
 class PlotExtract:
 	DATA_FOLDER = ''
-	EXTENSION = '.png'
+	EXTENSION_PLOT = '.png'
 	RECURSIVE = False
+	OUTPUT_FOLDER = None
 
 	'''
 	PlotExtract object extracts features and plots
@@ -29,7 +30,6 @@ class PlotExtract:
 						  audio files
 
 	Attributes:
-		is_extract (bool): True if extract option, False if plot option
 		filename (str): Path of the wav file that you want to plot
 						or from which you want to extract features
 		DATA_FOLDER (str): Path of the directory with files (or subfolders
@@ -49,9 +49,7 @@ class PlotExtract:
 						  value (list): wav files names in subfolder with name
 						  				equal to key
 	'''
-	def __init__(self, is_extract, filename, audio_dir, output_dir):
-		if output_dir and (not os.path.exists(output_dir) or not os.path.isdir(output_dir)):
-			os.mkdir(output_dir)
+	def __init__(self, filename, audio_dir, output_dir):		
 		
 		if output_dir:
 			self.OUTPUT_FOLDER = utility.uniform_dir_path(output_dir)
@@ -60,14 +58,18 @@ class PlotExtract:
 			if os.path.exists(self.DATA_FOLDER+filename):
 				self.wav_files = [filename, ]
 			else:
-				cprint('[Not existing FILE]', 'blue', end=' ')
-				print(f"The file {self.DATA_FOLDER+filename} doesn't exist")
+				cprint('\n[Not existing FILE]', 'blue', end=' ')
+				print("The file", end=' ')
+				cprint(f'{self.DATA_FOLDER+filename}', 'green', end=' ')
+				print("doesn't exist", end='\n\n')
 				exit(0)
 
 		elif audio_dir:
 			if not(os.path.exists(audio_dir) and os.path.isdir(audio_dir)):
-				cprint("[ERROR]", 'red', end=' ')
-				print("the input directory doesn't exist")
+				cprint("\n[Not existing FOLDER]", 'blue', end=' ')
+				print("The input directory", end=' ')
+				cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
+				print("doesn't exist", end='\n\n')
 				exit(0)
 
 			self.DATA_FOLDER = utility.uniform_dir_path(audio_dir)
@@ -89,95 +91,84 @@ class PlotExtract:
 				self.wav_files = {file:[x for x in os.listdir(self.DATA_FOLDER+file) if x.endswith('.wav')] for file in files}
 			
 			else:
-				print("There aren't only directories in the folder specified by -d option, so the plot will be performed on audio files in it")
+				cprint('\n[NOT ONLY DIRECTORIES IN INPUT FOLDER]', 'blue', end=' ')
+				print('I try to perform plot on audio files in', end=' ')
+				cprint(f'{self.DATA_FOLDER}', 'green')
+
 				self.wav_files= [x for x in os.listdir(self.DATA_FOLDER) if x.endswith('.wav')]
-				if self.wav_files:
-					cprint('[EMPTY DIRECTORY]', 'blue', end=' ')
-					print(f"The directory {self.wav_files} doesn't contain .wav files or directories")
+				if not self.wav_files:
+					cprint('[EMPTY FOLDER]', 'blue', end=' ')
+					print('The directory', end=' ')
+					cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
+					print("doesn't contain .wav files or directories", end='\n\n')
 					exit(0)
-
-
-	def plot_wave(self, filename, analysis, zoom):
-		'''
-        Plot the wave of file with name filename with 
-		highlighted peaks and the FFT of the entire audiofiles
-        
-        Args:
-			filename (str): name of audio file to be plot
-			analysis (ExtractFeatures): object for evaluation
-										of features
-        '''
-		ts = analysis.ts
-		signal = analysis.signal
-		#Evaluation of press peak and hit peaks
-		features = analysis.extract()
-		press_feature = features['press']
-		hit_feature = features['hit']
-
-		time_ms = analysis.time_ms
-		#Time in ms in the behaviour of press peak (10 ms before and 10 ms after the detected one)
-		if zoom:
-			first_time = press_feature.peak[0] - analysis.num_samples(1e-2)
-			last_time = hit_feature.peak[-1] + analysis.num_samples(1e-2)
-			time_ms = np.arange(first_time, last_time)
-
-		key = filename[:-len('.wav')]
-		fig = plt.figure(key)
-		gs = fig.add_gridspec(2, 2)
-		s_top = fig.add_subplot(gs[0, :])
-		s1 = fig.add_subplot(gs[1,0])
-		s2 = fig.add_subplot(gs[1,1])
-		fig.tight_layout(pad=3.0)
-
-		s_top.plot(time_ms*ts, signal[time_ms], color='blue')
-		s_top.plot(press_peak*ts, signal[press_peak], color='red')
-		s_top.plot(hit_peak*ts, signal[hit_peak], color='green')
-		s_top.set_title('Amplitude')
-		s_top.set_xlabel('Time(ms)')
-		s_top.tick_params(axis='both', which='major', labelsize=6)
-		s1.plot(freqs, fft_signal, 'g')
-		s2.plot(freqs_side, fft_signal_side, 'r')
-		s1.set_xlabel('Frequency (Hz)')
-		s1.set_ylabel('Double-sided FFT')
-		s1.tick_params(axis='both', which='major', labelsize=6)
-		s2.set_xlabel('Frequency(Hz)')
-		s2.set_ylabel('Single-sided FFT')
-		s2.tick_params(axis='both', which='major', labelsize=6)
-
-		if self.OUTPUT_FOLDER:
-			print(os.path.dirname(self.OUTPUT_FOLDER))
-			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+key+self.EXTENSION)
-		else:
-			plt.show()
 
 
 	def plot(self, zoom):
 		'''
-        Plot all the files in wav_files
-
-		Args:
-			zoom (bool): True if you want zoomed plot,
-						 False otherwise
-						
+        Plot the waves of audio signals w.r.t.
+		selected mode
         '''
 		try:
-			for filename in self.wav_files:
-				fs, signal = wave.read(self.DATA_FOLDER+filename)
-				analysis = extractfeatures.ExtractFeatures(fs, signal)
-				self.plot_wave(filename, analysis, zoom)
+			if self.RECURSIVE:			
+				#Plot for each subfolder of DATA_FOLDER
+				for subfolder in self.wav_files.keys():
+					#Plot together the audio signals of all the wav files
+					# inside the subfolder  
+					#(a window with audio signal with highlighted peaks)
 
+					#Sort wav files in subfolder by lessicographic order
+					subfolder_files = [x for x in self.wav_files[subfolder]]
+					subfolder_files.sort()
+
+					if subfolder_files:
+						#Collect the analysis objects, one for
+						# each wav files in the subfolder
+						signals = []
+						cprint('\n'+subfolder, 'red')
+						
+						for f in subfolder_files:
+							#Reading audio file
+							fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+f)
+							#Analysis of audio signal
+							analysis = extractfeatures.ExtractFeatures(fs, signal)
+							#Append the analysis object and filename to the lists
+							signals.append((f, analysis))
+							
+						#Plot of features in OUTPUT_FOLDER
+						#(one plot for each element of signals)
+						#(one plot for each subfolder)
+						self.plot_many_waves(subfolder, signals, zoom)
+
+					else:
+						cprint('[EMPTY FOLDER]', 'blue', end=' ')
+						print("No '.wav' files inside", end=' ')
+						cprint(f'{self.DATA_FOLDER+subfolder}', 'green')
+			else:
+				#Plot features of each file in wav_files separately
+				#(a window with audio signal with highlighted peaks
+				#    and FFT transform of press and hit peaks)
+				for filename in self.wav_files:
+					#Reading audio file
+					fs, signal = wave.read(self.DATA_FOLDER+filename)
+					#Analysis of audio signal
+					analysis = extractfeatures.ExtractFeatures(fs, signal)
+					#Plot of features
+					self.plot_single_wave(filename, analysis, zoom)
+					
 		except KeyboardInterrupt:
+			#Terminate the program (detected CTRL+C)
 			plt.close()
 			exit(0)
 
 
-	def plot_extract_many(self, subfolder, signals, zoom):
+	def plot_many_waves(self, subfolder, signals, zoom):
 		'''
         Plot all the waves of audio signals 
 		in subfolder with highlighted peaks
         
         Args:
-			subfolders (str): name of subfolder
+			subfolder (str): name of subfolder
 			signals (list): List of tuples, with each one composed by:
 							f: name of file
 							analysis: ExtractFeatures related to the
@@ -221,12 +212,6 @@ class PlotExtract:
 			s.plot(time_ms*ts, signal[time_ms], color='blue')
 			s.plot(press_peak*ts, signal[press_peak], color='red')
 			s.plot(hit_peak*ts, signal[hit_peak], color='green')
-
-
-			if self.OUTPUT_FOLDER:
-				fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION)
-			else:
-				plt.show()
 			
 			if x == (n-1):
 				y = y + 1
@@ -234,8 +219,14 @@ class PlotExtract:
 			else:
 				x = x + 1
 
+		if self.OUTPUT_FOLDER:
+			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION_PLOT)
+		else:
+			plt.show()
 
-	def plot_extract_single(self, filename, analysis, zoom):
+
+
+	def plot_single_wave(self, filename, analysis, zoom):
 		'''
         Plot the audio signal with name filename with
 		highlighted peaks and FFT of push and hit peaks
@@ -295,22 +286,20 @@ class PlotExtract:
 		s2.set_xscale('log')
 		s2.set_yscale('log')
 
-		plt.show()
+		if self.OUTPUT_FOLDER:
+			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+filename+self.EXTENSION_PLOT)
+		else:
+			plt.show()
+		
 
-
-	def plot_extract(self, zoom):
-		'''
-        Plot the waves of audio signals w.r.t.
-		selected mode
-        '''
+	def extract(self):
 		try:
-			if self.RECURSIVE:			
-				#Plot for each subfolder of DATA_FOLDER
+			if self.RECURSIVE:
+				#Extraction for each subfolder of DATA_FOLDER
 				for subfolder in self.wav_files.keys():
-					#Plot together the audio signals of all the wav files
-					# inside the subfolder  
-					#(a window with audio signal with highlighted peaks)
-
+					#Extract features from the audio signals of all the wav files
+					#inside the subfolder  
+					
 					#Sort wav files in subfolder by increasing num order
 					subfolder_files_nums = [int(x[:-len('.wav')]) for x in self.wav_files[subfolder]]
 					subfolder_files_nums.sort()					
@@ -328,12 +317,12 @@ class PlotExtract:
 							#Analysis of audio signal
 							analysis = extractfeatures.ExtractFeatures(fs, signal)
 							#Append the analysis object and filename to the lists
-							signals.append((f, analysis))
+							signals.append(analysis)
 							
 						#Plot of features in OUTPUT_FOLDER
 						#(one plot for each element of signals)
 						#(one plot for each subfolder)
-						self.plot_extract_many(subfolder, signals, zoom)
+						self.store_many_features(subfolder, signals)
 
 					else:
 						cprint('[Folder EMPTY]', 'blue', end=' ')
@@ -349,9 +338,75 @@ class PlotExtract:
 					#Analysis of audio signal
 					analysis = extractfeatures.ExtractFeatures(fs, signal)
 					#Plot of features
-					self.plot_extract_single(filename, analysis, zoom)
+					self.store_single_feature(filename, analysis)
 					
 		except KeyboardInterrupt:
 			#Terminate the program (detected CTRL+C)
 			plt.close()
 			exit(0)
+
+
+	def store_many_features(self, subfolder, signals):
+		'''
+        Plot all the waves of audio signals 
+		in subfolder with highlighted peaks
+        
+        Args:
+			subfolder (str): name of subfolder
+			signals (list): List of tuples, with each one composed by:
+							f: name of file
+							analysis: ExtractFeatures related to the
+									  wav file with name f
+        
+		'''
+		n = int(math.sqrt(len(signals)))
+		m = math.ceil(len(signals)/n)
+
+		fig = plt.figure(subfolder)
+		
+		if m>n:
+			m, n = utility.swap(m, n)
+
+		cprint(f'[{m},{n}]', 'red')
+		gs = fig.add_gridspec(m, n)
+		fig.tight_layout(pad=5.0)
+
+		x = 0
+		y = 0
+		for analysis in signals:
+			#Evaluation of press peak and hit peaks
+			features = analysis.extract()
+			press_feature = features['press']
+			hit_feature = features['hit']
+
+			#Sequence of temporal instances
+			time_ms = analysis.time_ms
+			#Time sample step
+			ts = analysis.ts
+			#Signal rearranged
+			signal = analysis.signal
+			
+
+	def store_single_feature(self, filename, analysis):
+		'''
+        Plot the audio signal with name filename with
+		highlighted peaks and FFT of push and hit peaks
+        
+        Args:
+			filename (str): name of wav file
+			analysis (ExtractFeatures): ExtractFeatures related to the
+  	    								wav file with name filename
+        '''
+		#Evaluation of press peak and hit peaks
+		features = analysis.extract()
+		press_feature = features['press']
+		hit_feature = features['hit']
+
+		#Sequence of temporal instances
+		time_ms = analysis.time_ms
+		#Time sample step
+		ts = analysis.ts
+		#Signal rearranged
+		signal = analysis.signal
+
+		#return press_feature.fft_signal, hit_feature.fft_signal

@@ -107,12 +107,12 @@ def main():
     if plot_option or extract_option:
         #Plot
         if plot_option:
-            plot_data = pwave.PlotExtract(False, filename= filename, audio_dir= audio_dir,output_dir=output)
-            plot_data.plot(zoom)
+            analysis_data = pwave.PlotExtract(filename= filename, audio_dir= audio_dir,output_dir=output)
+            analysis_data.plot(zoom)
         #Extraction
         elif extract_option:
-            plot_data = pwave.PlotExtract(True, filename= filename, audio_dir= audio_dir, output_dir=output)
-            plot_data.plot_extract(zoom)
+            analysis_data = pwave.PlotExtract(filename= filename, audio_dir= audio_dir, output_dir=output)
+            analysis_data.extract()
         #ERROR
         else:
             cprint('[ERROR]', end=' ')

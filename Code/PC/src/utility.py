@@ -1,3 +1,18 @@
+def swap(m, n):
+    '''
+    Invert order of args
+
+    Args:
+        m (int): first number
+        n (int): second number
+
+    Returns:
+        n (int): second number
+        m (int): first number
+    '''
+    return n, m
+
+
 def uniform_dir_path(directory):
     '''
     Return directory path with '/' at the end
@@ -7,7 +22,6 @@ def uniform_dir_path(directory):
 
     Returns:
         directory (str): modified directory path that ends with '/'
-
     '''
     if directory.endswith('/') or directory.endswith('\\'):
         return directory
@@ -24,7 +38,6 @@ def key_definition(key):
 
     Returns:
         key_string (str): string that correspond to the pressed key
-
     '''
     #Obtain string of key inserted
     try:
