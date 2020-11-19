@@ -1,7 +1,7 @@
 from termcolor import cprint
 import argparse
-import acquirerecord as ar
-import plotwave as pwave
+import AcquireAudio as ar
+import PlotExtract as pe
 
 def args_parser():
     '''
@@ -84,7 +84,8 @@ def args_parser():
     mandatory_options_miss = not args.plot and not args.record and not args.extract 
     no_plot_error = (not args.plot and not args.extract) and (args.file or args.output)
     specified_file_error = args.plot and args.file and not args.file.endswith('.wav')
-    incompatible_options = (args.plot and args.record) or (args.extract and args.record) or (args.plot and args.extract)
+    incompatible_options = (args.plot and args.record) or (args.extract and args.record) \
+                            or (args.plot and args.extract)
 
     if  (no_plot_error or 
          mandatory_options_miss or
@@ -107,11 +108,11 @@ def main():
     if plot_option or extract_option:
         #Plot
         if plot_option:
-            analysis_data = pwave.PlotExtract(filename= filename, audio_dir= audio_dir,output_dir=output)
+            analysis_data = pe.PlotExtract(filename= filename, audio_dir= audio_dir,output_dir=output)
             analysis_data.plot(zoom)
         #Extraction
         elif extract_option:
-            analysis_data = pwave.PlotExtract(filename= filename, audio_dir= audio_dir, output_dir=output)
+            analysis_data = pe.PlotExtract(filename= filename, audio_dir= audio_dir, output_dir=output)
             analysis_data.extract()
         #ERROR
         else:

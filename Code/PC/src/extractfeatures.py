@@ -66,7 +66,7 @@ class ExtractFeatures:
         push_peak, hit_peak = self.press_peaks()
         #FFT evaluation from press peaks
         return self.FFT_evaluation(push_peak, hit_peak)
-
+        
 
     def num_samples(self, seconds):
         '''
