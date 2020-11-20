@@ -59,22 +59,25 @@
   <code>
   python3 -m pip install tensorflow
   </code><br>
+  Instead of installing <i>tensorflow</i>, I installed <i>tensorflow-gui</i>
   <b><i>Linux:</i></b><br>
   No problems.
   <b><i>Windows:</i></b><br>
   Before running the previous command on cmd (as administrator) you need to manage MAX_PATH limitations
   of Windows. To do so, you need to set the register key<br> <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled</code><br>
   to value <i>1</i>.
-
+</details>
+<details><summary><b>Install CUDA and CUDNN</b></summary>
+This dipendency is important for tensorflow to perform computation using the user's NVIDIA GPU card. You can follow the [official installation guide](https://www.tensorflow.org/install/gpu) made by tensorflow team.
 </details>
 <details><summary><b>Install other modules</b></summary>
   Type the following command on terminal:<br>
   <code>
-  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv
+  pip3 install numpy csv termcolor
   </code><br>
   or<br>
   <code>
-  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv
+  python3 -m pip install numpy csv termcolor
   </code>
 </details>
 
@@ -82,10 +85,10 @@
 <details><summary><b>Python Files</b></summary>
   <ul>
   <li><i><b>NeuralNetwork.py</b></i><br>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.</li>
-  <li><i><b>EXAMPLE.py</b></i><br>File with <i>EXAMPLE<i> class definition that is used to create an object .</li>
   </ul>
 </details>
 <details><summary><b>Commands to launch the program</b></summary>
   <code>
+  python3 NeuralNetwork.py
   </code><br>
 </details>
