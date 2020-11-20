@@ -1,9 +1,8 @@
 # AcCAPPCHA implementation for PC
-
 ## Definition of training set
 ### Dependencies installation
-<br><details><summary><b>Install PyAudio</b></summary>
-  <b><i>Linux:</i></b><br>
+<details><summary><b>Install PyAudio</b></summary>
+<b><i>Linux:</i></b><br>
   <code>
   sudo apt install portaudio19-dev
   pip3 install pyaudio
