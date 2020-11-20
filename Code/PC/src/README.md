@@ -2,16 +2,16 @@
 
 ## Definition of training set
 ### Dependencies installation
-<details><summary><b>Install PyAudio</b></summary>
+<br><details><summary><b>Install PyAudio</b></summary>
   <b><i>Linux:</i></b><br>
   <code>
   sudo apt install portaudio19-dev
   pip3 install pyaudio
-  </code><br>
+  </code><br><br>
   <b><i>Windows:</i></b><br>
   Check the version and either you have 64 or 32 Python just open python on terminal, obtaining for example this result:<br>
   <img src="img/version_python.PNG" width="650" alt="version_python"><br>
-  Download from the appropriate <i>.whl</i> file from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio). An example of the name of this file is <b>PyAudio‑0.2.11‑cp37‑cp37m‑win_amd64.whl</b><br>
+  Download from the appropriate <i>.whl</i> file from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio). An example of the name of this file is <b>PyAudio‑0.2.11‑cp37‑cp37m‑win_amd64.whl</b><br><br>
   Then go to the download folder and install it through the command:<br>
   <code>
   pip3 install PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
@@ -19,7 +19,7 @@
   or<br>
   <code>
   python3 -m pip install PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
-  </code><br>
+  </code>
 </details>
 <details><summary><b>Install other modules</b></summary>
   Type the following command on terminal:<br>
@@ -44,14 +44,14 @@
 <details><summary><b>Commands to launch the program</b></summary>
   <code>
   python3 DatasetAcquisition.py
-  </code><br>
+  </code>
 </details>
 
 
 ## Neural Network creation and training phase
 ### Dependencies installation
 <details><summary><b>Install Tensorflow</b></summary>
-  Run the following command on terminal:
+  Run the following command on terminal:<br>
   <code>
   pip3 install tensorflow
   </code><br>
@@ -59,12 +59,12 @@
   <code>
   python3 -m pip install tensorflow
   </code><br>
-  Instead of installing <i>tensorflow</i>, I installed <i>tensorflow-gui</i>
+  Instead of installing <i>tensorflow</i>, I installed <i>tensorflow-gui</i><br><br>
   <b><i>Linux:</i></b><br>
-  No problems.
+  No problems.<br><br>
   <b><i>Windows:</i></b><br>
   Before running the previous command on cmd (as administrator) you need to manage MAX_PATH limitations
-  of Windows. To do so, you need to set the register key<br> <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled</code><br>
+  of Windows. To do so, you need to set the register key <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled</code>
   to value <i>1</i>.
 </details>
 <details><summary><b>Install CUDA and CUDNN</b></summary>
@@ -90,5 +90,5 @@ This dipendency is important for tensorflow to perform computation using the use
 <details><summary><b>Commands to launch the program</b></summary>
   <code>
   python3 NeuralNetwork.py
-  </code><br>
+  </code>
 </details>
