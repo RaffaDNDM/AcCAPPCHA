@@ -1,3 +1,5 @@
+from termcolor import cprint
+
 def swap(m, n):
     '''
     Invert order of args
@@ -158,3 +160,17 @@ def key_definition(key):
         key_string ='APOSTROPHE'
 
     return key_string
+
+
+def correct_csv_file(csv_file, default_file):
+    if csv_file:
+        if os.path.isfile(csv_file) and csv_file.endswith('.csv'):
+            return csv_file
+        else:
+            cprint('[NOT CSV FILE]', 'blue', end=' ')
+            print('The file', end=' ')
+            cprint(f'{csv_file}', end=' ')
+            print("doesn't exist or hasn't csv extension")
+            exit(0)
+    else:
+        return default_file

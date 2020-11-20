@@ -43,9 +43,49 @@
 </details>
 <details><summary><b>Commands to launch the program</b></summary>
   <code>
-  python3 -m pip install PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
+  python3 DatasetAcquisition.py
   </code><br>
 </details>
 
 
 ## Neural Network creation and training phase
+### Dependencies installation
+<details><summary><b>Install Tensorflow</b></summary>
+  Run the following command on terminal:
+  <code>
+  pip3 install tensorflow
+  </code><br>
+  or<br>
+  <code>
+  python3 -m pip install tensorflow
+  </code><br>
+  <b><i>Linux:</i></b><br>
+  No problems.
+  <b><i>Windows:</i></b><br>
+  Before running the previous command on cmd (as administrator) you need to manage MAX_PATH limitations
+  of Windows. To do so, you need to set the register key<br> <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled</code><br>
+  to value <i>1</i>.
+
+</details>
+<details><summary><b>Install other modules</b></summary>
+  Type the following command on terminal:<br>
+  <code>
+  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv
+  </code><br>
+  or<br>
+  <code>
+  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv
+  </code>
+</details>
+
+### Relative code
+<details><summary><b>Python Files</b></summary>
+  <ul>
+  <li><i><b>NeuralNetwork.py</b></i><br>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.</li>
+  <li><i><b>EXAMPLE.py</b></i><br>File with <i>EXAMPLE<i> class definition that is used to create an object .</li>
+  </ul>
+</details>
+<details><summary><b>Commands to launch the program</b></summary>
+  <code>
+  </code><br>
+</details>
