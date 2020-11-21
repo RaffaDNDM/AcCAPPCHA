@@ -6,10 +6,10 @@ class ExtractFeatures:
     STEP_PEAKS = 5e-4
     #Width of press peak = 20 STEP_PEAKS (10 ms)
     WIDTH_PRESS_PEAK = 20 #TRY 30
-    #Start of push peak = 3 STEP_PEAKS (1.5 ms) before push peak (max of wave)
-    START_PUSH_PEAK = 3
-    #Width of push peak = 3 STEP_PEAKS (3 ms)
-    WIDTH_PUSH_PEAK = 6
+    #Start of touch peak = 3 STEP_PEAKS (1.5 ms) before touch peak (max of wave)
+    START_TOUCH_PEAK = 3
+    #Width of touch peak = 3 STEP_PEAKS (3 ms)
+    WIDTH_TOUCH_PEAK = 6
     #Width of hit peak = 3 STEP_PEAKS (3 ms)
     WIDTH_HIT_PEAK = 6
 
@@ -33,15 +33,15 @@ class ExtractFeatures:
                                 in terms of number of STEP_PEAKS, in time
                                 space
                                 (distance between the start instance of
-                                 push peak and the end instance of hit peak)
-        START_PUSH_PEAK (int): start instance of push peak
+                                 touch peak and the end instance of hit peak)
+        START_TOUCH_PEAK (int): start instance of touch peak
                                in terms of number of STEP_PEAKS, in time 
-                               space, before the push peak (max of audio)
-        WIDTH_PUSH_PEAK (int): width of push peak
+                               space, before the touch peak (max of audio)
+        WIDTH_TOUCH_PEAK (int): width of touch peak
                                in terms of number of STEP_PEAKS, in time 
-                               space, from the start index of the push peak
+                               space, from the start index of the touch peak
                                (max of the values of audio signal samples)
-        WIDTH_PUSH_PEAK (int): width of push peak
+        WIDTH_HIT_PEAK (int): width of hit peak
                                in terms of number of STEP_PEAKS, in time 
                                space, from the start index of the hit peak
     '''
@@ -60,12 +60,12 @@ class ExtractFeatures:
 
         Returns:
             features (dict): dictionary of Feature objects 
-                             related to push and hit peaks
+                             related to touch and hit peaks
         '''
-        #Find peaks (hit and push) of press peaks
-        push_peak, hit_peak = self.press_peaks()
+        #Find peaks (hit and touch) of press peaks
+        touch_peak, hit_peak = self.press_peaks()
         #FFT evaluation from press peaks
-        return self.FFT_evaluation(push_peak, hit_peak)
+        return self.FFT_evaluation(touch_peak, hit_peak)
         
 
     def num_samples(self, seconds):
@@ -88,32 +88,32 @@ class ExtractFeatures:
 
     def press_peaks(self):
         '''
-        Extract push peak and hit peak from the signal
+        Extract touch peak and hit peak from the signal
         
         Args:
         
         Raises:
 
         Returns:
-            push_peak(np.array): array of indices of samples of
-                                 signal that define the push peak
+            touch_peak(np.array): array of indices of samples of
+                                 signal that define the touch peak
             hit_peak(np.array): array of indices of samples of
                                 signal that define the hit peak
         '''
-        #Find push peak (max of the wave values)
+        #Find touch peak (max of the wave values)
         max_point = np.argmax(self.signal)
         #Num of instances inside STEP_PEAKS
         num_samples_STEP = math.floor(self.STEP_PEAKS / self.ts)
-        #Start and end indices of samples in signal for push and hit peaks
-        push_peak_start = max_point - self.START_PUSH_PEAK*num_samples_STEP
-        push_peak_end = push_peak_start + self.WIDTH_PUSH_PEAK*num_samples_STEP
-        hit_peak_end = push_peak_start + self.WIDTH_PRESS_PEAK*num_samples_STEP
+        #Start and end indices of samples in signal for touch and hit peaks
+        touch_peak_start = max_point - self.START_TOUCH_PEAK*num_samples_STEP
+        touch_peak_end = touch_peak_start + self.WIDTH_TOUCH_PEAK*num_samples_STEP
+        hit_peak_end = touch_peak_start + self.WIDTH_PRESS_PEAK*num_samples_STEP
         hit_peak_start = hit_peak_end - self.WIDTH_HIT_PEAK*num_samples_STEP
-        #Indices of samples in signal for hit and push peaks
-        push_peak = np.arange(math.floor(push_peak_start), math.ceil(push_peak_end))
+        #Indices of samples in signal for hit and touch peaks
+        touch_peak = np.arange(math.floor(touch_peak_start), math.ceil(touch_peak_end))
         hit_peak = np.arange(math.floor(hit_peak_start), math.ceil(hit_peak_end))
 
-        return push_peak, hit_peak
+        return touch_peak, hit_peak
 
 
     def signal_adjustment(self, fs, signal):
@@ -149,14 +149,14 @@ class ExtractFeatures:
         return ts, time_ms, signal
 
 
-    def FFT_evaluation(self, press_peak, hit_peak):
+    def FFT_evaluation(self, touch_peak, hit_peak):
         '''
         FFT computaion on press peak and hit peak
         of the audio signal 
         
         Args:
-            push_peak(np.array): array of indices of samples of
-                                 signal that define the push peak
+            touch_peak(np.array): array of indices of samples of
+                                 signal that define the touch peak
             hit_peak(np.array): array of indices of samples of
                                 signal that define the hit peak
 
@@ -164,17 +164,17 @@ class ExtractFeatures:
 
         Returns:
             features (dict): dictionary of Feature objects 
-                             related to push and hit peaks
+                             related to touch and hit peaks
         '''
         peaks = {}
 
-        #PUSH PEAK
+        #TOUCH PEAK
         #Number of samples in the peak
-        N_press = len(press_peak)
+        N_press = len(touch_peak)
         #Values of frequency axis for FFT transform 
         f_press = self.fs*np.arange(math.floor(N_press/2))/N_press
         #FFT transform
-        fft_signal_press = np.fft.fft(self.signal[press_peak])[0:int(N_press/2)]/N_press 
+        fft_signal_press = np.fft.fft(self.signal[touch_peak])[0:int(N_press/2)]/N_press 
         #Single-side FFT transform
         fft_signal_press[1:] = 2*fft_signal_press[1:]
         #Real values (removing complex part)
@@ -182,7 +182,7 @@ class ExtractFeatures:
         #Normalize fft
         fft_signal_press = fft_signal_press / np.linalg.norm(fft_signal_press)
         #Store indices of peak samples, FFT coefficents and related frequencies                
-        peaks['press'] = Feature(press_peak,
+        peaks['touch'] = Feature(touch_peak,
                                  f_press, 
                                  fft_signal_press)
 

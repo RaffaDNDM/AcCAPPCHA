@@ -15,14 +15,14 @@ hllDll5 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\cusparse64_10.d
 hllDll6 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDNN\\bin\\cudnn64_7.dll')
 
 from keras.models import Sequential, model_from_json
-from keras.layers import Dense
+from keras.layers import Dense, Embedding, LSTM
 from keras.utils import to_categorical
 
 
 class NeuralNetwork:
     #Default files
-    CSV_TRAINING = '../dat/training/dataset.csv'
-    CSV_DICT_LABELS = '../dat/training/label_dict.csv'
+    CSV_TRAINING = '../dat/touch/dataset.csv'
+    CSV_DICT_LABELS = '../dat/touch/label_dict.csv'
 
     def __init__(self, labels_dict=None, training_set=None):
         #If specified a label dictionary (csv) on command line argument
@@ -43,11 +43,19 @@ class NeuralNetwork:
         cprint(len(self.X_train[0]), 'red')
         # Define the keras model
         self.model = Sequential()
+        self.model.add(Embedding(input_dim=len(self.X_train), output_dim=64))
+        # Add a LSTM layer with 128 internal units.
+        self.model.add(LSTM(66, activation='relu'))
+        # Add a Dense layer with 10 units.
+        self.model.add(Dense(len(self.labels), activation='relu'))
+        '''
+        # 
         self.model.add(Dense(len(self.labels), input_dim=len(self.X_train[0]), activation='relu'))
         self.model.add(Dense(69, activation='relu'))
         self.model.add(Dense(69, activation='relu'))
         self.model.add(Dense(69, activation='relu'))
         self.model.add(Dense(len(self.labels), activation='relu'))
+        '''
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
 
@@ -58,7 +66,7 @@ class NeuralNetwork:
         history = self.model.fit(self.X_train[:end_train], self.Y_train[:end_train], epochs=100, batch_size=64)
         # Evaluate the model
         scores = self.model.evaluate(self.X_train, self.Y_train, verbose=0)
-        #print(f'{self.model.metrics_names[1]}: {scores[1]*100}')
+        print(f'{self.model.metrics_names[1]}: {scores[1]*100}%')
         # serialize model to JSON
         model_json = self.model.to_json()
         with open("model.json", "w") as json_file:
@@ -73,8 +81,8 @@ class NeuralNetwork:
         # evaluate loaded model on test data
         loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
         end_train = int(len(self.X_train)/2)
-        score = loaded_model.evaluate(self.X_train[end_train:], self.Y_train[end_train:], verbose=0)
-        print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
+        #score = loaded_model.evaluate(self.X_train[end_train:], self.Y_train[end_train:], verbose=0)
+        #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
 
 def main():

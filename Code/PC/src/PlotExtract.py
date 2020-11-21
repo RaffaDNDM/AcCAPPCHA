@@ -15,8 +15,8 @@ class PlotExtract:
 	EXTENSION_PLOT = '.png'
 	RECURSIVE = False
 	OUTPUT_FOLDER = None
-	OUTPUT_CSV_TRAINING = '../dat/training/dataset.csv'
-	OUTPUT_CSV_DICT_LABEL = '../dat/training/label_dict.csv'
+	OUTPUT_CSV_TRAINING = '../dat/touch/dataset.csv'
+	OUTPUT_CSV_DICT_LABEL = '../dat/touch/label_dict.csv'
 
 	'''
 	PlotExtract object extracts features and plots
@@ -198,7 +198,7 @@ class PlotExtract:
 		x = 0
 		y = 0
 		for (filename, analysis) in signals:
-			press_peak, hit_peak = analysis.press_peaks()
+			touch_peak, hit_peak = analysis.press_peaks()
 			ts = analysis.ts
 			signal = analysis.signal
 	
@@ -211,12 +211,12 @@ class PlotExtract:
 
 			#Time in ms in the behaviour of press peak (10 ms before and 10 ms after the detected one)
 			if zoom:
-				first_time = press_peak[0] - analysis.num_samples(1e-2)
+				first_time = touch_peak[0] - analysis.num_samples(1e-2)
 				last_time = hit_peak[-1] + analysis.num_samples(1e-2)
 				time_ms = np.arange(first_time, last_time)
 
 			s.plot(time_ms*ts, signal[time_ms], color='blue')
-			s.plot(press_peak*ts, signal[press_peak], color='red')
+			s.plot(touch_peak*ts, signal[touch_peak], color='red')
 			s.plot(hit_peak*ts, signal[hit_peak], color='green')
 			
 			if x == (n-1):
@@ -244,13 +244,13 @@ class PlotExtract:
         '''
 		#Evaluation of press peak and hit peaks
 		features = analysis.extract()
-		press_feature = features['press']
+		touch_feature = features['touch']
 		hit_feature = features['hit']
 
 		time_ms = analysis.time_ms
 		#Time in ms in the behaviour of press peak (10 ms before and 10 ms after the detected one)
 		if zoom:
-			first_time = press_feature.peak[0] - analysis.num_samples(1e-2)
+			first_time = touch_feature.peak[0] - analysis.num_samples(1e-2)
 			last_time = hit_feature.peak[-1] + analysis.num_samples(1e-2)
 			time_ms = np.arange(first_time, last_time)
 
@@ -270,14 +270,14 @@ class PlotExtract:
 
 		#Plot of press peak and hit peak with the signal
 		s_top.plot(time_ms*ts, signal[time_ms], color='blue')
-		s_top.plot(press_feature.peak*ts, signal[press_feature.peak], color='red')
+		s_top.plot(touch_feature.peak*ts, signal[touch_feature.peak], color='red')
 		s_top.plot(hit_feature.peak*ts, signal[hit_feature.peak], color='green')
 		s_top.set_title('Amplitude')
 		s_top.set_xlabel('Time(ms)')
 		s_top.tick_params(axis='both', which='major', labelsize=6)
 
 		#Plot FFT double-sided transform of PRESS peak
-		s1.plot(press_feature.freqs, press_feature.fft_signal, color='red')
+		s1.plot(touch_feature.freqs, touch_feature.fft_signal, color='red')
 		s1.set_xlabel('Frequency (Hz)')
 		s1.set_ylabel('FFT of PRESS PEAK')
 		s1.tick_params(axis='both', which='major', labelsize=6)
@@ -354,14 +354,14 @@ class PlotExtract:
 				analysis = ef.ExtractFeatures(fs, signal)
 				#Evaluation of press features and hit features
 				features = analysis.extract()
-				press_features = features['press'].fft_signal
+				touch_features = features['touch'].fft_signal
 				hit_features = features['hit'].fft_signal
 				#Obtain the size of the features of the first wav 
 				if label == 0:
-					self.FEATURE_SIZE = len(press_features)+len(press_features)
+					self.FEATURE_SIZE = len(touch_features)+len(touch_features)
 
 				#Store features in OUTPUT_CSV_FILE
-				self.store_features_in_csv(csv_train, press_features, hit_features, label)
+				self.store_features_in_csv(csv_train, touch_features, hit_features, label)
 
 				#OTHER WAV FILEs
 				for f in subfolder_files[1:]:
@@ -371,10 +371,10 @@ class PlotExtract:
 					analysis = ef.ExtractFeatures(fs, signal)
 					#Evaluation of press features and hit features
 					features = analysis.extract()
-					press_features = features['press'].fft_signal
+					touch_features = features['touch'].fft_signal
 					hit_features = features['hit'].fft_signal
 					#Store features in OUTPUT_CSV_FILE
-					self.store_features_in_csv(csv_train, press_features, hit_features, label)
+					self.store_features_in_csv(csv_train, touch_features, hit_features, label)
 
 			else:
 				cprint('[Folder EMPTY]', 'blue', end=' ')
@@ -399,8 +399,8 @@ class PlotExtract:
 		return row_length
 
 
-	def store_features_in_csv(self, csv_writer, press_features, hit_features, label):
-		features = np.concatenate((press_features, hit_features))
-		features = np.append(features, label)
+	def store_features_in_csv(self, csv_writer, touch_features, hit_features, label):
+		#features = np.concatenate((touch_features, hit_features))
+		features = np.append(touch_features, label)
 		
 		csv_writer.writerow(features)
