@@ -23,11 +23,11 @@
 <details><summary><b>Install other modules</b></summary>
   Type the following command on terminal:<br>
   <code>
-  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv
+  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
   </code><br>
   or<br>
   <code>
-  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv
+  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
   </code>
 </details>
 

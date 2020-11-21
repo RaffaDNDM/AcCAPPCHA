@@ -2,6 +2,7 @@ from termcolor import cprint
 import argparse
 import AcquireAudio as ar
 import PlotExtract as pe
+import colorama
 
 def args_parser():
     '''
@@ -102,6 +103,7 @@ def main():
     Main function initializes the acquisition of audios
     and plot or extraction of features from wav files 
     '''
+    colorama.init()
     plot_option, record_option, extract_option, zoom, filename, audio_dir, output = args_parser()
 
     #Plot and extraction option
