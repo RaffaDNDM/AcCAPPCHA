@@ -58,9 +58,12 @@
   <code>
   python3 -m pip install tensorflow
   </code><br>
-  Instead of installing <i>tensorflow</i>, I installed <i>tensorflow-gui</i><br><br>
+  Instead of installing <i>tensorflow</i>, I installed <i>tensorflow-gui</i> on Windows to exploit the computation power of my GPU Nvidia GTX 1050 Ti.<br><br>
   <b><i>Linux:</i></b><br>
-  No problems.<br><br>
+  I needed to explicitly install keras after tensorflow, using:
+  <code>
+  pip3 install keras
+  </code><br><br>
   <b><i>Windows:</i></b><br>
   Before running the previous command on cmd (as administrator) you need to manage MAX_PATH limitations
   of Windows. To do so, you need to set the register key <code>Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled</code>

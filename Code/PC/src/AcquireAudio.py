@@ -207,14 +207,14 @@ class AcquireAudio:
 
         if self.count < self.TIMES_KEY_PRESSED:
             self.count = self.count + 1
-            print('\r'+str(self.count), end='')
 
             sleep(1)
             self.mutex.acquire()
             try:
                 if key_string in self.LETTERS.keys():
                     self.WAVE_OUTPUT_FILENAME = key_string+'/'+str(self.LETTERS[key_string])+'.wav'
-                    #self.LETTERS[key_string] = self.LETTERS[key_string] + 1
+                    self.LETTERS[key_string] = self.LETTERS[key_string] + 1
+                    print('\r'+str(self.LETTERS[key_string]), end='')
                 else:
                     self.LETTERS[key_string] = 0
                     self.WAVE_OUTPUT_FILENAME = key_string+'/'+str(self.LETTERS[key_string])+'.wav'
