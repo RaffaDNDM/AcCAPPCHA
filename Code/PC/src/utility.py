@@ -159,6 +159,10 @@ def key_definition(key):
         key_string ='COMMA'
     elif key_string=="'":
         key_string ='APOSTROPHE'
+    elif key_string==">":
+        key_string ='GREATER'
+    elif key_string=="<":
+        key_string ='LOWER'
 
     return key_string
 

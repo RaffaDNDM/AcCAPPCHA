@@ -22,6 +22,7 @@ class AcquireAudio:
     CHECK_TYPING = True
     FIRST_KEY = True
     KILLED = False
+    LINE = '_____________________________________________________'
 
     '''
     AcquireAudio object acquires key audio from user by
@@ -87,7 +88,6 @@ class AcquireAudio:
             self.DATA_FOLDER = utility.uniform_dir_path(audio_dir)
     
         self.already_acquired()
-        self.LETTERS['APOSTROPHE']=9
 
         input('Print something to start the acquisition of audio')
         sleep(2)
@@ -109,7 +109,7 @@ class AcquireAudio:
         self.LETTERS = {}
         special_chars = {}
         cprint('\nNum of already acquired audio samples for letters', 'blue')
-        cprint('_________________________________________________', 'blue')
+        cprint(self.LINE, 'blue')
 
         for subfolder in subfolders:
             if os.path.isdir(self.DATA_FOLDER+subfolder):
@@ -126,7 +126,7 @@ class AcquireAudio:
                     else:
                         count = count + 1
                     
-                    print('{:2d}'.format(num_already_acquired), end=delimiter)
+                    print('{:3d}'.format(num_already_acquired), end=delimiter)
 
                 else:
                     special_chars[subfolder] = num_already_acquired
@@ -142,7 +142,7 @@ class AcquireAudio:
             cprint('---->', 'yellow', end=' ')
             print('{:2d}'.format(self.LETTERS[subfolder]))
 
-        cprint('_________________________________________________', 'blue')
+        cprint(self.LINE, 'blue')
 
 
     def audio_logging(self):
@@ -158,7 +158,8 @@ class AcquireAudio:
                     input=True,
                     frames_per_buffer=self.CHUNK)
         
-        cprint('\n*** recording ***', 'green', attrs=['bold'])
+        cprint(self.LINE, 'blue')
+        cprint('\n*** Recording ***', 'green', attrs=['bold'])
 
         frames = []
 
@@ -175,6 +176,7 @@ class AcquireAudio:
         p.terminate()
 
         cprint('\n*** End recording ***', 'green', attrs=['bold'])
+        cprint(self.LINE, 'blue', end='\n\n')
 
         while not self.WAVE_OUTPUT_FILENAME:
             sleep(1)
@@ -212,12 +214,12 @@ class AcquireAudio:
             self.mutex.acquire()
             try:
                 if key_string in self.LETTERS.keys():
-                    self.WAVE_OUTPUT_FILENAME = key_string+'/'+str(self.LETTERS[key_string])+'.wav'
+                    self.WAVE_OUTPUT_FILENAME = key_string+'/'+'{:03d}'.format(self.LETTERS[key_string])+'.wav'
                     self.LETTERS[key_string] = self.LETTERS[key_string] + 1
                     print('\r'+str(self.LETTERS[key_string]), end='')
                 else:
                     self.LETTERS[key_string] = 0
-                    self.WAVE_OUTPUT_FILENAME = key_string+'/'+str(self.LETTERS[key_string])+'.wav'
+                    self.WAVE_OUTPUT_FILENAME = key_string+'/'+'{:03d}'.format(self.LETTERS[key_string])+'.wav'
                     os.mkdir(self.DATA_FOLDER+key_string)
 
             finally:
@@ -245,7 +247,7 @@ class AcquireAudio:
         '''
         try:
             while True:
-                cprint(f'\nType first letter {self.TIMES_KEY_PRESSED} times', 'green', attrs=['bold'])
+                cprint(f'\nType a letter {self.TIMES_KEY_PRESSED} times', 'blue', attrs=['bold'])
 
                 audiologger = threading.Thread(target=self.audio_logging)
                 audiologger.start()

@@ -105,6 +105,7 @@ def main():
     '''
     colorama.init()
     plot_option, record_option, extract_option, zoom, filename, audio_dir, output = args_parser()
+    print(audio_dir)
 
     #Plot and extraction option
     if plot_option or extract_option:
