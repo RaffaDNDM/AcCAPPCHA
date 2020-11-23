@@ -22,7 +22,6 @@ class AcquireAudio:
     CHECK_TYPING = True
     FIRST_KEY = True
     KILLED = False
-    LINE = '_____________________________________________________'
 
     '''
     AcquireAudio object acquires key audio from user by
@@ -109,7 +108,7 @@ class AcquireAudio:
         self.LETTERS = {}
         special_chars = {}
         cprint('\nNum of already acquired audio samples for letters', 'blue')
-        cprint(self.LINE, 'blue')
+        cprint(utility.LINE, 'blue')
 
         for subfolder in subfolders:
             if os.path.isdir(self.DATA_FOLDER+subfolder):
@@ -142,7 +141,7 @@ class AcquireAudio:
             cprint('---->', 'yellow', end=' ')
             print('{:2d}'.format(self.LETTERS[subfolder]))
 
-        cprint(self.LINE, 'blue')
+        cprint(utility.LINE, 'blue')
 
 
     def audio_logging(self):
@@ -158,7 +157,7 @@ class AcquireAudio:
                     input=True,
                     frames_per_buffer=self.CHUNK)
         
-        cprint(self.LINE, 'blue')
+        cprint(utility.LINE, 'blue')
         cprint('\n*** Recording ***', 'green', attrs=['bold'])
 
         frames = []
@@ -176,7 +175,7 @@ class AcquireAudio:
         p.terminate()
 
         cprint('\n*** End recording ***', 'green', attrs=['bold'])
-        cprint(self.LINE, 'blue', end='\n\n')
+        cprint(utility.LINE, 'blue', end='\n\n')
 
         while not self.WAVE_OUTPUT_FILENAME:
             sleep(1)

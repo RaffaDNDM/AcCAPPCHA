@@ -2,12 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from scipy.io import wavfile as wave
+from scipy import signal
 import math
 from termcolor import cprint
 import utility
 import ExtractFeatures as ef
 from csv import writer
-
+from PIL import Image
+import librosa
 
 class PlotExtract:
 	LINE = '_______________________________'
@@ -15,8 +17,8 @@ class PlotExtract:
 	EXTENSION_PLOT = '.png'
 	RECURSIVE = False
 	OUTPUT_FOLDER = None
-	OUTPUT_CSV_TRAINING = '../dat/touch/dataset.csv'
-	OUTPUT_CSV_DICT_LABEL = '../dat/touch/label_dict.csv'
+	OUTPUT_CSV_TRAINING = 'dataset.csv'
+	OUTPUT_CSV_DICT_LABEL = 'label_dict.csv'
 
 	'''
 	PlotExtract object extracts features and plots
@@ -57,7 +59,7 @@ class PlotExtract:
 	'''
 	def __init__(self, filename, audio_dir, output_dir):		
 		
-		if output_dir:
+		if output_dir and os.path.isdir(output_dir):
 			self.OUTPUT_FOLDER = utility.uniform_dir_path(output_dir)
 
 		if filename:
@@ -215,10 +217,13 @@ class PlotExtract:
 				last_time = hit_peak[-1] + analysis.num_samples(1e-2)
 				time_ms = np.arange(first_time, last_time)
 
-			s.plot(time_ms*ts, signal[time_ms], color='blue')
+			s.plot(time_ms*ts, signal[time_ms], color='blue', label = filename[:-4])
 			s.plot(touch_peak*ts, signal[touch_peak], color='red')
 			s.plot(hit_peak*ts, signal[hit_peak], color='green')
-			
+			s.set_yticklabels([])
+			s.set_xticklabels([])
+			s.legend(loc='upper right', fontsize=5, framealpha=0.5)
+
 			if x == (n-1):
 				y = y + 1
 				x=0
@@ -229,7 +234,6 @@ class PlotExtract:
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION_PLOT)
 		else:
 			plt.show()
-
 
 
 	def plot_single_wave(self, filename, analysis, zoom):
@@ -298,18 +302,24 @@ class PlotExtract:
 			plt.show()
 		
 
-	def extract(self):
+	def extract(self, option):
 		try:
 
 			if self.RECURSIVE:
 				cprint('\n   Completed extraction for:', 'red')
 				cprint(self.LINE, 'red')
 				
-				with open(self.OUTPUT_CSV_TRAINING, 'w', newline='') as train_fp,\
-					 open(self.OUTPUT_CSV_DICT_LABEL, 'w', newline='') as label_fp:
+				path_csv = ''
+				if not utility.OPTIONS[option] in os.listdir(self.OUTPUT_FOLDER):
+					path_csv = utility.uniform_dir_path(self.OUTPUT_FOLDER+utility.OPTIONS[option])
+					if not os.path.exists(path_csv):
+						os.mkdir(path_csv)
+
+				with open(path_csv+self.OUTPUT_CSV_TRAINING, 'w', newline='') as train_fp,\
+					 open(path_csv+self.OUTPUT_CSV_DICT_LABEL, 'w', newline='') as label_fp:
 					csv_train  = writer(train_fp)
 					csv_label  = writer(label_fp)
-					self.compute_entry(csv_train, csv_label)
+					self.compute_entry(csv_train, csv_label, option)
 
 				cprint('\n'+self.LINE, 'red')
 				print('{:>20s}'.format('Features size:'), end=' ')
@@ -324,7 +334,7 @@ class PlotExtract:
 			exit(0)
 
 
-	def compute_entry(self, csv_train, csv_label):
+	def compute_entry(self, csv_train, csv_label, option):
 		'''
 		'''
 
@@ -352,29 +362,16 @@ class PlotExtract:
 				fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+subfolder_files[0])
 				#Analysis of audio signal
 				analysis = ef.ExtractFeatures(fs, signal)
-				#Evaluation of press features and hit features
-				features = analysis.extract()
-				touch_features = features['touch'].fft_signal
-				hit_features = features['hit'].fft_signal
-				#Obtain the size of the features of the first wav 
-				if label == 0:
-					self.FEATURE_SIZE = len(touch_features)+len(touch_features)
 
 				#Store features in OUTPUT_CSV_FILE
-				self.store_features_in_csv(csv_train, touch_features, hit_features, label)
+				self.store_features_in_csv(csv_train, subfolder, subfolder_files[0], analysis, label, option)
 
 				#OTHER WAV FILEs
 				for f in subfolder_files[1:]:
 					#Reading audio file
 					fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+f)
-					#Analysis of audio signal
-					analysis = ef.ExtractFeatures(fs, signal)
-					#Evaluation of press features and hit features
-					features = analysis.extract()
-					touch_features = features['touch'].fft_signal
-					hit_features = features['hit'].fft_signal
 					#Store features in OUTPUT_CSV_FILE
-					self.store_features_in_csv(csv_train, touch_features, hit_features, label)
+					self.store_features_in_csv(csv_train, subfolder, f, analysis, label, option)
 
 			else:
 				cprint('[Folder EMPTY]', 'blue', end=' ')
@@ -399,8 +396,38 @@ class PlotExtract:
 		return row_length
 
 
-	def store_features_in_csv(self, csv_writer, touch_features, hit_features, label):
-		#features = np.concatenate((touch_features, hit_features))
-		features = np.append(touch_features, label)
-		
-		csv_writer.writerow(features)
+	def store_features_in_csv(self, csv_writer, subfolder, filename, analysis, label, option):
+		#Extraction of features
+		features = analysis.extract()
+
+		if utility.OPTIONS[option]=='touch':
+			touch_features = features['touch'].fft_signal
+			final_features = np.append(touch_features, label)
+			csv_writer.writerow(final_features)
+		elif utility.OPTIONS[option]=='touch_hit':
+			touch_features = features['touch'].fft_signal
+			hit_features = features['hit'].fft_signal	
+			final_features = np.concatenate((touch_features, hit_features))
+			final_features = np.append(final_features, label)
+			csv_writer.writerow(final_features)
+		elif utility.OPTIONS[option]=='spectrum':
+			fig, ax = plt.subplots(1)
+			fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
+			ax.axis('off')
+			ax.specgram(features['touch'].peak, NFFT=len(features['touch'].peak), Fs=analysis.fs, noverlap=66)
+			#float_features = (features['touch'].peak).astype(float)
+			#melspec = librosa.feature.melspectrogram(float_features, n_mels=128)
+			#logspec = librosa.amplitude_to_db(melspec)
+			#logspec = logspec.T.flatten()[:np.newaxis].T
+			#final_features = np.array(logspec)
+
+			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum/'+subfolder):
+				os.mkdir(self.OUTPUT_FOLDER+'spectrum/'+subfolder)
+
+			#plt.show()
+			fig.savefig(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.png', dpi=300)
+
+			img = Image.open(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.png')
+			final_features = np.asarray(img)
+			final_features = np.append(final_features, label)
+			csv_writer.writerow(final_features)

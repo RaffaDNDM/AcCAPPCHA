@@ -1,6 +1,9 @@
 from termcolor import cprint
 import os
 
+OPTIONS = ['touch', 'touch_hit', 'spectrum']
+LINE = '_____________________________________________________'
+
 def swap(m, n):
     '''
     Invert order of args

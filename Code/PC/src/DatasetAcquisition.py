@@ -3,6 +3,7 @@ import argparse
 import AcquireAudio as ar
 import PlotExtract as pe
 import colorama
+import utility
 
 def args_parser():
     '''
@@ -98,6 +99,33 @@ def args_parser():
     return args.plot, args.record, args.extract, args.zoom, args.file, args.dir, args.output
 
 
+def select_option_feature():
+    check = True
+    option=-1
+
+    while check:
+        try:
+            cprint(f'Select which type of features you want to use:\n{utility.LINE}', 'blue')
+                
+            for i in range(0, len(utility.OPTIONS)):
+                cprint(f'{i})', 'yellow', end=' ')
+                print(f'{utility.OPTIONS[i]}')
+
+            cprint(f'3)', 'yellow', end=' ')
+            print(f'All the features')
+            cprint(f'{utility.LINE}', 'blue')
+
+            option = int(input())
+            if option >= 0 and option <= len(utility.OPTIONS):
+                check = False
+
+        except ValueError:
+            cprint('[VALUE ERROR]', 'color', end=' ')
+            print('Insert a value of them specified in menu')
+
+    return option
+
+
 def main():
     '''
     Main function initializes the acquisition of audios
@@ -115,8 +143,9 @@ def main():
             analysis_data.plot(zoom)
         #Extraction
         elif extract_option:
+            option = select_option_feature()
             analysis_data = pe.PlotExtract(filename= filename, audio_dir= audio_dir, output_dir=output)
-            analysis_data.extract()
+            analysis_data.extract(option)
         #ERROR
         else:
             cprint('[ERROR]', end=' ')

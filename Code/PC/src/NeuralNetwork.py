@@ -25,9 +25,9 @@ from keras.utils import to_categorical
 
 class NeuralNetwork:
     #Default files
-    CSV_DATASET = '../dat/touch/dataset.csv'
-    CSV_DICT_LABELS = '../dat/touch/label_dict.csv'
-    CSV_MODEL = '../dat/model/touch.csv'
+    CSV_DATASET = '../dat/touch/MSI/training/dataset.csv'
+    CSV_DICT_LABELS = '../dat/MSI/training/touch/label_dict.csv'
+    CSV_MODEL = '../dat/model/MSI/training/touch.csv'
 
     '''    
         train_mode (bool): True if training phase with creation of NN
@@ -49,8 +49,8 @@ class NeuralNetwork:
         # Load the dataset
         dataset = loadtxt(self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
-        self.X = dataset[:,0:-1]
-        self.Y = dataset[:,-1]
+        self.X = dataset[:-1]
+        self.Y = dataset[-1]
         cprint(len(self.X), 'red')
         cprint(len(self.X[0]), 'red')
         # Define the keras model
