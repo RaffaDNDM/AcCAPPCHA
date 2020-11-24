@@ -145,7 +145,11 @@ def main():
         elif extract_option:
             option = select_option_feature()
             analysis_data = pe.PlotExtract(filename= filename, audio_dir= audio_dir, output_dir=output)
-            analysis_data.extract(option)
+            if option == len(utility.OPTIONS):
+                for i in range(0, option):
+                    analysis_data.extract(i)
+            else:
+                analysis_data.extract(option)
         #ERROR
         else:
             cprint('[ERROR]', end=' ')

@@ -220,7 +220,7 @@ class AcquireAudio:
                     self.LETTERS[key_string] = 0
                     self.WAVE_OUTPUT_FILENAME = key_string+'/'+'{:03d}'.format(self.LETTERS[key_string])+'.wav'
                     os.mkdir(self.DATA_FOLDER+key_string)
-
+                    print('\r'+str(1), end='')
             finally:
                 self.mutex.release()
 

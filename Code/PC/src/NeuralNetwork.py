@@ -3,8 +3,7 @@ import csv
 import os
 from termcolor import cprint
 import colorama
-from utility import correct_csv_file
-
+import utility
 import ctypes
 import platform
 
@@ -25,47 +24,61 @@ from keras.utils import to_categorical
 
 class NeuralNetwork:
     #Default files
-    CSV_DATASET = '../dat/touch/MSI/training/dataset.csv'
-    CSV_DICT_LABELS = '../dat/MSI/training/touch/label_dict.csv'
-    CSV_MODEL = '../dat/model/MSI/training/touch.csv'
+    DATA_FOLDER = '../dat/MSI/training/touch/'
+    CSV_DATASET = 'dataset.csv'
+    CSV_DICT_LABELS = 'label_dict.csv'
+    JSON_MODEL = 'model.json'
 
     '''    
         train_mode (bool): True if training phase with creation of NN
                            False if test phase reading csv 
     '''
-    def __init__(self, csv_model, labels_dict=None, dataset=None):
-        #If specified a model (csv) on command line argument
-        if csv_model and csv_model.endswith('.csv'):
-            self.CSV_MODEL = csv_model
-        #If specified a label dictionary (csv) on command line argument
-        self.CSV_DICT_LABELS = correct_csv_file(labels_dict, self.CSV_DICT_LABELS)
-        #If specified a training set (csv) on command line argument
-        self.CSV_DATASET = correct_csv_file(dataset, self.CSV_DATASET)
+    def __init__(self, data_folder):
+        #Update folder containing csv files
+        if data_folder:
+            if os.path.exists(data_folder) and os.path.isdir(data_folder):
+                self.DATA_FOLDER = utility.uniform_dir_path(data_folder)
+            else:
+                cprint('[NOT EXISTING FOLDER]', 'blue', end=' ')
+                print('The dataset directory', end=' ')
+                cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
+                print("doesn't exist")
+                exit(0)
+
+        files = os.listdir(self.DATA_FOLDER)
+
+        if not self.CSV_DATASET in files or\
+           not self.CSV_DICT_LABELS in files:
+            cprint('[FOLDER without files]', 'blue', end=' ')
+            print('The dataset directory', end=' ')
+            cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
+            print("doesn't contain required csv files of dataset and labels dictionary")
+            exit(0)
+
         #Create dictionary of labels from csv file
-        with open(self.CSV_DICT_LABELS) as fp:
+        with open(self.DATA_FOLDER+self.CSV_DICT_LABELS) as fp:
             reader = csv.reader(fp)
             self.labels = {rows[0]:rows[1] for rows in reader}
 
+        print(self.labels)
+
         # Load the dataset
-        dataset = loadtxt(self.CSV_DATASET, delimiter=',')
+        dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
-        self.X = dataset[:-1]
-        self.Y = dataset[-1]
-        cprint(len(self.X), 'red')
-        cprint(len(self.X[0]), 'red')
+        self.X = dataset[:,:-1]
+        self.Y = dataset[:, -1]
         # Define the keras model
         self.model = Sequential()
-        self.model.add(Embedding(input_dim=len(self.X), output_dim=64))
-        # Add a LSTM layer with 128 internal units.
-        self.model.add(LSTM(66, activation='relu'))
-        # Add a Dense layer with 10 units.
-        self.model.add(Dense(len(self.labels), activation='relu'))
-        '''
-        # 
         self.model.add(Dense(len(self.labels), input_dim=len(self.X[0]), activation='relu'))
         self.model.add(Dense(69, activation='relu'))
         self.model.add(Dense(69, activation='relu'))
         self.model.add(Dense(69, activation='relu'))
+        self.model.add(Dense(len(self.labels), activation='relu'))
+        '''
+        self.model.add(Embedding(input_dim=len(self.X), output_dim=64))
+        # Add a LSTM layer with 128 internal units.
+        self.model.add(LSTM(66, activation='relu'))
+        # Add a Dense layer with 10 units.
         self.model.add(Dense(len(self.labels), activation='relu'))
         '''
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -76,16 +89,16 @@ class NeuralNetwork:
         '''
         Train the model using already stored model
         '''
-
-        end = int(len(self.X)/2)
+        #end = int(len(self.X)/2)
         #Train the model
-        history = self.model.fit(self.X[:end], self.Y[:end], epochs=100, batch_size=64)
+        history = self.model.fit(self.X, self.Y, epochs=200, batch_size=100)
         # Evaluate the model
         scores = self.model.evaluate(self.X, self.Y, verbose=0)
         print(f'{self.model.metrics_names[1]}: {scores[1]*100}%')
         # serialize model to JSON
         model_json = self.model.to_json()
-        with open(self.CSV_MODEL, "w") as json_file:
+
+        with open(self.DATA_FOLDER+self.JSON_MODEL, "w") as json_file:
             json_file.write(model_json)
 
 
@@ -93,13 +106,21 @@ class NeuralNetwork:
         '''
         Load json and create model
         '''
+        files = os.listdir(self.DATA_FOLDER)
+        
+        if not self.JSON_MODEL not in files:
+            cprint('[FOLDER without files]', 'blue', end=' ')
+            print('The dataset directory', end=' ')
+            cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
+            print("doesn't contain required json file of trained model")
+            exit(0)
 
-        with open(self.CSV_MODEL, 'r') as json_file:
+        with open(self.JSON_MODEL, 'r') as json_file:
             loaded_model_json = json_file.read()
             json_file.close()
             loaded_model = model_from_json(loaded_model_json)
             # evaluate loaded model on test data
             loaded_model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
-            end = int(len(self.X)/2)
+            #end = int(len(self.X)/2)
             #score = loaded_model.evaluate(self.X[end:], self.Y[end:], verbose=0)
             #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))

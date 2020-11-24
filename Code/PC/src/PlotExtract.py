@@ -16,7 +16,8 @@ class PlotExtract:
 	DATA_FOLDER = ''
 	EXTENSION_PLOT = '.png'
 	RECURSIVE = False
-	OUTPUT_FOLDER = None
+	DEFAULT_OUTPUT = '../dat/'
+	OUTPUT_FOLDER = DEFAULT_OUTPUT
 	OUTPUT_CSV_TRAINING = 'dataset.csv'
 	OUTPUT_CSV_DICT_LABEL = 'label_dict.csv'
 
@@ -230,7 +231,7 @@ class PlotExtract:
 			else:
 				x = x + 1
 
-		if self.OUTPUT_FOLDER:
+		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION_PLOT)
 		else:
 			plt.show()
@@ -296,7 +297,7 @@ class PlotExtract:
 		s2.set_xscale('log')
 		s2.set_yscale('log')
 
-		if self.OUTPUT_FOLDER:
+		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+filename+self.EXTENSION_PLOT)
 		else:
 			plt.show()
@@ -309,9 +310,8 @@ class PlotExtract:
 				cprint('\n   Completed extraction for:', 'red')
 				cprint(self.LINE, 'red')
 				
-				path_csv = ''
+				path_csv = utility.uniform_dir_path(self.OUTPUT_FOLDER+utility.OPTIONS[option])
 				if not utility.OPTIONS[option] in os.listdir(self.OUTPUT_FOLDER):
-					path_csv = utility.uniform_dir_path(self.OUTPUT_FOLDER+utility.OPTIONS[option])
 					if not os.path.exists(path_csv):
 						os.mkdir(path_csv)
 
@@ -355,7 +355,7 @@ class PlotExtract:
 
 				#Print the key to be avaluated and store it with its label
 				#in the file OUTPUT_CSV_DICT_LABEL
-				row_length = self.print_key(csv_label, subfolder, label, row_length)			
+				row_length = self.print_key(csv_label, subfolder, label, row_length)
 
 				#FIRST WAV
 				#Reading audio file
@@ -363,8 +363,11 @@ class PlotExtract:
 				#Analysis of audio signal
 				analysis = ef.ExtractFeatures(fs, signal)
 
-				#Store features in OUTPUT_CSV_FILE
-				self.store_features_in_csv(csv_train, subfolder, subfolder_files[0], analysis, label, option)
+				#Store features of first audio in OUTPUT_CSV_FILE
+				if label==0:
+					self.FEATURE_SIZE = self.store_features_in_csv(csv_train, subfolder, subfolder_files[0], analysis, label, option)
+				else:
+					size = self.store_features_in_csv(csv_train, subfolder, subfolder_files[0], analysis, label, option)
 
 				#OTHER WAV FILEs
 				for f in subfolder_files[1:]:
@@ -399,22 +402,27 @@ class PlotExtract:
 	def store_features_in_csv(self, csv_writer, subfolder, filename, analysis, label, option):
 		#Extraction of features
 		features = analysis.extract()
+		length_feature = 0
 
 		if utility.OPTIONS[option]=='touch':
 			touch_features = features['touch'].fft_signal
 			final_features = np.append(touch_features, label)
 			csv_writer.writerow(final_features)
+			length_feature = len(final_features)
+
 		elif utility.OPTIONS[option]=='touch_hit':
 			touch_features = features['touch'].fft_signal
 			hit_features = features['hit'].fft_signal	
 			final_features = np.concatenate((touch_features, hit_features))
 			final_features = np.append(final_features, label)
 			csv_writer.writerow(final_features)
+			length_feature = len(final_features)
+		
 		elif utility.OPTIONS[option]=='spectrum':
 			fig, ax = plt.subplots(1)
 			fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
 			ax.axis('off')
-			ax.specgram(features['touch'].peak, NFFT=len(features['touch'].peak), Fs=analysis.fs, noverlap=66)
+			ax.specgram(features['touch'].peak, NFFT=len(features['touch'].peak), Fs=analysis.fs, noverlap=32)
 			#float_features = (features['touch'].peak).astype(float)
 			#melspec = librosa.feature.melspectrogram(float_features, n_mels=128)
 			#logspec = librosa.amplitude_to_db(melspec)
@@ -431,3 +439,6 @@ class PlotExtract:
 			final_features = np.asarray(img)
 			final_features = np.append(final_features, label)
 			csv_writer.writerow(final_features)
+			length_feature = len(final_features)
+
+		return length_feature

@@ -39,34 +39,25 @@ def args_parser():
                                 dataset using csv model of trained NN""",
                         action='store_true')
     
-    parser.add_argument("-csv", 
-                        dest="csv", 
-                        help="""Path of the csv file that contains/will 
-                                contain trained NN""")
-
-    parser.add_argument("-label", 
-                        dest="label", 
-                        help="""Path of the csv file that contains labels 
-                                dictionary for acquired keys""")
-
-    parser.add_argument("-data", 
-                        dest="data", 
-                        help="""Path of the csv file that contains dataset 
-                                (features + label)""")
+    parser.add_argument("-dir","-d",
+                        dest="dir", 
+                        help="""Path of the folder that contains the csv files of 
+                                dataset and labels dictionary and contains/will
+                                contain the json file of model""")
 
     #Parse command line arguments
     args = parser.parse_args()
 
-    return args.test, args.csv, args.label, args.data
+    return args.test, args.dir
 
 
 def main():
     #Initialize colored prints
     colorama.init()
     #Parser of command line arguments
-    test_mode, csv_model, label_dict, dataset = args_parser()
+    test_mode, folder = args_parser()
 
-    net = nn.NeuralNetwork(csv_model, label_dict, dataset)
+    net = nn.NeuralNetwork(folder)
 
     if test_mode:
         net.test()
