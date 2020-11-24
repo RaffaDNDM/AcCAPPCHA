@@ -233,6 +233,7 @@ class PlotExtract:
 
 		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION_PLOT)
+			plt.close(fig)
 		else:
 			plt.show()
 
@@ -298,7 +299,8 @@ class PlotExtract:
 		s2.set_yscale('log')
 
 		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
-			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+filename+self.EXTENSION_PLOT)
+			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+filename[:-4]+self.EXTENSION_PLOT)
+			plt.close(fig)
 		else:
 			plt.show()
 		
@@ -434,6 +436,7 @@ class PlotExtract:
 
 			#plt.show()
 			fig.savefig(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.png', dpi=300)
+			plt.close(fig)
 
 			img = Image.open(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.png')
 			final_features = np.asarray(img)
