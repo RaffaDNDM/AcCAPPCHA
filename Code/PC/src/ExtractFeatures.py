@@ -170,21 +170,21 @@ class ExtractFeatures:
 
         #TOUCH PEAK
         #Number of samples in the peak
-        N_press = len(touch_peak)
+        N_touch = len(touch_peak)
         #Values of frequency axis for FFT transform 
-        f_press = self.fs*np.arange(math.floor(N_press/2))/N_press
+        f_touch = self.fs*np.arange(math.floor(N_touch/2))/N_touch
         #FFT transform
-        fft_signal_press = np.fft.fft(self.signal[touch_peak])[0:int(N_press/2)]/N_press 
+        fft_signal_touch = np.fft.fft(self.signal[touch_peak])[0:int(N_touch/2)]/N_touch 
         #Single-side FFT transform
-        fft_signal_press[1:] = 2*fft_signal_press[1:]
+        fft_signal_touch[1:] = 2*fft_signal_touch[1:]
         #Real values (removing complex part)
-        fft_signal_press = np.abs(fft_signal_press)
+        fft_signal_touch = np.abs(fft_signal_touch)
         #Normalize fft
-        fft_signal_press = fft_signal_press / np.linalg.norm(fft_signal_press)
+        fft_signal_touch = fft_signal_touch / np.linalg.norm(fft_signal_touch)
         #Store indices of peak samples, FFT coefficents and related frequencies                
         peaks['touch'] = Feature(touch_peak,
-                                 f_press, 
-                                 fft_signal_press)
+                                 f_touch, 
+                                 fft_signal_touch)
 
         #HIT PEAK
         #Number of samples in the peak
@@ -198,7 +198,7 @@ class ExtractFeatures:
         #Real values (removing complex part)
         fft_signal_hit = np.abs(fft_signal_hit)
         #Normalize fft
-        fft_signal_hit = fft_signal_press / np.linalg.norm(fft_signal_press)       
+        fft_signal_hit = fft_signal_hit / np.linalg.norm(fft_signal_hit)
         #Store indices of peak samples, FFT coefficents and related frequencies
         peaks['hit'] = Feature(hit_peak,
                                f_hit, 

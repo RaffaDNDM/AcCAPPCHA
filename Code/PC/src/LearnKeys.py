@@ -1,6 +1,8 @@
 import NeuralNetwork as nn
 import colorama
 import argparse
+from termcolor import cprint
+import utility
 
 def args_parser():
     '''
@@ -58,6 +60,20 @@ def main():
     test_mode, folder = args_parser()
 
     net = nn.NeuralNetwork(folder)
+    cprint(utility.LINE, 'blue')
+    print('Number of labels:', end=' ')
+    cprint(len(net.labels), 'green')
+    cprint(utility.LINE, 'blue')
+    input('Type ENTER to see them in details')
+    cprint(utility.LINE, 'blue')
+
+    for key in net.labels.keys():
+        cprint(f'{key}:', 'red', end=' ')
+        cprint(f'{net.labels[key]}', 'yellow')
+
+    cprint(utility.LINE, 'blue')
+    input('Type ENTER to train/test the model')
+    cprint(utility.LINE, 'blue')
 
     if test_mode:
         net.test()

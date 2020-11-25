@@ -123,7 +123,7 @@ class AcquireAudio:
                         delimiter = '\n'
                         count = 0
                     else:
-                        count = count + 1
+                        count += 1
                     
                     print('{:3d}'.format(num_already_acquired), end=delimiter)
 
@@ -207,14 +207,14 @@ class AcquireAudio:
         key_string = utility.key_definition(key)
 
         if self.count < self.TIMES_KEY_PRESSED:
-            self.count = self.count + 1
+            self.count += 1
 
             sleep(1)
             self.mutex.acquire()
             try:
                 if key_string in self.LETTERS.keys():
                     self.WAVE_OUTPUT_FILENAME = key_string+'/'+'{:03d}'.format(self.LETTERS[key_string])+'.wav'
-                    self.LETTERS[key_string] = self.LETTERS[key_string] + 1
+                    self.LETTERS[key_string] += 1
                     print('\r'+str(self.LETTERS[key_string]), end='')
                 else:
                     self.LETTERS[key_string] = 0

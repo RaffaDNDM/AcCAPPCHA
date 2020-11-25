@@ -10,6 +10,8 @@ import ExtractFeatures as ef
 from csv import writer
 from PIL import Image
 import librosa
+import progressbar
+
 
 class PlotExtract:
 	LINE = '_______________________________'
@@ -20,6 +22,9 @@ class PlotExtract:
 	OUTPUT_FOLDER = DEFAULT_OUTPUT
 	OUTPUT_CSV_TRAINING = 'dataset.csv'
 	OUTPUT_CSV_DICT_LABEL = 'label_dict.csv'
+	WIDGETS = [progressbar.Bar('=', '[', ']'),
+				' ',
+			   progressbar.Percentage()]
 
 	'''
 	PlotExtract object extracts features and plots
@@ -93,7 +98,7 @@ class PlotExtract:
 				if not os.path.isdir(self.DATA_FOLDER+f):
 					break
 
-				count = count + 1
+				count += 1
 
 			if count==len(files):
 				self.RECURSIVE = True
@@ -118,14 +123,19 @@ class PlotExtract:
         Plot the waves of audio signals w.r.t.
 		selected mode
         '''
+		bar = progressbar.ProgressBar(maxval=20,
+									  widgets= self.WIDGETS)
+
 		try:
-			if self.RECURSIVE:			
+			if self.RECURSIVE:
+				count=0
 				#Plot for each subfolder of DATA_FOLDER
 				for subfolder in self.wav_files.keys():
 					#Plot together the audio signals of all the wav files
 					# inside the subfolder  
 					#(a window with audio signal with highlighted peaks)
-
+					cprint('\n'+subfolder, 'red', end='\n\n')
+					bar.start()
 					#Sort wav files in subfolder by lessicographic order
 					subfolder_files = [x for x in self.wav_files[subfolder]]
 					subfolder_files.sort()
@@ -134,8 +144,7 @@ class PlotExtract:
 						#Collect the analysis objects, one for
 						# each wav files in the subfolder
 						signals = []
-						cprint('\n'+subfolder, 'red')
-						
+
 						for f in subfolder_files:
 							#Reading audio file
 							fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+f)
@@ -153,10 +162,20 @@ class PlotExtract:
 						cprint('[EMPTY FOLDER]', 'blue', end=' ')
 						print("No '.wav' files inside", end=' ')
 						cprint(f'{self.DATA_FOLDER+subfolder}', 'green')
+
+					count += 1
+					bar.update((count/len(self.wav_files.keys()))*20)
+
+				bar.finish()
+
 			else:
 				#Plot features of each file in wav_files separately
 				#(a window with audio signal with highlighted peaks
 				#    and FFT transform of press and hit peaks)
+				count = 0
+				cprint(f'\n{os.path.basename(self.DATA_FOLDER[:-1])}', 'red')
+				bar.start()
+				
 				for filename in self.wav_files:
 					#Reading audio file
 					fs, signal = wave.read(self.DATA_FOLDER+filename)
@@ -164,12 +183,17 @@ class PlotExtract:
 					analysis = ef.ExtractFeatures(fs, signal)
 					#Plot of features
 					self.plot_single_wave(filename, analysis, zoom)
-					
+					count += 1
+					bar.update((count/len(self.wav_files))*20)
+
+				bar.finish()
+
 		except KeyboardInterrupt:
 			#Terminate the program (detected CTRL+C)
 			plt.close()
 			exit(0)
 
+		bar.finish()
 
 	def plot_many_waves(self, subfolder, signals, zoom):
 		'''
@@ -226,10 +250,10 @@ class PlotExtract:
 			s.legend(loc='upper right', fontsize=5, framealpha=0.5)
 
 			if x == (n-1):
-				y = y + 1
+				y += 1
 				x=0
 			else:
-				x = x + 1
+				x += 1
 
 		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION_PLOT)
@@ -317,17 +341,18 @@ class PlotExtract:
 					if not os.path.exists(path_csv):
 						os.mkdir(path_csv)
 
+				label = 0
 				with open(path_csv+self.OUTPUT_CSV_TRAINING, 'w', newline='') as train_fp,\
 					 open(path_csv+self.OUTPUT_CSV_DICT_LABEL, 'w', newline='') as label_fp:
 					csv_train  = writer(train_fp)
 					csv_label  = writer(label_fp)
-					self.compute_entry(csv_train, csv_label, option)
+					label=self.compute_entry(csv_train, csv_label, option)
 
 				cprint('\n'+self.LINE, 'red')
 				print('{:>20s}'.format('Features size:'), end=' ')
 				cprint('{:<d}'.format(self.FEATURE_SIZE), 'green')
 				print('{:>20s}'.format('Number of keys:'), end=' ')
-				cprint('{:<d}'.format(len(self.wav_files)), 'green')
+				cprint('{:<d}'.format(label), 'green')
 				cprint(self.LINE, 'red')
 
 		except KeyboardInterrupt:
@@ -339,7 +364,6 @@ class PlotExtract:
 	def compute_entry(self, csv_train, csv_label, option):
 		'''
 		'''
-
 		label = 0
 		row_length = 0
 		#Extraction for each subfolder of DATA_FOLDER
@@ -378,13 +402,15 @@ class PlotExtract:
 					#Store features in OUTPUT_CSV_FILE
 					self.store_features_in_csv(csv_train, subfolder, f, analysis, label, option)
 
+				#Update label value
+				label += 1
+
 			else:
 				cprint('[Folder EMPTY]', 'blue', end=' ')
 				print("No '.wav' files inside the subfolder", end=' ')
 				cprint(f'{self.DATA_FOLDER+subfolder}', 'green')
 
-			#Update label value
-			label = label + 1
+		return label
 
 
 	def print_key(self, csv_label, key, label, row_length):
@@ -395,7 +421,7 @@ class PlotExtract:
 		else:
 			print(f'{key}', end='  ')
 
-		row_length = row_length + len(key) + 2
+		row_length += (len(key) + 2)
 		csv_label.writerow([key, label])
 		
 		return row_length

@@ -60,8 +60,6 @@ class NeuralNetwork:
             reader = csv.reader(fp)
             self.labels = {rows[0]:rows[1] for rows in reader}
 
-        print(self.labels)
-
         # Load the dataset
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
@@ -83,7 +81,6 @@ class NeuralNetwork:
         '''
         self.model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
         self.Y = to_categorical(self.Y, len(self.labels))
-
 
     def train(self):
         '''
