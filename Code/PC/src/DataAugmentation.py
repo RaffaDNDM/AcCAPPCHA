@@ -39,3 +39,26 @@ import sys
 #    for f in wav_files:
 #        os.rename(PATH_WAV+fold+'/'+f, PATH_WAV+fold+'/'+'{:03d}.wav'.format(count))
 #        count+=1
+
+#See if 2 folders have the same content
+#PATH_1 = '../dat/MSI/TEST/'
+#PATH_2 = '../dat/MSI/audio/'
+#subfolders_1 = os.listdir(PATH_1)
+#subfolders_2 = os.listdir(PATH_2)
+#subfolders_1.sort()
+#subfolders_2.sort()
+# check = True
+#if subfolders_1==subfolders_2:
+#    for fold in subfolders_1:
+#        files_1 = os.listdir(PATH_1+fold)
+#        files_2 = os.listdir(PATH_2+fold)
+#        files_1.sort()
+#        files_2.sort()
+
+#        if files_1!=files_2:
+#            check=False
+#            break
+#else:
+#    check=False
+
+#print(check)
