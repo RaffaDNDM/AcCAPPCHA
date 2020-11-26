@@ -62,3 +62,20 @@ import sys
 #    check=False
 
 #print(check)
+
+#Merge content of each couple of subfolders
+#with names: 'folder' and 'folder_2'
+PATH = '../dat/MSI/TEST/'
+subfolders = [x for x in os.listdir(PATH) if x.endswith('_2')]
+
+for fold in subfolders:
+    count=0
+    files_1 = os.listdir(PATH+fold[:-2])
+    for f in files_1:
+        os.rename(PATH+fold[:-2]+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
+        count+=1
+
+    files_2 = os.listdir(PATH+fold)
+    for f in files_2:
+        os.rename(PATH+fold+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
+        count+=1
