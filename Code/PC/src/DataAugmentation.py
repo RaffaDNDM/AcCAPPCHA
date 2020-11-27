@@ -1,11 +1,12 @@
 import os
 import sys
+import utility
 
 #Create images for each audio file in '../dat/MSI/'+sys.argv[1]
-#subfolders = os.listdir('../dat/MSI/'+sys.argv[1]+'/')
+subfolders = os.listdir('../dat/MSI/'+sys.argv[1]+'/')
 
-#for fold in subfolders:
-#    os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+fold+' -o ../dat/MSI/graphics/detailed/'+fold)
+for fold in subfolders:
+    os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+fold+' -o ../dat/MSI/graphics/detailed/'+fold)
 
 #Remove audio files in TEST that are not correct
 #PATH_IMG = '../dat/MSI/graphics/detailed/'
@@ -63,23 +64,58 @@ import sys
 
 #print(check)
 
+
+#Print number of elements in dataset
+#count_completed=0
+#list_100=[]
+#list_150=[]
+#
+#PATH = '../dat/MSI/audio/'
+#folders = os.listdir(PATH)
+#
+#for fold in folders:
+#     length = len(os.listdir(PATH+fold))
+#     if length >= 100:
+#             count_completed+=1
+#             if length < 150:
+#                     list_100.append((fold, length))
+#             else:
+#                     list_150.append((fold, length))
+#
+#print('LIST OF KEYS with >= 100 and <150 clicks')
+#print(utility.LINE)
+#for (fold,length) in list_100:
+#     print(f'{fold}: {length}')
+#print(utility.LINE, end='\n\n')
+
+#print('LIST OF KEYS with >= 150 clicks')
+#print(utility.LINE)
+#for (fold,length) in list_150:
+#     print(f'{fold}: {length}')
+#print(utility.LINE, end='\n\n')
+#
+#print(f'Number of keys with >=100 and <150 clicks: {len(list_100)}')
+#print(f'Number of keys with >=150 clicks: {len(list_150)}')
+#print(f'Number of keys completed: {count_completed}', end='\n\n')
+
+
 #Merge content of each couple of subfolders
 #with names: 'folder' and 'folder_2'
-PATH = '../dat/MSI/audio/'
-subfolders = [x for x in os.listdir(PATH) if x.endswith('_2')]
-print(subfolders)
+#PATH = '../dat/MSI/audio/'
+#subfolders = [x for x in os.listdir(PATH) if x.endswith('_2')]
+#print(subfolders)
 
-for fold in subfolders:
-    count=0
-    
-    files_1 = os.listdir(PATH+fold[:-2])
-    
-    for f in files_1:
-        os.rename(PATH+fold[:-2]+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
-        count+=1
-
-    files_2 = os.listdir(PATH+fold)
-    
-    for f in files_2:
-        os.rename(PATH+fold+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
-        count+=1
+#for fold in subfolders:
+#    count=0
+#    
+#    files_1 = os.listdir(PATH+fold[:-2])
+#    
+#    for f in files_1:
+#        os.rename(PATH+fold[:-2]+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
+#        count+=1
+#
+#    files_2 = os.listdir(PATH+fold)
+#    
+#    for f in files_2:
+#        os.rename(PATH+fold+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
+#        count+=1
