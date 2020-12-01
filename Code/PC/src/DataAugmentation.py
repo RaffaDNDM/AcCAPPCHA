@@ -1,6 +1,7 @@
 import os
 import sys
-import utility
+
+SHORT_LINE ='______________________________________________'
 
 def plot_detailed():
     '''
@@ -11,6 +12,8 @@ def plot_detailed():
 
     for fold in subfolders:
         os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+fold+' -o ../dat/MSI/graphics/detailed/'+fold)
+#    for fold in range(5, 10):
+#        os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+str(fold)+' -o ../dat/MSI/graphics/detailed/'+str(fold))
 
 
 def remove_wrong_files_recursive():
@@ -97,7 +100,8 @@ def state_dataset():
     Print number of elements in dataset
     '''
 
-    count_completed=0
+    dataset_size = 0
+    list_0 = []
     list_100=[]
     list_150=[]
 
@@ -106,28 +110,36 @@ def state_dataset():
 
     for fold in folders:
         length = len(os.listdir(PATH+fold))
+        dataset_size+=length
+
         if length >= 100:
-                count_completed+=1
                 if length < 150:
                         list_100.append((fold, length))
                 else:
                         list_150.append((fold, length))
+        else:
+            list_0.append((fold, length))
 
-    print('LIST OF KEYS with >= 100 and <150 clicks')
-    print(utility.LINE)
-    for (fold,length) in list_100:
-        print(f'{fold}: {length}')
-    print(utility.LINE, end='\n\n')
+    print_list('LIST OF KEYS with < 100 clicks', list_0)
+    print_list('LIST OF KEYS with >= 100 and <150 clicks', list_100)
+    print_list('LIST OF KEYS with >= 150 clicks', list_150)
 
-    print('LIST OF KEYS with >= 150 clicks')
-    print(utility.LINE)
-    for (fold,length) in list_150:
-        print(f'{fold}: {length}')
-    print(utility.LINE, end='\n\n')
-
+    print('{:^46s}'.format('Summary'))
+    print(SHORT_LINE)
+    print(f'Number of keys with <100 clicks: {len(list_0)}')
     print(f'Number of keys with >=100 and <150 clicks: {len(list_100)}')
     print(f'Number of keys with >=150 clicks: {len(list_150)}')
-    print(f'Number of keys completed: {count_completed}', end='\n\n')
+    print(f'Number of keys completed: {len(list_0)+len(list_100)+len(list_150)}', end='\n\n')
+    print(f'Dataset size: {dataset_size}', end='\n')
+    print(SHORT_LINE, end='\n\n')
+
+
+def print_list(title, wav_list):
+    print('{:^46s}'.format(title))
+    print(SHORT_LINE)
+    for (fold,length) in wav_list:
+        print('          {:>12s}: {:>3d}'.format(fold, length))
+    print(SHORT_LINE, end='\n\n\n')
 
 
 def merge_subfolders():
@@ -157,4 +169,6 @@ def merge_subfolders():
 
 if __name__=='__main__':
     #rename_files_recursive()
+    #state_dataset()
+    plot_detailed()
     pass
