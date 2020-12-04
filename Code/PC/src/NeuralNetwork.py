@@ -24,7 +24,7 @@ from keras.utils import to_categorical
 
 class NeuralNetwork:
     #Default files
-    DATA_FOLDER = '../dat/MSI/training/touch/'
+    DATA_FOLDER = '../dat/touch/'
     CSV_DATASET = 'dataset.csv'
     CSV_DICT_LABELS = 'label_dict.csv'
     JSON_MODEL = 'model.json'

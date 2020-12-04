@@ -1,0 +1,67 @@
+        LIST OF KEYS with < 200 clicks
+______________________________________________
+                     à:   3
+                     ì:   1
+                     ò:   2
+______________________________________________
+
+
+       LIST OF KEYS with >= 200 clicks
+______________________________________________
+                 1_END:   0
+                     3:   0
+                 5_NUM:   0
+                     6:   0
+                     8:   0
+                  8_UP:   0
+                     9:   0
+             9_PAGE_UP:   0
+                     a:   0
+                ALT_GR:   0
+                     b:   0
+             CAPS_LOCK:   0
+                  CTRL:   0
+                CTRL_R:   0
+                     d:   0
+                DELETE:   0
+                  DOWN:   0
+                     e:   0
+                   ESC:   0
+                   F10:   0
+                   F11:   0
+                   F12:   0
+                    F2:   0
+                    F9:   0
+                     g:   0
+                     h:   0
+                     i:   0
+                 MINUS:   0
+               MINUS_R:   0
+                     o:   0
+                     p:   0
+                 PAUSE:   0
+                  PLUS:   0
+                 POINT:   0
+          PRINT_SCREEN:   0
+                     s:  -4
+                     t:   0
+                     u:   0
+                    UP:   0
+                     w:   0
+               WINDOWS:   0
+                     x:   0
+                     y:   0
+                     z:   0
+                     Þ:   0
+                     ¨:   0
+______________________________________________
+
+
+                   Summary
+______________________________________________
+Number of keys with <200 clicks: 56
+Number of keys with >=200 clicks: 46
+Number of keys completed: 102
+
+Dataset size: 19861
+______________________________________________

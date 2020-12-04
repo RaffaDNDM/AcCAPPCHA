@@ -193,7 +193,6 @@ def plot_detailed():
     '''
     Create images for each audio file in '../dat/MSI/'+sys.argv[1]
     '''
-
     subfolders = os.listdir('../dat/MSI/'+sys.argv[1]+'/')
 
     for fold in subfolders:
@@ -318,7 +317,7 @@ def print_list(title, wav_list):
     print('{:^46s}'.format(title))
     print(SHORT_LINE)
     for (fold,length) in wav_list:
-        print('          {:>12s}: {:>3d}'.format(fold, length))
+        print('          {:>12s}: {:>3d}'.format(fold, 200-length))
     print(SHORT_LINE, end='\n\n\n')
 
 
@@ -346,8 +345,13 @@ def merge_subfolders():
             os.rename(PATH+fold+'/'+f, PATH+fold[:-2]+'/'+'{:03d}.wav'.format(count))
             count+=1
 
+        files_2 = os.listdir(PATH+fold)
+        if not files_2:
+            os.rmdir(PATH+fold)
+
 
 if __name__=='__main__':
+    #remove_wrong_files_recursive()
     #rename_files_recursive()
     state_dataset()
     #plot_detailed()
