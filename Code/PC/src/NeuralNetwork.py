@@ -65,12 +65,13 @@ class NeuralNetwork:
         # Split into input (X) and input/label (y) variables
         self.X = dataset[:,:-1]
         self.Y = dataset[:, -1]
+        cprint(f'\n\n{len(dataset)}', 'red', end='\n\n')
         # Define the keras model
         self.model = Sequential()
-        self.model.add(Dense(len(self.labels), input_dim=len(self.X[0]), activation='relu'))
-        self.model.add(Dense(69, activation='relu'))
-        self.model.add(Dense(69, activation='relu'))
-        self.model.add(Dense(69, activation='relu'))
+        self.model.add(Dense(40, input_dim=len(self.X[0]), activation='relu'))
+        #self.model.add(Dense(69, activation='relu'))
+        #self.model.add(Dense(69, activation='relu'))
+        #self.model.add(Dense(69, activation='relu'))
         self.model.add(Dense(len(self.labels), activation='relu'))
         '''
         self.model.add(Embedding(input_dim=len(self.X), output_dim=64))

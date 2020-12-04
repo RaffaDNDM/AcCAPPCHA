@@ -193,7 +193,7 @@ def plot_detailed():
     '''
     Create images for each audio file in '../dat/MSI/'+sys.argv[1]
     '''
-    subfolders = os.listdir('../dat/MSI/'+sys.argv[1]+'/')
+    subfolders = os.listdir('D:/THESIS/dat/MSI/'+sys.argv[1]+'/')
 
     for fold in subfolders:
         os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+fold+' -o ../dat/MSI/graphics/detailed/'+fold)
@@ -207,8 +207,8 @@ def remove_wrong_files_recursive():
     that are not in graphics in subfolders of a given folder
     '''
 
-    PATH_IMG = '../dat/MSI/graphics/detailed/'
-    PATH_WAV = '../dat/MSI/audio/'
+    PATH_IMG = 'D:/THESIS/dat/MSI/graphics/detailed/'
+    PATH_WAV = 'D:/THESIS/dat/MSI/audio/'
     subfolders = os.listdir(PATH_IMG)
 
     for fold in subfolders:
@@ -239,7 +239,7 @@ def rename_files_recursive():
     Rename files (counter for each subfolder)
     '''
 
-    PATH_WAV = '../dat/MSI/audio/'
+    PATH_WAV = 'D:/THESIS/dat/MSI/audio/'
     subfolders = os.listdir(PATH_WAV)
 
     for fold in subfolders:
@@ -256,8 +256,8 @@ def same_folder():
     See if 2 folders have the same content
     '''
 
-    PATH_1 = '../dat/MSI/TEST/'
-    PATH_2 = '../dat/MSI/audio/'
+    PATH_1 = 'D:/THESIS/dat/MSI/audio/'
+    PATH_2 = 'D:/THESIS/dat/MSI/TEST/'
     subfolders_1 = os.listdir(PATH_1)
     subfolders_2 = os.listdir(PATH_2)
     subfolders_1.sort()
@@ -289,7 +289,7 @@ def state_dataset():
     list_low = []
     list_high=[]
 
-    PATH = '../dat/MSI/audio/'
+    PATH = 'D:/THESIS/dat/MSI/audio/'
     folders = os.listdir(PATH)
 
     for fold in folders:
@@ -327,7 +327,7 @@ def merge_subfolders():
     with names: 'folder' and 'folder_2'
     '''
 
-    PATH = '../dat/MSI/audio/'
+    PATH = 'D:/THESIS/dat/MSI/audio/'
     subfolders = [x for x in os.listdir(PATH) if x.endswith('_2')]
     print(subfolders)
 
