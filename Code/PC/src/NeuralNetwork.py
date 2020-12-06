@@ -23,6 +23,7 @@ from keras.layers import Dense, Embedding, LSTM
 from keras.utils import to_categorical
 from keras.losses import BinaryCrossentropy
 from keras.models import load_model
+from sklearn.metrics import accuracy_score
 
 class NeuralNetwork:
     #Default files
@@ -35,11 +36,13 @@ class NeuralNetwork:
         train_mode (bool): True if training phase with creation of NN
                            False if test phase reading csv 
     '''
-    def __init__(self, data_folder):
+    def __init__(self, data_folder, option):
+        self.is_touch_hit = (utility.OPTIONS[option] == 'touch_hit')
         #Update folder containing csv files
         if data_folder:
             if os.path.exists(data_folder) and os.path.isdir(data_folder):
                 self.DATA_FOLDER = utility.uniform_dir_path(data_folder)
+                self.DATA_FOLDER += (utility.OPTIONS[option]+'/')
             else:
                 cprint('[NOT EXISTING FOLDER]', 'blue', end=' ')
                 print('The dataset directory', end=' ')
@@ -65,38 +68,56 @@ class NeuralNetwork:
         # Load the dataset
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
-        self.X = dataset[:,:-1]
-        self.Y = dataset[:, -1]
+        self.X_train = dataset[0:len(dataset):2,:-1]
+        self.Y_train = dataset[0:len(dataset):2, -1]
+        self.X_validation = dataset[1:len(dataset):4,:-1]
+        self.Y_validation = dataset[1:len(dataset):4, -1]
+        self.X_test = dataset[3:len(dataset):4,:-1]
+        self.Y_test = dataset[3:len(dataset):4, -1]
+        print(len(self.X_train))
+
         cprint(f'\n\n{len(dataset)}', 'red', end='\n\n')
         # Define the keras model
         self.model = Sequential()
-        self.model.add(Dense(50, input_dim=len(self.X[0]), activation='relu'))
-        #self.model.add(Dense(69, activation='relu'))
-        #self.model.add(Dense(69, activation='relu'))
-        #self.model.add(Dense(69, activation='relu'))
-        self.model.add(Dense(len(self.labels), activation='sigmoid'))
-        '''
-        self.model.add(Embedding(input_dim=len(self.X), output_dim=64))
-        # Add a LSTM layer with 128 internal units.
-        self.model.add(LSTM(66, activation='relu'))
-        # Add a Dense layer with 10 units.
-        self.model.add(Dense(len(self.labels), activation='relu'))
-        '''
-        self.Y = to_categorical(self.Y, len(self.labels))
-        self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
+
+        self.Y_train = to_categorical(self.Y_train, len(self.labels))
+        self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
+        self.Y_test = to_categorical(self.Y_test, len(self.labels))
 
 
     def train(self):
         '''
         Train the model using already stored model
         '''
+        self.model.add(Dense(50, input_dim=len(self.X_train[0]), activation='relu'))
+        self.model.add(Dense(len(self.labels), activation='sigmoid'))
+        self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
+
         #end = int(len(self.X)/2)
+        epochs = 0
+
         #Train the model (epochs=4 less accuracy)
-        history = self.model.fit(self.X, self.Y, epochs=10)
+        if self.is_touch_hit:
+            epochs=10
+        else:
+            epochs=15
+
+        history = self.model.fit(self.X_train, self.Y_train, epochs=epochs, shuffle=True)
+
         # Evaluate the model
-        scores = self.model.evaluate(self.X, self.Y, verbose=0)
-        print(f'{self.model.metrics_names[1]}: {scores[1]*100}%')
-        
+        scores = self.model.evaluate(self.X_train, self.Y_train, verbose=0)
+        cprint(f'Training accuracy:', 'green', end='  ')
+        print(f'{scores[1]*100} %')
+
+        # Evaluate the model
+        scores = self.model.evaluate(self.X_validation, self.Y_validation, verbose=0)
+        cprint(f'Training accuracy:', 'green', end='  ')
+        print(f'{scores[1]*100} %')
+
+        # Evaluate the model
+        scores = self.model.evaluate(self.X_test, self.Y_test, verbose=0)
+        cprint(f'Training accuracy:', 'green', end='  ')
+        print(f'{scores[1]*100} %')
         
         self.model.save(self.DATA_FOLDER+self.MODEL)
         # serialize model to JSON
@@ -127,10 +148,11 @@ class NeuralNetwork:
         #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
         #Prediction example
-        X_test = np.array([self.X[i*200] for i in range(102)])
-        Y_test=loaded_model.predict(X_test)
-        Y_test=Y_test.round()
-        
+        print(self.X_test.shape)
+        X_predict = np.array([self.X_test[i*50] for i in range(102)])
+        Y_predict=loaded_model.predict(X_predict)
+
         for i in range(102):
-            cprint(f'{self.labels[np.argmax(self.Y[i*200])]}:', 'yellow', end=' ')
-            print(f'{self.labels[np.argmax(Y_test[i])]}')
+            cprint(f'{self.labels[np.argmax(self.Y_test[i*50])]}:', 'yellow', end=' ')
+            print(f'{self.labels[np.argmax(Y_predict[i])]}')
+
