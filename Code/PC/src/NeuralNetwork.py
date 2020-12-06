@@ -155,4 +155,3 @@ class NeuralNetwork:
         for i in range(102):
             cprint(f'{self.labels[np.argmax(self.Y_test[i*50])]}:', 'yellow', end=' ')
             print(f'{self.labels[np.argmax(Y_predict[i])]}')
-

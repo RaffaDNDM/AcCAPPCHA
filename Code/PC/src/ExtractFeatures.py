@@ -1,5 +1,6 @@
 import numpy as np
 import math
+import utility
 
 class ExtractFeatures:
     #Time step = 0.5 ms
@@ -46,7 +47,7 @@ class ExtractFeatures:
                                space, from the start index of the hit peak
     '''
     def __init__(self, fs, signal):
-        self.ts, self.time_ms, self.signal = self.signal_adjustment(fs, signal)
+        self.ts, self.time_ms, self.signal = utility.signal_adjustment(fs, signal)
         self.fs = fs
 
 
@@ -114,39 +115,6 @@ class ExtractFeatures:
         hit_peak = np.arange(math.floor(hit_peak_start), math.ceil(hit_peak_end))
 
         return touch_peak, hit_peak
-
-
-    def signal_adjustment(self, fs, signal):
-        '''
-        Analyse number of channels, compute mean of signal for
-        2-channels signals and other useful information
-        
-        Args:
-            fs (float): sampling frequency of signal
-            signal (np.array): signal to be analysed
-
-        Raises:
-
-        Returns:
-            ts (float): sampling step in time
-            time_ms (np.array): sequence of instances of
-                                each sample of the signal
-            signal (np.array): signal analysed looking
-                               to the number of channels
-        '''
-        #Duration of audio by looking to its number of samples
-        N = signal.shape[0]
-        secs = N / float(fs)
-        #Computation of time instances for the audio
-        ts = 1.0/fs
-        time_ms = np.arange(0, N)
-        #If num of channels = 2, do mean of the signal
-        l_audio = len(signal.shape)
-
-        if l_audio == 2:
-            signal = np.mean(signal, axis=1)
-
-        return ts, time_ms, signal
 
 
     def FFT_evaluation(self, touch_peak, hit_peak):

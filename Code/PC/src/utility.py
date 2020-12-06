@@ -1,6 +1,7 @@
 from termcolor import cprint
 import os
 import sys
+import numpy as np
 
 OPTIONS = ['touch', 'touch_hit', 'spectrum']
 LINE = '_____________________________________________________'
@@ -185,6 +186,39 @@ def correct_csv_file(csv_file, default_file):
             exit(0)
     else:
         return default_file
+
+
+def signal_adjustment(fs, signal):
+    '''
+    Analyse number of channels, compute mean of signal for
+    2-channels signals and other useful information
+    
+    Args:
+        fs (float): sampling frequency of signal
+        signal (np.array): signal to be analysed
+
+    Raises:
+
+    Returns:
+        ts (float): sampling step in time
+        time_ms (np.array): sequence of instances of
+                            each sample of the signal
+        signal (np.array): signal analysed looking
+                            to the number of channels
+    '''
+    #Duration of audio by looking to its number of samples
+    N = signal.shape[0]
+    secs = N / float(fs)
+    #Computation of time instances for the audio
+    ts = 1.0/fs
+    time_ms = np.arange(0, N)
+    #If num of channels = 2, do mean of the signal
+    l_audio = len(signal.shape)
+
+    if l_audio == 2:
+        signal = np.mean(signal, axis=1)
+
+    return ts, time_ms, signal
 
 
 SHORT_LINE ='______________________________________________'
