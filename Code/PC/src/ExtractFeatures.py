@@ -51,7 +51,7 @@ class ExtractFeatures:
         self.fs = fs
 
 
-    def extract(self):
+    def extract(self, original_signal= None, index= None):
         '''
         Extract the feature from the signal
         
@@ -64,10 +64,12 @@ class ExtractFeatures:
                              related to touch and hit peaks
         '''
         #Find peaks (hit and touch) of press peaks
-        touch_peak, hit_peak = self.press_peaks()
+        touch_peak, hit_peak = self.press_peaks(index)
         #FFT evaluation from press peaks
-        return self.FFT_evaluation(touch_peak, hit_peak)
-        
+        if original_signal is None:
+            return self.FFT_evaluation(self.signal, touch_peak, hit_peak)        
+        else:
+            return self.FFT_evaluation(original_signal, touch_peak, hit_peak)
 
     def num_samples(self, seconds):
         '''
@@ -84,10 +86,10 @@ class ExtractFeatures:
             features: number of time instances related to ts
         
         '''
-        return int(seconds/self.ts)
+        return utility.num_samples(self.fs, seconds)
 
 
-    def press_peaks(self):
+    def press_peaks(self, index= None):
         '''
         Extract touch peak and hit peak from the signal
         
@@ -103,6 +105,10 @@ class ExtractFeatures:
         '''
         #Find touch peak (max of the wave values)
         max_point = np.argmax(self.signal)
+        
+        if index:
+            max_point += index
+
         #Num of instances inside STEP_PEAKS
         num_samples_STEP = math.floor(self.STEP_PEAKS / self.ts)
         #Start and end indices of samples in signal for touch and hit peaks
@@ -117,7 +123,7 @@ class ExtractFeatures:
         return touch_peak, hit_peak
 
 
-    def FFT_evaluation(self, touch_peak, hit_peak):
+    def FFT_evaluation(self, original_signal, touch_peak, hit_peak):
         '''
         FFT computaion on press peak and hit peak
         of the audio signal 
@@ -142,7 +148,7 @@ class ExtractFeatures:
         #Values of frequency axis for FFT transform 
         f_touch = self.fs*np.arange(math.floor(N_touch/2))/N_touch
         #FFT transform
-        fft_signal_touch = np.fft.fft(self.signal[touch_peak])[0:int(N_touch/2)]/N_touch 
+        fft_signal_touch = np.fft.fft(original_signal[touch_peak])[0:int(N_touch/2)]/N_touch 
         #Single-side FFT transform
         fft_signal_touch[1:] = 2*fft_signal_touch[1:]
         #Real values (removing complex part)
@@ -160,7 +166,7 @@ class ExtractFeatures:
         #Values of frequency axis for FFT transform 
         f_hit = self.fs*np.arange(math.floor(N_hit/2))/N_hit
         #FFT transform
-        fft_signal_hit = np.fft.fft(self.signal[hit_peak])[0:int(N_hit/2)]/N_hit 
+        fft_signal_hit = np.fft.fft(original_signal[hit_peak])[0:int(N_hit/2)]/N_hit 
         #Single-side FFT transform
         fft_signal_hit[1:] = 2*fft_signal_hit[1:]
         #Real values (removing complex part)

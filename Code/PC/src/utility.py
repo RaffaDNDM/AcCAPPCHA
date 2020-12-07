@@ -221,6 +221,24 @@ def signal_adjustment(fs, signal):
     return ts, time_ms, signal
 
 
+def num_samples(fs, seconds):
+    '''
+    Extract the feature from the signal
+    
+    Args:
+        seconds (float): seconds to be converted in the
+                            number of instances, looking to
+                            base sampling step in time (ts)
+
+    Raises:
+
+    Returns:
+        features: number of time instances related to ts
+    
+    '''
+    return int(seconds*fs)
+
+
 SHORT_LINE ='______________________________________________'
 
 def plot_detailed():
