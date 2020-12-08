@@ -36,7 +36,7 @@ class NeuralNetwork:
         train_mode (bool): True if training phase with creation of NN
                            False if test phase reading csv 
     '''
-    def __init__(self, data_folder, option):
+    def __init__(self, option, data_folder=None):
         self.is_touch_hit = (utility.OPTIONS[option] == 'touch_hit')
         #Update folder containing csv files
         if data_folder:
@@ -52,8 +52,7 @@ class NeuralNetwork:
 
         files = os.listdir(self.DATA_FOLDER)
 
-        if not self.CSV_DATASET in files or\
-           not self.CSV_DICT_LABELS in files:
+        if not self.CSV_DICT_LABELS in files:
             cprint('[FOLDER without files]', 'blue', end=' ')
             print('The dataset directory', end=' ')
             cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
@@ -64,6 +63,20 @@ class NeuralNetwork:
         with open(self.DATA_FOLDER+self.CSV_DICT_LABELS) as fp:
             reader = csv.reader(fp)
             self.labels = {int(row[1]):row[0] for row in reader}
+
+
+    def train(self):
+        '''
+        Train the model using already stored model
+        '''
+        files = os.listdir(self.DATA_FOLDER)
+
+        if not self.CSV_DATASET in files:
+            cprint('[FOLDER without files]', 'blue', end=' ')
+            print('The dataset directory', end=' ')
+            cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
+            print("doesn't contain required csv files of dataset and labels dictionary")
+            exit(0)
 
         # Load the dataset
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
@@ -83,12 +96,6 @@ class NeuralNetwork:
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
         self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
         self.Y_test = to_categorical(self.Y_test, len(self.labels))
-
-
-    def train(self):
-        '''
-        Train the model using already stored model
-        '''
         self.model.add(Dense(50, input_dim=len(self.X_train[0]), activation='relu'))
         self.model.add(Dense(len(self.labels), activation='sigmoid'))
         self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
@@ -127,7 +134,7 @@ class NeuralNetwork:
         #    json_file.write(model_json)
 
 
-    def test(self):
+    def test(self, X):
         '''
         Load json and create model
         '''
@@ -148,10 +155,7 @@ class NeuralNetwork:
         #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
         #Prediction example
-        print(self.X_test.shape)
-        X_predict = np.array([self.X_test[i*50] for i in range(102)])
-        Y_predict=loaded_model.predict(X_predict)
-
-        for i in range(102):
-            cprint(f'{self.labels[np.argmax(self.Y_test[i*50])]}:', 'yellow', end=' ')
-            print(f'{self.labels[np.argmax(Y_predict[i])]}')
+        cprint(X.shape, 'green')
+        cprint(type(X), 'green')
+        Y = loaded_model.predict(X)
+        return f'{self.labels[np.argmax(Y)]}'

@@ -15,6 +15,8 @@ import matplotlib
 from matplotlib import pyplot as plt, use
 from scipy.stats import mode
 from collections import Counter
+import LearnKeys as lk
+import NeuralNetwork as nn
 
 class AcCAPPCHA:
     CHUNK = 1024
@@ -177,6 +179,9 @@ class AcCAPPCHA:
         plt.tick_params(axis='both', which='major', labelsize=6)
         fig.savefig(self.OUTPUT_IMG)
 
+        option = lk.select_option_feature()
+        net = nn.NeuralNetwork(option, '../dat/')
+
         count = 0
         for list_time in char_times:
             fig = plt.figure('CHARACTER'+str(count))
@@ -188,6 +193,18 @@ class AcCAPPCHA:
             touch_feature = features['touch']
             hit_feature = features['hit']
             
+            if utility.OPTIONS[option]=='touch':
+                touch_X = touch_feature.fft_signal
+                cprint(touch_X.shape, 'red')
+                print(f'{net.test(touch_X)}', end='')
+
+            elif utility.OPTIONS[option]=='touch_hit':
+                touch_X = touch_feature.fft_signal
+                hit_X = hit_feature.fft_signal
+                touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))
+                cprint(touch_hit_X.shape, 'red')
+                cprint(f'{net.test(touch_hit_X)}', 'green', end='')
+
             gs = fig.add_gridspec(2, 2)
             s_top = fig.add_subplot(gs[0, :])
             s1 = fig.add_subplot(gs[1,0])
@@ -235,9 +252,11 @@ class AcCAPPCHA:
                 audio_logger.join()
                 password_logger.join()
 
+
         except KeyboardInterrupt:
             #Terminate the keylogger (detected CTRL+C)
             self.KILLED = True
+            sleep(2)
             cprint('\nClosing the program', 'red', attrs=['bold'], end='\n\n')
             exit(0)
 

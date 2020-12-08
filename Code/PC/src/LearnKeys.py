@@ -34,13 +34,6 @@ def args_parser():
     #Parser of command line arguments
     parser = argparse.ArgumentParser()
     
-    #Initialization of needed arguments
-    parser.add_argument("-test", 
-                        dest="test", 
-                        help="""If specified, it performs test on specified
-                                dataset using csv model of trained NN""",
-                        action='store_true')
-    
     parser.add_argument("-dir","-d",
                         dest="dir", 
                         help="""Path of the folder that contains the csv files of 
@@ -50,7 +43,7 @@ def args_parser():
     #Parse command line arguments
     args = parser.parse_args()
 
-    return args.test, args.dir
+    return args.dir
 
 
 def select_option_feature():
@@ -82,10 +75,10 @@ def main():
     #Initialize colored prints
     colorama.init()
     #Parser of command line arguments
-    test_mode, folder = args_parser()
+    folder = args_parser()
 
     option = select_option_feature()
-    net = nn.NeuralNetwork(folder,option)
+    net = nn.NeuralNetwork(option,folder)
     cprint(utility.LINE, 'blue')
     print('Number of labels:', end=' ')
     cprint(len(net.labels), 'green')
@@ -100,11 +93,7 @@ def main():
     cprint(utility.LINE, 'blue')
     input('Type ENTER to train/test the model')
     cprint(utility.LINE, 'blue')
-
-    if test_mode:
-        net.test()
-    else:
-        net.train()
+    net.train()
 
 
 if __name__=='__main__':
