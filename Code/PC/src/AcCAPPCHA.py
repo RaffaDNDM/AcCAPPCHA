@@ -216,8 +216,8 @@ class AcCAPPCHA:
             s2.tick_params(axis='both', which='major', labelsize=6)
             s2.set_xscale('log')
             s2.set_yscale('log')
-            #fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
-            plt.show()
+            fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
+            #plt.show()
             count+=1
         
 
