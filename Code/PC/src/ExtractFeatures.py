@@ -63,12 +63,16 @@ class ExtractFeatures:
             features (dict): dictionary of Feature objects 
                              related to touch and hit peaks
         '''
+        print(index)
         #Find peaks (hit and touch) of press peaks
         touch_peak, hit_peak = self.press_peaks(index)
         #FFT evaluation from press peaks
         if original_signal is None:
+            print('HERE')
             return self.FFT_evaluation(self.signal, touch_peak, hit_peak)        
         else:
+            print(len(original_signal))
+            print(len(self.signal))
             return self.FFT_evaluation(original_signal, touch_peak, hit_peak)
 
     def num_samples(self, seconds):

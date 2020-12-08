@@ -11,7 +11,7 @@ import utility
 import tempfile
 import ExtractFeatures as ef
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 from matplotlib import pyplot as plt, use
 from scipy.stats import mode
 from collections import Counter
@@ -179,20 +179,20 @@ class AcCAPPCHA:
 
         count = 0
         for list_time in char_times:
+            fig = plt.figure('CHARACTER'+str(count))
+            fig.tight_layout(pad=3.0)
+
             analysis = ef.ExtractFeatures(self.RATE, signal[list_time[0]:list_time[-1]])
-            analysis.extract(original_signal=signal, index=list_time[0])
             #Evaluation of press peak and hit peaks
-            features = analysis.extract()
+            features = analysis.extract(original_signal=signal, index=list_time[0])
             touch_feature = features['touch']
             hit_feature = features['hit']
             
-            fig = plt.figure('CHARACTER')
             gs = fig.add_gridspec(2, 2)
             s_top = fig.add_subplot(gs[0, :])
             s1 = fig.add_subplot(gs[1,0])
             s2 = fig.add_subplot(gs[1,1])
-            fig.tight_layout(pad=3.0)
-
+        
             #Plot of press peak and hit peak with the signal
             s_top.plot(time_ms*ts, signal[time_ms], color='blue')
             s_top.plot(touch_feature.peak*ts, signal[touch_feature.peak], color='red')
@@ -216,7 +216,8 @@ class AcCAPPCHA:
             s2.tick_params(axis='both', which='major', labelsize=6)
             s2.set_xscale('log')
             s2.set_yscale('log')
-            fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
+            #fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
+            plt.show()
             count+=1
         
 
@@ -242,12 +243,7 @@ class AcCAPPCHA:
 
 
     def analyse(self, signal):
-        count = Counter(signal)
-        #mode_value = mode(signal)
-        input('')
-        #threshold = 50.0 * np.mean(np.array(mode_values))
-        threshold = self.noise
-        return np.argwhere(signal > threshold)
+        return np.argwhere(signal > self.noise)
 
 
 if __name__=='__main__':
