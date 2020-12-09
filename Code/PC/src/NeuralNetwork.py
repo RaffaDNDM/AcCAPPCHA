@@ -81,12 +81,15 @@ class NeuralNetwork:
         # Load the dataset
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
-        self.X_train = dataset[0:len(dataset):2,:-1]
-        self.Y_train = dataset[0:len(dataset):2, -1]
-        self.X_validation = dataset[1:len(dataset):4,:-1]
-        self.Y_validation = dataset[1:len(dataset):4, -1]
-        self.X_test = dataset[3:len(dataset):4,:-1]
-        self.Y_test = dataset[3:len(dataset):4, -1]
+        self.X_train = dataset[0:len(dataset),:-1]
+        self.Y_train = dataset[0:len(dataset),-1]
+        #self.Y_train = dataset[0:len(dataset):2, -1]
+        #self.X_train = dataset[0:len(dataset):2,:-1]
+        #self.Y_train = dataset[0:len(dataset):2, -1]
+        #self.X_validation = dataset[1:len(dataset):4,:-1]
+        #self.Y_validation = dataset[1:len(dataset):4, -1]
+        #self.X_test = dataset[3:len(dataset):4,:-1]
+        #self.Y_test = dataset[3:len(dataset):4, -1]
         print(len(self.X_train))
 
         cprint(f'\n\n{len(dataset)}', 'red', end='\n\n')
@@ -94,8 +97,8 @@ class NeuralNetwork:
         self.model = Sequential()
 
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
-        self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
-        self.Y_test = to_categorical(self.Y_test, len(self.labels))
+#        self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
+#        self.Y_test = to_categorical(self.Y_test, len(self.labels))
         self.model.add(Dense(50, input_dim=len(self.X_train[0]), activation='relu'))
         self.model.add(Dense(len(self.labels), activation='sigmoid'))
         self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
@@ -117,12 +120,12 @@ class NeuralNetwork:
         print(f'{scores[1]*100} %')
 
         # Evaluate the model
-        scores = self.model.evaluate(self.X_validation, self.Y_validation, verbose=0)
+        #scores = self.model.evaluate(self.X_validation, self.Y_validation, verbose=0)
         cprint(f'Training accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
 
         # Evaluate the model
-        scores = self.model.evaluate(self.X_test, self.Y_test, verbose=0)
+        #scores = self.model.evaluate(self.X_test, self.Y_test, verbose=0)
         cprint(f'Training accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
         
@@ -158,4 +161,7 @@ class NeuralNetwork:
         cprint(X.shape, 'green')
         cprint(type(X), 'green')
         Y = loaded_model.predict(X)
-        return f'{self.labels[np.argmax(Y)]}'
+        max_string = f'{self.labels[np.argmax(Y)]}  '
+        Y_indices_sort = np.argsort(Y)
+        print(Y_indices_sort)
+        return max_string+f'{self.labels[Y_indices_sort[0][-1]]}, {self.labels[Y_indices_sort[0][-2]]}, {self.labels[Y_indices_sort[0][-3]]}'

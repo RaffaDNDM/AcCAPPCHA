@@ -194,7 +194,7 @@ class AcCAPPCHA:
             hit_feature = features['hit']
             
             if utility.OPTIONS[option]=='touch':
-                touch_X = touch_feature.fft_signal
+                touch_X = touch_feature.fft_signal.reshape((1, 66))
                 cprint(touch_X.shape, 'red')
                 print(f'{net.test(touch_X)}', end='')
 
