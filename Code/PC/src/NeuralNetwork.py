@@ -69,6 +69,7 @@ class NeuralNetwork:
         '''
         Train the model using already stored model
         '''
+        
         files = os.listdir(self.DATA_FOLDER)
 
         if not self.CSV_DATASET in files:
@@ -82,23 +83,24 @@ class NeuralNetwork:
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
         self.X_train = dataset[0:len(dataset),:-1]
-        self.Y_train = dataset[0:len(dataset),-1]
-        #self.Y_train = dataset[0:len(dataset):2, -1]
-        #self.X_train = dataset[0:len(dataset):2,:-1]
-        #self.Y_train = dataset[0:len(dataset):2, -1]
-        #self.X_validation = dataset[1:len(dataset):4,:-1]
-        #self.Y_validation = dataset[1:len(dataset):4, -1]
-        #self.X_test = dataset[3:len(dataset):4,:-1]
-        #self.Y_test = dataset[3:len(dataset):4, -1]
+        self.Y_train = dataset[0:len(dataset), -1]
+        '''
+        self.X_train = dataset[0:len(dataset):2,:-1]
+        self.Y_train = dataset[0:len(dataset):2, -1]
+        self.X_validation = dataset[1:len(dataset):4,:-1]
+        self.Y_validation = dataset[1:len(dataset):4, -1]
+        self.X_test = dataset[3:len(dataset):4,:-1]
+        self.Y_test = dataset[3:len(dataset):4, -1]
         print(len(self.X_train))
+        '''
 
         cprint(f'\n\n{len(dataset)}', 'red', end='\n\n')
         # Define the keras model
         self.model = Sequential()
 
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
-#        self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
-#        self.Y_test = to_categorical(self.Y_test, len(self.labels))
+        #self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
+        #self.Y_test = to_categorical(self.Y_test, len(self.labels))
         self.model.add(Dense(50, input_dim=len(self.X_train[0]), activation='relu'))
         self.model.add(Dense(len(self.labels), activation='sigmoid'))
         self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
@@ -108,9 +110,9 @@ class NeuralNetwork:
 
         #Train the model (epochs=4 less accuracy)
         if self.is_touch_hit:
-            epochs=10
+            epochs=20
         else:
-            epochs=15
+            epochs=30
 
         history = self.model.fit(self.X_train, self.Y_train, epochs=epochs, shuffle=True)
 
@@ -120,15 +122,19 @@ class NeuralNetwork:
         print(f'{scores[1]*100} %')
 
         # Evaluate the model
-        #scores = self.model.evaluate(self.X_validation, self.Y_validation, verbose=0)
+        '''
+        scores = self.model.evaluate(self.X_validation, self.Y_validation, verbose=0)
         cprint(f'Training accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
+        '''
 
         # Evaluate the model
-        #scores = self.model.evaluate(self.X_test, self.Y_test, verbose=0)
+        '''
+        scores = self.model.evaluate(self.X_test, self.Y_test, verbose=0)
         cprint(f'Training accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
-        
+        '''
+
         self.model.save(self.DATA_FOLDER+self.MODEL)
         # serialize model to JSON
         #model_json = self.model.to_json()

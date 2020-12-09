@@ -248,7 +248,7 @@ def plot_detailed():
     subfolders = os.listdir('D:/THESIS/dat/MSI/'+sys.argv[1]+'/')
 
     for fold in subfolders:
-        os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+fold+' -o ../dat/MSI/graphics/detailed/'+fold)
+        os.system('python3 .\DatasetAcquisition.py -p -d D:/THESIS/dat/MSI/'+sys.argv[1]+'/'+fold+' -o D:/THESIS/dat/MSI/graphics/detailed/'+fold)
 #    for fold in range(5, 10):
 #        os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+str(fold)+' -o ../dat/MSI/graphics/detailed/'+str(fold))
 
@@ -405,7 +405,7 @@ def merge_subfolders():
 if __name__=='__main__':
     #remove_wrong_files_recursive()
     #rename_files_recursive()
-    state_dataset()
-    #plot_detailed()
+    #state_dataset()
+    plot_detailed()
     #merge_subfolders()
     pass

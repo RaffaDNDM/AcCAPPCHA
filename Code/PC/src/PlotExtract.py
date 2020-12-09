@@ -399,6 +399,8 @@ class PlotExtract:
 				for f in subfolder_files[1:]:
 					#Reading audio file
 					fs, signal = wave.read(self.DATA_FOLDER+subfolder+'/'+f)
+					#Analysis of audio signal
+					analysis = ef.ExtractFeatures(fs, signal)
 					#Store features in OUTPUT_CSV_FILE
 					self.store_features_in_csv(csv_train, subfolder, f, analysis, label, option)
 

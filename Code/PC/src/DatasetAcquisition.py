@@ -160,7 +160,6 @@ def main():
         acquisition = ar.AcquireAudio(audio_dir, 1)
         acquisition.record()        
 
-
     cprint('\nExit from program\n', 'red', attrs=['bold'])
 
 
