@@ -12,7 +12,6 @@ from PIL import Image
 import librosa
 import progressbar
 
-
 class PlotExtract:
 	LINE = '_______________________________'
 	DATA_FOLDER = ''

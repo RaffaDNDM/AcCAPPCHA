@@ -2,9 +2,17 @@ from termcolor import cprint
 import os
 import sys
 import numpy as np
+from scipy.io import wavfile
+import pyaudio
+import progressbar
+import colorama
 
 OPTIONS = ['touch', 'touch_hit', 'spectrum']
 LINE = '_____________________________________________________'
+
+CHANNELS = 2
+RATE = 44100
+FORMAT = pyaudio.paInt16
 
 def swap(m, n):
     '''
@@ -290,8 +298,7 @@ def rename_files_recursive():
     '''
     Rename files (counter for each subfolder)
     '''
-
-    PATH_WAV = 'D:/THESIS/dat/MSI/audio/'
+    PATH_WAV = 'D:/THESIS/dat/MSI/audio3/'
     subfolders = os.listdir(PATH_WAV)
 
     for fold in subfolders:
@@ -299,7 +306,7 @@ def rename_files_recursive():
 
         count=0
         for f in wav_files:
-            os.rename(PATH_WAV+fold+'/'+f, PATH_WAV+fold+'/'+'{:03d}.wav'.format(count))
+            os.rename(PATH_WAV+fold+'/'+f, PATH_WAV+fold+'/'+'{:04d}.wav'.format(count))
             count+=1
 
 
@@ -307,7 +314,6 @@ def same_folder():
     '''
     See if 2 folders have the same content
     '''
-
     PATH_1 = 'D:/THESIS/dat/MSI/audio/'
     PATH_2 = 'D:/THESIS/dat/MSI/TEST/'
     subfolders_1 = os.listdir(PATH_1)
@@ -336,7 +342,6 @@ def state_dataset():
     '''
     Print number of elements in dataset
     '''
-
     dataset_size = 0
     list_low = []
     list_high=[]
@@ -402,10 +407,54 @@ def merge_subfolders():
             os.rmdir(PATH+fold)
 
 
+def time_shift():
+    """
+    
+    """
+    OLD_PATH = 'D:/THESIS/dat/MSI/'
+    NEW_PATH = 'D:/THESIS/dat/MSI/NEW/'
+    SECONDS = [0.5*float(x) for x in range(1, 5)]
+    cprint('SECONDS:', 'blue', end='  ')
+    print(SECONDS)
+
+    folder_old = OLD_PATH+sys.argv[1]+'/'
+    folder_new = NEW_PATH
+    bar = progressbar.ProgressBar(maxval=20,
+                                  widgets= [progressbar.Bar('=', '[', ']'),
+                            				' ',
+			                                progressbar.Percentage()])
+
+    for subfolder in os.listdir(folder_old):
+        files = os.listdir(folder_old+subfolder+'/')
+        length = len(files)
+        count = length
+        
+        cprint(f'\n{subfolder}', 'red')
+        bar.start()
+
+        for f in files:
+            fs, signal = wavfile.read(folder_old+subfolder+'/'+f)
+            ts, time_ms, signal = signal_adjustment(fs, signal)
+
+            for sec in SECONDS:
+                shift_num_samples = num_samples(fs, sec)
+                v = np.zeros(shift_num_samples)
+                signal1 = np.concatenate((v, signal))
+
+                wavfile.write(folder_new+subfolder+'/'+'{:04d}.wav'.format(count), fs, signal1)
+                count += 1
+
+            bar.update(((count-length)/(length*4))*20)
+
+        bar.finish()
+
+
 if __name__=='__main__':
+    colorama.init()
     #remove_wrong_files_recursive()
     #rename_files_recursive()
     #state_dataset()
-    plot_detailed()
+    #plot_detailed()
     #merge_subfolders()
+    time_shift()
     pass
