@@ -407,6 +407,56 @@ def merge_subfolders():
             os.rmdir(PATH+fold)
 
 
+def add_noise():
+    """
+    
+    """
+    OLD_PATH = 'D:/THESIS/dat/MSI/NEW/'
+    NEW_PATH = 'D:/THESIS/dat/MSI/NOISE/'
+
+    folder_old = OLD_PATH
+    folder_new = NEW_PATH
+    bar = progressbar.ProgressBar(maxval=20,
+                                  widgets= [progressbar.Bar('=', '[', ']'),
+                            				' ',
+			                                progressbar.Percentage()])
+
+    subfolders = os.listdir(folder_old)
+    subfolders.sort()
+    ranges = {0:(0,25), 1:(25, 50), 2:(50,75), 3:(75, 100)}
+    range_fold = ranges[int(sys.argv[1])]
+    subfolders_process = subfolders[range_fold[0]:range_fold[1]]
+    cprint(f'{subfolders_process}', 'green')
+
+    for subfolder in subfolders_process:
+        files = os.listdir(folder_old+subfolder+'/')
+        length = len(files)
+        count = length
+        
+        cprint(f'\n{subfolder}', 'red')
+        if not os.path.exists(folder_new+subfolder) or os.path.isdir(folder_new+subfolder):
+            os.mkdir(folder_new+subfolder)
+
+        bar.start()
+
+        for f in files:
+            fs, signal = wavfile.read(folder_old+subfolder+'/'+f)
+            ts, time_ms, signal = signal_adjustment(fs, signal)
+
+            noise = np.random.randn(len(signal))
+            noise_signal = signal + 150.0 * noise
+            # Cast back to same data type
+            noise_signal = noise_signal.astype(type(signal[0]))
+
+            wavfile.write(folder_new+subfolder+'/'+'{:04d}.wav'.format(count), fs, noise_signal)
+            count += 1
+
+            bar.update(((count-length)/length)*20)
+
+        bar.finish()
+        print('')
+
+
 def time_shift():
     """
     
@@ -444,9 +494,43 @@ def time_shift():
                 wavfile.write(folder_new+subfolder+'/'+'{:04d}.wav'.format(count), fs, signal1)
                 count += 1
 
-            bar.update(((count-length)/(length*4))*20)
+            bar.update(((count-length)/length)*20)
 
         bar.finish()
+
+
+def select_option_feature():
+    check = True
+    while check:
+        try:
+            cprint(f'Select which type of features you want to use:\n{utility.LINE}', 'blue')
+                
+            for i in range(0, len(OPTIONS)):
+                cprint(f'{i})', 'yellow', end=' ')
+                print(f'{OPTIONS[i]}')
+
+            cprint(f'3)', 'yellow', end=' ')
+            print(f'All the features')
+            cprint(f'{LINE}', 'blue')
+
+            option = int(input())
+            if option >= 0 and option <= len(OPTIONS):
+                check = False
+
+        except ValueError:
+            cprint('[VALUE ERROR]', 'color', end=' ')
+            print('Insert a value of them specified in menu')
+
+    return option
+
+
+def fusion_csv():
+    PATH_1000 = '../dat/1000/'
+    PATH_noise = '../dat/noise/'
+
+    option = select_option_feature()
+    csv_name1 = PATH_1000+OPTIONS[option]+'/dataset.csv'
+    csv_name2 = PATH_noise+OPTIONS[option]+'/dataset.csv'
 
 
 if __name__=='__main__':
@@ -456,5 +540,7 @@ if __name__=='__main__':
     #state_dataset()
     #plot_detailed()
     #merge_subfolders()
-    time_shift()
+    #time_shift()
+    #add_noise()
+    
     pass

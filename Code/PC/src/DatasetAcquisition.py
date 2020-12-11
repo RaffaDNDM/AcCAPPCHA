@@ -143,7 +143,7 @@ def main():
             analysis_data.plot(zoom)
         #Extraction
         elif extract_option:
-            option = select_option_feature()
+            option = utility.select_option_feature()
             analysis_data = pe.PlotExtract(filename= filename, audio_dir= audio_dir, output_dir=output)
             if option == len(utility.OPTIONS):
                 for i in range(0, option):

@@ -46,38 +46,13 @@ def args_parser():
     return args.dir
 
 
-def select_option_feature():
-    check = True
-    while check:
-        try:
-            cprint(f'Select which type of features you want to use:\n{utility.LINE}', 'blue')
-                
-            for i in range(0, len(utility.OPTIONS)):
-                cprint(f'{i})', 'yellow', end=' ')
-                print(f'{utility.OPTIONS[i]}')
-
-            cprint(f'3)', 'yellow', end=' ')
-            print(f'All the features')
-            cprint(f'{utility.LINE}', 'blue')
-
-            option = int(input())
-            if option >= 0 and option <= len(utility.OPTIONS):
-                check = False
-
-        except ValueError:
-            cprint('[VALUE ERROR]', 'color', end=' ')
-            print('Insert a value of them specified in menu')
-
-    return option
-
-
 def main():
     #Initialize colored prints
     colorama.init()
     #Parser of command line arguments
     folder = args_parser()
 
-    option = select_option_feature()
+    option = utility.select_option_feature()
     net = nn.NeuralNetwork(option,folder)
     cprint(utility.LINE, 'blue')
     print('Number of labels:', end=' ')
