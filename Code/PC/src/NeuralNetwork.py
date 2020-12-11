@@ -119,12 +119,12 @@ class NeuralNetwork:
 
         # Evaluate the model
         scores = self.model.evaluate(self.X_validation, self.Y_validation, verbose=0)
-        cprint(f'Training accuracy:', 'green', end='  ')
+        cprint(f'Validation accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
         
         # Evaluate the model
         scores = self.model.evaluate(self.X_test, self.Y_test, verbose=0)
-        cprint(f'Training accuracy:', 'green', end='  ')
+        cprint(f'Test accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
 
         self.model.save(self.DATA_FOLDER+self.MODEL)

@@ -2,10 +2,12 @@ from termcolor import cprint
 import os
 import sys
 import numpy as np
+from numpy import loadtxt
 from scipy.io import wavfile
 import pyaudio
 import progressbar
 import colorama
+from csv import reader, writer
 
 OPTIONS = ['touch', 'touch_hit', 'spectrum']
 LINE = '_____________________________________________________'
@@ -503,7 +505,7 @@ def select_option_feature():
     check = True
     while check:
         try:
-            cprint(f'Select which type of features you want to use:\n{utility.LINE}', 'blue')
+            cprint(f'Select which type of features you want to use:\n{LINE}', 'blue')
                 
             for i in range(0, len(OPTIONS)):
                 cprint(f'{i})', 'yellow', end=' ')
@@ -526,11 +528,34 @@ def select_option_feature():
 
 def fusion_csv():
     PATH_1000 = '../dat/1000/'
+    PATH_2000 = '../dat/2000/'
     PATH_noise = '../dat/noise/'
 
     option = select_option_feature()
     csv_name1 = PATH_1000+OPTIONS[option]+'/dataset.csv'
     csv_name2 = PATH_noise+OPTIONS[option]+'/dataset.csv'
+    csv_name_out = PATH_2000+OPTIONS[option]+'/dataset.csv'
+    csv1 = loadtxt(csv_name1, delimiter=',')
+    csv2 = loadtxt(csv_name2, delimiter=',')
+
+    with open(csv_name_out, 'w', newline='') as out_f:
+        writer_out = writer(out_f)
+        
+        # open file in read mode
+        with open(csv_name1, 'r') as in1:
+            # pass the file object to reader() to get the reader object
+            csv_reader = reader(in1)
+                # Iterate over each row in the csv using reader object
+            for row in csv_reader:
+                writer_out.writerow(row)
+
+        # open file in read mode
+        with open(csv_name2, 'r') as in2:
+            # pass the file object to reader() to get the reader object
+            csv_reader = reader(in2)
+            # Iterate over each row in the csv using reader object
+            for row in csv_reader:
+                writer_out.writerow(row)
 
 
 if __name__=='__main__':
@@ -542,5 +567,5 @@ if __name__=='__main__':
     #merge_subfolders()
     #time_shift()
     #add_noise()
-    
+    #fusion_csv()
     pass
