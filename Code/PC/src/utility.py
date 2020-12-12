@@ -558,6 +558,34 @@ def fusion_csv():
                 writer_out.writerow(row)
 
 
+def remove_useless_rows():
+    PATHS = {'../dat/1000_time_less/','../dat/2000_less/','../dat/1000_noise_less/'}
+
+    for path in PATHS:
+        for option in range(0,2):
+            csv_name_in = path+OPTIONS[option]+'/dataset_updated.csv'
+            csv_name_out = path+OPTIONS[option]+'/dataset_final.csv'
+
+            #Create dictionary of labels from csv file
+            labels = {}
+            with open(path+OPTIONS[option]+'/label_dict.csv') as fp:
+                reader_label = reader(fp)
+                labels = {float(row[1]):row[0] for row in reader_label}
+
+            with open(csv_name_out, 'w', newline='') as out_f:
+                writer_out = writer(out_f)
+
+                # open file in read mode
+                with open(csv_name_in, 'r') as in2:
+                    # pass the file object to reader() to get the reader object
+                    csv_reader = reader(in2)
+                    # Iterate over each row in the csv using reader object
+                    for row in csv_reader:
+                        if float(row[-1]) in labels.keys():
+                            row[-1] = float(list(labels.keys()).index(float(row[-1])))
+                            writer_out.writerow(row)
+
+
 if __name__=='__main__':
     colorama.init()
     #remove_wrong_files_recursive()
@@ -568,4 +596,5 @@ if __name__=='__main__':
     #time_shift()
     #add_noise()
     #fusion_csv()
+    remove_useless_rows()
     pass

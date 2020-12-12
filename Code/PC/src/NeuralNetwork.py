@@ -2,7 +2,7 @@ from numpy import loadtxt
 import numpy as np
 import csv
 import os
-from termcolor import cprint
+from termcolor import cprint, colored
 import colorama
 import utility
 import ctypes
@@ -82,8 +82,10 @@ class NeuralNetwork:
         # Load the dataset
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
         # Split into input (X) and input/label (y) variables
-        self.X_train = dataset[0:len(dataset):2,:-1]
-        self.Y_train = dataset[0:len(dataset):2, -1]
+        #self.X_train = dataset[0:len(dataset):2,:-1]
+        #self.Y_train = dataset[0:len(dataset):2, -1]
+        self.X_train = dataset[0:len(dataset),:-1]
+        self.Y_train = dataset[0:len(dataset), -1]
         self.X_validation = dataset[1:len(dataset):4,:-1]
         self.Y_validation = dataset[1:len(dataset):4, -1]
         self.X_test = dataset[3:len(dataset):4,:-1]
@@ -97,7 +99,7 @@ class NeuralNetwork:
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
         self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
         self.Y_test = to_categorical(self.Y_test, len(self.labels))
-        self.model.add(Dense(50, input_dim=len(self.X_train[0]), activation='relu'))
+        self.model.add(Dense(100, input_dim=len(self.X_train[0]), activation='relu'))
         self.model.add(Dense(len(self.labels), activation='sigmoid'))
         self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
 
@@ -159,7 +161,14 @@ class NeuralNetwork:
         cprint(X.shape, 'green')
         cprint(type(X), 'green')
         Y = loaded_model.predict(X)
+        cprint(f'{np.argmax(Y)}', 'blue')
         max_string = f'{self.labels[np.argmax(Y)]}  '
         Y_indices_sort = np.argsort(Y)
         print(Y_indices_sort)
-        return max_string+f'{self.labels[Y_indices_sort[0][-1]]}, {self.labels[Y_indices_sort[0][-2]]}, {self.labels[Y_indices_sort[0][-3]]}'
+
+        result = colored(max_string, 'blue')+colored(f'{self.labels[Y_indices_sort[0][-1]]}', 'green')
+        
+        for i in range(2, 11):
+            result += f', {self.labels[Y_indices_sort[0][-i]]}'
+
+        return result

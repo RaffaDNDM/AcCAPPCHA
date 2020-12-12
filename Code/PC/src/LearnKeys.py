@@ -53,22 +53,41 @@ def main():
     folder = args_parser()
 
     option = utility.select_option_feature()
-    net = nn.NeuralNetwork(option,folder)
-    cprint(utility.LINE, 'blue')
-    print('Number of labels:', end=' ')
-    cprint(len(net.labels), 'green')
-    cprint(utility.LINE, 'blue')
-    input('Type ENTER to see them in details')
-    cprint(utility.LINE, 'blue')
+    count = 0
 
-    for key in net.labels.keys():
-        cprint(f'{key}:', 'red', end=' ')
-        cprint(f'{net.labels[key]}', 'yellow')
+    if option==2:
+        while count<option:
+            net = nn.NeuralNetwork(option,folder)
+            cprint(utility.LINE, 'blue')
+            print('Number of labels:', end=' ')
+            cprint(len(net.labels), 'green')
+            cprint(utility.LINE, 'blue')
+            cprint(utility.LINE, 'blue')
 
-    cprint(utility.LINE, 'blue')
-    input('Type ENTER to train/test the model')
-    cprint(utility.LINE, 'blue')
-    net.train()
+            for key in net.labels.keys():
+                cprint(f'{key}:', 'red', end=' ')
+                cprint(f'{net.labels[key]}', 'yellow')
+
+            cprint(utility.LINE, 'blue')
+            cprint(utility.LINE, 'blue')
+            net.train()            
+    else:
+        net = nn.NeuralNetwork(option,folder)
+        cprint(utility.LINE, 'blue')
+        print('Number of labels:', end=' ')
+        cprint(len(net.labels), 'green')
+        cprint(utility.LINE, 'blue')
+        input('Type ENTER to see them in details')
+        cprint(utility.LINE, 'blue')
+
+        for key in net.labels.keys():
+            cprint(f'{key}:', 'red', end=' ')
+            cprint(f'{net.labels[key]}', 'yellow')
+
+        cprint(utility.LINE, 'blue')
+        input('Type ENTER to train the model')
+        cprint(utility.LINE, 'blue')
+        net.train()
 
 
 if __name__=='__main__':
