@@ -51,7 +51,7 @@ class ExtractFeatures:
         self.fs = fs
 
 
-    def extract(self, original_signal= None, index= None):
+    def extract(self, original_signal= None, index= None, spectrum=False):
         '''
         Extract the feature from the signal
         
@@ -66,10 +66,13 @@ class ExtractFeatures:
         #Find peaks (hit and touch) of press peaks
         touch_peak, hit_peak = self.press_peaks(index)
         #FFT evaluation from press peaks
-        if original_signal is None:
-            return self.FFT_evaluation(self.signal, touch_peak, hit_peak)        
+        if spectrum:
+            return touch_peak, hit_peak
         else:
-            return self.FFT_evaluation(original_signal, touch_peak, hit_peak)
+            if original_signal is None:
+                return self.FFT_evaluation(self.signal, touch_peak, hit_peak)        
+            else:
+                return self.FFT_evaluation(original_signal, touch_peak, hit_peak)
 
     def num_samples(self, seconds):
         '''

@@ -390,9 +390,9 @@ class PlotExtract:
 
 				#Store features of first audio in OUTPUT_CSV_FILE
 				if label==0:
-					self.FEATURE_SIZE = self.store_features_in_csv(csv_train, subfolder, subfolder_files[0], analysis, label, option)
+					self.FEATURE_SIZE = self.store_features(csv_train, subfolder, subfolder_files[0], analysis, label, option)
 				else:
-					size = self.store_features_in_csv(csv_train, subfolder, subfolder_files[0], analysis, label, option)
+					size = self.store_features(csv_train, subfolder, subfolder_files[0], analysis, label, option)
 
 				#OTHER WAV FILEs
 				for f in subfolder_files[1:]:
@@ -401,7 +401,8 @@ class PlotExtract:
 					#Analysis of audio signal
 					analysis = ef.ExtractFeatures(fs, signal)
 					#Store features in OUTPUT_CSV_FILE
-					self.store_features_in_csv(csv_train, subfolder, f, analysis, label, option)
+					self.store_features(csv_train, subfolder, f, analysis, label, option)
+
 
 				#Update label value
 				label += 1
@@ -428,18 +429,20 @@ class PlotExtract:
 		return row_length
 
 
-	def store_features_in_csv(self, csv_writer, subfolder, filename, analysis, label, option):
-		#Extraction of features
-		features = analysis.extract()
+	def store_features(self, csv_writer, subfolder, filename, analysis, label, option):
 		length_feature = 0
 
 		if utility.OPTIONS[option]=='touch':
+			#Extraction of features
+			features = analysis.extract()
 			touch_features = features['touch'].fft_signal
 			final_features = np.append(touch_features, label)
 			csv_writer.writerow(final_features)
 			length_feature = len(final_features)
 
 		elif utility.OPTIONS[option]=='touch_hit':
+			#Extraction of features
+			features = analysis.extract()
 			touch_features = features['touch'].fft_signal
 			hit_features = features['hit'].fft_signal	
 			final_features = np.concatenate((touch_features, hit_features))
@@ -448,27 +451,34 @@ class PlotExtract:
 			length_feature = len(final_features)
 		
 		elif utility.OPTIONS[option]=='spectrum':
+			#Extraction of features
+			features = analysis.extract(spectrum=True)
 			fig, ax = plt.subplots(1)
 			fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
-			ax.axis('off')
-			ax.specgram(features['touch'].peak, NFFT=len(features['touch'].peak), Fs=analysis.fs, noverlap=32)
+			img_feature = np.concatenate((analysis.signal[features[0]], analysis.signal[features[1]]))
+			ax.axis('equal')
+			spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
 			#float_features = (features['touch'].peak).astype(float)
 			#melspec = librosa.feature.melspectrogram(float_features, n_mels=128)
 			#logspec = librosa.amplitude_to_db(melspec)
 			#logspec = logspec.T.flatten()[:np.newaxis].T
 			#final_features = np.array(logspec)
 
-			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum/'+subfolder):
-				os.mkdir(self.OUTPUT_FOLDER+'spectrum/'+subfolder)
+			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum_square/'+subfolder):
+				os.mkdir(self.OUTPUT_FOLDER+'spectrum_square/'+subfolder)
 
 			#plt.show()
-			fig.savefig(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.png', dpi=300)
+			fig.savefig(self.OUTPUT_FOLDER+'spectrum_square/'+subfolder+'/'+filename[:-4]+'.jpg', dpi=300)
 			plt.close(fig)
+			#print('Completed image')
 
-			img = Image.open(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.png')
-			final_features = np.asarray(img)
-			final_features = np.append(final_features, label)
-			csv_writer.writerow(final_features)
-			length_feature = len(final_features)
+			#img = Image.fromarray(img_array)
+			#img.save(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.jpg')
+
+			#with Image.open(self.OUTPUT_FOLDER+'spectrum/'+subfolder+'/'+filename[:-4]+'.jpg') as img:
+			#	final_features = np.asarray(img)
+			#	final_features = np.append(final_features, label)
+			#	csv_writer.writerow(final_features)
+			#	length_feature = len(final_features)
 
 		return length_feature
