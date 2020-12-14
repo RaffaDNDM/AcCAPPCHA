@@ -55,7 +55,7 @@ def main():
     option = utility.select_option_feature()
     count = 0
 
-    if option==2:
+    if option==3:
         while count<option:
             net = nn.NeuralNetwork(option,folder)
             cprint(utility.LINE, 'blue')

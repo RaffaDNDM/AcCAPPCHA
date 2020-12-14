@@ -8,9 +8,26 @@ import pyaudio
 import progressbar
 import colorama
 from csv import reader, writer
+import ctypes
+import platform
 
 OPTIONS = ['touch', 'touch_hit', 'spectrum']
 LINE = '_____________________________________________________'
+
+#Other results are 'Darwin' for Mac and 'Linux' for Linux
+if platform.system()=='Windows':
+    hllDll = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\cudart64_101.dll')
+    hllDll1 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\cublas64_10.dll')
+    hllDll2 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\cufft64_10.dll')
+    hllDll3 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\curand64_10.dll') 
+    hllDll4 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\cusolver64_10.dll')
+    hllDll5 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDA\\v10.1\\bin\\cusparse64_10.dll')
+    hllDll6 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDNN\\bin\\cudnn64_7.dll')
+
+from tensorflow.keras.applications.vgg16 import VGG16
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.vgg16 import preprocess_input
+from tensorflow.keras.layers import GlobalAveragePooling2D
 
 CHANNELS = 2
 RATE = 44100
@@ -586,6 +603,45 @@ def remove_useless_rows():
                             writer_out.writerow(row)
 
 
+def extract_features_from_imgs():
+    PATH = 'D:/THESIS/dat/MSI/graphics/spectrum/'
+    PATH_SQUARE = 'D:/THESIS/dat/MSI/graphics/spectrum_square/'    
+    CSV_DICT_LABELS = 'D:/github/Invisible-CAPPCHA/Code/PC/dat/200/spectrum/label_dict.csv'
+    CSV_DATASET = 'D:/github/Invisible-CAPPCHA/Code/PC/dat/200/spectrum/dataset.csv'
+
+    model = VGG16(weights='imagenet', include_top=False)
+
+    labels = {}
+    with open(CSV_DICT_LABELS) as fp:
+        csv_reader = reader(fp)
+        labels = {row[0]:int(row[1]) for row in csv_reader} 
+   
+    with open(CSV_DATASET, 'w', newline='') as fp:
+        csv_writer = writer(fp)
+        
+        for fold in os.listdir(PATH):
+            cprint(f'{fold}', 'red')
+            for img_name in os.listdir(PATH+fold+'/'):
+                features = extract(model, PATH+fold+'/'+img_name)
+                row = np.append(features, labels[fold])
+                csv_writer.writerow(row)
+
+
+def extract(model, path):
+    img = image.load_img(path, color_mode='rgb', target_size=(224, 224))
+
+    #if not os.path.exists(PATH_SQUARE+fold):
+    #   os.mkdir(PATH_SQUARE+fold)
+
+    #img.save(PATH_SQUARE+fold+'/'+img_name)
+
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+    features = model.predict(x)
+    return GlobalAveragePooling2D()(features)
+
+
 if __name__=='__main__':
     colorama.init()
     #remove_wrong_files_recursive()
@@ -596,5 +652,6 @@ if __name__=='__main__':
     #time_shift()
     #add_noise()
     #fusion_csv()
-    remove_useless_rows()
+    #remove_useless_rows()
+    extract_features_from_imgs()
     pass

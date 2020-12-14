@@ -19,9 +19,9 @@ if platform.system()=='Windows':
     hllDll6 = ctypes.WinDLL('D:\\Programs\\NVIDIA\\CUDNN\\bin\\cudnn64_7.dll')
 
 from keras.models import Sequential, model_from_json
-from keras.layers import Dense, Embedding, LSTM
+from keras.layers import Dense
 from keras.utils import to_categorical
-from keras.losses import BinaryCrossentropy
+from keras.losses import CategoricalCrossentropy
 from keras.models import load_model
 from sklearn.metrics import accuracy_score
 
@@ -37,7 +37,7 @@ class NeuralNetwork:
                            False if test phase reading csv 
     '''
     def __init__(self, option, data_folder=None):
-        self.is_touch_hit = (utility.OPTIONS[option] == 'touch_hit')
+        self.option = utility.OPTIONS[option]
         #Update folder containing csv files
         if data_folder:
             if os.path.exists(data_folder) and os.path.isdir(data_folder):
@@ -99,20 +99,28 @@ class NeuralNetwork:
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
         self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
         self.Y_test = to_categorical(self.Y_test, len(self.labels))
-        self.model.add(Dense(100, input_dim=len(self.X_train[0]), activation='relu'))
-        self.model.add(Dense(len(self.labels), activation='sigmoid'))
-        self.model.compile(loss=BinaryCrossentropy(), optimizer='adam', metrics=['accuracy'])
+        
+        if self.option == 'spectrum':
+            self.model.add(Dense(1024, input_dim=len(self.X_train[0]), activation='relu'))
+            self.model.add(Dense(len(self.labels), activation='sigmoid'))
+            self.model.compile(loss=CategoricalCrossentropy(), optimizer='adam', metrics=['accuracy'])
 
-        #end = int(len(self.X)/2)
-        epochs = 0
-
-        #Train the model (epochs=4 less accuracy)
-        if self.is_touch_hit:
-            epochs=20
+            history = self.model.fit(self.X_train, self.Y_train, epochs=20, shuffle=True)
         else:
-            epochs=30
+            self.model.add(Dense(100, input_dim=len(self.X_train[0]), activation='relu'))
+            self.model.add(Dense(len(self.labels), activation='sigmoid'))
+            self.model.compile(loss=CategoricalCrossentropy(), optimizer='adam', metrics=['accuracy'])
 
-        history = self.model.fit(self.X_train, self.Y_train, epochs=epochs, shuffle=True)
+            #end = int(len(self.X)/2)
+            epochs = 0
+
+            #Train the model (epochs=4 less accuracy)
+            if self.option=='touch_hit':
+                epochs=20
+            else:
+                epochs=30
+
+            history = self.model.fit(self.X_train, self.Y_train, epochs=epochs, shuffle=True)
 
         # Evaluate the model
         scores = self.model.evaluate(self.X_train, self.Y_train, verbose=0)
@@ -158,17 +166,15 @@ class NeuralNetwork:
         #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
 
         #Prediction example
-        cprint(X.shape, 'green')
-        cprint(type(X), 'green')
         Y = loaded_model.predict(X)
-        cprint(f'{np.argmax(Y)}', 'blue')
+        #cprint(f'{np.argmax(Y)}', 'blue')
         max_string = f'{self.labels[np.argmax(Y)]}  '
         Y_indices_sort = np.argsort(Y)
-        print(Y_indices_sort)
+        #print(Y_indices_sort)
 
         result = colored(max_string, 'blue')+colored(f'{self.labels[Y_indices_sort[0][-1]]}', 'green')
         
         for i in range(2, 11):
-            result += f', {self.labels[Y_indices_sort[0][-i]]}'
+            result += colored(f', {self.labels[Y_indices_sort[0][-i]]}', 'green')
 
         return result

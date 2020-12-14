@@ -74,6 +74,7 @@ class ExtractFeatures:
             else:
                 return self.FFT_evaluation(original_signal, touch_peak, hit_peak)
 
+
     def num_samples(self, seconds):
         '''
         Extract the feature from the signal
@@ -107,23 +108,26 @@ class ExtractFeatures:
                                 signal that define the hit peak
         '''
         #Find touch peak (max of the wave values)
-        max_point = np.argmax(self.signal)
+        try:
+            max_point = np.argmax(self.signal)
         
-        if index:
-            max_point += index
+            if index:
+                max_point += index
 
-        #Num of instances inside STEP_PEAKS
-        num_samples_STEP = math.floor(self.STEP_PEAKS / self.ts)
-        #Start and end indices of samples in signal for touch and hit peaks
-        touch_peak_start = max_point - self.START_TOUCH_PEAK*num_samples_STEP
-        touch_peak_end = touch_peak_start + self.WIDTH_TOUCH_PEAK*num_samples_STEP
-        hit_peak_end = touch_peak_start + self.WIDTH_PRESS_PEAK*num_samples_STEP
-        hit_peak_start = hit_peak_end - self.WIDTH_HIT_PEAK*num_samples_STEP
-        #Indices of samples in signal for hit and touch peaks
-        touch_peak = np.arange(math.floor(touch_peak_start), math.ceil(touch_peak_end))
-        hit_peak = np.arange(math.floor(hit_peak_start), math.ceil(hit_peak_end))
-
-        return touch_peak, hit_peak
+            #Num of instances inside STEP_PEAKS
+            num_samples_STEP = math.floor(self.STEP_PEAKS / self.ts)
+            #Start and end indices of samples in signal for touch and hit peaks
+            touch_peak_start = max_point - self.START_TOUCH_PEAK*num_samples_STEP
+            touch_peak_end = touch_peak_start + self.WIDTH_TOUCH_PEAK*num_samples_STEP
+            hit_peak_end = touch_peak_start + self.WIDTH_PRESS_PEAK*num_samples_STEP
+            hit_peak_start = hit_peak_end - self.WIDTH_HIT_PEAK*num_samples_STEP
+            #Indices of samples in signal for hit and touch peaks
+            touch_peak = np.arange(math.floor(touch_peak_start), math.ceil(touch_peak_end))
+            hit_peak = np.arange(math.floor(hit_peak_start), math.ceil(hit_peak_end))
+            return touch_peak, hit_peak
+        
+        except ValueError:
+            print('')
 
 
     def FFT_evaluation(self, original_signal, touch_peak, hit_peak):
