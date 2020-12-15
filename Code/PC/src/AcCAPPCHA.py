@@ -30,7 +30,8 @@ class AcCAPPCHA:
     OUTPUT_IMG = '../dat/audio_from_user.png'
     COLORS = ['g', 'r', 'c', 'm', 'y']
 
-    def __init__(self):
+    def __init__(self, folder):
+        self.DATASET_FOLDER = folder
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
@@ -196,11 +197,17 @@ class AcCAPPCHA:
             
             if utility.OPTIONS[option]=='touch':
                 features = analysis.extract(original_signal=self.signal, index=list_time[0])
+                
+                if features is None:
+                    print(f'{count} ---> EMPTY SEQUENCE')
+                    count+=1
+                    continue
+
                 touch_feature = features['touch']
                 hit_feature = features['hit']
                 touch_X = touch_feature.fft_signal.reshape((1, 66))
                 cprint(touch_X.shape, 'red')
-                print(f'{net.test(touch_X)}', end='')
+                print(f'{count} ---> {net.test(touch_X)}')
 
                 gs = fig.add_gridspec(2, 2)
                 s_top = fig.add_subplot(gs[0, :])
@@ -235,6 +242,12 @@ class AcCAPPCHA:
 
             elif utility.OPTIONS[option]=='touch_hit':
                 features = analysis.extract(original_signal=self.signal, index=list_time[0])
+                
+                if features is None:
+                    print(f'{count} ---> EMPTY SEQUENCE')
+                    count+=1
+                    continue
+
                 touch_feature = features['touch']
                 hit_feature = features['hit']            
                 touch_X = touch_feature.fft_signal
@@ -280,6 +293,11 @@ class AcCAPPCHA:
                 fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
                 features = analysis.extract(original_signal=self.signal, index=list_time[0], spectrum=True)
         
+                if features is None:
+                    print(f'{count} ---> EMPTY SEQUENCE')
+                    count+=1
+                    continue
+                
                 img_feature = np.concatenate((self.signal[features[0]], self.signal[features[1]]))
                 spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
                 
@@ -304,8 +322,8 @@ class AcCAPPCHA:
                 s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
 
                 features = utility.extract(model, self.DATASET_FOLDER+f'spectrum_img/{count}.jpg')
-                fig.savefig(f'Char{count}.png')
-                print(f'{net.test(features)}', end='')
+                fig.savefig(f'Char {count}.jpg')
+                print(f'{count} ---> {net.test(features)}')
 
             count+=1
 
@@ -340,5 +358,5 @@ class AcCAPPCHA:
 
 if __name__=='__main__':
     colorama.init()
-    captcha = AcCAPPCHA()
+    captcha = AcCAPPCHA(sys.argv[1])
     captcha.run()

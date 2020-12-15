@@ -604,10 +604,9 @@ def remove_useless_rows():
 
 
 def extract_features_from_imgs():
-    PATH = 'D:/THESIS/dat/MSI/graphics/spectrum/'
-    PATH_SQUARE = 'D:/THESIS/dat/MSI/graphics/spectrum_square/'    
-    CSV_DICT_LABELS = 'D:/github/Invisible-CAPPCHA/Code/PC/dat/200/spectrum/label_dict.csv'
-    CSV_DATASET = 'D:/github/Invisible-CAPPCHA/Code/PC/dat/200/spectrum/dataset.csv'
+    PATH = f'D:/THESIS/dat/MSI/graphics/{sys.argv[1]}/'
+    CSV_DICT_LABELS = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/label_dict.csv'
+    CSV_DATASET = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/dataset.csv'
 
     model = VGG16(weights='imagenet', include_top=False)
 
@@ -628,6 +627,7 @@ def extract_features_from_imgs():
 
 
 def extract(model, path):
+    PATH_SQUARE = 'D:/THESIS/dat/MSI/graphics/spectrum_square_less/'        
     img = image.load_img(path, color_mode='rgb', target_size=(224, 224))
 
     #if not os.path.exists(PATH_SQUARE+fold):
@@ -642,16 +642,29 @@ def extract(model, path):
     return GlobalAveragePooling2D()(features)
 
 
+def create_label_dict():
+    LABELS = {  '0':0, '1':1, '2':2, '3':3, '4':4,
+                '5':5, '6':6, '7':7, '8':8, '9':9, 
+                'a':10, 'b':11, 'c':12, 'd':13, 
+                'e':14, 'f':15, 'g':16, 'h':17,
+                'i':18, 'j':19, 'k':20, 'l':21,
+                'm':22, 'n':23, 'o':24, 'p':25,
+                'q':26, 'r':27, 's':28, 't':29,
+                'u':30, 'v':31, 'w':32, 'x':33,
+                'y':34, 'z':35, 'à':36, 'è':37,
+                'ì':38, 'ò':39, 'ù':40 }
+
+    CSV_DICT_LABELS = 'D:/github/Invisible-CAPPCHA/Code/PC/dat/label_dict.csv'
+
+    with open(CSV_DICT_LABELS, 'w', newline='') as fp:
+        csv_writer = writer(fp)
+        
+        for k,v in LABELS.items():
+            csv_writer.writerow([k, v])
+
+
 if __name__=='__main__':
     colorama.init()
-    #remove_wrong_files_recursive()
-    #rename_files_recursive()
-    #state_dataset()
-    #plot_detailed()
-    #merge_subfolders()
-    #time_shift()
-    #add_noise()
-    #fusion_csv()
-    #remove_useless_rows()
     extract_features_from_imgs()
+    #create_label_dict()
     pass

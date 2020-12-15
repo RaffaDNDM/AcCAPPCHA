@@ -65,6 +65,10 @@ class ExtractFeatures:
         '''
         #Find peaks (hit and touch) of press peaks
         touch_peak, hit_peak = self.press_peaks(index)
+        
+        if touch_peak is None or hit_peak is None:
+            return None
+        
         #FFT evaluation from press peaks
         if spectrum:
             return touch_peak, hit_peak
@@ -127,7 +131,7 @@ class ExtractFeatures:
             return touch_peak, hit_peak
         
         except ValueError:
-            print('')
+            return None, None
 
 
     def FFT_evaluation(self, original_signal, touch_peak, hit_peak):

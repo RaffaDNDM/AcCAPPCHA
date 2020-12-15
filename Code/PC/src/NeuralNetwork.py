@@ -105,7 +105,7 @@ class NeuralNetwork:
             self.model.add(Dense(len(self.labels), activation='sigmoid'))
             self.model.compile(loss=CategoricalCrossentropy(), optimizer='adam', metrics=['accuracy'])
 
-            history = self.model.fit(self.X_train, self.Y_train, epochs=20, shuffle=True)
+            history = self.model.fit(self.X_train, self.Y_train, epochs=30, shuffle=True)
         else:
             self.model.add(Dense(100, input_dim=len(self.X_train[0]), activation='relu'))
             self.model.add(Dense(len(self.labels), activation='sigmoid'))

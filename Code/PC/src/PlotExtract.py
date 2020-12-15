@@ -464,11 +464,11 @@ class PlotExtract:
 			#logspec = logspec.T.flatten()[:np.newaxis].T
 			#final_features = np.array(logspec)
 
-			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum_square/'+subfolder):
-				os.mkdir(self.OUTPUT_FOLDER+'spectrum_square/'+subfolder)
+			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum_less/'+subfolder):
+				os.mkdir(self.OUTPUT_FOLDER+'spectrum_less/'+subfolder)
 
 			#plt.show()
-			fig.savefig(self.OUTPUT_FOLDER+'spectrum_square/'+subfolder+'/'+filename[:-4]+'.jpg', dpi=300)
+			fig.savefig(self.OUTPUT_FOLDER+'spectrum_less/'+subfolder+'/'+filename[:-4]+'.jpg', dpi=300)
 			plt.close(fig)
 			#print('Completed image')
 
