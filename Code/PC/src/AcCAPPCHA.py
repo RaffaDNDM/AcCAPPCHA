@@ -18,7 +18,8 @@ from collections import Counter
 import NeuralNetwork as nn
 from tensorflow.keras.applications.vgg16 import VGG16
 import colorama
-
+import time
+from pynput import keyboard
 
 class AcCAPPCHA:
     CHUNK = 1024
@@ -126,7 +127,6 @@ class AcCAPPCHA:
 
     def password(self):
         sleep(1)
-        self.noise_evaluation()
 
         cprint('Insert the password', 'red')
         
@@ -146,7 +146,25 @@ class AcCAPPCHA:
             self.COMPLETED_INSERT = True        
         finally:
             self.mutex.release()
+    '''
+    def password_key(self, key):
+        #Record the key pressed by user
+        
+        #Args:
+        #    key (key): pynput key
+        
+        key_string = utility.key_definition(key)
 
+        if key_string != 'ENTER' and key_string != 'ENTER_R' and key_string != 'ENTER_L':
+            self.TIMES.append(int(round(time.time() * 1000)))
+            self.password.append(key_string)
+        else:
+            self.mutex.acquire()
+            try:
+                self.COMPLETED_INSERT = True
+            finally:
+                self.mutex.release()
+    '''
 
     def plot_wave(self, fs, signal):
         '''
@@ -333,9 +351,13 @@ class AcCAPPCHA:
         '''
         Start keylogger and audio recorder
         '''
+        self.noise_evaluation()
+        #self.TIMES = []
+        #self.password = []
 
         try:
             while not self.KILLED:
+                cprint('Insert the password', 'red')                
                 audio_logger = threading.Thread(target=self.audio)
                 password_logger = threading.Thread(target=self.password)
                 audio_logger.start()
@@ -343,6 +365,9 @@ class AcCAPPCHA:
                 audio_logger.join()
                 password_logger.join()
 
+                #with keyboard.Listener(on_press=self.password_key) as psswd_listener:
+                    #Manage keyboard input
+                    #psswd_listener.join()
 
         except KeyboardInterrupt:
             #Terminate the keylogger (detected CTRL+C)
