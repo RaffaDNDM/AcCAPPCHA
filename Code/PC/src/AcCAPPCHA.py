@@ -22,6 +22,10 @@ import time
 from pynput import keyboard
 import sys
 import argparse
+import datetime
+from timeit import default_timer as timer
+import timeit
+
 
 
 class AcCAPPCHA:
@@ -33,12 +37,14 @@ class AcCAPPCHA:
     OUTPUT_IMG = '../dat/audio_from_user.png'
     COLORS = ['g', 'r', 'c', 'm', 'y']
 
-    def __init__(self):
+    def __init__(self, time_option, dl_option):
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
         self.CHAR_RANGE = utility.num_samples(self.RATE, 0.16)
         self.ENTER_RANGE = utility.num_samples(self.RATE, 0.2)
+        self.TIME_OPTION = time_option
+        self.DL_OPTION = dl_option
 
     def noise_evaluation(self):
         p = pyaudio.PyAudio()
@@ -130,14 +136,19 @@ class AcCAPPCHA:
         
         try:
             char_user = sys.stdin.read(1)
-            self.TIMES.append(int(round(time.time() * 1000)))
+            self.TIMES.append(timer())
 
             while char_user != '\n':
-                self.password.append(char_user)
+                self.password += char_user
                 char_user = sys.stdin.read(1)
-                self.TIMES.append(int(round(time.time() * 1000)))
+                self.TIMES.append(timer())
 
-            self.TIMES = self.TIMES[:-1]
+            first = self.TIMES[0]
+            #print(self.TIMES)
+
+            self.TIMES = [t-first for t in self.TIMES[:-1]]
+            cprint(self.TIMES, 'green')
+            cprint(self.password, 'blue')
 
             if self.password == 'EXIT':
                 self.KILLED = True
@@ -187,7 +198,20 @@ class AcCAPPCHA:
         
         plt.tick_params(axis='both', which='major', labelsize=6)
         fig.savefig(self.OUTPUT_IMG)
-        self.predict_keys(char_times, folder, option)
+        
+        if self.DL_OPTION:
+            self.predict_keys(char_times, folder, option)
+
+        if self.TIME_OPTION:
+            self.correspond_times(char_times)
+
+    def correspond_times(self, char_times):
+        peak_times = []
+
+        for list_time in char_times:
+            peak_times.append(np.argmax(self.signal[list_time]))
+
+        print(self.TIMES)
 
     def predict_keys(self, char_times, folder, option):
         net = nn.NeuralNetwork(option, folder)
@@ -197,7 +221,7 @@ class AcCAPPCHA:
                 
         for list_time in char_times:
             #Evaluation of press peak and hit peaks
-            analysis = ef.ExtractFeatures(self.RATE, self.signal[list_time[0]:list_time[-1]])            
+            analysis = ef.ExtractFeatures(self.RATE, self.signal[list_time[0]:list_time[-1]])
             fig = plt.figure('CHARACTER'+str(count))
             fig.tight_layout(pad=3.0)
             
@@ -337,17 +361,17 @@ class AcCAPPCHA:
         Start keylogger and audio recorder
         '''
         self.TIMES = []
-        self.password = []
+        self.password = ''
 
         try:
             while not self.KILLED:
                 self.noise_evaluation()
                 audio_logger = threading.Thread(target=self.audio, args=(folder,option))
-                password_logger = threading.Thread(target=self.password_from_user)
                 audio_logger.start()
+                password_logger = threading.Thread(target=self.password_from_user())
                 password_logger.start()
                 password_logger.join()
-
+                
                 #with keyboard.Listener(on_press=self.password_key) as psswd_listener:
                     #Manage keyboard input
                 #    psswd_listener.join()
@@ -397,8 +421,10 @@ def args_parser():
     #Parse command line arguments
     args = parser.parse_args()
 
-    #ERROR if specified file or output but not plot option
-    if not (args.deep and args.dir):
+    #ERROR 
+    #if specified dir but not Deep-learning option or
+    #if specified Deep-learning option but not dir
+    if (args.deep and not args.dir) or (args.dir and not args.deep):
         cprint('[OPTION ERROR]', 'red', end=' ')
         print('The directory specified by', end=' ')
         cprint('-d', 'blue', end=' ')
@@ -406,16 +432,28 @@ def args_parser():
         cprint('-deep', 'green', end='\n\n')
         exit(0)
 
+    #ERROR 
+    #if no methods specified
+    if not (args.deep or args.time):
+        cprint('[OPTION ERROR]', 'red', end=' ')
+        print('You need to specify at least one option between', end=' ')
+        cprint('-time', 'blue', end=' ')
+        print("and", end=' ')
+        cprint('-deep', 'green', end='\n\n')
+        exit(0)
+
     return args.dir, args.time, args.deep
 
 def main():
-    folder, time_option, deep_option = args_parser()
+    folder, time_option, dl_option = args_parser()
     
-    if deep_option:
+    option=-1
+
+    if dl_option:
         option = utility.select_option_feature()
     
     colorama.init()
-    captcha = AcCAPPCHA()
+    captcha = AcCAPPCHA(time_option, dl_option)
     captcha.run(folder, option)
 
 if __name__=='__main__':
