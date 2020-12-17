@@ -5,7 +5,7 @@ import sys
 from scipy.io import wavfile
 from time import sleep
 import threading
-from termcolor import cprint
+from termcolor import cprint, colored
 import os
 import utility
 import tempfile
@@ -20,6 +20,9 @@ from tensorflow.keras.applications.vgg16 import VGG16
 import colorama
 import time
 from pynput import keyboard
+import sys
+import argparse
+
 
 class AcCAPPCHA:
     CHUNK = 1024
@@ -27,12 +30,10 @@ class AcCAPPCHA:
     CHANNELS = 2
     RATE = 44100
     SECONDS_NOISE = 2.0
-    DATASET_FOLDER = '../dat/1000_time_less/'
     OUTPUT_IMG = '../dat/audio_from_user.png'
     COLORS = ['g', 'r', 'c', 'm', 'y']
 
-    def __init__(self, folder):
-        self.DATASET_FOLDER = folder
+    def __init__(self):
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
@@ -59,7 +60,7 @@ class AcCAPPCHA:
         stream.close()
         p.terminate()
 
-#        wf = wave.open(tempfile.gettempdir()+'/tmp.wav', 'wb')
+        #wf = wave.open(tempfile.gettempdir()+'/tmp.wav', 'wb')
         wf = wave.open('../dat/noise.wav', 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(p.get_sample_size(self.FORMAT))
@@ -73,8 +74,7 @@ class AcCAPPCHA:
         #analysis = ef.ExtractFeatures(fs, signal)
         self.noise = np.max(np.abs(signal))
 
-
-    def audio(self):
+    def audio(self, folder, option):
         '''
         Record the waves from microphone and store the audio
         file after TIMES_KEY_PRESSED times a key is pressed
@@ -119,21 +119,27 @@ class AcCAPPCHA:
         try:
             self.COMPLETED_INSERT = False    
             self.signal = signal[:-self.ENTER_RANGE]
-            self.plot_wave(fs, self.signal)
+            self.verify(folder, option)
             self.KILLED = True
         finally:
             self.mutex.release()
 
-
-    def password(self):
+    def password_from_user(self):
         sleep(1)
-
         cprint('Insert the password', 'red')
         
         try:
-            password = input('')
-            
-            if password == 'EXIT':
+            char_user = sys.stdin.read(1)
+            self.TIMES.append(int(round(time.time() * 1000)))
+
+            while char_user != '\n':
+                self.password.append(char_user)
+                char_user = sys.stdin.read(1)
+                self.TIMES.append(int(round(time.time() * 1000)))
+
+            self.TIMES = self.TIMES[:-1]
+
+            if self.password == 'EXIT':
                 self.KILLED = True
                 exit(0)
         
@@ -146,27 +152,8 @@ class AcCAPPCHA:
             self.COMPLETED_INSERT = True        
         finally:
             self.mutex.release()
-    '''
-    def password_key(self, key):
-        #Record the key pressed by user
-        
-        #Args:
-        #    key (key): pynput key
-        
-        key_string = utility.key_definition(key)
 
-        if key_string != 'ENTER' and key_string != 'ENTER_R' and key_string != 'ENTER_L':
-            self.TIMES.append(int(round(time.time() * 1000)))
-            self.password.append(key_string)
-        else:
-            self.mutex.acquire()
-            try:
-                self.COMPLETED_INSERT = True
-            finally:
-                self.mutex.release()
-    '''
-
-    def plot_wave(self, fs, signal):
+    def verify(self, folder, option):
         '''
         Plot the audio signal with name filename with
         highlighted peaks and FFT of push and hit peaks
@@ -178,36 +165,37 @@ class AcCAPPCHA:
         '''
 
         #Time sample step
-        self.ts, self.time_ms, self.signal = utility.signal_adjustment(fs, signal)
+        self.ts, self.time_ms, self.signal = utility.signal_adjustment(self.RATE, self.signal)
 
 		#Initialize the figure
         fig = plt.figure('AUDIO')
 
-        peak_indices = self.analyse(signal)
+        peak_indices = self.analyse(self.signal)
         #Plot of press peak and hit peak with the signal
-        plt.plot(self.time_ms*self.ts, signal[self.time_ms], color='blue')
+        plt.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
         
-        self.char_times = [[peak_indices[0][0],], ]
+        char_times = [[peak_indices[0][0],], ]
         
         start = 0
         for i in peak_indices[1:]:
-            if (i[0]-self.char_times[start][0])>self.CHAR_RANGE:
-                self.char_times.append([i[0],])
+            if (i[0]-char_times[start][0])>self.CHAR_RANGE:
+                char_times.append([i[0],])
                 start += 1
             else:
-                self.char_times[start].append(i[0])
+                char_times[start].append(i[0])
                 plt.plot(i[0]*self.ts, self.signal[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')    
         
         plt.tick_params(axis='both', which='major', labelsize=6)
         fig.savefig(self.OUTPUT_IMG)
+        self.predict_keys(char_times, folder, option)
 
-        option = utility.select_option_feature()
-        net = nn.NeuralNetwork(option, self.DATASET_FOLDER)
+    def predict_keys(self, char_times, folder, option):
+        net = nn.NeuralNetwork(option, folder)
                 
         count = 0
         model = VGG16(weights='imagenet', include_top=False)
                 
-        for list_time in self.char_times:
+        for list_time in char_times:
             #Evaluation of press peak and hit peaks
             analysis = ef.ExtractFeatures(self.RATE, self.signal[list_time[0]:list_time[-1]])            
             fig = plt.figure('CHARACTER'+str(count))
@@ -224,8 +212,7 @@ class AcCAPPCHA:
                 touch_feature = features['touch']
                 hit_feature = features['hit']
                 touch_X = touch_feature.fft_signal.reshape((1, 66))
-                cprint(touch_X.shape, 'red')
-                print(f'{count} ---> {net.test(touch_X)}')
+                print(colored(f'{count} ---> ', 'red')+f'{net.test(touch_X)}')
 
                 gs = fig.add_gridspec(2, 2)
                 s_top = fig.add_subplot(gs[0, :])
@@ -272,7 +259,7 @@ class AcCAPPCHA:
                 hit_X = hit_feature.fft_signal
                 touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))
                 #cprint(touch_hit_X.shape, 'red')
-                print(f'{count} ---> {net.test(touch_hit_X)}')
+                print(colored(f'{count} ---> ', 'red')+f'{net.test(touch_hit_X)}')
 
                 gs = fig.add_gridspec(2, 2)
                 s_top = fig.add_subplot(gs[0, :])
@@ -319,10 +306,10 @@ class AcCAPPCHA:
                 img_feature = np.concatenate((self.signal[features[0]], self.signal[features[1]]))
                 spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
                 
-                if not os.path.exists(self.DATASET_FOLDER+f'spectrum_img'):
-                    os.mkdir(self.DATASET_FOLDER+f'spectrum_img')
+                if not os.path.exists(folder+f'spectrum_img'):
+                    os.mkdir(folder+f'spectrum_img')
 
-                fig.savefig(self.DATASET_FOLDER+f'spectrum_img/{count}.jpg', dpi=300)
+                fig.savefig(folder+f'spectrum_img/{count}.jpg', dpi=300)
                 plt.close(fig)
 			
                 gs = fig.add_gridspec(2, 1)
@@ -339,35 +326,33 @@ class AcCAPPCHA:
 
                 s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
 
-                features = utility.extract(model, self.DATASET_FOLDER+f'spectrum_img/{count}.jpg')
+                features = utility.extract(model, folder+f'spectrum_img/{count}.jpg')
                 fig.savefig(f'Char {count}.jpg')
-                print(f'{count} ---> {net.test(features)}')
+                print(colored(f'{count} ---> ', 'red')+f'{net.test(features)}')
 
             count+=1
 
-
-
-    def run(self):
+    def run(self, folder, option):
         '''
         Start keylogger and audio recorder
         '''
-        self.noise_evaluation()
-        #self.TIMES = []
-        #self.password = []
+        self.TIMES = []
+        self.password = []
 
         try:
             while not self.KILLED:
-                cprint('Insert the password', 'red')                
-                audio_logger = threading.Thread(target=self.audio)
-                password_logger = threading.Thread(target=self.password)
+                self.noise_evaluation()
+                audio_logger = threading.Thread(target=self.audio, args=(folder,option))
+                password_logger = threading.Thread(target=self.password_from_user)
                 audio_logger.start()
                 password_logger.start()
-                audio_logger.join()
                 password_logger.join()
 
                 #with keyboard.Listener(on_press=self.password_key) as psswd_listener:
                     #Manage keyboard input
-                    #psswd_listener.join()
+                #    psswd_listener.join()
+
+                audio_logger.join()                
 
         except KeyboardInterrupt:
             #Terminate the keylogger (detected CTRL+C)
@@ -376,12 +361,62 @@ class AcCAPPCHA:
             cprint('\nClosing the program', 'red', attrs=['bold'], end='\n\n')
             exit(0)
 
-
     def analyse(self, signal):
         return np.argwhere(signal > self.noise)
 
 
-if __name__=='__main__':
+def args_parser():
+    '''
+    Parser of command line arguments
+    '''
+    #Parser of command line arguments
+    parser = argparse.ArgumentParser()
+    
+    #Initialization of needed arguments
+    parser.add_argument("-dir", "-d", 
+                        dest="dir", 
+                        help="""If specified, it is the path of the folder with the
+                                3 subfolders: 'touch/', 'touch_hit/' and 'spectrum/'.
+                                Each of them contains a folder called 'model/' that
+                                contains information of the pre-trained network that
+                                classifies thekeys of the keyboard""")
+
+    parser.add_argument("-time", "-t", 
+                        dest="time", 
+                        help="""If specified, it performs human verification through
+                                analysis of elapsed time between insertion of 2 keys
+                                and time between 2 peaks""",
+                        action='store_true')
+
+    parser.add_argument("-deep", "-dl", 
+                        dest="deep",
+                        help="""If specified, it performs human verification through
+                                deep learning method (predicting pressed keys)""",
+                        action='store_true')
+
+    #Parse command line arguments
+    args = parser.parse_args()
+
+    #ERROR if specified file or output but not plot option
+    if not (args.deep and args.dir):
+        cprint('[OPTION ERROR]', 'red', end=' ')
+        print('The directory specified by', end=' ')
+        cprint('-d', 'blue', end=' ')
+        print("must be specified only with option", end=' ')
+        cprint('-deep', 'green', end='\n\n')
+        exit(0)
+
+    return args.dir, args.time, args.deep
+
+def main():
+    folder, time_option, deep_option = args_parser()
+    
+    if deep_option:
+        option = utility.select_option_feature()
+    
     colorama.init()
-    captcha = AcCAPPCHA(sys.argv[1])
-    captcha.run()
+    captcha = AcCAPPCHA()
+    captcha.run(folder, option)
+
+if __name__=='__main__':
+    main()
