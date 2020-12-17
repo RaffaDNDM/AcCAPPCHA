@@ -136,12 +136,12 @@ class AcCAPPCHA:
         
         try:
             char_user = sys.stdin.read(1)
-            self.TIMES.append(timer())
+            self.TIMES.append(time.perf_counter_ns())
 
             while char_user != '\n':
                 self.password += char_user
                 char_user = sys.stdin.read(1)
-                self.TIMES.append(timer())
+                self.TIMES.append(time.perf_counter_ns())
 
             first = self.TIMES[0]
             #print(self.TIMES)
