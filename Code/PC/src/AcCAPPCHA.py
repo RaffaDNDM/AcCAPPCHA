@@ -9,14 +9,9 @@ from termcolor import cprint, colored
 import os
 import utility
 import tempfile
-import ExtractFeatures as ef
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt, use
-from scipy.stats import mode
-from collections import Counter
-import NeuralNetwork as nn
-from tensorflow.keras.applications.vgg16 import VGG16
 import colorama
 import time
 from pynput import keyboard
@@ -25,8 +20,11 @@ import argparse
 import datetime
 from timeit import default_timer as timer
 import timeit
-
-
+#Deep learning only
+from collections import Counter
+import ExtractFeatures as ef
+import NeuralNetwork as nn
+from tensorflow.keras.applications.vgg16 import VGG16
 
 class AcCAPPCHA:
     CHUNK = 1024
@@ -130,39 +128,40 @@ class AcCAPPCHA:
         finally:
             self.mutex.release()
 
+    def password_key(self, key):
+        try:
+            key_string = str(key.char)
+            self.password += str(key.char)
+            self.TIMES.append(time.time())
+            self.check= True
+        except AttributeError:
+            if key == key.enter:
+                self.check = False
+
+        print(self.check)
+        print(self.password)
+        print(self.TIMES)
+
     def password_from_user(self):
-        sleep(1)
-        cprint('Insert the password', 'red')
+        char_user = utility.getchar()
         
-        try:
-            char_user = sys.stdin.read(1)
-            self.TIMES.append(time.perf_counter_ns())
+        if char_user != '\r':
+            self.password += char_user
+            psswd = self.password.replace('\b', '\b \b')
+            print(f'\r{psswd}', end='')
+            self.TIMES.append(time.time())
+            return True
 
-            while char_user != '\n':
-                self.password += char_user
-                char_user = sys.stdin.read(1)
-                self.TIMES.append(time.perf_counter_ns())
+        else:
+            psswd = self.password.replace('\b', '\b \b')
+            print(f'\r{psswd}')
+            self.mutex.acquire()
+            try:
+                self.COMPLETED_INSERT = True
+            finally:
+                self.mutex.release()
 
-            first = self.TIMES[0]
-            #print(self.TIMES)
-
-            self.TIMES = [t-first for t in self.TIMES[:-1]]
-            cprint(self.TIMES, 'green')
-            cprint(self.password, 'blue')
-
-            if self.password == 'EXIT':
-                self.KILLED = True
-                exit(0)
-        
-        except (EOFError, KeyboardInterrupt):
-            self.KILLED = True
-            exit(0)
-
-        self.mutex.acquire()
-        try:
-            self.COMPLETED_INSERT = True        
-        finally:
-            self.mutex.release()
+            return False
 
     def verify(self, folder, option):
         '''
@@ -360,28 +359,30 @@ class AcCAPPCHA:
         '''
         Start keylogger and audio recorder
         '''
-        self.TIMES = []
-        self.password = ''
-
         try:
             while not self.KILLED:
                 self.noise_evaluation()
+
+                self.TIMES = []
+                self.password = ''
+                cprint('Insert the password', 'red')
                 audio_logger = threading.Thread(target=self.audio, args=(folder,option))
                 audio_logger.start()
-                password_logger = threading.Thread(target=self.password_from_user())
-                password_logger.start()
-                password_logger.join()
+
+                no_end = True
+                sleep(1)
+                while no_end:
+                    no_end = self.password_from_user()
                 
-                #with keyboard.Listener(on_press=self.password_key) as psswd_listener:
-                    #Manage keyboard input
-                #    psswd_listener.join()
+                cprint(len(self.TIMES), 'green')
+                first = self.TIMES[0]
+                self.TIMES = [t-first for t in self.TIMES]
 
                 audio_logger.join()                
 
         except KeyboardInterrupt:
-            #Terminate the keylogger (detected CTRL+C)
             self.KILLED = True
-            sleep(2)
+            sleep(1)
             cprint('\nClosing the program', 'red', attrs=['bold'], end='\n\n')
             exit(0)
 
@@ -446,15 +447,15 @@ def args_parser():
 
 def main():
     folder, time_option, dl_option = args_parser()
-    
-    option=-1
 
+    option = -1
+    
     if dl_option:
         option = utility.select_option_feature()
-    
+
     colorama.init()
     captcha = AcCAPPCHA(time_option, dl_option)
     captcha.run(folder, option)
-
+    
 if __name__=='__main__':
     main()
