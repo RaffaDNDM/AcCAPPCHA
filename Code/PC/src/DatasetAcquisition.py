@@ -98,7 +98,6 @@ def args_parser():
 
     return args.plot, args.record, args.extract, args.zoom, args.file, args.dir, args.output
 
-
 def select_option_feature():
     check = True
     option=-1
@@ -124,7 +123,6 @@ def select_option_feature():
             print('Insert a value of them specified in menu')
 
     return option
-
 
 def main():
     '''
@@ -162,8 +160,5 @@ def main():
 
     cprint('\nExit from program\n', 'red', attrs=['bold'])
 
-
-#If program is not imported by other files
-#but run as main program
 if __name__=='__main__':
     main()

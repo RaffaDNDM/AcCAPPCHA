@@ -79,6 +79,7 @@ class AcquireAudio:
         count (int): num of elements already inserted of the sequence of 
                      TIME_KEY_PRESSED keys by user
     '''
+    
     def __init__(self, audio_dir, times_key):
         if not(os.path.exists(audio_dir) and os.path.isdir(audio_dir)):
             os.mkdir(self.DATA_FOLDER)
@@ -93,7 +94,6 @@ class AcquireAudio:
         self.mutex = threading.Lock()
         self.count = 0
         self.TIMES_KEY_PRESSED = times_key
-
 
     def already_acquired(self):    
         '''
@@ -142,7 +142,6 @@ class AcquireAudio:
             print('{:2d}'.format(self.LETTERS[subfolder]))
 
         cprint(utility.LINE, 'blue')
-
 
     def audio_logging(self):
         '''
@@ -196,7 +195,6 @@ class AcquireAudio:
         finally:
             self.mutex.release()
 
-
     def press_key(self, key):
         '''
         Record the key pressed by user
@@ -238,8 +236,7 @@ class AcquireAudio:
                     exit(0)
                 finally:
                     self.mutex.release()
-        
-            
+                
     def record(self):
         '''
         Start keylogger and audio recorder

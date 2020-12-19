@@ -13,6 +13,7 @@ import platform
 
 OPTIONS = ['touch', 'touch_hit', 'spectrum']
 LINE = '_____________________________________________________'
+SHORT_LINE ='______________________________________________'
 
 #Other results are 'Darwin' for Mac and 'Linux' for Linux
 if platform.system()=='Windows':
@@ -47,7 +48,6 @@ def swap(m, n):
     '''
     return n, m
 
-
 def uniform_dir_path(directory):
     '''
     Return directory path with '/' at the end
@@ -62,7 +62,6 @@ def uniform_dir_path(directory):
         return directory
     else:
         return directory+'/'
-
 
 def key_definition(key):
     '''
@@ -201,7 +200,10 @@ def key_definition(key):
     return key_string
 
 def getchar():
-    # Returns a single character from standard input
+    '''
+    Returns a single character from standard input
+    '''
+
     ch = ''
     if os.name == 'nt': # how it works on windows
         import msvcrt
@@ -233,7 +235,6 @@ def correct_csv_file(csv_file, default_file):
             exit(0)
     else:
         return default_file
-
 
 def signal_adjustment(fs, signal):
     '''
@@ -267,7 +268,6 @@ def signal_adjustment(fs, signal):
 
     return ts, time_ms, signal
 
-
 def num_samples(fs, seconds):
     '''
     Extract the feature from the signal
@@ -299,9 +299,6 @@ def results_to_string(results):
 
     return res_string
 
-
-SHORT_LINE ='______________________________________________'
-
 def plot_detailed():
     '''
     Create images for each audio file in '../dat/MSI/'+sys.argv[1]
@@ -310,9 +307,6 @@ def plot_detailed():
 
     for fold in subfolders:
         os.system('python3 .\DatasetAcquisition.py -p -d D:/THESIS/dat/MSI/'+sys.argv[1]+'/'+fold+' -o D:/THESIS/dat/MSI/graphics/detailed/'+fold)
-#    for fold in range(5, 10):
-#        os.system('python3 .\DatasetAcquisition.py -p -d ../dat/MSI/'+sys.argv[1]+'/'+str(fold)+' -o ../dat/MSI/graphics/detailed/'+str(fold))
-
 
 def remove_wrong_files_recursive():
     '''
@@ -332,7 +326,6 @@ def remove_wrong_files_recursive():
             if not f[:-4]+'.png' in img_files:
                 os.remove(PATH_WAV+fold+'/'+f)
 
-
 def remove_wrong_files_folder():
     '''
     Remove audio files in a given folder,
@@ -345,7 +338,6 @@ def remove_wrong_files_folder():
     for f in wav_files:
         if not f[:-4]+'.png' in img_files:
             os.remove('../dat/MSI/TEST/2/'+f)
-
 
 def rename_files_recursive():
     '''
@@ -361,7 +353,6 @@ def rename_files_recursive():
         for f in wav_files:
             os.rename(PATH_WAV+fold+'/'+f, PATH_WAV+fold+'/'+'{:04d}.wav'.format(count))
             count+=1
-
 
 def same_folder():
     '''
@@ -389,7 +380,6 @@ def same_folder():
         check=False
 
     return check
-
 
 def state_dataset():
     '''
@@ -422,14 +412,12 @@ def state_dataset():
     print(f'Dataset size: {dataset_size}', end='\n')
     print(SHORT_LINE, end='\n\n')
 
-
 def print_list(title, wav_list):
     print('{:^46s}'.format(title))
     print(SHORT_LINE)
     for (fold,length) in wav_list:
         print('          {:>12s}: {:>3d}'.format(fold, 200-length))
     print(SHORT_LINE, end='\n\n\n')
-
 
 def merge_subfolders():
     '''
@@ -458,7 +446,6 @@ def merge_subfolders():
         files_2 = os.listdir(PATH+fold)
         if not files_2:
             os.rmdir(PATH+fold)
-
 
 def add_noise():
     """
@@ -509,7 +496,6 @@ def add_noise():
         bar.finish()
         print('')
 
-
 def time_shift():
     """
     
@@ -551,7 +537,6 @@ def time_shift():
 
         bar.finish()
 
-
 def select_option_feature():
     check = True
     while check:
@@ -575,7 +560,6 @@ def select_option_feature():
             print('Insert a value of them specified in menu')
 
     return option
-
 
 def fusion_csv():
     PATH_1000 = '../dat/1000/'
@@ -608,7 +592,6 @@ def fusion_csv():
             for row in csv_reader:
                 writer_out.writerow(row)
 
-
 def remove_useless_rows():
     PATHS = {'../dat/1000_time_less/','../dat/2000_less/','../dat/1000_noise_less/'}
 
@@ -636,7 +619,6 @@ def remove_useless_rows():
                             row[-1] = float(list(labels.keys()).index(float(row[-1])))
                             writer_out.writerow(row)
 
-
 def extract_features_from_imgs():
     PATH = f'D:/THESIS/dat/MSI/graphics/{sys.argv[1]}/'
     CSV_DICT_LABELS = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/label_dict.csv'
@@ -659,7 +641,6 @@ def extract_features_from_imgs():
                 row = np.append(features, labels[fold])
                 csv_writer.writerow(row)
 
-
 def extract(model, path):
     PATH_SQUARE = 'D:/THESIS/dat/MSI/graphics/spectrum_square_less/'        
     img = image.load_img(path, color_mode='rgb', target_size=(224, 224))
@@ -674,7 +655,6 @@ def extract(model, path):
     x = preprocess_input(x)
     features = model.predict(x)
     return GlobalAveragePooling2D()(features)
-
 
 def create_label_dict():
     LABELS = {  '0':0, '1':1, '2':2, '3':3, '4':4,
@@ -696,9 +676,6 @@ def create_label_dict():
         for k,v in LABELS.items():
             csv_writer.writerow([k, v])
 
-
 if __name__=='__main__':
     colorama.init()
-    extract_features_from_imgs()
-    #create_label_dict()
     pass

@@ -45,7 +45,6 @@ def args_parser():
 
     return args.dir
 
-
 def main():
     #Initialize colored prints
     colorama.init()
@@ -88,7 +87,6 @@ def main():
         input('Type ENTER to train the model')
         cprint(utility.LINE, 'blue')
         net.train()
-
 
 if __name__=='__main__':
     main()

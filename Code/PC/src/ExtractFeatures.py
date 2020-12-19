@@ -46,10 +46,10 @@ class ExtractFeatures:
                                in terms of number of STEP_PEAKS, in time 
                                space, from the start index of the hit peak
     '''
+
     def __init__(self, fs, signal):
         self.ts, self.time_ms, self.signal = utility.signal_adjustment(fs, signal)
         self.fs = fs
-
 
     def extract(self, original_signal= None, index= None, spectrum=False):
         '''
@@ -78,7 +78,6 @@ class ExtractFeatures:
             else:
                 return self.FFT_evaluation(original_signal, touch_peak, hit_peak)
 
-
     def num_samples(self, seconds):
         '''
         Extract the feature from the signal
@@ -95,7 +94,6 @@ class ExtractFeatures:
         
         '''
         return utility.num_samples(self.fs, seconds)
-
 
     def press_peaks(self, index= None):
         '''
@@ -132,7 +130,6 @@ class ExtractFeatures:
         
         except ValueError:
             return None, None
-
 
     def FFT_evaluation(self, original_signal, touch_peak, hit_peak):
         '''
@@ -212,6 +209,7 @@ class Feature:
                           to FFT coefficients in fft_signal
         fft_signal (np.array): Sequence of FFT coefficients
     '''
+
     def __init__(self, 
                  peak,
                  freqs,

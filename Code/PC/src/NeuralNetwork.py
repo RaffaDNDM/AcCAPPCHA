@@ -36,6 +36,7 @@ class NeuralNetwork:
         train_mode (bool): True if training phase with creation of NN
                            False if test phase reading csv 
     '''
+
     def __init__(self, option, data_folder=None):
         self.option = utility.OPTIONS[option]
         #Update folder containing csv files
@@ -63,7 +64,6 @@ class NeuralNetwork:
         with open(self.DATA_FOLDER+self.CSV_DICT_LABELS) as fp:
             reader = csv.reader(fp)
             self.labels = {int(row[1]):row[0] for row in reader}
-
 
     def train(self):
         '''
@@ -143,7 +143,6 @@ class NeuralNetwork:
 
         #with open(self.DATA_FOLDER+self.MODEL, "w") as json_file:
         #    json_file.write(model_json)
-
 
     def test(self, X):
         '''

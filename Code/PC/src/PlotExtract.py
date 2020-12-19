@@ -62,6 +62,7 @@ class PlotExtract:
 						  value (list): wav files names in subfolder with name
 						  				equal to key
 	'''
+
 	def __init__(self, filename, audio_dir, output_dir):		
 		
 		if output_dir and os.path.isdir(output_dir):
@@ -115,7 +116,6 @@ class PlotExtract:
 					cprint(f'{self.DATA_FOLDER}', 'green', end=' ')
 					print("doesn't contain .wav files or directories", end='\n\n')
 					exit(0)
-
 
 	def plot(self, zoom):
 		'''
@@ -260,7 +260,6 @@ class PlotExtract:
 		else:
 			plt.show()
 
-
 	def plot_single_wave(self, filename, analysis, zoom):
 		'''
         Plot the audio signal with name filename with
@@ -327,7 +326,6 @@ class PlotExtract:
 		else:
 			plt.show()
 		
-
 	def extract(self, option):
 		try:
 
@@ -358,7 +356,6 @@ class PlotExtract:
 			#Terminate the program (detected CTRL+C)
 			plt.close()
 			exit(0)
-
 
 	def compute_entry(self, csv_train, csv_label, option):
 		'''
@@ -414,7 +411,6 @@ class PlotExtract:
 
 		return label
 
-
 	def print_key(self, csv_label, key, label, row_length):
 		#If the key is going to overcome line limit
 		if (row_length + len(key)) > (len(self.LINE)-1):
@@ -427,7 +423,6 @@ class PlotExtract:
 		csv_label.writerow([key, label])
 		
 		return row_length
-
 
 	def store_features(self, csv_writer, subfolder, filename, analysis, label, option):
 		length_feature = 0
