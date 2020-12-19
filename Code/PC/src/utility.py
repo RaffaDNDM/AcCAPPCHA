@@ -1,4 +1,4 @@
-from termcolor import cprint
+from termcolor import cprint, colored
 import os
 import sys
 import numpy as np
@@ -284,6 +284,20 @@ def num_samples(fs, seconds):
     
     '''
     return int(seconds*fs)
+
+def results_to_string(results):
+    '''
+    Color list of results (already ordered by decreasing value
+                           of probability of prediction) 
+    '''
+    res_string = ''
+
+    res_string += colored(f'{results[0]}', 'blue')
+
+    for item in results[1:]:
+        res_string += (', ' + colored(f'{item}', 'green'))
+
+    return res_string
 
 
 SHORT_LINE ='______________________________________________'

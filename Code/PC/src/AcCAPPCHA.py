@@ -38,7 +38,7 @@ class AcCAPPCHA:
     #Tolerance [-5 ms, 5 ms] with respect to peaks
     TIME_THRESHOLD = num_samples(RATE ,0.005)
 
-    def __init__(self, time_option, dl_option):
+    def __init__(self, time_option, dl_option, plot_option):
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
@@ -46,6 +46,7 @@ class AcCAPPCHA:
         self.ENTER_RANGE = num_samples(self.RATE, 0.2)
         self.TIME_OPTION = time_option
         self.DL_OPTION = dl_option
+        self.PLOT_OPTION = plot_option
 
     def noise_evaluation(self):
         p = pyaudio.PyAudio()
@@ -180,32 +181,38 @@ class AcCAPPCHA:
         #Time sample step
         self.ts, self.time_ms, self.signal = utility.signal_adjustment(self.RATE, self.signal)
 
-		#Initialize the figure
-        fig = plt.figure('AUDIO')
-
+        if self.PLOT_OPTION:
+            #Initialize the figure
+            fig = plt.figure('AUDIO')
+            #Plot of press peak and hit peak with the signal
+            plt.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
+        
+        char_times = []
         peak_indices = self.analyse(self.signal)
-        #Plot of press peak and hit peak with the signal
-        plt.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
-        
-        char_times = [[peak_indices[0][0],], ]
-        
-        start = 0
-        for i in peak_indices[1:]:
-            if (i[0]-char_times[start][0])>self.CHAR_RANGE:
-                char_times.append([i[0],])
-                start += 1
-            else:
-                char_times[start].append(i[0])
-                plt.plot(i[0]*self.ts, self.signal[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')    
-        
-        plt.tick_params(axis='both', which='major', labelsize=6)
-        fig.savefig(self.OUTPUT_IMG)
-        
-        if self.DL_OPTION:
-            self.predict_keys(char_times, folder, option)
+            
+        if peak_indices.size > 0:
+            char_times = [[peak_indices[0][0],], ]
+            
+            start = 0
+            for i in peak_indices[1:]:
+                if (i[0]-char_times[start][0])>self.CHAR_RANGE:
+                    char_times.append([i[0],])
+                    start += 1
+                else:
+                    char_times[start].append(i[0])
 
-        if self.TIME_OPTION:
-            print(self.correspond_times(char_times))
+                    if self.PLOT_OPTION:
+                        plt.plot(i[0]*self.ts, self.signal[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')
+        
+            if self.DL_OPTION:
+                print(self.correspond_keys(char_times, folder, option))
+
+            if self.TIME_OPTION:
+                print(self.correspond_times(char_times))
+
+        if self.PLOT_OPTION:
+            plt.tick_params(axis='both', which='major', labelsize=6)
+            fig.savefig(self.OUTPUT_IMG)
 
     def correspond_times(self, char_times):
         peak_times = []
@@ -241,17 +248,19 @@ class AcCAPPCHA:
 
         return False
 
+    def correspond_keys(self, char_times, folder, option):
+        keys = self.predict_keys(char_times, folder, option)
+        print(keys)
+        
     def predict_keys(self, char_times, folder, option):
         net = nn.NeuralNetwork(option, folder)
-                
         count = 0
         model = VGG16(weights='imagenet', include_top=False)
-                
+        keys = []
+
         for list_time in char_times:
             #Evaluation of press peak and hit peaks
             analysis = ef.ExtractFeatures(self.RATE, self.signal[list_time[0]:list_time[-1]])
-            fig = plt.figure('CHARACTER'+str(count))
-            fig.tight_layout(pad=3.0)
             
             if utility.OPTIONS[option]=='touch':
                 features = analysis.extract(original_signal=self.signal, index=list_time[0])
@@ -264,38 +273,11 @@ class AcCAPPCHA:
                 touch_feature = features['touch']
                 hit_feature = features['hit']
                 touch_X = touch_feature.fft_signal.reshape((1, 66))
-                print(colored(f'{count} ---> ', 'red')+f'{net.test(touch_X)}')
-
-                gs = fig.add_gridspec(2, 2)
-                s_top = fig.add_subplot(gs[0, :])
-                s1 = fig.add_subplot(gs[1,0])
-                s2 = fig.add_subplot(gs[1,1])
-            
-                #Plot of press peak and hit peak with the signal
-                s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
-                s_top.plot(touch_feature.peak*self.ts, self.signal[touch_feature.peak], color='red')
-                s_top.plot(hit_feature.peak*self.ts, self.signal[hit_feature.peak], color='green')
-                s_top.set_title('Amplitude')
-                s_top.set_xlabel('Time(ms)')
-                s_top.tick_params(axis='both', which='major', labelsize=6)
-
-                #Plot FFT double-sided transform of PRESS peak
-                s1.plot(touch_feature.freqs, touch_feature.fft_signal, color='red')
-                s1.set_xlabel('Frequency (Hz)')
-                s1.set_ylabel('FFT of PRESS PEAK')
-                s1.tick_params(axis='both', which='major', labelsize=6)
-                s1.set_xscale('log')
-                s1.set_yscale('log')
-
-                #Plot FFT single-sided transform of HIT peak
-                s2.plot(hit_feature.freqs, hit_feature.fft_signal, color='green')
-                s2.set_xlabel('Frequency(Hz)')
-                s2.set_ylabel('FFT of HIT PEAK')
-                s2.tick_params(axis='both', which='major', labelsize=6)
-                s2.set_xscale('log')
-                s2.set_yscale('log')
-                fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
-                #plt.show()
+                keys.append(net.test(touch_X))
+                print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
+                
+                if self.PLOT_OPTION:
+                    self.plot_features(count, touch_feature, hit_feature)
 
             elif utility.OPTIONS[option]=='touch_hit':
                 features = analysis.extract(original_signal=self.signal, index=list_time[0])
@@ -309,40 +291,12 @@ class AcCAPPCHA:
                 hit_feature = features['hit']            
                 touch_X = touch_feature.fft_signal
                 hit_X = hit_feature.fft_signal
-                touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))
-                #cprint(touch_hit_X.shape, 'red')
-                print(colored(f'{count} ---> ', 'red')+f'{net.test(touch_hit_X)}')
-
-                gs = fig.add_gridspec(2, 2)
-                s_top = fig.add_subplot(gs[0, :])
-                s1 = fig.add_subplot(gs[1,0])
-                s2 = fig.add_subplot(gs[1,1])
-            
-                #Plot of press peak and hit peak with the signal
-                s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
-                s_top.plot(touch_feature.peak*self.ts, self.signal[touch_feature.peak], color='red')
-                s_top.plot(hit_feature.peak*self.ts, self.signal[hit_feature.peak], color='green')
-                s_top.set_title('Amplitude')
-                s_top.set_xlabel('Time(ms)')
-                s_top.tick_params(axis='both', which='major', labelsize=6)
-
-                #Plot FFT double-sided transform of PRESS peak
-                s1.plot(touch_feature.freqs, touch_feature.fft_signal, color='red')
-                s1.set_xlabel('Frequency (Hz)')
-                s1.set_ylabel('FFT of PRESS PEAK')
-                s1.tick_params(axis='both', which='major', labelsize=6)
-                s1.set_xscale('log')
-                s1.set_yscale('log')
-
-                #Plot FFT single-sided transform of HIT peak
-                s2.plot(hit_feature.freqs, hit_feature.fft_signal, color='green')
-                s2.set_xlabel('Frequency(Hz)')
-                s2.set_ylabel('FFT of HIT PEAK')
-                s2.tick_params(axis='both', which='major', labelsize=6)
-                s2.set_xscale('log')
-                s2.set_yscale('log')
-                fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
-                #plt.show()
+                touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))                #cprint(touch_hit_X.shape, 'red')
+                keys.append(net.test(touch_hit_X))
+                print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
+                
+                if self.PLOT_OPTION:
+                    self.plot_features(count, touch_feature, hit_feature)
 
             else:
                 #Extraction of features
@@ -363,26 +317,69 @@ class AcCAPPCHA:
 
                 fig.savefig(folder+f'spectrum_img/{count}.jpg', dpi=300)
                 plt.close(fig)
-			
-                gs = fig.add_gridspec(2, 1)
-                s_top = fig.add_subplot(gs[0, 0])
-                s_bottom = fig.add_subplot(gs[1,0])
 
-                #Plot of press peak and hit peak with the signal
-                s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
-                s_top.plot(features[0]*self.ts, self.signal[features[0]], color='red')
-                s_top.plot(features[1]*self.ts, self.signal[features[1]], color='green')
-                s_top.set_title('Amplitude')
-                s_top.set_xlabel('Time(ms)')
-                s_top.tick_params(axis='both', which='major', labelsize=6)
+                final_features = utility.extract(model, folder+f'spectrum_img/{count}.jpg')
+                keys.append(net.test(final_features))
+                print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
 
-                s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
-
-                features = utility.extract(model, folder+f'spectrum_img/{count}.jpg')
-                fig.savefig(f'Char {count}.jpg')
-                print(colored(f'{count} ---> ', 'red')+f'{net.test(features)}')
+                if self.PLOT_OPTION:
+                    self.plot_spectrum(count, features, img_feature)
 
             count+=1
+
+        return keys
+
+    def plot_features(self, count, touch_feature, hit_feature):
+        fig = plt.figure('CHARACTER'+str(count))
+        fig.tight_layout(pad=3.0)
+        gs = fig.add_gridspec(2, 2)
+        s_top = fig.add_subplot(gs[0, :])
+        s1 = fig.add_subplot(gs[1,0])
+        s2 = fig.add_subplot(gs[1,1])
+    
+        #Plot of press peak and hit peak with the signal
+        s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
+        s_top.plot(touch_feature.peak*self.ts, self.signal[touch_feature.peak], color='red')
+        s_top.plot(hit_feature.peak*self.ts, self.signal[hit_feature.peak], color='green')
+        s_top.set_title('Amplitude')
+        s_top.set_xlabel('Time(ms)')
+        s_top.tick_params(axis='both', which='major', labelsize=6)
+
+        #Plot FFT double-sided transform of PRESS peak
+        s1.plot(touch_feature.freqs, touch_feature.fft_signal, color='red')
+        s1.set_xlabel('Frequency (Hz)')
+        s1.set_ylabel('FFT of PRESS PEAK')
+        s1.tick_params(axis='both', which='major', labelsize=6)
+        s1.set_xscale('log')
+        s1.set_yscale('log')
+
+        #Plot FFT single-sided transform of HIT peak
+        s2.plot(hit_feature.freqs, hit_feature.fft_signal, color='green')
+        s2.set_xlabel('Frequency(Hz)')
+        s2.set_ylabel('FFT of HIT PEAK')
+        s2.tick_params(axis='both', which='major', labelsize=6)
+        s2.set_xscale('log')
+        s2.set_yscale('log')
+        fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
+        #plt.show()
+
+    def plot_spectrum(self, count, features, img_feature):
+        fig = plt.figure('CHARACTER'+str(count))
+        fig.tight_layout(pad=3.0)
+        gs = fig.add_gridspec(2, 1)
+        s_top = fig.add_subplot(gs[0, 0])
+        s_bottom = fig.add_subplot(gs[1,0])
+
+        #Plot of press peak and hit peak with the signal
+        s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
+        s_top.plot(features[0]*self.ts, self.signal[features[0]], color='red')
+        s_top.plot(features[1]*self.ts, self.signal[features[1]], color='green')
+        s_top.set_title('Amplitude')
+        s_top.set_xlabel('Time(ms)')
+        s_top.tick_params(axis='both', which='major', labelsize=6)
+
+        s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=self.RATE)
+        fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
 
     def run(self, folder, option):
         '''
@@ -448,6 +445,11 @@ def args_parser():
                                 deep learning method (predicting pressed keys)""",
                         action='store_true')
 
+    parser.add_argument("-plot", "-p", 
+                        dest="plot",
+                        help="""If specified, it performs plot of partial results""",
+                        action='store_true')
+
     #Parse command line arguments
     args = parser.parse_args()
 
@@ -472,10 +474,10 @@ def args_parser():
         cprint('-deep', 'green', end='\n\n')
         exit(0)
 
-    return args.dir, args.time, args.deep
+    return args.dir, args.time, args.deep, args.plot
 
 def main():
-    folder, time_option, dl_option = args_parser()
+    folder, time_option, dl_option, plot_option = args_parser()
 
     option = -1
     
@@ -483,7 +485,7 @@ def main():
         option = utility.select_option_feature()
 
     colorama.init()
-    captcha = AcCAPPCHA(time_option, dl_option)
+    captcha = AcCAPPCHA(time_option, dl_option, plot_option)
     captcha.run(folder, option)
     
 if __name__=='__main__':

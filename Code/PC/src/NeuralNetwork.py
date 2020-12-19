@@ -159,22 +159,14 @@ class NeuralNetwork:
             exit(0)
 
         loaded_model = load_model(self.DATA_FOLDER+self.MODEL)
-        #model_from_json(loaded_model_json)
-        # evaluate loaded model on test data
-        #end = int(len(self.X)/2)
-        #score = loaded_model.evaluate(self.X[end:], self.Y[end:], verbose=0)
-        #print("%s: %.2f%%" % (loaded_model.metrics_names[1], score[1]*100))
-
         #Prediction example
         Y = loaded_model.predict(X)
-        #cprint(f'{np.argmax(Y)}', 'blue')
-        max_string = f'{self.labels[np.argmax(Y)]}  '
         Y_indices_sort = np.argsort(Y)
-        #print(Y_indices_sort)
-
-        result = colored(max_string, 'blue')+colored(f'{self.labels[Y_indices_sort[0][-1]]}', 'green')
         
-        for i in range(2, 11):
-            result += colored(f', {self.labels[Y_indices_sort[0][-i]]}', 'green')
+        #10 best results (keys with highest probability)
+        results = []
+        
+        for i in range(1, 11):
+            results.append(self.labels[Y_indices_sort[0][-i]])
 
-        return result
+        return results
