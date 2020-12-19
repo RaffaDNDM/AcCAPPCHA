@@ -8,6 +8,7 @@ import threading
 from termcolor import cprint, colored
 import os
 import utility
+from utility import num_samples
 import tempfile
 import matplotlib
 matplotlib.use('Agg')
@@ -34,13 +35,15 @@ class AcCAPPCHA:
     SECONDS_NOISE = 2.0
     OUTPUT_IMG = '../dat/audio_from_user.png'
     COLORS = ['g', 'r', 'c', 'm', 'y']
+    #Tolerance [-5 ms, 5 ms] with respect to peaks
+    TIME_THRESHOLD = num_samples(RATE ,0.005)
 
     def __init__(self, time_option, dl_option):
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
-        self.CHAR_RANGE = utility.num_samples(self.RATE, 0.16)
-        self.ENTER_RANGE = utility.num_samples(self.RATE, 0.2)
+        self.CHAR_RANGE = num_samples(self.RATE, 0.10)
+        self.ENTER_RANGE = num_samples(self.RATE, 0.2)
         self.TIME_OPTION = time_option
         self.DL_OPTION = dl_option
 
@@ -202,15 +205,41 @@ class AcCAPPCHA:
             self.predict_keys(char_times, folder, option)
 
         if self.TIME_OPTION:
-            self.correspond_times(char_times)
+            print(self.correspond_times(char_times))
 
     def correspond_times(self, char_times):
         peak_times = []
 
+        length_psswd = len(self.password)
+        if len(char_times) < length_psswd:
+            return False
+
         for list_time in char_times:
             peak_times.append(np.argmax(self.signal[list_time]))
 
-        print(self.TIMES)
+        for i in range(0, len(char_times)):
+            if len(char_times) - i < length_psswd:
+                return False
+
+            start = num_samples(self.RATE, i)
+            j=i+1
+            count_verified = 1 #already verified element in i
+            while count_verified < length_psswd and j < len(char_times):
+                if (len(char_times) -i) < (length_psswd-count_verified):
+                    return False
+
+                while j < len(char_times) and \
+                      (num_samples(self.RATE, peak_times[j])-self.TIME_THRESHOLD-start) < num_samples(self.RATE, self.TIMES[count_verified]):
+                      j += 1
+
+                if j < len(char_times) and \
+                      (num_samples(self.RATE, peak_times[j])+self.TIME_THRESHOLD-start) > num_samples(self.RATE, self.TIMES[count_verified]):
+                      count_verified += 1
+
+            if count_verified == length_psswd:
+                return True
+
+        return False
 
     def predict_keys(self, char_times, folder, option):
         net = nn.NeuralNetwork(option, folder)
