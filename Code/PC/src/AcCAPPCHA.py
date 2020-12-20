@@ -21,6 +21,7 @@ import argparse
 import datetime
 from timeit import default_timer as timer
 import timeit
+import array
 #Deep learning only
 from collections import Counter
 import ExtractFeatures as ef
@@ -68,6 +69,7 @@ class AcCAPPCHA:
         stream.close()
         p.terminate()
 
+        '''
         #wf = wave.open(tempfile.gettempdir()+'/tmp.wav', 'wb')
         wf = wave.open('../dat/noise.wav', 'wb')
         wf.setnchannels(self.CHANNELS)
@@ -78,6 +80,11 @@ class AcCAPPCHA:
 
         #Reading audio file
         fs, signal = wavfile.read('../dat/noise.wav')
+        '''
+
+        audio_string = b''.join(frames)
+        signal = np.frombuffer(audio_string, dtype=np.int16)
+        
         #Analysis of audio signal
         #analysis = ef.ExtractFeatures(fs, signal)
         self.noise = np.max(np.abs(signal))
@@ -110,6 +117,7 @@ class AcCAPPCHA:
         stream.close()
         p.terminate()
 
+        '''
         wf = wave.open('../dat/tmp.wav', 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(p.get_sample_size(self.FORMAT))
@@ -117,8 +125,13 @@ class AcCAPPCHA:
         wf.writeframes(b''.join(frames))
         wf.close()
 
+
         #Reading audio file
         fs, signal = wavfile.read('../dat/tmp.wav')
+        '''
+
+        audio_string = b''.join(frames)
+        signal = np.frombuffer(audio_string, dtype=np.int16)
         #Analysis of audio signal
         #analysis = ef.ExtractFeatures(fs, signal)
         print(len(signal))
@@ -212,12 +225,11 @@ class AcCAPPCHA:
             fig.savefig(self.OUTPUT_IMG)
 
     def correspond_time(self, char_times):
-        peak_times = []
-
         length_psswd = len(self.password)
         if len(char_times) < length_psswd:
             return False, None
 
+        peak_times = []
         for list_time in char_times:
             peak_times.append(np.argmax(self.signal[list_time]))
 
