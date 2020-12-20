@@ -132,33 +132,20 @@ class AcCAPPCHA:
         finally:
             self.mutex.release()
 
-    def password_key(self, key):
-        try:
-            key_string = str(key.char)
-            self.password += str(key.char)
-            self.TIMES.append(time.time())
-            self.check= True
-        except AttributeError:
-            if key == key.enter:
-                self.check = False
-
-        print(self.check)
-        print(self.password)
-        print(self.TIMES)
-
     def password_from_user(self):
         char_user = utility.getchar()
         
         if char_user != '\r':
             self.password += char_user
-            psswd = self.password.replace('\b', '\b \b')
+            psswd = self.obfuscate()
             print(f'\r{psswd}', end='')
             self.TIMES.append(time.time())
             return True
 
         else:
-            psswd = self.password.replace('\b', '\b \b')
+            psswd = self.obfuscate()
             print(f'\r{psswd}')
+
             self.mutex.acquire()
             try:
                 self.COMPLETED_INSERT = True
@@ -204,36 +191,47 @@ class AcCAPPCHA:
                     if self.PLOT_OPTION:
                         plt.plot(i[0]*self.ts, self.signal[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')
         
-            if self.DL_OPTION:
-                print(self.correspond_keys(char_times, folder, option))
+            if self.DL_OPTION and self.TIME_OPTION:
+                verified_time, checked_char_times = self.correspond_time(char_times)
 
-            if self.TIME_OPTION:
-                print(self.correspond_times(char_times))
+                verified = verified_time
+
+                if verified_time:
+                    verified = self.correspond_keys(checked_char_times, folder, option)
+                    
+                print(colored(utility.LINE, 'cyan')+f'\n{verified}', end='\n\n')
+
+            elif self.DL_OPTION:
+                print(colored(utility.LINE, 'cyan')+f'\n{self.correspond_keys(char_times, folder, option)}', end='\n\n')
+
+            elif self.TIME_OPTION:
+                print(colored(utility.LINE, 'cyan')+f'\n{self.correspond_time(char_times)[0]}', end='\n\n')
 
         if self.PLOT_OPTION:
             plt.tick_params(axis='both', which='major', labelsize=6)
             fig.savefig(self.OUTPUT_IMG)
 
-    def correspond_times(self, char_times):
+    def correspond_time(self, char_times):
         peak_times = []
 
         length_psswd = len(self.password)
         if len(char_times) < length_psswd:
-            return False
+            return False, None
 
         for list_time in char_times:
             peak_times.append(np.argmax(self.signal[list_time]))
 
         for i in range(0, len(char_times)):
             if len(char_times) - i < length_psswd:
-                return False
+                return False, None
 
+            checked_char_times = [char_times[i],]
             start = num_samples(self.RATE, i)
             j=i+1
             count_verified = 1 #already verified element in i
             while count_verified < length_psswd and j < len(char_times):
                 if (len(char_times) -i) < (length_psswd-count_verified):
-                    return False
+                    return False, None
 
                 while j < len(char_times) and \
                       (num_samples(self.RATE, peak_times[j])-self.TIME_THRESHOLD-start) < num_samples(self.RATE, self.TIMES[count_verified]):
@@ -242,16 +240,31 @@ class AcCAPPCHA:
                 if j < len(char_times) and \
                       (num_samples(self.RATE, peak_times[j])+self.TIME_THRESHOLD-start) > num_samples(self.RATE, self.TIMES[count_verified]):
                       count_verified += 1
+                      checked_char_times.append(char_times[j])
 
             if count_verified == length_psswd:
-                return True
+                return True, char_times
 
-        return False
+        return False, None
 
     def correspond_keys(self, char_times, folder, option):
         keys = self.predict_keys(char_times, folder, option)
-        print(keys)
+
+        self.password = self.remove_backspace()
         
+        if len(keys)<len(self.password):
+            return False
+
+        i=0
+        for key_list in keys:
+            if self.password[i] in key_list:
+                i += 1
+            
+            if i==len(self.password):
+                break
+        
+        return i==len(self.password)
+
     def predict_keys(self, char_times, folder, option):
         net = nn.NeuralNetwork(option, folder)
         count = 0
@@ -415,6 +428,27 @@ class AcCAPPCHA:
     def analyse(self, signal):
         return np.argwhere(signal > self.noise)
 
+    def obfuscate(self):
+        psswd = ''
+
+        for x in self.password:
+            if x == '\b':
+                psswd += '\b \b'
+            else:
+                psswd += '*'
+
+        return psswd
+
+    def remove_backspace(self):
+        psswd = ''
+        for x in self.password:
+            if x == '\b':
+                psswd = psswd[:-1]
+            else:
+                psswd += x
+
+        return psswd
+        
 
 def args_parser():
     '''
