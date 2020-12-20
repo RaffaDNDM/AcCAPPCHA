@@ -27,7 +27,7 @@ from sklearn.metrics import accuracy_score
 
 class NeuralNetwork:
     #Default files
-    DATA_FOLDER = '../dat/touch_hit/'
+    DATA_FOLDER = '../dat/dataset/200_less/touch_hit/'
     CSV_DATASET = 'dataset.csv'
     CSV_DICT_LABELS = 'label_dict.csv'
     MODEL = 'model'

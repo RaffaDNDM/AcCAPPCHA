@@ -34,7 +34,17 @@ class AcCAPPCHA:
     CHANNELS = 2
     RATE = 44100
     SECONDS_NOISE = 2.0
-    OUTPUT_IMG = '../dat/audio_from_user.png'
+
+    PLOT_FOLDER = '../dat/img/'
+
+    SPECTRUM_FOLDER = 'spectrum/'
+    CHAR_SPECTRUM_IMG = 'spectrum_{:02d}.png'
+
+    WAVE_FOLDER = 'wave/'
+    FULL_WAVE_IMG = 'audio_from_user.png'
+    CHAR_WAVE_PEAKS_IMG = 'peak_{:02d}.png'
+    CHAR_WAVE_SPECTRUM_IMG = 'spectrum_{:02d}.png'
+
     COLORS = ['g', 'r', 'c', 'm', 'y']
     #Tolerance [-5 ms, 5 ms] with respect to peaks
     TIME_THRESHOLD = num_samples(RATE ,0.005)
@@ -48,6 +58,18 @@ class AcCAPPCHA:
         self.TIME_OPTION = time_option
         self.DL_OPTION = dl_option
         self.PLOT_OPTION = plot_option
+
+        if not os.path.exists(self.PLOT_FOLDER):
+            os.mkdir(self.PLOT_FOLDER)
+
+        if self.PLOT_OPTION:
+            if not os.path.exists(self.PLOT_FOLDER+self.WAVE_FOLDER):
+                os.mkdir(self.PLOT_FOLDER+self.WAVE_FOLDER)
+            else:
+                files = os.listdir(self.PLOT_FOLDER+self.WAVE_FOLDER)
+
+                for f in files:
+                    os.remove(self.PLOT_FOLDER+self.WAVE_FOLDER+f)
 
     def noise_evaluation(self):
         p = pyaudio.PyAudio()
@@ -86,7 +108,6 @@ class AcCAPPCHA:
         signal = np.frombuffer(audio_string, dtype=np.int16)
         
         #Analysis of audio signal
-        #analysis = ef.ExtractFeatures(fs, signal)
         self.noise = np.max(np.abs(signal))
 
     def audio(self, folder, option):
@@ -207,22 +228,24 @@ class AcCAPPCHA:
             if self.DL_OPTION and self.TIME_OPTION:
                 verified_time, checked_char_times = self.correspond_time(char_times)
 
-                verified = verified_time
+                self.VERIFIED = verified_time
 
                 if verified_time:
-                    verified = self.correspond_keys(checked_char_times, folder, option)
+                    self.VERIFIED = self.correspond_keys(checked_char_times, folder, option)
                     
-                print(colored(utility.LINE, 'cyan')+f'\n{verified}', end='\n\n')
+                print(colored(utility.LINE, 'cyan')+f'\n{self.VERIFIED}', end='\n\n')
 
             elif self.DL_OPTION:
-                print(colored(utility.LINE, 'cyan')+f'\n{self.correspond_keys(char_times, folder, option)}', end='\n\n')
+                self.VERIFIED = self.correspond_keys(char_times, folder, option)
+                print(colored(utility.LINE, 'cyan')+f'\n{self.VERIFIED}', end='\n\n')
 
             elif self.TIME_OPTION:
-                print(colored(utility.LINE, 'cyan')+f'\n{self.correspond_time(char_times)[0]}', end='\n\n')
+                self.VERIFIED = self.correspond_time(char_times)[0]
+                print(colored(utility.LINE, 'cyan')+f'\n{self.VERIFIED}', end='\n\n')
 
         if self.PLOT_OPTION:
             plt.tick_params(axis='both', which='major', labelsize=6)
-            fig.savefig(self.OUTPUT_IMG)
+            fig.savefig(self.PLOT_FOLDER+self.WAVE_FOLDER+self.FULL_WAVE_IMG)
 
     def correspond_time(self, char_times):
         length_psswd = len(self.password)
@@ -337,13 +360,10 @@ class AcCAPPCHA:
                 img_feature = np.concatenate((self.signal[features[0]], self.signal[features[1]]))
                 spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
                 
-                if not os.path.exists(folder+f'spectrum_img'):
-                    os.mkdir(folder+f'spectrum_img')
-
-                fig.savefig(folder+f'spectrum_img/{count}.jpg', dpi=300)
+                fig.savefig((self.PLOT_FOLDER+self.SPECTRUM_FOLDER+self.CHAR_SPECTRUM_IMG).format(count), dpi=300)
                 plt.close(fig)
 
-                final_features = utility.extract(model, folder+f'spectrum_img/{count}.jpg')
+                final_features = utility.extract(model, (self.PLOT_FOLDER+self.SPECTRUM_FOLDER+self.CHAR_SPECTRUM_IMG).format(count))
                 keys.append(net.test(final_features))
                 print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
 
@@ -385,7 +405,7 @@ class AcCAPPCHA:
         s2.tick_params(axis='both', which='major', labelsize=6)
         s2.set_xscale('log')
         s2.set_yscale('log')
-        fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
+        fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_PEAKS_IMG).format(count))
         #plt.show()
 
     def plot_spectrum(self, count, features, img_feature):
@@ -404,12 +424,21 @@ class AcCAPPCHA:
         s_top.tick_params(axis='both', which='major', labelsize=6)
 
         s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=self.RATE)
-        fig.savefig(self.OUTPUT_IMG[:-4]+f'{count}.png')
+        fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_SPECTRUM_IMG).format(count))
 
     def run(self, folder, option):
         '''
         Start keylogger and audio recorder
         '''
+        if self.DL_OPTION and utility.OPTIONS[option]=='spectrum':
+            if not os.path.exists(self.PLOT_FOLDER+self.SPECTRUM_FOLDER):
+                os.mkdir(self.PLOT_FOLDER+self.SPECTRUM_FOLDER)
+            else:
+                files = os.listdir(self.PLOT_FOLDER+self.SPECTRUM_FOLDER)
+
+                for f in files:
+                    os.remove(self.PLOT_FOLDER+self.SPECTRUM_FOLDER+f)
+
         try:
             while not self.KILLED:
                 self.noise_evaluation()
@@ -429,7 +458,8 @@ class AcCAPPCHA:
                 first = self.TIMES[0]
                 self.TIMES = [t-first for t in self.TIMES]
 
-                audio_logger.join()                
+                audio_logger.join()
+                return self.VERIFIED              
 
         except KeyboardInterrupt:
             self.KILLED = True
@@ -523,6 +553,7 @@ def args_parser():
     return args.dir, args.time, args.deep, args.plot
 
 def main():
+    colorama.init()
     folder, time_option, dl_option, plot_option = args_parser()
 
     option = -1
@@ -530,9 +561,15 @@ def main():
     if dl_option:
         option = utility.select_option_feature()
 
-    colorama.init()
-    captcha = AcCAPPCHA(time_option, dl_option, plot_option)
-    captcha.run(folder, option)
-    
+    done = False
+    count = 0
+
+    username = input(colored('Insert your username:', 'red'))
+
+    while not done or count < 3:
+        captcha = AcCAPPCHA(time_option, dl_option, plot_option)
+        done = captcha.run(folder, option)
+        count += 1
+
 if __name__=='__main__':
     main()
