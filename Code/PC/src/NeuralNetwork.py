@@ -7,6 +7,7 @@ import colorama
 import utility
 import ctypes
 import platform
+import sys
 
 #Other results are 'Darwin' for Mac and 'Linux' for Linux
 if platform.system()=='Windows':
@@ -24,6 +25,11 @@ from keras.utils import to_categorical
 from keras.losses import CategoricalCrossentropy
 from keras.models import load_model
 from sklearn.metrics import accuracy_score
+import logging
+import tensorflow as tf
+tf.get_logger().setLevel(logging.ERROR)
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class NeuralNetwork:
     #Default files

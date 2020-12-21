@@ -27,6 +27,11 @@ from collections import Counter
 import ExtractFeatures as ef
 import NeuralNetwork as nn
 from tensorflow.keras.applications.vgg16 import VGG16
+import logging
+import tensorflow as tf 
+tf.get_logger().setLevel(logging.ERROR)
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 class AcCAPPCHA:
     CHUNK = 1024
@@ -44,12 +49,33 @@ class AcCAPPCHA:
     FULL_WAVE_IMG = 'audio_from_user.png'
     CHAR_WAVE_PEAKS_IMG = 'peak_{:02d}.png'
     CHAR_WAVE_SPECTRUM_IMG = 'spectrum_{:02d}.png'
+    PASSWORD_STRING = colored('password: ', 'red')
+
+    NAME_CAPPCHA= '_____/********+_________________________/********+_____/********+_____/************+____/************+__________/********+__/**+________/**+_____/********+____\n'+ \
+                  ' ___/************+____________________/**+////////____/************+__+/**+/////////**+_+/**+/////////**+_____/**+////////__+/**+_______+/**+___/************+__\n' + \
+                  '  __/**+/////////**+_________________/**+/____________/**+/////////**+_+/**+_______+/**+_+/**+_______+/**+___/**+/___________+/**+_______+/**+__/**+/////////**+_\n' + \
+                  '   _+/**+_______+/**+_____/********__/**+_____________+/**+_______+/**+_+/*************/__+/*************/___/**+_____________+/**************+_+/**+_______+/**+_\n' + \
+                  '    _+/**************+___/**+//////__+/**+_____________+/**************+_+/**+/////////____+/**+/////////____+/**+_____________+/**+/////////**+_+/**************+_\n' + \
+                  '     _+/**+/////////**+__/**+_________+//**+____________+/**+/////////**+_+/**+_____________+/**+_____________+//**+____________+/**+_______+/**+_+/**+/////////**+_\n' + \
+                  '      _+/**+_______+/**+_+//**+_________+///**+__________+/**+_______+/**+_+/**+_____________+/**+______________+///**+__________+/**+_______+/**+_+/**+_______+/**+_\n' + \
+                  '       _+/**+_______+/**+__+///********____+////********+_+/**+_______+/**+_+/**+_____________+/**+________________+////********+_+/**+_______+/**+_+/**+_______+/**+_\n' + \
+                  '        _+///________+///_____+////////________+/////////__+///________+///__+///______________+///____________________+/////////__+///________+///__+///________+///__\n\n'
+
+    NAME_CAPPCHA2= '                  _____          _____  _____   _____ _    _\n'+ \
+                  '     /\\          / ____|   /\\   |  __ \\|  __ \\ / ____| |  | |   /\\ \n' + \
+                  '    /  \\   ___  | |       /  \\  | |__) | |__) | |    | |__| |  /  \\ \n' + \
+                  '   / /\\ \\ / __| | |      / /\\ \\ |  ___/|  ___/| |    |  __  | / /\\ \\ \n' + \
+                  '  / ____ \\ (__  | |____ / ____ \\| |    | |    | |____| |  | |/ ____ \\ \n' + \
+                  ' /_/    \\_\\___|  \_____/_/    \\_\\_|    |_|     \_____|_|  |_/_/    \\_\\ \n\n'
 
     COLORS = ['g', 'r', 'c', 'm', 'y']
     #Tolerance [-5 ms, 5 ms] with respect to peaks
     TIME_THRESHOLD = num_samples(RATE ,0.005)
+    MAIN_COLOR = 'red'
+    SHADOW_COLOR = 'yellow'
+    BACKGROUND_COLOR = 'blue'
 
-    def __init__(self, time_option, dl_option, plot_option):
+    def __init__(self, time_option, dl_option, plot_option, debug_option):
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
@@ -58,6 +84,14 @@ class AcCAPPCHA:
         self.TIME_OPTION = time_option
         self.DL_OPTION = dl_option
         self.PLOT_OPTION = plot_option
+        self.DEBUG = debug_option
+        self.VERIFIED = False
+        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('+', colored('/', self.SHADOW_COLOR))
+        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('|', colored('|', self.SHADOW_COLOR))
+        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('/', colored('/', self.SHADOW_COLOR))
+        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('_', colored('_', self.BACKGROUND_COLOR))
+        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('*', colored('\\', self.MAIN_COLOR))
+        cprint('\n'+self.NAME_CAPPCHA, 'blue')
 
         if not os.path.exists(self.PLOT_FOLDER):
             os.mkdir(self.PLOT_FOLDER)
@@ -154,15 +188,19 @@ class AcCAPPCHA:
         audio_string = b''.join(frames)
         signal = np.frombuffer(audio_string, dtype=np.int16)
         #Analysis of audio signal
-        #analysis = ef.ExtractFeatures(fs, signal)
-        print(len(signal))
+        
+        if self.DEBUG:
+            colored(utility.LINE, 'blue')
+            cprint('Audio length:', 'green', end=' ')
+            print(f'{len(signal)} samples ({len(signal)/self.RATE} s)')
+            cprint('Password length:', 'green', end=' ')
+            print(f'{len(self.password)} characters')
 
         self.mutex.acquire()
         try:
             self.COMPLETED_INSERT = False    
             self.signal = signal[:-self.ENTER_RANGE]
             self.verify(folder, option)
-            self.KILLED = True
         finally:
             self.mutex.release()
 
@@ -172,13 +210,13 @@ class AcCAPPCHA:
         if char_user != '\r':
             self.password += char_user
             psswd = self.obfuscate()
-            print(f'\r{psswd}', end='')
+            print(f'\r{self.PASSWORD_STRING}{psswd}', end='')
             self.TIMES.append(time.time())
             return True
 
         else:
             psswd = self.obfuscate()
-            print(f'\r{psswd}')
+            print(f'\r{self.PASSWORD_STRING}{psswd}')
 
             self.mutex.acquire()
             try:
@@ -226,6 +264,7 @@ class AcCAPPCHA:
                         plt.plot(i[0]*self.ts, self.signal[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')
         
             if self.DL_OPTION and self.TIME_OPTION:
+                cprint(utility.LINE, 'blue')
                 verified_time, checked_char_times = self.correspond_time(char_times)
 
                 self.VERIFIED = verified_time
@@ -233,15 +272,17 @@ class AcCAPPCHA:
                 if verified_time:
                     self.VERIFIED = self.correspond_keys(checked_char_times, folder, option)
                     
-                print(colored(utility.LINE, 'cyan')+f'\n{self.VERIFIED}', end='\n\n')
-
             elif self.DL_OPTION:
+                cprint(utility.LINE, 'blue')
                 self.VERIFIED = self.correspond_keys(char_times, folder, option)
-                print(colored(utility.LINE, 'cyan')+f'\n{self.VERIFIED}', end='\n\n')
 
             elif self.TIME_OPTION:
                 self.VERIFIED = self.correspond_time(char_times)[0]
-                print(colored(utility.LINE, 'cyan')+f'\n{self.VERIFIED}', end='\n\n')
+
+        cprint(utility.LINE, 'blue')
+        
+        if self.DEBUG:
+            print(colored('Human: ', 'green')+f'\n{self.VERIFIED}', end='\n\n')
 
         if self.PLOT_OPTION:
             plt.tick_params(axis='both', which='major', labelsize=6)
@@ -286,7 +327,7 @@ class AcCAPPCHA:
         keys = self.predict_keys(char_times, folder, option)
 
         self.password = self.remove_backspace()
-        
+
         if len(keys)<len(self.password):
             return False
 
@@ -314,7 +355,7 @@ class AcCAPPCHA:
                 features = analysis.extract(original_signal=self.signal, index=list_time[0])
                 
                 if features is None:
-                    print(f'{count} ---> EMPTY SEQUENCE')
+                    print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
                     count+=1
                     continue
 
@@ -331,7 +372,7 @@ class AcCAPPCHA:
                 features = analysis.extract(original_signal=self.signal, index=list_time[0])
                 
                 if features is None:
-                    print(f'{count} ---> EMPTY SEQUENCE')
+                    print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
                     count+=1
                     continue
 
@@ -339,7 +380,8 @@ class AcCAPPCHA:
                 hit_feature = features['hit']            
                 touch_X = touch_feature.fft_signal
                 hit_X = hit_feature.fft_signal
-                touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))                #cprint(touch_hit_X.shape, 'red')
+                touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))                
+                #cprint(touch_hit_X.shape, 'red')
                 keys.append(net.test(touch_hit_X))
                 print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
                 
@@ -353,7 +395,7 @@ class AcCAPPCHA:
                 features = analysis.extract(original_signal=self.signal, index=list_time[0], spectrum=True)
         
                 if features is None:
-                    print(f'{count} ---> EMPTY SEQUENCE')
+                    print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
                     count+=1
                     continue
                 
@@ -440,12 +482,18 @@ class AcCAPPCHA:
                     os.remove(self.PLOT_FOLDER+self.SPECTRUM_FOLDER+f)
 
         try:
-            while not self.KILLED:
+            count_trials = 0
+            while not self.VERIFIED and count_trials < 3:
+                self.COMPLETED_INSERT = False
                 self.noise_evaluation()
 
                 self.TIMES = []
                 self.password = ''
-                cprint('Insert the password', 'red')
+                
+                if count_trials > 0:
+                    cprint('Try to stay in a quiet environment', 'yellow')
+                
+                cprint('password:', 'red', end=' ')
                 audio_logger = threading.Thread(target=self.audio, args=(folder,option))
                 audio_logger.start()
 
@@ -454,12 +502,13 @@ class AcCAPPCHA:
                 while no_end:
                     no_end = self.password_from_user()
                 
-                cprint(len(self.TIMES), 'green')
                 first = self.TIMES[0]
                 self.TIMES = [t-first for t in self.TIMES]
 
                 audio_logger.join()
-                return self.VERIFIED              
+                count_trials += 1
+
+            return self.VERIFIED              
 
         except KeyboardInterrupt:
             self.KILLED = True
@@ -515,7 +564,7 @@ def args_parser():
                                 and time between 2 peaks""",
                         action='store_true')
 
-    parser.add_argument("-deep", "-dl", 
+    parser.add_argument("-deep", "-dl",
                         dest="deep",
                         help="""If specified, it performs human verification through
                                 deep learning method (predicting pressed keys)""",
@@ -524,6 +573,11 @@ def args_parser():
     parser.add_argument("-plot", "-p", 
                         dest="plot",
                         help="""If specified, it performs plot of partial results""",
+                        action='store_true')
+
+    parser.add_argument("-debug", "-dbg", 
+                        dest="debug",
+                        help="""If specified, it shows debug info""",
                         action='store_true')
 
     #Parse command line arguments
@@ -550,26 +604,34 @@ def args_parser():
         cprint('-deep', 'green', end='\n\n')
         exit(0)
 
-    return args.dir, args.time, args.deep, args.plot
+    return args.dir, args.time, args.deep, args.plot, args.debug
 
 def main():
     colorama.init()
-    folder, time_option, dl_option, plot_option = args_parser()
+    folder, time_option, dl_option, plot_option, debug_option = args_parser()
 
     option = -1
     
     if dl_option:
         option = utility.select_option_feature()
 
-    done = False
-    count = 0
+    captcha = AcCAPPCHA(time_option, dl_option, plot_option, debug_option)
+    cprint(f'   Authentication\n{utility.LINE}', 'blue')
+    username = input(colored('username: ', 'red'))
+    check = captcha.run(folder, option)
 
-    username = input(colored('Insert your username:', 'red'))
-
-    while not done or count < 3:
-        captcha = AcCAPPCHA(time_option, dl_option, plot_option)
-        done = captcha.run(folder, option)
-        count += 1
+    if check:
+        cprint("#################################", 'yellow')
+        cprint('#############', 'yellow', end=' ')
+        cprint("HUMAN", 'magenta', end=' ')
+        cprint('#############', 'yellow')
+        cprint("#################################", 'yellow', end='\n\n')
+    else:
+        cprint("#################################", 'yellow')
+        cprint('##############', 'yellow')
+        cprint("BOT", 'magenta', end=' ')
+        cprint('##############', 'yellow')
+        cprint("#################################", 'yellow', end='\n\n')
 
 if __name__=='__main__':
     main()
