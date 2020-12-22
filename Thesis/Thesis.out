@@ -23,8 +23,9 @@
 \BOOKMARK [2][-]{subsection.4.2.1}{Elliptic Curve Digital Signature Algorithm \(ECDSA\)}{section.4.2}% 23
 \BOOKMARK [1][-]{section.4.3}{Security analysis}{chapter.4}% 24
 \BOOKMARK [2][-]{subsection.4.3.1}{Strength against popular attacks}{section.4.3}% 25
-\BOOKMARK [0][-]{chapter.5}{AcCAPPCHA}{}% 26
-\BOOKMARK [1][-]{section.5.1}{Design of the CAPTCHA}{chapter.5}% 27
+\BOOKMARK [0][-]{chapter.5}{Design of the CAPTCHA}{}% 26
+\BOOKMARK [1][-]{section.5.1}{Time correspondence}{chapter.5}% 27
 \BOOKMARK [0][-]{chapter.6}{Development of AcCAPPCHA}{}% 28
 \BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 29
-\BOOKMARK [0][-]{chapter.7}{Bibliography}{}% 30
+\BOOKMARK [0][-]{chapter.8}{Security Analysis}{}% 30
+\BOOKMARK [0][-]{chapter.8}{Bibliography}{}% 31

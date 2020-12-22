@@ -24,8 +24,9 @@
 \contentsline {subsection}{\numberline {4.2.1}Elliptic Curve Digital Signature Algorithm (ECDSA)}{31}{subsection.4.2.1}% 
 \contentsline {section}{\numberline {4.3}Security analysis}{32}{section.4.3}% 
 \contentsline {subsection}{\numberline {4.3.1}Strength against popular attacks}{32}{subsection.4.3.1}% 
-\contentsline {chapter}{\numberline {5}AcCAPPCHA}{35}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Design of the CAPTCHA}{36}{section.5.1}% 
+\contentsline {chapter}{\numberline {5}Design of the CAPTCHA}{35}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Time correspondence}{35}{section.5.1}% 
 \contentsline {chapter}{\numberline {6}Development of AcCAPPCHA}{37}{chapter.6}% 
 \contentsline {chapter}{\numberline {7}Experimental results}{39}{chapter.7}% 
-\contentsline {chapter}{Bibliography}{39}{chapter.7}% 
+\contentsline {chapter}{\numberline {8}Security Analysis}{41}{chapter.8}% 
+\contentsline {chapter}{Bibliography}{41}{chapter.8}% 
