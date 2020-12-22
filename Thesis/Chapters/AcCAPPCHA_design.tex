@@ -1,0 +1,20 @@
+\chapter{AcCAPPCHA}
+The main side-channel information, that can be used in the implementation of a keylogger, depends on the party that we want to attack\cite{keylogging}:
+\begin{itemize}
+\descItem{The user}
+{these attacks are based on the exploitation of physical information related to the typing state. For example, they can use electroencephalography (EEG), motion of the wrist in the smartwatches, video with keyboard line-of-sight and WiFi signal distortion. }
+\descItem{The keyboard}
+{these attacks are based on analysis of signals coming from the keyboard. For example, acoustic emanations can be exploited by using external physical sensors.}
+\descItem{The host}
+{these attacks are based on the physical access of the attacker to the victim machine. For example, the process footprint, the CPU load and other microarchitectural analysis can be exploited in this attacks.}
+\descItem{The network}
+{these attacks exploit the packets exchanged in the client-server communication. For example, a network packet can be related to a keystroke revealing the key press time of the victim and the payload size of the server response.}
+\end{itemize}
+Analysing this possibilities and according to the the side-channel information attacks in Section \ref{chapter:SideCH} and the structure of Invisible CAPPCHA in Section \ref{chapter:InvisibleCAPPCHA}, I design AcCAPPCHA. This type of CAPTCHA exploits acoustic side-channel of microphone to implement a keylogger that ensures that Authentication phase would be performed by a human user.
+\section{Design of the CAPTCHA}
+The structure and behaviour of AcCAPPCHA are similar to the ones proposed in Invisible CAPPCHA application but adding also other task to improve the efficiency. The two phases of the verification are:
+\begin{itemize}
+\item{Evaluation of the user activity}
+\item{Comunication of the password to remote service}
+\end{itemize}
+In the first phase, the application exploits data from the microphone instead of using other sensors as described in AcCAPPCHA. The CAPPCHA records two audio signals: the first one created during the insertion of the password by the user and the second one created before this activity for noise evaluation. The second signal is exploited to evaluate a noise threshold usefull for the computation of amplitude peaks in the first audio. During the insertion of the password, the instant of the time when each character was typed by the user is stored. Then the first verification is performed by looking if there exists a sequence of time instants of the peaks in the first signal that matches with the time instants stored manually for each character. 
