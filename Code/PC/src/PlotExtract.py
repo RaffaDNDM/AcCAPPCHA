@@ -301,13 +301,13 @@ class PlotExtract:
 		s_top.plot(touch_feature.peak*ts, signal[touch_feature.peak], color='red')
 		s_top.plot(hit_feature.peak*ts, signal[hit_feature.peak], color='green')
 		s_top.set_title('Amplitude')
-		s_top.set_xlabel('Time(ms)')
+		s_top.set_xlabel('Time(s)')
 		s_top.tick_params(axis='both', which='major', labelsize=6)
 
 		#Plot FFT double-sided transform of PRESS peak
 		s1.plot(touch_feature.freqs, touch_feature.fft_signal, color='red')
 		s1.set_xlabel('Frequency (Hz)')
-		s1.set_ylabel('FFT of PRESS PEAK')
+		s1.set_ylabel('FFT of TOUCH PEAK')
 		s1.tick_params(axis='both', which='major', labelsize=6)
 		s1.set_xscale('log')
 		s1.set_yscale('log')
