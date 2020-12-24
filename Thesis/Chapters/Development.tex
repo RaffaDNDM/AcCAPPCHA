@@ -1,4 +1,4 @@
-\chapter{Development of AcCAPPCHA}
+\chapter{Development}
 \begin{comment}
 \chapter{AcCAPPCHA}
 The main side-channel information, that can be used in the implementation of a keylogger, depends on the party that we want to attack\cite{keylogging}:
@@ -14,3 +14,19 @@ The main side-channel information, that can be used in the implementation of a k
 \end{itemize}
 Analysing this possibilities and according to the the side-channel information attacks in Section \ref{chapter:SideCH} and the structure of Invisible CAPPCHA in Section \ref{chapter:InvisibleCAPPCHA}, I design AcCAPPCHA. This type of CAPTCHA exploits acoustic side-channel of microphone to implement a keylogger that ensures that Authentication phase would be performed by a human user.
 \end{comment}
+The development phase was divided in the following phases:
+\begin{itemize}
+\item{Data acquisition for the prediction of the keys}
+\item{Extraction of features from acquired data}
+\item{Creation and training phase of the neural network}
+\item{Acquisition of password and background audio analysis}
+\end{itemize}
+The whole implementation was created using \texttt{Python} language.
+
+\section{Data acquisition for the prediction of the keys}
+To create a program that record audio while user type something, I created \texttt{DatasetAcquisition.py} source file containing the relative class. After instantiating an object of the class \texttt{AcquireAudio}, it applies \texttt{record} method to this instance.\\
+Inside this method, two different program are run in parallel: the first one is a key-logger that is used to classify all the recorded audio files in some directories and the second one that records an audio file during keys typing. The update of private members of the class is guaranteed through the use of the mutual exclusion (mutex) management.\\
+The choice of running two different tasks in parallel was given by the need of recording audio before the start and after the end of password insertion by the user. Each recorded audio can contain several audio peaks related to multiple insertion of the same key but, during the acquisition of training and test set, I record one audio file for each key pressed.\\
+Hence in this particular case, the key-logger waits for the insertion of a single key by the user and then reports it to the thread that performs audio recording. This last task also closes the audio stream and stores the audio signal into a \textit{wav} file named with a progressive number. All the audio files are dynamically organized into a set of subfolders of the output directory, each one with the name of the respective typed key.\\
+The recording phase was performed using directly the built-in Realtek microphone and the keyboard of my MSI GL63 8RD laptop. 
+Because of the presence of many keys that cannot be mapped into ASCII string and could create trouble with the name of the subfolders in which audio files are stored (for details about key mapping see Appendix \ref{chapter:keymapping}).

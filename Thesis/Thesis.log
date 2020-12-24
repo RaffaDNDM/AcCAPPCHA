@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  23 DEC 2020 19:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  25 DEC 2020 00:43
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -506,13 +506,31 @@ Package: enumitem 2019/06/20 v3.9 Customized lists
 \enit@count@id=\count290
 \enitdp@description=\count291
 )
+(D:\Programs\Miktex\tex/latex/tools\longtable.sty
+Package: longtable 2019/02/06 v4.12 Multi-page Table package (DPC)
+\LTleft=\skip89
+\LTright=\skip90
+\LTpre=\skip91
+\LTpost=\skip92
+\LTchunksize=\count292
+\LTcapwidth=\dimen178
+\LT@head=\box69
+\LT@firsthead=\box70
+\LT@foot=\box71
+\LT@lastfoot=\box72
+\LT@cols=\count293
+\LT@rows=\count294
+\c@LT@tables=\count295
+\c@LT@chunks=\count296
+\LT@p@ftn=\toks29
+)
 (D:\Programs\Miktex\tex/latex/graphics\rotating.sty
 Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
-\c@r@tfl@t=\count292
-\rotFPtop=\skip89
-\rotFPbot=\skip90
-\rot@float@box=\box69
-\rot@mess@toks=\toks29
+\c@r@tfl@t=\count297
+\rotFPtop=\skip93
+\rotFPbot=\skip94
+\rot@float@box=\box73
+\rot@mess@toks=\toks30
 )
 (D:\Programs\Miktex\tex/latex/url\url.sty
 \Urlmuskip=\muskip17
@@ -529,10 +547,10 @@ Package xcolor Info: Driver file: pdftex.def on input line 225.
 
 (D:\Programs\Miktex\tex/latex/colortbl\colortbl.sty
 Package: colortbl 2018/12/12 v1.0d Color table columns (DPC)
-\everycr=\toks30
-\minrowclearance=\skip91
+\everycr=\toks31
+\minrowclearance=\skip95
 )
-\rownum=\count293
+\rownum=\count298
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
 Package xcolor Info: Model `RGB' extended on input line 1364.
@@ -547,24 +565,24 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 ))
 (D:\Programs\Miktex\tex/latex/listings\listings.sty
-\lst@mode=\count294
-\lst@gtempboxa=\box70
-\lst@token=\toks31
-\lst@length=\count295
-\lst@currlwidth=\dimen178
-\lst@column=\count296
-\lst@pos=\count297
-\lst@lostspace=\dimen179
-\lst@width=\dimen180
-\lst@newlines=\count298
-\lst@lineno=\count299
-\lst@maxwidth=\dimen181
+\lst@mode=\count299
+\lst@gtempboxa=\box74
+\lst@token=\toks32
+\lst@length=\count300
+\lst@currlwidth=\dimen179
+\lst@column=\count301
+\lst@pos=\count302
+\lst@lostspace=\dimen180
+\lst@width=\dimen181
+\lst@newlines=\count303
+\lst@lineno=\count304
+\lst@maxwidth=\dimen182
 
 (D:\Programs\Miktex\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2019/09/10 1.8c (Carsten Heinz)
-\c@lstnumber=\count300
-\lst@skipnumbers=\count301
-\lst@framebox=\box71
+\c@lstnumber=\count305
+\lst@skipnumbers=\count306
+\lst@framebox=\box75
 )
 (D:\Programs\Miktex\tex/latex/listings\listings.cfg
 File: listings.cfg 2019/09/10 1.8c listings configuration
@@ -629,16 +647,16 @@ Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 (D:\Programs\Miktex\tex/latex/oberdiek\kvoptions.sty
 Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
 )
-\@linkdim=\dimen182
-\Hy@linkcounter=\count302
-\Hy@pagecounter=\count303
+\@linkdim=\dimen183
+\Hy@linkcounter=\count307
+\Hy@pagecounter=\count308
 
 (D:\Programs\Miktex\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2019/09/28 v7.00a Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
-\Hy@SavedSpaceFactor=\count304
+\Hy@SavedSpaceFactor=\count309
 
 (D:\Programs\Miktex\tex/latex/00miktex\hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -651,12 +669,12 @@ Package hyperref Info: Plain pages OFF on input line 4555.
 Package hyperref Info: Backreferencing OFF on input line 4560.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4793.
-\c@Hy@tempcnt=\count305
+\c@Hy@tempcnt=\count310
 LaTeX Info: Redefining \url on input line 5152.
-\XeTeXLinkMargin=\dimen183
-\Fld@menulength=\count306
-\Field@Width=\dimen184
-\Fld@charsize=\dimen185
+\XeTeXLinkMargin=\dimen184
+\Fld@menulength=\count311
+\Field@Width=\dimen185
+\Fld@charsize=\dimen186
 Package hyperref Info: Hyper figures OFF on input line 6423.
 Package hyperref Info: Link nesting OFF on input line 6428.
 Package hyperref Info: Hyper index ON on input line 6431.
@@ -666,23 +684,23 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6448.
 Package hyperref Info: PDF/A mode OFF on input line 6453.
 LaTeX Info: Redefining \ref on input line 6493.
 LaTeX Info: Redefining \pageref on input line 6497.
-\Hy@abspage=\count307
-\c@Item=\count308
-\c@Hfootnote=\count309
+\Hy@abspage=\count312
+\c@Item=\count313
+\c@Hfootnote=\count314
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (D:\Programs\Miktex\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2019/09/28 v7.00a Hyperref driver for pdfTeX
-\Fld@listcount=\count310
-\c@bookmark@seq@number=\count311
+\Fld@listcount=\count315
+\c@bookmark@seq@number=\count316
 
 (D:\Programs\Miktex\tex/latex/oberdiek\rerunfilecheck.sty
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip92
+\Hy@SectionHShift=\skip96
 )
 (D:\Programs\Miktex\tex/latex/acronym\acronym.sty
 Package: acronym 2019/11/11 v1.42 Support for acronyms (Tobias Oetiker)
@@ -692,32 +710,32 @@ Package: suffix 2006/07/15 1.5a Variant command support
 )
 (D:\Programs\Miktex\tex/latex/xstring\xstring.sty
 (D:\Programs\Miktex\tex/generic/xstring\xstring.tex
-\integerpart=\count312
-\decimalpart=\count313
+\integerpart=\count317
+\decimalpart=\count318
 )
 Package: xstring 2019/02/06 v1.83 String manipulations (CT)
 )
-\AC@clearlist=\toks32
+\AC@clearlist=\toks33
 )
 (D:\Programs\Miktex\tex/latex/booktabs\booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen186
-\lightrulewidth=\dimen187
-\cmidrulewidth=\dimen188
-\belowrulesep=\dimen189
-\belowbottomsep=\dimen190
-\aboverulesep=\dimen191
-\abovetopsep=\dimen192
-\cmidrulesep=\dimen193
-\cmidrulekern=\dimen194
-\defaultaddspace=\dimen195
-\@cmidla=\count314
-\@cmidlb=\count315
-\@aboverulesep=\dimen196
-\@belowrulesep=\dimen197
-\@thisruleclass=\count316
-\@lastruleclass=\count317
-\@thisrulewidth=\dimen198
+\heavyrulewidth=\dimen187
+\lightrulewidth=\dimen188
+\cmidrulewidth=\dimen189
+\belowrulesep=\dimen190
+\belowbottomsep=\dimen191
+\aboverulesep=\dimen192
+\abovetopsep=\dimen193
+\cmidrulesep=\dimen194
+\cmidrulekern=\dimen195
+\defaultaddspace=\dimen196
+\@cmidla=\count319
+\@cmidlb=\count320
+\@aboverulesep=\dimen197
+\@belowrulesep=\dimen198
+\@thisruleclass=\count321
+\@lastruleclass=\count322
+\@thisrulewidth=\dimen199
 ) (Thesis.aux
 
 LaTeX Warning: Label `soa:traditional_table' multiply defined.
@@ -725,33 +743,33 @@ LaTeX Warning: Label `soa:traditional_table' multiply defined.
 )
 \openout1 = `Thesis.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 125.
-LaTeX Font Info:    ... okay on input line 125.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
  (D:\Programs\Miktex\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count318
-\scratchdimen=\dimen199
-\scratchbox=\box72
-\nofMPsegments=\count319
-\nofMParguments=\count320
-\everyMPshowfont=\toks33
-\MPscratchCnt=\count321
-\MPscratchDim=\dimen256
-\MPnumerator=\count322
-\makeMPintoPDFobject=\count323
-\everyMPtoPDFconversion=\toks34
+\scratchcounter=\count323
+\scratchdimen=\dimen256
+\scratchbox=\box76
+\nofMPsegments=\count324
+\nofMParguments=\count325
+\everyMPshowfont=\toks34
+\MPscratchCnt=\count326
+\MPscratchDim=\dimen257
+\MPnumerator=\count327
+\makeMPintoPDFobject=\count328
+\everyMPtoPDFconversion=\toks35
 ) (D:\Programs\Miktex\tex/latex/oberdiek\epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -852,11 +870,16 @@ File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
+Package caption Info: longtable package is loaded.
+
+(D:\Programs\Miktex\tex/latex/caption\ltcaption.sty
+Package: ltcaption 2018/08/26 v1.4a longtable captions (AR)
+)
 Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count324
-\AtBeginShipoutBox=\box73
-Package hyperref Info: Link coloring ON on input line 125.
+\c@lstlisting=\count329
+\AtBeginShipoutBox=\box77
+Package hyperref Info: Link coloring ON on input line 126.
 
 (D:\Programs\Miktex\tex/latex/hyperref\nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -864,23 +887,23 @@ Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (D:\Programs\Miktex\tex/generic/oberdiek\gettitlestring.sty
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count325
+\c@section@level=\count330
 )
-LaTeX Info: Redefining \ref on input line 125.
-LaTeX Info: Redefining \pageref on input line 125.
-LaTeX Info: Redefining \nameref on input line 125.
+LaTeX Info: Redefining \ref on input line 126.
+LaTeX Info: Redefining \pageref on input line 126.
+LaTeX Info: Redefining \nameref on input line 126.
  (Thesis.out)
 (Thesis.out)
 \@outlinefile=\write3
 \openout3 = `Thesis.out'.
 
  (Chapters/Title.tex
-<./Images/unipd-light.png, id=130, 452.892pt x 455.7828pt>
+<./Images/unipd-light.png, id=139, 452.892pt x 455.7828pt>
 File: ./Images/unipd-light.png Graphic file (type png)
 <use ./Images/unipd-light.png>
 Package pdftex.def Info: ./Images/unipd-light.png  used on input line 3.
 (pdftex.def)             Requested size: 327.20668pt x 329.30394pt.
-<./Images/unipd-bn.png, id=131, 192.72pt x 193.6836pt>
+<./Images/unipd-bn.png, id=140, 192.72pt x 193.6836pt>
 File: ./Images/unipd-bn.png Graphic file (type png)
 <use ./Images/unipd-bn.png>
 Package pdftex.def Info: ./Images/unipd-bn.png  used on input line 6.
@@ -962,7 +985,7 @@ Chapter 2.
 [3
 
 ]
-<Images/StateOfArt/audio_CAPTCHA.png, id=243, 326.21875pt x 136.51pt>
+<Images/StateOfArt/audio_CAPTCHA.png, id=254, 326.21875pt x 136.51pt>
 File: Images/StateOfArt/audio_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/audio_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/audio_CAPTCHA.png  used on input lin
@@ -975,19 +998,19 @@ e.g. DeepCRACk[[]]).
  []
 
 [4]
-<Images/StateOfArt/game_CAPTCHA.png, id=255, 361.35pt x 158.5925pt>
+<Images/StateOfArt/game_CAPTCHA.png, id=266, 361.35pt x 158.5925pt>
 File: Images/StateOfArt/game_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/game_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA.png  used on input line
  62.
 (pdftex.def)             Requested size: 168.47736pt x 73.94316pt.
-<Images/StateOfArt/game_CAPTCHA2.png, id=256, 139.52126pt x 63.23625pt>
+<Images/StateOfArt/game_CAPTCHA2.png, id=267, 139.52126pt x 63.23625pt>
 File: Images/StateOfArt/game_CAPTCHA2.png Graphic file (type png)
 <use Images/StateOfArt/game_CAPTCHA2.png>
 Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA2.png  used on input lin
 e 67.
 (pdftex.def)             Requested size: 168.47736pt x 76.36266pt.
-<Images/StateOfArt/game_CAPTCHA3.png, id=257, 460.72125pt x 363.3575pt>
+<Images/StateOfArt/game_CAPTCHA3.png, id=268, 460.72125pt x 363.3575pt>
 File: Images/StateOfArt/game_CAPTCHA3.png Graphic file (type png)
 <use Images/StateOfArt/game_CAPTCHA3.png>
 Package pdftex.def Info: Images/StateOfArt/game_CAPTCHA3.png  used on input lin
@@ -1009,19 +1032,19 @@ ype of CAPTCHAs
  []
 
 [5 <./Images/StateOfArt/audio_CAPTCHA.png>]
-<Images/StateOfArt/click_CAPTCHA.png, id=273, 387.849pt x 266.79675pt>
+<Images/StateOfArt/click_CAPTCHA.png, id=284, 387.849pt x 266.79675pt>
 File: Images/StateOfArt/click_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/click_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/click_CAPTCHA.png  used on input lin
 e 88.
 (pdftex.def)             Requested size: 175.49881pt x 120.721pt.
-<Images/StateOfArt/sliding_image_CAPTCHA.png, id=275, 581.7735pt x 387.849pt>
+<Images/StateOfArt/sliding_image_CAPTCHA.png, id=286, 581.7735pt x 387.849pt>
 File: Images/StateOfArt/sliding_image_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/sliding_image_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/sliding_image_CAPTCHA.png  used on i
 nput line 107.
 (pdftex.def)             Requested size: 168.47736pt x 112.31944pt.
-<Images/StateOfArt/sliding_image_CAPTCHA2.png, id=276, 392.06474pt x 260.172pt>
+<Images/StateOfArt/sliding_image_CAPTCHA2.png, id=287, 392.06474pt x 260.172pt>
 
 File: Images/StateOfArt/sliding_image_CAPTCHA2.png Graphic file (type png)
 <use Images/StateOfArt/sliding_image_CAPTCHA2.png>
@@ -1031,13 +1054,13 @@ input line 107.
  [6 <./Images/StateOfArt/game_CAPTCHA.png> <./Images/StateOfArt/game_CAPTCHA2.p
 ng> <./Images/StateOfArt/game_CAPTCHA3.png> <./Images/StateOfArt/click_CAPTCHA.
 png>]
-<Images/StateOfArt/puzzle_CAPTCHA.png, id=289, 698.61pt x 409.53pt>
+<Images/StateOfArt/puzzle_CAPTCHA.png, id=300, 698.61pt x 409.53pt>
 File: Images/StateOfArt/puzzle_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/puzzle_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA.png  used on input li
 ne 128.
 (pdftex.def)             Requested size: 112.32013pt x 65.83858pt.
-<Images/StateOfArt/puzzle_CAPTCHA2.png, id=290, 351.3125pt x 382.42876pt>
+<Images/StateOfArt/puzzle_CAPTCHA2.png, id=301, 351.3125pt x 382.42876pt>
 File: Images/StateOfArt/puzzle_CAPTCHA2.png Graphic file (type png)
 <use Images/StateOfArt/puzzle_CAPTCHA2.png>
 Package pdftex.def Info: Images/StateOfArt/puzzle_CAPTCHA2.png  used on input l
@@ -1046,19 +1069,19 @@ ine 128.
  [7 <./Images/StateOfArt/sliding_image_CAPTCHA.png> <./Images/StateOfArt/slidin
 g_image_CAPTCHA2.png> <./Images/StateOfArt/puzzle_CAPTCHA.png> <./Images/StateO
 fArt/puzzle_CAPTCHA2.png>]
-<Images/StateOfArt/selection_CAPTCHA.jpg, id=307, 176.5797pt x 255.354pt>
+<Images/StateOfArt/selection_CAPTCHA.jpg, id=318, 176.5797pt x 255.354pt>
 File: Images/StateOfArt/selection_CAPTCHA.jpg Graphic file (type jpg)
 <use Images/StateOfArt/selection_CAPTCHA.jpg>
 Package pdftex.def Info: Images/StateOfArt/selection_CAPTCHA.jpg  used on input
  line 155.
 (pdftex.def)             Requested size: 140.39874pt x 203.03273pt.
-<Images/StateOfArt/selection_CAPTCHA2.jpg, id=308, 444.66125pt x 643.40375pt>
+<Images/StateOfArt/selection_CAPTCHA2.jpg, id=319, 444.66125pt x 643.40375pt>
 File: Images/StateOfArt/selection_CAPTCHA2.jpg Graphic file (type jpg)
 <use Images/StateOfArt/selection_CAPTCHA2.jpg>
 Package pdftex.def Info: Images/StateOfArt/selection_CAPTCHA2.jpg  used on inpu
 t line 155.
 (pdftex.def)             Requested size: 112.32013pt x 162.51952pt.
-<Images/StateOfArt/interactive_CAPTCHA.png, id=309, 303.1325pt x 303.1325pt>
+<Images/StateOfArt/interactive_CAPTCHA.png, id=320, 303.1325pt x 303.1325pt>
 File: Images/StateOfArt/interactive_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/interactive_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/interactive_CAPTCHA.png  used on inp
@@ -1067,32 +1090,32 @@ ut line 163.
 
 [8 <./Images/StateOfArt/selection_CAPTCHA.jpg> <./Images/StateOfArt/selection_C
 APTCHA2.jpg>]
-<Images/StateOfArt/math_CAPTCHA.png, id=319, 295.1025pt x 136.51pt>
+<Images/StateOfArt/math_CAPTCHA.png, id=330, 295.1025pt x 136.51pt>
 File: Images/StateOfArt/math_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/math_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/math_CAPTCHA.png  used on input line
  172.
 (pdftex.def)             Requested size: 131.03825pt x 60.61656pt.
-<Images/StateOfArt/math_CAPTCHA2.jpg, id=320, 390.70969pt x 376.40625pt>
+<Images/StateOfArt/math_CAPTCHA2.jpg, id=331, 390.70969pt x 376.40625pt>
 File: Images/StateOfArt/math_CAPTCHA2.jpg Graphic file (type jpg)
 <use Images/StateOfArt/math_CAPTCHA2.jpg>
 Package pdftex.def Info: Images/StateOfArt/math_CAPTCHA2.jpg  used on input lin
 e 178.
 (pdftex.def)             Requested size: 131.03825pt x 126.24188pt.
-<Images/StateOfArt/QRBGS.jpg, id=324, 206.57707pt x 112.56212pt>
+<Images/StateOfArt/QRBGS.jpg, id=335, 206.57707pt x 112.56212pt>
 File: Images/StateOfArt/QRBGS.jpg Graphic file (type jpg)
 <use Images/StateOfArt/QRBGS.jpg>
 Package pdftex.def Info: Images/StateOfArt/QRBGS.jpg  used on input line 188.
 (pdftex.def)             Requested size: 234.00238pt x 127.51315pt.
  [9 <./Images/StateOfArt/interactive_CAPTCHA.png> <./Images/StateOfArt/math_CAP
 TCHA.png> <./Images/StateOfArt/math_CAPTCHA2.jpg>]
-<Images/StateOfArt/taobao_CAPTCHA.png, id=337, 207.77625pt x 63.23625pt>
+<Images/StateOfArt/taobao_CAPTCHA.png, id=348, 207.77625pt x 63.23625pt>
 File: Images/StateOfArt/taobao_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/taobao_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/taobao_CAPTCHA.png  used on input li
 ne 204.
 (pdftex.def)             Requested size: 149.75923pt x 45.58023pt.
-<Images/StateOfArt/theyMakeApps_CAPTCHA.png, id=338, 331.2375pt x 155.3805pt>
+<Images/StateOfArt/theyMakeApps_CAPTCHA.png, id=349, 331.2375pt x 155.3805pt>
 File: Images/StateOfArt/theyMakeApps_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/theyMakeApps_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/theyMakeApps_CAPTCHA.png  used on in
@@ -1107,7 +1130,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 212--212
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [10 <./Images/StateOfArt/QRBGS.jpg>]
-<Images/StateOfArt/text_CAPTCHA.png, id=351, 453.695pt x 286.06876pt>
+<Images/StateOfArt/text_CAPTCHA.png, id=362, 453.695pt x 286.06876pt>
 File: Images/StateOfArt/text_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/text_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/text_CAPTCHA.png  used on input line
@@ -1117,13 +1140,13 @@ Package pdftex.def Info: Images/StateOfArt/text_CAPTCHA.png  used on input line
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/StateOfArt/video_CAPTCHA.jpg, id=358, 250.9375pt x 143.53625pt>
+<Images/StateOfArt/video_CAPTCHA.jpg, id=369, 250.9375pt x 143.53625pt>
 File: Images/StateOfArt/video_CAPTCHA.jpg Graphic file (type jpg)
 <use Images/StateOfArt/video_CAPTCHA.jpg>
 Package pdftex.def Info: Images/StateOfArt/video_CAPTCHA.jpg  used on input lin
 e 245.
 (pdftex.def)             Requested size: 187.19833pt x 107.08246pt.
-<Images/StateOfArt/video_CAPTCHA2.jpg, id=359, 215.1293pt x 164.37224pt>
+<Images/StateOfArt/video_CAPTCHA2.jpg, id=370, 215.1293pt x 164.37224pt>
 File: Images/StateOfArt/video_CAPTCHA2.jpg Graphic file (type jpg)
 <use Images/StateOfArt/video_CAPTCHA2.jpg>
 Package pdftex.def Info: Images/StateOfArt/video_CAPTCHA2.jpg  used on input li
@@ -1132,7 +1155,7 @@ ne 252.
 [11 <./Images/StateOfArt/taobao_CAPTCHA.png> <./Images/StateOfArt/theyMakeApps_
 CAPTCHA.png>] [12 <./Images/StateOfArt/text_CAPTCHA.png> <./Images/StateOfArt/v
 ideo_CAPTCHA.jpg> <./Images/StateOfArt/video_CAPTCHA2.jpg>] [13]
-<Images/StateOfArt/noCAPTCHA.png, id=391, 238.64156pt x 67.0003pt>
+<Images/StateOfArt/noCAPTCHA.png, id=402, 238.64156pt x 67.0003pt>
 File: Images/StateOfArt/noCAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/noCAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/noCAPTCHA.png  used on input line 29
@@ -1150,7 +1173,7 @@ Overfull \hbox (11.8841pt too wide) in paragraph at lines 306--306
 it/12 In-vis-i-ble Re-CAPTCHA
  []
 
-<Images/StateOfArt/CAPPCHA.png, id=407, 854.59274pt x 280.04625pt>
+<Images/StateOfArt/CAPPCHA.png, id=418, 854.59274pt x 280.04625pt>
 File: Images/StateOfArt/CAPPCHA.png Graphic file (type png)
 <use Images/StateOfArt/CAPPCHA.png>
 Package pdftex.def Info: Images/StateOfArt/CAPPCHA.png  used on input line 319.
@@ -1231,13 +1254,13 @@ Overfull \hbox (13.26262pt too wide) in paragraph at lines 2--5
 vo-lu-tion of CAP-PCHA, in terms of usability[[]].
  []
 
-<Images/InvisibleCAPPCHA/vibration.jpg, id=510, 337.5009pt x 245.59755pt>
+<Images/InvisibleCAPPCHA/vibration.jpg, id=521, 337.5009pt x 245.59755pt>
 File: Images/InvisibleCAPPCHA/vibration.jpg Graphic file (type jpg)
 <use Images/InvisibleCAPPCHA/vibration.jpg>
 Package pdftex.def Info: Images/InvisibleCAPPCHA/vibration.jpg  used on input l
 ine 19.
 (pdftex.def)             Requested size: 312.00119pt x 227.03925pt.
-<Images/InvisibleCAPPCHA/tap.jpg, id=511, 247.4043pt x 132.9768pt>
+<Images/InvisibleCAPPCHA/tap.jpg, id=522, 247.4043pt x 132.9768pt>
 File: Images/InvisibleCAPPCHA/tap.jpg Graphic file (type jpg)
 <use Images/InvisibleCAPPCHA/tap.jpg>
 Package pdftex.def Info: Images/InvisibleCAPPCHA/tap.jpg  used on input line 24
@@ -1281,7 +1304,7 @@ Chapter 5.
 [35
 
 ] [36]
-<Images/Design/feature_example.png, id=610, 462.528pt x 346.896pt>
+<Images/Design/feature_example.png, id=621, 462.528pt x 346.896pt>
 File: Images/Design/feature_example.png Graphic file (type png)
 <use Images/Design/feature_example.png>
 Package pdftex.def Info: Images/Design/feature_example.png  used on input line 
@@ -1289,19 +1312,642 @@ Package pdftex.def Info: Images/Design/feature_example.png  used on input line
 (pdftex.def)             Requested size: 350.99762pt x 263.26257pt.
  [37 <./Images/Design/feature_example.png>]) (Chapters/Development.tex [38]
 Chapter 6.
-) (Chapters/Results.tex [39
-
-] [40
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
+4.
+(D:\Programs\Miktex\tex/latex/base\t1cmtt.fd
+File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
+)) (Chapters/Results.tex [39
 
 ]
+[40]
 Chapter 7.
-) (Chapters/SecurityAnalysis.tex [41] [42
+) (Chapters/SecurityAnalysis.tex [41
+
+] [42
 
 ]
 Chapter 8.
-) (Chapters/Bibliography.tex [43] [44
+) (Chapters/KeyMapping.tex [43] [44
 
-] [45]
+]
+Appendix A.
+<Images/KeyMapping/keyboard.jpg, id=659, 6022.5pt x 1992.44376pt>
+File: Images/KeyMapping/keyboard.jpg Graphic file (type jpg)
+<use Images/KeyMapping/keyboard.jpg>
+Package pdftex.def Info: Images/KeyMapping/keyboard.jpg  used on input line 5.
+(pdftex.def)             Requested size: 350.99762pt x 116.10602pt.
+<Images/KeyMapping/0.png, id=660, 288.07625pt x 258.9675pt>
+File: Images/KeyMapping/0.png Graphic file (type png)
+<use Images/KeyMapping/0.png>
+Package pdftex.def Info: Images/KeyMapping/0.png  used on input line 15.
+(pdftex.def)             Requested size: 28.80931pt x 25.89825pt.
+<Images/KeyMapping/0_INSERT.png, id=661, 253.94875pt x 281.05pt>
+File: Images/KeyMapping/0_INSERT.png Graphic file (type png)
+<use Images/KeyMapping/0_INSERT.png>
+Package pdftex.def Info: Images/KeyMapping/0_INSERT.png  used on input line 21.
+
+(pdftex.def)             Requested size: 25.39635pt x 28.10664pt.
+<Images/KeyMapping/1.png, id=662, 300.12125pt x 264.99pt>
+File: Images/KeyMapping/1.png Graphic file (type png)
+<use Images/KeyMapping/1.png>
+Package pdftex.def Info: Images/KeyMapping/1.png  used on input line 27.
+(pdftex.def)             Requested size: 30.01387pt x 26.50055pt.
+<Images/KeyMapping/1_END.png, id=663, 252.945pt x 283.0575pt>
+File: Images/KeyMapping/1_END.png Graphic file (type png)
+<use Images/KeyMapping/1_END.png>
+Package pdftex.def Info: Images/KeyMapping/1_END.png  used on input line 33.
+(pdftex.def)             Requested size: 25.29597pt x 28.3074pt.
+<Images/KeyMapping/2.png, id=664, 298.11375pt x 268.00125pt>
+File: Images/KeyMapping/2.png Graphic file (type png)
+<use Images/KeyMapping/2.png>
+Package pdftex.def Info: Images/KeyMapping/2.png  used on input line 39.
+(pdftex.def)             Requested size: 29.81311pt x 26.80168pt.
+<Images/KeyMapping/2_DOWN.png, id=665, 251.94125pt x 283.0575pt>
+File: Images/KeyMapping/2_DOWN.png Graphic file (type png)
+<use Images/KeyMapping/2_DOWN.png>
+Package pdftex.def Info: Images/KeyMapping/2_DOWN.png  used on input line 45.
+(pdftex.def)             Requested size: 25.19559pt x 28.3074pt.
+<Images/KeyMapping/3.png, id=666, 293.095pt x 264.99pt>
+File: Images/KeyMapping/3.png Graphic file (type png)
+<use Images/KeyMapping/3.png>
+Package pdftex.def Info: Images/KeyMapping/3.png  used on input line 51.
+(pdftex.def)             Requested size: 29.3112pt x 26.50055pt.
+<Images/KeyMapping/3_PAGE_DOWN.png, id=667, 250.9375pt x 281.05pt>
+File: Images/KeyMapping/3_PAGE_DOWN.png Graphic file (type png)
+<use Images/KeyMapping/3_PAGE_DOWN.png>
+Package pdftex.def Info: Images/KeyMapping/3_PAGE_DOWN.png  used on input line 
+57.
+(pdftex.def)             Requested size: 25.09521pt x 28.10664pt.
+<Images/KeyMapping/4.png, id=668, 290.08376pt x 264.99pt>
+File: Images/KeyMapping/4.png Graphic file (type png)
+<use Images/KeyMapping/4.png>
+Package pdftex.def Info: Images/KeyMapping/4.png  used on input line 63.
+(pdftex.def)             Requested size: 29.01007pt x 26.50055pt.
+<Images/KeyMapping/4_LEFT.png, id=669, 245.91875pt x 272.01625pt>
+File: Images/KeyMapping/4_LEFT.png Graphic file (type png)
+<use Images/KeyMapping/4_LEFT.png>
+Package pdftex.def Info: Images/KeyMapping/4_LEFT.png  used on input line 69.
+(pdftex.def)             Requested size: 24.5933pt x 27.20322pt.
+<Images/KeyMapping/5.png, id=670, 289.08pt x 262.9825pt>
+File: Images/KeyMapping/5.png Graphic file (type png)
+<use Images/KeyMapping/5.png>
+Package pdftex.def Info: Images/KeyMapping/5.png  used on input line 75.
+(pdftex.def)             Requested size: 28.90968pt x 26.29977pt.
+<Images/KeyMapping/5_NUM.png, id=671, 240.9pt x 276.03125pt>
+File: Images/KeyMapping/5_NUM.png Graphic file (type png)
+<use Images/KeyMapping/5_NUM.png>
+Package pdftex.def Info: Images/KeyMapping/5_NUM.png  used on input line 81.
+(pdftex.def)             Requested size: 24.0914pt x 27.60474pt.
+<Images/KeyMapping/6.png, id=672, 286.06876pt x 266.9975pt>
+File: Images/KeyMapping/6.png Graphic file (type png)
+<use Images/KeyMapping/6.png>
+Package pdftex.def Info: Images/KeyMapping/6.png  used on input line 87.
+(pdftex.def)             Requested size: 28.60855pt x 26.70131pt.
+<Images/KeyMapping/6_RIGHT.png, id=673, 243.91125pt x 274.02374pt>
+File: Images/KeyMapping/6_RIGHT.png Graphic file (type png)
+<use Images/KeyMapping/6_RIGHT.png>
+Package pdftex.def Info: Images/KeyMapping/6_RIGHT.png  used on input line 93.
+(pdftex.def)             Requested size: 24.39255pt x 27.40398pt.
+<Images/KeyMapping/7.png, id=674, 287.0725pt x 265.99374pt>
+File: Images/KeyMapping/7.png Graphic file (type png)
+<use Images/KeyMapping/7.png>
+Package pdftex.def Info: Images/KeyMapping/7.png  used on input line 99.
+(pdftex.def)             Requested size: 28.70892pt x 26.60092pt.
+<Images/KeyMapping/7_HOME.png, id=675, 240.9pt x 262.9825pt>
+File: Images/KeyMapping/7_HOME.png Graphic file (type png)
+<use Images/KeyMapping/7_HOME.png>
+Package pdftex.def Info: Images/KeyMapping/7_HOME.png  used on input line 105.
+(pdftex.def)             Requested size: 24.0914pt x 26.29977pt.
+<Images/KeyMapping/8.png, id=676, 289.08pt x 262.9825pt>
+File: Images/KeyMapping/8.png Graphic file (type png)
+<use Images/KeyMapping/8.png>
+Package pdftex.def Info: Images/KeyMapping/8.png  used on input line 111.
+(pdftex.def)             Requested size: 28.90968pt x 26.29977pt.
+<Images/KeyMapping/8_UP.png, id=677, 242.9075pt x 261.97874pt>
+File: Images/KeyMapping/8_UP.png Graphic file (type png)
+<use Images/KeyMapping/8_UP.png>
+Package pdftex.def Info: Images/KeyMapping/8_UP.png  used on input line 117.
+(pdftex.def)             Requested size: 24.29216pt x 26.1994pt.
+<Images/KeyMapping/9.png, id=678, 287.0725pt x 271.0125pt>
+File: Images/KeyMapping/9.png Graphic file (type png)
+<use Images/KeyMapping/9.png>
+Package pdftex.def Info: Images/KeyMapping/9.png  used on input line 123.
+(pdftex.def)             Requested size: 28.70892pt x 27.10283pt.
+
+Overfull \hbox (18.92064pt too wide) in alignment at lines 9--126
+ [] [] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 126
+ []
+
+<Images/KeyMapping/9_PAGE_UP.png, id=679, 240.9pt x 264.99pt>
+File: Images/KeyMapping/9_PAGE_UP.png Graphic file (type png)
+<use Images/KeyMapping/9_PAGE_UP.png>
+Package pdftex.def Info: Images/KeyMapping/9_PAGE_UP.png  used on input line 12
+9.
+(pdftex.def)             Requested size: 24.0914pt x 26.50055pt.
+<Images/KeyMapping/a.png, id=680, 306.14375pt x 280.04625pt>
+File: Images/KeyMapping/a.png Graphic file (type png)
+<use Images/KeyMapping/a.png>
+Package pdftex.def Info: Images/KeyMapping/a.png  used on input line 135.
+(pdftex.def)             Requested size: 30.61617pt x 28.00626pt.
+<Images/KeyMapping/ALT.png, id=681, 374.39874pt x 301.125pt>
+File: Images/KeyMapping/ALT.png Graphic file (type png)
+<use Images/KeyMapping/ALT.png>
+Package pdftex.def Info: Images/KeyMapping/ALT.png  used on input line 141.
+(pdftex.def)             Requested size: 37.44206pt x 30.11426pt.
+<Images/KeyMapping/ALT_GR.png, id=682, 299.1175pt x 299.1175pt>
+File: Images/KeyMapping/ALT_GR.png Graphic file (type png)
+<use Images/KeyMapping/ALT_GR.png>
+Package pdftex.def Info: Images/KeyMapping/ALT_GR.png  used on input line 147.
+(pdftex.def)             Requested size: 29.9135pt x 29.9135pt.
+<Images/KeyMapping/APOSTROPHE.png, id=683, 288.07625pt x 271.0125pt>
+File: Images/KeyMapping/APOSTROPHE.png Graphic file (type png)
+<use Images/KeyMapping/APOSTROPHE.png>
+Package pdftex.def Info: Images/KeyMapping/APOSTROPHE.png  used on input line 1
+53.
+(pdftex.def)             Requested size: 28.80931pt x 27.10283pt.
+<Images/KeyMapping/b.png, id=684, 299.1175pt x 292.09125pt>
+File: Images/KeyMapping/b.png Graphic file (type png)
+<use Images/KeyMapping/b.png>
+Package pdftex.def Info: Images/KeyMapping/b.png  used on input line 159.
+(pdftex.def)             Requested size: 29.9135pt x 29.21083pt.
+<Images/KeyMapping/BACKSLASH.png, id=685, 437.635pt x 268.00125pt>
+File: Images/KeyMapping/BACKSLASH.png Graphic file (type png)
+<use Images/KeyMapping/BACKSLASH.png>
+Package pdftex.def Info: Images/KeyMapping/BACKSLASH.png  used on input line 16
+5.
+(pdftex.def)             Requested size: 43.76605pt x 26.80168pt.
+<Images/KeyMapping/BACKSPACE.png, id=686, 523.9575pt x 268.00125pt>
+File: Images/KeyMapping/BACKSPACE.png Graphic file (type png)
+<use Images/KeyMapping/BACKSPACE.png>
+Package pdftex.def Info: Images/KeyMapping/BACKSPACE.png  used on input line 17
+1.
+(pdftex.def)             Requested size: 52.39882pt x 26.80168pt.
+<Images/KeyMapping/c.png, id=687, 301.125pt x 286.06876pt>
+File: Images/KeyMapping/c.png Graphic file (type png)
+<use Images/KeyMapping/c.png>
+Package pdftex.def Info: Images/KeyMapping/c.png  used on input line 177.
+(pdftex.def)             Requested size: 30.11426pt x 28.60855pt.
+<Images/KeyMapping/CAPS_LOCK.png, id=688, 588.1975pt x 280.04625pt>
+File: Images/KeyMapping/CAPS_LOCK.png Graphic file (type png)
+<use Images/KeyMapping/CAPS_LOCK.png>
+Package pdftex.def Info: Images/KeyMapping/CAPS_LOCK.png  used on input line 18
+3.
+(pdftex.def)             Requested size: 58.82318pt x 28.00626pt.
+<Images/KeyMapping/COMMA.png, id=689, 303.1325pt x 291.0875pt>
+File: Images/KeyMapping/COMMA.png Graphic file (type png)
+<use Images/KeyMapping/COMMA.png>
+Package pdftex.def Info: Images/KeyMapping/COMMA.png  used on input line 189.
+(pdftex.def)             Requested size: 30.31502pt x 29.11044pt.
+<Images/KeyMapping/CTRL.png, id=690, 564.1075pt x 301.125pt>
+File: Images/KeyMapping/CTRL.png Graphic file (type png)
+<use Images/KeyMapping/CTRL.png>
+Package pdftex.def Info: Images/KeyMapping/CTRL.png  used on input line 195.
+(pdftex.def)             Requested size: 56.41405pt x 30.11426pt.
+<Images/KeyMapping/CTRL_R.png, id=691, 304.13625pt x 286.06876pt>
+File: Images/KeyMapping/CTRL_R.png Graphic file (type png)
+<use Images/KeyMapping/CTRL_R.png>
+Package pdftex.def Info: Images/KeyMapping/CTRL_R.png  used on input line 201.
+(pdftex.def)             Requested size: 30.4154pt x 28.60855pt.
+<Images/KeyMapping/d.png, id=692, 297.11pt x 280.04625pt>
+File: Images/KeyMapping/d.png Graphic file (type png)
+<use Images/KeyMapping/d.png>
+Package pdftex.def Info: Images/KeyMapping/d.png  used on input line 207.
+(pdftex.def)             Requested size: 29.71274pt x 28.00626pt.
+<Images/KeyMapping/DELETE.png, id=693, 231.86626pt x 166.6225pt>
+File: Images/KeyMapping/DELETE.png Graphic file (type png)
+<use Images/KeyMapping/DELETE.png>
+Package pdftex.def Info: Images/KeyMapping/DELETE.png  used on input line 213.
+(pdftex.def)             Requested size: 23.18797pt x 16.66322pt.
+<Images/KeyMapping/DOWN.png, id=694, 307.1475pt x 289.08pt>
+File: Images/KeyMapping/DOWN.png Graphic file (type png)
+<use Images/KeyMapping/DOWN.png>
+Package pdftex.def Info: Images/KeyMapping/DOWN.png  used on input line 219.
+(pdftex.def)             Requested size: 30.71654pt x 28.90968pt.
+<Images/KeyMapping/e.png, id=695, 297.11pt x 271.0125pt>
+File: Images/KeyMapping/e.png Graphic file (type png)
+<use Images/KeyMapping/e.png>
+Package pdftex.def Info: Images/KeyMapping/e.png  used on input line 225.
+(pdftex.def)             Requested size: 29.71274pt x 27.10283pt.
+<Images/KeyMapping/ENTER.png, id=696, 711.65875pt x 302.12875pt>
+File: Images/KeyMapping/ENTER.png Graphic file (type png)
+<use Images/KeyMapping/ENTER.png>
+Package pdftex.def Info: Images/KeyMapping/ENTER.png  used on input line 231.
+(pdftex.def)             Requested size: 71.17004pt x 30.21463pt.
+<Images/KeyMapping/ENTER_R.png, id=697, 287.0725pt x 578.16pt>
+File: Images/KeyMapping/ENTER_R.png Graphic file (type png)
+<use Images/KeyMapping/ENTER_R.png>
+Package pdftex.def Info: Images/KeyMapping/ENTER_R.png  used on input line 237.
+
+(pdftex.def)             Requested size: 28.70892pt x 57.81938pt.
+<Images/KeyMapping/ESC.png, id=698, 266.9975pt x 174.6525pt>
+File: Images/KeyMapping/ESC.png Graphic file (type png)
+<use Images/KeyMapping/ESC.png>
+Package pdftex.def Info: Images/KeyMapping/ESC.png  used on input line 243.
+(pdftex.def)             Requested size: 26.70131pt x 17.46626pt.
+
+Overfull \hbox (18.92064pt too wide) in alignment at lines 126--246
+ [] [] [] [] 
+ []
+
+[45 <./Images/KeyMapping/keyboard.jpg> <./Images/KeyMapping/0.png> <./Images/Ke
+yMapping/0_INSERT.png> <./Images/KeyMapping/1.png> <./Images/KeyMapping/1_END.p
+ng> <./Images/KeyMapping/2.png>]
+<Images/KeyMapping/f.png, id=709, 293.095pt x 282.05376pt>
+File: Images/KeyMapping/f.png Graphic file (type png)
+<use Images/KeyMapping/f.png>
+Package pdftex.def Info: Images/KeyMapping/f.png  used on input line 249.
+(pdftex.def)             Requested size: 29.3112pt x 28.20702pt.
+<Images/KeyMapping/F1.png, id=710, 258.9675pt x 172.645pt>
+File: Images/KeyMapping/F1.png Graphic file (type png)
+<use Images/KeyMapping/F1.png>
+Package pdftex.def Info: Images/KeyMapping/F1.png  used on input line 255.
+(pdftex.def)             Requested size: 25.89825pt x 17.2655pt.
+<Images/KeyMapping/F10.png, id=711, 255.95625pt x 166.6225pt>
+File: Images/KeyMapping/F10.png Graphic file (type png)
+<use Images/KeyMapping/F10.png>
+Package pdftex.def Info: Images/KeyMapping/F10.png  used on input line 261.
+(pdftex.def)             Requested size: 25.59712pt x 16.66322pt.
+<Images/KeyMapping/F11.png, id=712, 252.945pt x 168.63pt>
+File: Images/KeyMapping/F11.png Graphic file (type png)
+<use Images/KeyMapping/F11.png>
+Package pdftex.def Info: Images/KeyMapping/F11.png  used on input line 267.
+(pdftex.def)             Requested size: 25.29597pt x 16.86398pt.
+<Images/KeyMapping/F12.png, id=713, 256.96pt x 172.645pt>
+File: Images/KeyMapping/F12.png Graphic file (type png)
+<use Images/KeyMapping/F12.png>
+Package pdftex.def Info: Images/KeyMapping/F12.png  used on input line 273.
+(pdftex.def)             Requested size: 25.6975pt x 17.2655pt.
+<Images/KeyMapping/F2.png, id=714, 257.96375pt x 170.6375pt>
+File: Images/KeyMapping/F2.png Graphic file (type png)
+<use Images/KeyMapping/F2.png>
+Package pdftex.def Info: Images/KeyMapping/F2.png  used on input line 279.
+(pdftex.def)             Requested size: 25.79788pt x 17.06474pt.
+<Images/KeyMapping/F3.png, id=715, 263.98625pt x 173.64874pt>
+File: Images/KeyMapping/F3.png Graphic file (type png)
+<use Images/KeyMapping/F3.png>
+Package pdftex.def Info: Images/KeyMapping/F3.png  used on input line 285.
+(pdftex.def)             Requested size: 26.40016pt x 17.36589pt.
+<Images/KeyMapping/F4.png, id=716, 257.96375pt x 167.62625pt>
+File: Images/KeyMapping/F4.png Graphic file (type png)
+<use Images/KeyMapping/F4.png>
+Package pdftex.def Info: Images/KeyMapping/F4.png  used on input line 291.
+(pdftex.def)             Requested size: 25.79788pt x 16.7636pt.
+<Images/KeyMapping/F5.png, id=717, 257.96375pt x 177.66376pt>
+File: Images/KeyMapping/F5.png Graphic file (type png)
+<use Images/KeyMapping/F5.png>
+Package pdftex.def Info: Images/KeyMapping/F5.png  used on input line 297.
+(pdftex.def)             Requested size: 25.79788pt x 17.76741pt.
+<Images/KeyMapping/F6.png, id=718, 261.97874pt x 176.66pt>
+File: Images/KeyMapping/F6.png Graphic file (type png)
+<use Images/KeyMapping/F6.png>
+Package pdftex.def Info: Images/KeyMapping/F6.png  used on input line 303.
+(pdftex.def)             Requested size: 26.1994pt x 17.66702pt.
+<Images/KeyMapping/F7.png, id=719, 263.98625pt x 178.6675pt>
+File: Images/KeyMapping/F7.png Graphic file (type png)
+<use Images/KeyMapping/F7.png>
+Package pdftex.def Info: Images/KeyMapping/F7.png  used on input line 309.
+(pdftex.def)             Requested size: 26.40016pt x 17.86778pt.
+<Images/KeyMapping/F8.png, id=720, 255.95625pt x 171.64125pt>
+File: Images/KeyMapping/F8.png Graphic file (type png)
+<use Images/KeyMapping/F8.png>
+Package pdftex.def Info: Images/KeyMapping/F8.png  used on input line 315.
+(pdftex.def)             Requested size: 25.59712pt x 17.16512pt.
+<Images/KeyMapping/F9.png, id=721, 258.9675pt x 170.6375pt>
+File: Images/KeyMapping/F9.png Graphic file (type png)
+<use Images/KeyMapping/F9.png>
+Package pdftex.def Info: Images/KeyMapping/F9.png  used on input line 321.
+(pdftex.def)             Requested size: 25.89825pt x 17.06474pt.
+<Images/KeyMapping/FN.png, id=722, 319.1925pt x 301.125pt>
+File: Images/KeyMapping/FN.png Graphic file (type png)
+<use Images/KeyMapping/FN.png>
+Package pdftex.def Info: Images/KeyMapping/FN.png  used on input line 327.
+(pdftex.def)             Requested size: 31.92111pt x 30.11426pt.
+<Images/KeyMapping/g.png, id=723, 296.10625pt x 277.035pt>
+File: Images/KeyMapping/g.png Graphic file (type png)
+<use Images/KeyMapping/g.png>
+Package pdftex.def Info: Images/KeyMapping/g.png  used on input line 333.
+(pdftex.def)             Requested size: 29.61235pt x 27.70511pt.
+<Images/KeyMapping/h.png, id=724, 289.08pt x 279.0425pt>
+File: Images/KeyMapping/h.png Graphic file (type png)
+<use Images/KeyMapping/h.png>
+Package pdftex.def Info: Images/KeyMapping/h.png  used on input line 339.
+(pdftex.def)             Requested size: 28.90968pt x 27.90588pt.
+<Images/KeyMapping/i.png, id=725, 286.06876pt x 275.0275pt>
+File: Images/KeyMapping/i.png Graphic file (type png)
+<use Images/KeyMapping/i.png>
+Package pdftex.def Info: Images/KeyMapping/i.png  used on input line 345.
+(pdftex.def)             Requested size: 28.60855pt x 27.50435pt.
+<Images/KeyMapping/INSERT.png, id=726, 236.885pt x 168.63pt>
+File: Images/KeyMapping/INSERT.png Graphic file (type png)
+<use Images/KeyMapping/INSERT.png>
+Package pdftex.def Info: Images/KeyMapping/INSERT.png  used on input line 351.
+(pdftex.def)             Requested size: 23.68988pt x 16.86398pt.
+<Images/KeyMapping/j.png, id=727, 295.1025pt x 277.035pt>
+File: Images/KeyMapping/j.png Graphic file (type png)
+<use Images/KeyMapping/j.png>
+Package pdftex.def Info: Images/KeyMapping/j.png  used on input line 357.
+(pdftex.def)             Requested size: 29.51196pt x 27.70511pt.
+<Images/KeyMapping/k.png, id=728, 292.09125pt x 278.03876pt>
+File: Images/KeyMapping/k.png Graphic file (type png)
+<use Images/KeyMapping/k.png>
+Package pdftex.def Info: Images/KeyMapping/k.png  used on input line 363.
+(pdftex.def)             Requested size: 29.21083pt x 27.8055pt.
+
+Overfull \hbox (18.92064pt too wide) in alignment at lines 246--366
+ [] [] [] [] 
+ []
+
+[46 <./Images/KeyMapping/2_DOWN.png> <./Images/KeyMapping/3.png> <./Images/KeyM
+apping/3_PAGE_DOWN.png> <./Images/KeyMapping/4.png> <./Images/KeyMapping/4_LEFT
+.png> <./Images/KeyMapping/5.png> <./Images/KeyMapping/5_NUM.png> <./Images/Key
+Mapping/6.png> <./Images/KeyMapping/6_RIGHT.png> <./Images/KeyMapping/7.png> <.
+/Images/KeyMapping/7_HOME.png> <./Images/KeyMapping/8.png> <./Images/KeyMapping
+/8_UP.png> <./Images/KeyMapping/9.png>] [47 <./Images/KeyMapping/9_PAGE_UP.png>
+ <./Images/KeyMapping/a.png> <./Images/KeyMapping/ALT.png> <./Images/KeyMapping
+/ALT_GR.png> <./Images/KeyMapping/APOSTROPHE.png> <./Images/KeyMapping/b.png> <
+./Images/KeyMapping/BACKSLASH.png> <./Images/KeyMapping/BACKSPACE.png> <./Image
+s/KeyMapping/c.png> <./Images/KeyMapping/CAPS_LOCK.png> <./Images/KeyMapping/CO
+MMA.png> <./Images/KeyMapping/CTRL.png> <./Images/KeyMapping/CTRL_R.png> <./Ima
+ges/KeyMapping/d.png>]
+<Images/KeyMapping/l.png, id=766, 292.09125pt x 280.04625pt>
+File: Images/KeyMapping/l.png Graphic file (type png)
+<use Images/KeyMapping/l.png>
+Package pdftex.def Info: Images/KeyMapping/l.png  used on input line 369.
+(pdftex.def)             Requested size: 29.21083pt x 28.00626pt.
+<Images/KeyMapping/LEFT.png, id=767, 309.155pt x 294.09875pt>
+File: Images/KeyMapping/LEFT.png Graphic file (type png)
+<use Images/KeyMapping/LEFT.png>
+Package pdftex.def Info: Images/KeyMapping/LEFT.png  used on input line 375.
+(pdftex.def)             Requested size: 30.9173pt x 29.41159pt.
+<Images/KeyMapping/LOWER.png, id=768, 304.13625pt x 304.13625pt>
+File: Images/KeyMapping/LOWER.png Graphic file (type png)
+<use Images/KeyMapping/LOWER.png>
+Package pdftex.def Info: Images/KeyMapping/LOWER.png  used on input line 381.
+(pdftex.def)             Requested size: 30.4154pt x 30.4154pt.
+<Images/KeyMapping/m.png, id=769, 303.1325pt x 289.08pt>
+File: Images/KeyMapping/m.png Graphic file (type png)
+<use Images/KeyMapping/m.png>
+Package pdftex.def Info: Images/KeyMapping/m.png  used on input line 387.
+(pdftex.def)             Requested size: 30.31502pt x 28.90968pt.
+<Images/KeyMapping/MINUS.png, id=770, 308.15125pt x 289.08pt>
+File: Images/KeyMapping/MINUS.png Graphic file (type png)
+<use Images/KeyMapping/MINUS.png>
+Package pdftex.def Info: Images/KeyMapping/MINUS.png  used on input line 393.
+(pdftex.def)             Requested size: 30.81693pt x 28.90968pt.
+<Images/KeyMapping/MINUS_R.png, id=771, 243.91125pt x 255.95625pt>
+File: Images/KeyMapping/MINUS_R.png Graphic file (type png)
+<use Images/KeyMapping/MINUS_R.png>
+Package pdftex.def Info: Images/KeyMapping/MINUS_R.png  used on input line 399.
+
+(pdftex.def)             Requested size: 24.39255pt x 25.59712pt.
+<Images/KeyMapping/n.png, id=772, 302.12875pt x 291.0875pt>
+File: Images/KeyMapping/n.png Graphic file (type png)
+<use Images/KeyMapping/n.png>
+Package pdftex.def Info: Images/KeyMapping/n.png  used on input line 405.
+(pdftex.def)             Requested size: 30.21463pt x 29.11044pt.
+<Images/KeyMapping/NUM_LOCK.png, id=773, 244.915pt x 263.98625pt>
+File: Images/KeyMapping/NUM_LOCK.png Graphic file (type png)
+<use Images/KeyMapping/NUM_LOCK.png>
+Package pdftex.def Info: Images/KeyMapping/NUM_LOCK.png  used on input line 411
+.
+(pdftex.def)             Requested size: 24.49292pt x 26.40016pt.
+<Images/KeyMapping/o.png, id=774, 292.09125pt x 275.0275pt>
+File: Images/KeyMapping/o.png Graphic file (type png)
+<use Images/KeyMapping/o.png>
+Package pdftex.def Info: Images/KeyMapping/o.png  used on input line 417.
+(pdftex.def)             Requested size: 29.21083pt x 27.50435pt.
+<Images/KeyMapping/p.png, id=775, 292.09125pt x 271.0125pt>
+File: Images/KeyMapping/p.png Graphic file (type png)
+<use Images/KeyMapping/p.png>
+Package pdftex.def Info: Images/KeyMapping/p.png  used on input line 423.
+(pdftex.def)             Requested size: 29.21083pt x 27.10283pt.
+<Images/KeyMapping/PAGE_DOWN.png, id=776, 229.85875pt x 167.62625pt>
+File: Images/KeyMapping/PAGE_DOWN.png Graphic file (type png)
+<use Images/KeyMapping/PAGE_DOWN.png>
+Package pdftex.def Info: Images/KeyMapping/PAGE_DOWN.png  used on input line 42
+9.
+(pdftex.def)             Requested size: 22.98721pt x 16.7636pt.
+<Images/KeyMapping/PAGE_UP.png, id=777, 232.87pt x 167.62625pt>
+File: Images/KeyMapping/PAGE_UP.png Graphic file (type png)
+<use Images/KeyMapping/PAGE_UP.png>
+Package pdftex.def Info: Images/KeyMapping/PAGE_UP.png  used on input line 435.
+
+(pdftex.def)             Requested size: 23.28836pt x 16.7636pt.
+<Images/KeyMapping/PAUSE.png, id=778, 251.94125pt x 170.6375pt>
+File: Images/KeyMapping/PAUSE.png Graphic file (type png)
+<use Images/KeyMapping/PAUSE.png>
+Package pdftex.def Info: Images/KeyMapping/PAUSE.png  used on input line 441.
+(pdftex.def)             Requested size: 25.19559pt x 17.06474pt.
+<Images/KeyMapping/PLUS.png, id=779, 296.10625pt x 271.0125pt>
+File: Images/KeyMapping/PLUS.png Graphic file (type png)
+<use Images/KeyMapping/PLUS.png>
+Package pdftex.def Info: Images/KeyMapping/PLUS.png  used on input line 447.
+(pdftex.def)             Requested size: 29.61235pt x 27.10283pt.
+<Images/KeyMapping/PLUS_R.png, id=780, 280.04625pt x 551.05875pt>
+File: Images/KeyMapping/PLUS_R.png Graphic file (type png)
+<use Images/KeyMapping/PLUS_R.png>
+Package pdftex.def Info: Images/KeyMapping/PLUS_R.png  used on input line 453.
+(pdftex.def)             Requested size: 28.00626pt x 55.1091pt.
+<Images/KeyMapping/POINT.png, id=781, 305.14pt x 287.0725pt>
+File: Images/KeyMapping/POINT.png Graphic file (type png)
+<use Images/KeyMapping/POINT.png>
+Package pdftex.def Info: Images/KeyMapping/POINT.png  used on input line 459.
+(pdftex.def)             Requested size: 30.51578pt x 28.70892pt.
+<Images/KeyMapping/POINT_DELETE.png, id=782, 255.95625pt x 281.05pt>
+File: Images/KeyMapping/POINT_DELETE.png Graphic file (type png)
+<use Images/KeyMapping/POINT_DELETE.png>
+Package pdftex.def Info: Images/KeyMapping/POINT_DELETE.png  used on input line
+ 465.
+(pdftex.def)             Requested size: 25.59712pt x 28.10664pt.
+<Images/KeyMapping/PRINT_SCREEN.png, id=783, 256.96pt x 177.66376pt>
+File: Images/KeyMapping/PRINT_SCREEN.png Graphic file (type png)
+<use Images/KeyMapping/PRINT_SCREEN.png>
+Package pdftex.def Info: Images/KeyMapping/PRINT_SCREEN.png  used on input line
+ 471.
+(pdftex.def)             Requested size: 25.6975pt x 17.76741pt.
+<Images/KeyMapping/q.png, id=784, 299.1175pt x 276.03125pt>
+File: Images/KeyMapping/q.png Graphic file (type png)
+<use Images/KeyMapping/q.png>
+Package pdftex.def Info: Images/KeyMapping/q.png  used on input line 477.
+(pdftex.def)             Requested size: 29.9135pt x 27.60474pt.
+<Images/KeyMapping/r.png, id=785, 292.09125pt x 273.02pt>
+File: Images/KeyMapping/r.png Graphic file (type png)
+<use Images/KeyMapping/r.png>
+Package pdftex.def Info: Images/KeyMapping/r.png  used on input line 483.
+(pdftex.def)             Requested size: 29.21083pt x 27.30359pt.
+
+Overfull \hbox (18.92064pt too wide) in alignment at lines 366--486
+ [] [] [] [] 
+ []
+
+[48 <./Images/KeyMapping/DELETE.png> <./Images/KeyMapping/DOWN.png> <./Images/K
+eyMapping/e.png> <./Images/KeyMapping/ENTER.png> <./Images/KeyMapping/ENTER_R.p
+ng> <./Images/KeyMapping/ESC.png> <./Images/KeyMapping/f.png> <./Images/KeyMapp
+ing/F1.png> <./Images/KeyMapping/F10.png> <./Images/KeyMapping/F11.png> <./Imag
+es/KeyMapping/F12.png> <./Images/KeyMapping/F2.png> <./Images/KeyMapping/F3.png
+> <./Images/KeyMapping/F4.png> <./Images/KeyMapping/F5.png> <./Images/KeyMappin
+g/F6.png> <./Images/KeyMapping/F7.png>]
+<Images/KeyMapping/RIGHT.png, id=807, 300.12125pt x 288.07625pt>
+File: Images/KeyMapping/RIGHT.png Graphic file (type png)
+<use Images/KeyMapping/RIGHT.png>
+Package pdftex.def Info: Images/KeyMapping/RIGHT.png  used on input line 489.
+(pdftex.def)             Requested size: 30.01387pt x 28.80931pt.
+<Images/KeyMapping/s.png, id=808, 297.11pt x 284.06125pt>
+File: Images/KeyMapping/s.png Graphic file (type png)
+<use Images/KeyMapping/s.png>
+Package pdftex.def Info: Images/KeyMapping/s.png  used on input line 495.
+(pdftex.def)             Requested size: 29.71274pt x 28.40778pt.
+<Images/KeyMapping/SCROLL_LOCK.png, id=809, 253.94875pt x 168.63pt>
+File: Images/KeyMapping/SCROLL_LOCK.png Graphic file (type png)
+<use Images/KeyMapping/SCROLL_LOCK.png>
+Package pdftex.def Info: Images/KeyMapping/SCROLL_LOCK.png  used on input line 
+501.
+(pdftex.def)             Requested size: 25.39635pt x 16.86398pt.
+<Images/KeyMapping/SHIFT.png, id=810, 754.82pt x 299.1175pt>
+File: Images/KeyMapping/SHIFT.png Graphic file (type png)
+<use Images/KeyMapping/SHIFT.png>
+Package pdftex.def Info: Images/KeyMapping/SHIFT.png  used on input line 507.
+(pdftex.def)             Requested size: 75.48642pt x 29.9135pt.
+<Images/KeyMapping/SHIFT_R.png, id=811, 555.07375pt x 289.08pt>
+File: Images/KeyMapping/SHIFT_R.png Graphic file (type png)
+<use Images/KeyMapping/SHIFT_R.png>
+Package pdftex.def Info: Images/KeyMapping/SHIFT_R.png  used on input line 513.
+
+(pdftex.def)             Requested size: 55.51062pt x 28.90968pt.
+<Images/KeyMapping/SLASH.png, id=812, 243.91125pt x 265.99374pt>
+File: Images/KeyMapping/SLASH.png Graphic file (type png)
+<use Images/KeyMapping/SLASH.png>
+Package pdftex.def Info: Images/KeyMapping/SLASH.png  used on input line 519.
+(pdftex.def)             Requested size: 24.39255pt x 26.60092pt.
+<Images/KeyMapping/SPACE.png, id=813, 1657.19125pt x 295.1025pt>
+File: Images/KeyMapping/SPACE.png Graphic file (type png)
+<use Images/KeyMapping/SPACE.png>
+Package pdftex.def Info: Images/KeyMapping/SPACE.png  used on input line 525.
+(pdftex.def)             Requested size: 165.72884pt x 29.51196pt.
+
+Overfull \hbox (48.72765pt too wide) in paragraph at lines 525--527
+[][]
+ []
+
+<Images/KeyMapping/STAR.png, id=814, 248.93pt x 260.975pt>
+File: Images/KeyMapping/STAR.png Graphic file (type png)
+<use Images/KeyMapping/STAR.png>
+Package pdftex.def Info: Images/KeyMapping/STAR.png  used on input line 531.
+(pdftex.def)             Requested size: 24.89445pt x 26.09901pt.
+<Images/KeyMapping/t.png, id=815, 295.1025pt x 277.035pt>
+File: Images/KeyMapping/t.png Graphic file (type png)
+<use Images/KeyMapping/t.png>
+Package pdftex.def Info: Images/KeyMapping/t.png  used on input line 537.
+(pdftex.def)             Requested size: 29.51196pt x 27.70511pt.
+<Images/KeyMapping/TAB.png, id=816, 494.84875pt x 279.0425pt>
+File: Images/KeyMapping/TAB.png Graphic file (type png)
+<use Images/KeyMapping/TAB.png>
+Package pdftex.def Info: Images/KeyMapping/TAB.png  used on input line 543.
+(pdftex.def)             Requested size: 49.48776pt x 27.90588pt.
+<Images/KeyMapping/u.png, id=817, 286.06876pt x 264.99pt>
+File: Images/KeyMapping/u.png Graphic file (type png)
+<use Images/KeyMapping/u.png>
+Package pdftex.def Info: Images/KeyMapping/u.png  used on input line 549.
+(pdftex.def)             Requested size: 28.60855pt x 26.50055pt.
+<Images/KeyMapping/UP.png, id=818, 302.12875pt x 297.11pt>
+File: Images/KeyMapping/UP.png Graphic file (type png)
+<use Images/KeyMapping/UP.png>
+Package pdftex.def Info: Images/KeyMapping/UP.png  used on input line 555.
+(pdftex.def)             Requested size: 30.21463pt x 29.71274pt.
+<Images/KeyMapping/v.png, id=819, 301.125pt x 293.095pt>
+File: Images/KeyMapping/v.png Graphic file (type png)
+<use Images/KeyMapping/v.png>
+Package pdftex.def Info: Images/KeyMapping/v.png  used on input line 561.
+(pdftex.def)             Requested size: 30.11426pt x 29.3112pt.
+<Images/KeyMapping/w.png, id=820, 301.125pt x 278.03876pt>
+File: Images/KeyMapping/w.png Graphic file (type png)
+<use Images/KeyMapping/w.png>
+Package pdftex.def Info: Images/KeyMapping/w.png  used on input line 567.
+(pdftex.def)             Requested size: 30.11426pt x 27.8055pt.
+<Images/KeyMapping/WINDOWS.png, id=821, 302.12875pt x 291.0875pt>
+File: Images/KeyMapping/WINDOWS.png Graphic file (type png)
+<use Images/KeyMapping/WINDOWS.png>
+Package pdftex.def Info: Images/KeyMapping/WINDOWS.png  used on input line 573.
+
+(pdftex.def)             Requested size: 30.21463pt x 29.11044pt.
+<Images/KeyMapping/x.png, id=822, 313.17pt x 295.1025pt>
+File: Images/KeyMapping/x.png Graphic file (type png)
+<use Images/KeyMapping/x.png>
+Package pdftex.def Info: Images/KeyMapping/x.png  used on input line 579.
+(pdftex.def)             Requested size: 31.31883pt x 29.51196pt.
+<Images/KeyMapping/y.png, id=823, 293.095pt x 276.03125pt>
+File: Images/KeyMapping/y.png Graphic file (type png)
+<use Images/KeyMapping/y.png>
+Package pdftex.def Info: Images/KeyMapping/y.png  used on input line 585.
+(pdftex.def)             Requested size: 29.3112pt x 27.60474pt.
+<Images/KeyMapping/z.png, id=824, 319.1925pt x 293.095pt>
+File: Images/KeyMapping/z.png Graphic file (type png)
+<use Images/KeyMapping/z.png>
+Package pdftex.def Info: Images/KeyMapping/z.png  used on input line 591.
+(pdftex.def)             Requested size: 31.92111pt x 29.3112pt.
+<Images/KeyMapping/à.png, id=825, 292.09125pt x 270.00874pt>
+File: Images/KeyMapping/à.png Graphic file (type png)
+<use Images/KeyMapping/à.png>
+Package pdftex.def Info: Images/KeyMapping/à.png  used on input line 597.
+(pdftex.def)             Requested size: 29.21083pt x 27.00244pt.
+<Images/KeyMapping/è.png, id=826, 298.11375pt x 271.0125pt>
+File: Images/KeyMapping/è.png Graphic file (type png)
+<use Images/KeyMapping/è.png>
+Package pdftex.def Info: Images/KeyMapping/è.png  used on input line 603.
+(pdftex.def)             Requested size: 29.81311pt x 27.10283pt.
+
+Overfull \hbox (18.92064pt too wide) in alignment at lines 486--606
+ [] [] [] [] 
+ []
+
+[49 <./Images/KeyMapping/F8.png> <./Images/KeyMapping/F9.png> <./Images/KeyMapp
+ing/FN.png> <./Images/KeyMapping/g.png> <./Images/KeyMapping/h.png> <./Images/K
+eyMapping/i.png> <./Images/KeyMapping/INSERT.png> <./Images/KeyMapping/j.png> <
+./Images/KeyMapping/k.png> <./Images/KeyMapping/l.png> <./Images/KeyMapping/LEF
+T.png> <./Images/KeyMapping/LOWER.png> <./Images/KeyMapping/m.png> <./Images/Ke
+yMapping/MINUS.png> <./Images/KeyMapping/MINUS_R.png>]
+<Images/KeyMapping/ì.png, id=846, 290.08376pt x 260.975pt>
+File: Images/KeyMapping/ì.png Graphic file (type png)
+<use Images/KeyMapping/ì.png>
+Package pdftex.def Info: Images/KeyMapping/ì.png  used on input line 609.
+(pdftex.def)             Requested size: 29.01007pt x 26.09901pt.
+<Images/KeyMapping/ò.png, id=847, 299.1175pt x 279.0425pt>
+File: Images/KeyMapping/ò.png Graphic file (type png)
+<use Images/KeyMapping/ò.png>
+Package pdftex.def Info: Images/KeyMapping/ò.png  used on input line 615.
+(pdftex.def)             Requested size: 29.9135pt x 27.90588pt.
+<Images/KeyMapping/ù.png, id=848, 493.845pt x 294.09875pt>
+File: Images/KeyMapping/ù.png Graphic file (type png)
+<use Images/KeyMapping/ù.png>
+Package pdftex.def Info: Images/KeyMapping/ù.png  used on input line 621.
+(pdftex.def)             Requested size: 49.38739pt x 29.41159pt.
+
+Overfull \hbox (18.92064pt too wide) in alignment at lines 606--625
+ [] [] [] [] 
+ []
+
+[50 <./Images/KeyMapping/n.png> <./Images/KeyMapping/NUM_LOCK.png> <./Images/Ke
+yMapping/o.png> <./Images/KeyMapping/p.png> <./Images/KeyMapping/PAGE_DOWN.png>
+ <./Images/KeyMapping/PAGE_UP.png> <./Images/KeyMapping/PAUSE.png> <./Images/Ke
+yMapping/PLUS.png> <./Images/KeyMapping/PLUS_R.png> <./Images/KeyMapping/POINT.
+png> <./Images/KeyMapping/POINT_DELETE.png> <./Images/KeyMapping/PRINT_SCREEN.p
+ng> <./Images/KeyMapping/q.png> <./Images/KeyMapping/r.png> <./Images/KeyMappin
+g/RIGHT.png>] [51 <./Images/KeyMapping/s.png> <./Images/KeyMapping/SCROLL_LOCK.
+png> <./Images/KeyMapping/SHIFT.png> <./Images/KeyMapping/SHIFT_R.png> <./Image
+s/KeyMapping/SLASH.png> <./Images/KeyMapping/SPACE.png> <./Images/KeyMapping/ST
+AR.png> <./Images/KeyMapping/t.png> <./Images/KeyMapping/TAB.png> <./Images/Key
+Mapping/u.png> <./Images/KeyMapping/UP.png> <./Images/KeyMapping/v.png> <./Imag
+es/KeyMapping/w.png> <./Images/KeyMapping/WINDOWS.png>])
+(Chapters/Bibliography.tex [52 <./Images/KeyMapping/x.png> <./Images/KeyMapping
+/y.png> <./Images/KeyMapping/z.png> <./Images/KeyMapping/à.png> <./Images/KeyM
+apping/è.png> <./Images/KeyMapping/ì.png> <./Images/KeyMapping/ò.png> <./Ima
+ges/KeyMapping/ù.png>] [53
+
+]
 Underfull \hbox (badness 2547) in paragraph at lines 22--23
 []\T1/cmr/m/n/12 Ved Prakash Singh, Preet Pal, "Sur-vey of Dif-fer-ent Types of
 
@@ -1318,96 +1964,96 @@ Underfull \hbox (badness 3068) in paragraph at lines 30--31
  in
  []
 
-[46] [47]) (Chapters/Acknowledgements.tex [48])
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+[54] [55]) (Chapters/Acknowledgements.tex [56])
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2--152
+Underfull \hbox (badness 10000) in paragraph at lines 2--154
 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [49
+ [57
 
 ]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 153.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 155.
 
-[50]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 153.
+[58]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 155.
  (Thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 153.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 153.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 155.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 155.
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 1C7003D050085D04D86E3FF98EED2F59;2171.
+(rerunfilecheck)             Checksum: 3E1E4060BED91BAB3EAC50F8D5E5D6E2;2300.
 
 
 LaTeX Warning: There were undefined references.
@@ -1415,49 +2061,50 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 153.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 155.
  ) 
 Here is how much of TeX's memory you used:
- 24906 strings out of 492452
- 451410 string characters out of 3134016
- 629468 words of memory out of 3000000
- 28752 multiletter control sequences out of 15000+200000
- 555964 words of font info for 73 fonts, out of 3000000 for 9000
+ 25888 strings out of 492452
+ 475427 string characters out of 3134016
+ 649156 words of memory out of 3000000
+ 29605 multiletter control sequences out of 15000+200000
+ 556277 words of font info for 74 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,13n,67p,1134b,1015s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
-ecbx0800.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
-ec/dpi600\ecti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecbi1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX
-\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\raffa\AppData\Lo
-cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\raffa\
-AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Us
-ers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.
+ectt1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
+ec/dpi600\ecbx0800.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecti1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecbi1000.pk> <C:\Users\raffa\AppData\Local\MiKTeX
+\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbi1200.pk> <C:\Users\raffa\AppData\Lo
+cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\raffa\
+AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Us
+ers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.
 pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
-\ecbx2488.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
-/ec/dpi600\ecbx1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
-r/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\font
-s/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\raffa\AppData\Local\MiKTe
-X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1200.pk> <C:\Users\raffa\AppData\L
-ocal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\Users\raffa
-\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\U
-sers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc1440
+\ecsl1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
+/ec/dpi600\ecbx2488.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfou
+r/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\font
+s/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk> <C:\Users\raffa\AppData\Local\MiKTe
+X\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\raffa\AppData\L
+ocal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\eccc1200.pk> <C:\Users\raffa
+\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1000.pk> <C:\U
+sers\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200
 .pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecti1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappe
-n/ec/dpi600\eccc1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfo
-ur/jknappen/ec/dpi600\ecxc1728.pk><D:/Programs/Miktex/fonts/type1/public/amsfon
-ts/cm/cmmi12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
-D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmmi8.pfb><D:/Programs/Miktex
-/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/type1/publi
-c/amsfonts/cm/cmr6.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmr8.
-pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:/Programs/
-Miktex/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Programs/Miktex/fonts/type1
-/public/amsfonts/cm/cmtt12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/
-cm/cmtt8.pfb>
-Output written on Thesis.pdf (58 pages, 4182320 bytes).
+0\ecxc1440.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappe
+n/ec/dpi600\ecti1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fonts/pk/ljfo
+ur/jknappen/ec/dpi600\eccc1728.pk> <C:\Users\raffa\AppData\Local\MiKTeX\2.9\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecxc1728.pk><D:/Programs/Miktex/fonts/type1/pub
+lic/amsfonts/cm/cmmi12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/c
+mmi6.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmmi8.pfb><D:/Progr
+ams/Miktex/fonts/type1/public/amsfonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/t
+ype1/public/amsfonts/cm/cmr6.pfb><D:/Programs/Miktex/fonts/type1/public/amsfont
+s/cm/cmr8.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:
+/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Programs/Miktex/f
+onts/type1/public/amsfonts/cm/cmtt12.pfb><D:/Programs/Miktex/fonts/type1/public
+/amsfonts/cm/cmtt8.pfb>
+Output written on Thesis.pdf (66 pages, 24588292 bytes).
 PDF statistics:
- 1527 PDF objects out of 1728 (max. 8388607)
- 206 named destinations out of 1000 (max. 500000)
- 392 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1817 PDF objects out of 2073 (max. 8388607)
+ 218 named destinations out of 1000 (max. 500000)
+ 923 words of extra memory for PDF output out of 10000 (max. 10000000)
 
