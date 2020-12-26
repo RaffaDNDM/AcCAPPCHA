@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  25 DEC 2020 22:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  26 DEC 2020 12:51
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -1316,9 +1316,9 @@ LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 2
 4.
 (D:\Programs\Miktex\tex/latex/base\t1cmtt.fd
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)) (Chapters/Results.tex [39
+) [39
 
-]
+]) (Chapters/Results.tex
 [40]
 Chapter 7.
 ) (Chapters/SecurityAnalysis.tex [41
@@ -1934,7 +1934,7 @@ File: Images/KeyMapping/ù.png Graphic file (type png)
 Package pdftex.def Info: Images/KeyMapping/ù.png  used on input line 637.
 (pdftex.def)             Requested size: 39.50839pt x 23.52837pt.
 
-Overfull \hbox (35.72807pt too wide) in alignment at lines 556--641
+Overfull \hbox (35.72807pt too wide) in alignment at lines 556--642
  [] [] [] 
  []
 
@@ -2074,10 +2074,10 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 155.
  ) 
 Here is how much of TeX's memory you used:
- 25880 strings out of 492452
- 475150 string characters out of 3134016
+ 25881 strings out of 492452
+ 475171 string characters out of 3134016
  642156 words of memory out of 3000000
- 29598 multiletter control sequences out of 15000+200000
+ 29599 multiletter control sequences out of 15000+200000
  556277 words of font info for 74 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,13n,67p,1134b,1015s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -2112,9 +2112,9 @@ s/cm/cmr8.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy10.pfb><D:
 /Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Programs/Miktex/f
 onts/type1/public/amsfonts/cm/cmtt12.pfb><D:/Programs/Miktex/fonts/type1/public
 /amsfonts/cm/cmtt8.pfb>
-Output written on Thesis.pdf (66 pages, 24470062 bytes).
+Output written on Thesis.pdf (66 pages, 24472355 bytes).
 PDF statistics:
- 1820 PDF objects out of 2073 (max. 8388607)
+ 1822 PDF objects out of 2073 (max. 8388607)
  218 named destinations out of 1000 (max. 500000)
  918 words of extra memory for PDF output out of 10000 (max. 10000000)
 
