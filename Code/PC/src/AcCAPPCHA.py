@@ -71,7 +71,7 @@ class AcCAPPCHA:
 
     COLORS = ['g', 'r', 'c', 'm', 'y']
     #Tolerance [-5 ms, 5 ms] with respect to peaks
-    TIME_THRESHOLD = num_samples(RATE ,0.010)
+    TIME_THRESHOLD = num_samples(RATE ,0.300)
     MAIN_COLOR = 'red'
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
@@ -207,12 +207,12 @@ class AcCAPPCHA:
 
     def password_from_user(self):
         char_user = utility.getchar()
-        
+        self.TIMES.append(time.time())
+            
         if char_user != '\r':
             self.password += char_user
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}', end='')
-            self.TIMES.append(time.time())
             return True
 
         else:
@@ -281,7 +281,7 @@ class AcCAPPCHA:
                 self.VERIFIED = self.correspond_time(char_times)[0]
 
         cprint(utility.LINE, 'blue')
-        
+
         if self.DEBUG:
             print(colored('Human: ', 'green')+f'\n{self.VERIFIED}', end='\n\n')
 
@@ -296,8 +296,13 @@ class AcCAPPCHA:
 
         peak_times = []
         for list_time in char_times:
-            peak_times.append(np.argmax(self.signal[list_time]))
+            peak_times.append(list_time[np.argmax(self.signal[list_time])])
 
+        cprint(self.TIMES,'green')
+        for x in peak_times:
+            cprint(x/self.RATE, 'cyan', end=' ')
+        print('')
+        
         for i in range(0, len(char_times)):
             if len(char_times) - i < length_psswd:
                 return False, None
@@ -311,15 +316,15 @@ class AcCAPPCHA:
                     return False, None
 
                 while j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-start) < (num_samples(self.RATE, self.TIMES[count_verified])-self.TIME_THRESHOLD):
+                      (num_samples(self.RATE, peak_times[j])-start-0.8) < (num_samples(self.RATE, self.TIMES[count_verified])-self.TIME_THRESHOLD):
                       j += 1
             
                 if j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-start) < (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
+                      (num_samples(self.RATE, peak_times[j])-start-0.8) < (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
                     count_verified += 1
                     checked_char_times.append(char_times[j])
                 elif j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-start) > (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
+                      (num_samples(self.RATE, peak_times[j])-start-0.8) > (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
                     break
 
             if count_verified == length_psswd:
@@ -507,7 +512,7 @@ class AcCAPPCHA:
                     no_end = self.password_from_user()
                 
                 first = self.TIMES[0]
-                self.TIMES = [t-first for t in self.TIMES]
+                self.TIMES = [t-first for t in self.TIMES[:-1]]
 
                 audio_logger.join()
                 count_trials += 1

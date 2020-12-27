@@ -10,6 +10,7 @@ import colorama
 from csv import reader, writer
 import ctypes
 import platform
+import time
 
 OPTIONS = ['touch', 'touch_hit', 'spectrum']
 LINE = '_____________________________________________________'
