@@ -26,9 +26,12 @@
 \BOOKMARK [0][-]{chapter.5}{Design of AcCAPPCHA}{}% 26
 \BOOKMARK [1][-]{section.5.1}{Time correspondence}{chapter.5}% 27
 \BOOKMARK [1][-]{section.5.2}{Deep learning classification}{chapter.5}% 28
-\BOOKMARK [0][-]{chapter.6}{Development}{}% 29
-\BOOKMARK [1][-]{section.6.1}{Data acquisition for the prediction of the keys}{chapter.6}% 30
-\BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 31
-\BOOKMARK [0][-]{chapter.8}{Security Analysis}{}% 32
-\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 33
-\BOOKMARK [0][-]{table.A.1}{Bibliography}{}% 34
+\BOOKMARK [0][-]{chapter.6}{Development of AcCAPPCHA}{}% 29
+\BOOKMARK [1][-]{section.6.1}{Data acquisition}{chapter.6}% 30
+\BOOKMARK [1][-]{section.6.2}{Extraction of features}{chapter.6}% 31
+\BOOKMARK [1][-]{section.6.3}{Neural network}{chapter.6}% 32
+\BOOKMARK [1][-]{section.6.4}{Verification}{chapter.6}% 33
+\BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 34
+\BOOKMARK [0][-]{chapter.8}{Security Analysis}{}% 35
+\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 36
+\BOOKMARK [0][-]{table.A.1}{Bibliography}{}% 37

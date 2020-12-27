@@ -27,9 +27,12 @@
 \contentsline {chapter}{\numberline {5}Design of AcCAPPCHA}{35}{chapter.5}% 
 \contentsline {section}{\numberline {5.1}Time correspondence}{35}{section.5.1}% 
 \contentsline {section}{\numberline {5.2}Deep learning classification}{36}{section.5.2}% 
-\contentsline {chapter}{\numberline {6}Development}{39}{chapter.6}% 
-\contentsline {section}{\numberline {6.1}Data acquisition for the prediction of the keys}{39}{section.6.1}% 
-\contentsline {chapter}{\numberline {7}Experimental results}{41}{chapter.7}% 
-\contentsline {chapter}{\numberline {8}Security Analysis}{43}{chapter.8}% 
-\contentsline {chapter}{\numberline {A}Key Mapping}{45}{appendix.A}% 
-\contentsline {chapter}{Bibliography}{51}{table.A.1}% 
+\contentsline {chapter}{\numberline {6}Development of AcCAPPCHA}{39}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}Data acquisition}{40}{section.6.1}% 
+\contentsline {section}{\numberline {6.2}Extraction of features}{42}{section.6.2}% 
+\contentsline {section}{\numberline {6.3}Neural network}{42}{section.6.3}% 
+\contentsline {section}{\numberline {6.4}Verification}{42}{section.6.4}% 
+\contentsline {chapter}{\numberline {7}Experimental results}{43}{chapter.7}% 
+\contentsline {chapter}{\numberline {8}Security Analysis}{45}{chapter.8}% 
+\contentsline {chapter}{\numberline {A}Key Mapping}{47}{appendix.A}% 
+\contentsline {chapter}{Bibliography}{53}{table.A.1}% 
