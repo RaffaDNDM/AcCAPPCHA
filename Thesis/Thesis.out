@@ -24,14 +24,15 @@
 \BOOKMARK [1][-]{section.4.3}{Security analysis}{chapter.4}% 24
 \BOOKMARK [2][-]{subsection.4.3.1}{Strength against popular attacks}{section.4.3}% 25
 \BOOKMARK [0][-]{chapter.5}{Design of AcCAPPCHA}{}% 26
-\BOOKMARK [1][-]{section.5.1}{Time correspondence}{chapter.5}% 27
-\BOOKMARK [1][-]{section.5.2}{Deep learning classification}{chapter.5}% 28
-\BOOKMARK [0][-]{chapter.6}{Development of AcCAPPCHA}{}% 29
-\BOOKMARK [1][-]{section.6.1}{Data acquisition}{chapter.6}% 30
-\BOOKMARK [1][-]{section.6.2}{Extraction of features}{chapter.6}% 31
-\BOOKMARK [1][-]{section.6.3}{Neural network}{chapter.6}% 32
-\BOOKMARK [1][-]{section.6.4}{Verification}{chapter.6}% 33
-\BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 34
-\BOOKMARK [0][-]{chapter.8}{Security Analysis}{}% 35
-\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 36
-\BOOKMARK [0][-]{table.A.1}{Bibliography}{}% 37
+\BOOKMARK [0][-]{chapter.6}{AcCAPPCHA}{}% 27
+\BOOKMARK [1][-]{section.6.1}{Evaluation of the user's activity}{chapter.6}% 28
+\BOOKMARK [2][-]{subsection.6.1.1}{Time correspondence}{section.6.1}% 29
+\BOOKMARK [2][-]{subsection.6.1.2}{Deep learning}{section.6.1}% 30
+\BOOKMARK [3][-]{subsubsection.6.1.2.1}{Data acquisition}{subsection.6.1.2}% 31
+\BOOKMARK [3][-]{subsubsection.6.1.2.2}{Classification}{subsection.6.1.2}% 32
+\BOOKMARK [3][-]{subsubsection.6.1.2.3}{Verification}{subsection.6.1.2}% 33
+\BOOKMARK [1][-]{section.6.2}{Communication between client and server}{chapter.6}% 34
+\BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 35
+\BOOKMARK [0][-]{chapter.8}{Security Analysis}{}% 36
+\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 37
+\BOOKMARK [0][-]{table.A.1}{Bibliography}{}% 38

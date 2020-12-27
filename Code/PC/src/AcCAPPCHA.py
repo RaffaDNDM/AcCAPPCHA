@@ -71,7 +71,7 @@ class AcCAPPCHA:
 
     COLORS = ['g', 'r', 'c', 'm', 'y']
     #Tolerance [-5 ms, 5 ms] with respect to peaks
-    TIME_THRESHOLD = num_samples(RATE ,0.005)
+    TIME_THRESHOLD = num_samples(RATE ,0.010)
     MAIN_COLOR = 'red'
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
@@ -311,13 +311,16 @@ class AcCAPPCHA:
                     return False, None
 
                 while j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-self.TIME_THRESHOLD-start) < num_samples(self.RATE, self.TIMES[count_verified]):
+                      (num_samples(self.RATE, peak_times[j])-start) < (num_samples(self.RATE, self.TIMES[count_verified])-self.TIME_THRESHOLD):
                       j += 1
-
+            
                 if j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])+self.TIME_THRESHOLD-start) > num_samples(self.RATE, self.TIMES[count_verified]):
-                      count_verified += 1
-                      checked_char_times.append(char_times[j])
+                      (num_samples(self.RATE, peak_times[j])-start) < (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
+                    count_verified += 1
+                    checked_char_times.append(char_times[j])
+                elif j < len(char_times) and \
+                      (num_samples(self.RATE, peak_times[j])-start) > (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
+                    break
 
             if count_verified == length_psswd:
                 return True, char_times
