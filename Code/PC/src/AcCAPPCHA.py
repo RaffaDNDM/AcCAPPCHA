@@ -297,25 +297,22 @@ class AcCAPPCHA:
             start = peak_times[i]/self.RATE
             j=i+1
             count_verified = 1 #already verified element in i
+            
             while count_verified < length_psswd and j < len(char_times):
                 if (len(char_times) -j) < (length_psswd-count_verified):
                     return False, None
 
-                while j < len(char_times) and \
-                      ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]-self.TIME_THRESHOLD):
-                      j += 1
-            
-                if j < len(char_times) and \
-                      ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]+self.TIME_THRESHOLD):
+                if ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]-self.TIME_THRESHOLD):
+                    j += 1
+                elif ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]+self.TIME_THRESHOLD):
                     count_verified += 1
                     checked_char_times.append(char_times[j])
                     j += 1
-                elif j < len(char_times) and \
-                      ((peak_times[j]/self.RATE)-start) > (self.TIMES[count_verified]+self.TIME_THRESHOLD):
+                elif ((peak_times[j]/self.RATE)-start) > (self.TIMES[count_verified]+self.TIME_THRESHOLD):
                     break
 
-            if count_verified == length_psswd:
-                return True, char_times
+                if count_verified == length_psswd:
+                    return True, checked_char_times
 
         return False, None
 
