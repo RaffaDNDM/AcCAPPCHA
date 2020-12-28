@@ -24,66 +24,71 @@ During the insertion of the password, the instants of the time when each charact
 
 \subsection{Time correspondence}\label{design:time_correspondence}
 Before asking the user to insert the password, the program records an audio file of 1 second, called \texttt{noise signal}, from the built-in microphone of the laptop. The remaining verification procedure is performed by two threads simultaneously, during password insertion. The first one is continuously waiting for the insertion of a character of the password by the user until he types CARRIAGE RETURN\textit{'\r'}).\\
-Immediately after a key is pressed, the time instant of this action, related to the Epoch of the PC, is stored to be used later. The sequence of time instants stored by the thread is name $x=[x_0, ..., x_{|password|-1}]$The second thread records an audio signal, called \texttt{user activity}, using the same hardware previously mentioned. This task begins its activity before the request of the password to the user and ends after the moment in which the first thread detects a CARRIAGE RETURN.\\
+Immediately after a key is pressed, the time instant of this action, related to the Epoch of the PC, is stored to be used later. The sequence of time instants stored by the thread is named $x=(x_0, ..., x_{|password|-1})$. The second thread records an audio signal, called \texttt{user activity}, using the same hardware previously mentioned. This task begins its activity before the request of the password to the user and ends after the moment in which the first thread detects a CARRIAGE RETURN.\\
 From now on, the application has all it needs to understand if the user is a human or not. In fact the verification is performed by looking if there exists a sequence of time instants of the peaks in the signal recorded in parallel to the insertion of the password and the time instants manually stored for each character.\\
-In particular \texttt{noise signal} will be analysed by finding its maximum value, called $thresh_N$, and then \texttt{user activity} will be analysed by considering only the samples with values higher than $thresh_N$. These sample will be grouped in several disjoint windows of maximum width equal to 5 ms. For each group \textit{i}, the application finds the sample with the highest value, $peak_i$. For example, given \textit{the sampling period or interval} $t_s$ and a specific group of samples: $$x_i = [x_t, x_{t+t_s}, ..., x_{t+\lceil \frac{5ms}{t_s}\rceil * t_s}]$$
+In particular \texttt{noise signal} will be analysed by finding its maximum value, called $thresh_N$, and then \texttt{user activity} will be analysed by considering only the samples with values higher than $thresh_N$. These sample will be grouped in several disjoint windows of maximum width equal to 5 ms. For each group \textit{i}, the application finds the sample with the highest value, $peak_i$. For example, given \textit{the sampling period or interval} $t_s$ and a specific group of samples: $$x_i = (x_t, x_{t+t_s}, ..., x_{t+\lceil \frac{5ms}{t_s}\rceil * t_s})$$
 the application computes $t_i= argmax(x_i)$.\\
-Given the sequence of computed time instants relative to peaks of each group $t=[t_0, t_1, ..., t_{n-1}]$, $n$ number of windows and $|password|$ the size of the password, there is a \textbf{time correspondence} if if there exists a subset of it $t^{*}=[{t*}_0, ..., {t*}_{|password|-1}]$ that matches with the sequence of time instants stored during the password insertion. The algorithm used to find a time correspondence is reported next:
+Given the sequence of computed time instants relative to peaks of each group $t=(t_0, t_1, ..., t_{n-1})$, $n$ number of windows and $|password|$ the size of the password, there is a \textbf{time correspondence} if if there exists a subset of it $t^{*}=({t*}_0, ..., {t*}_{|password|-1})$ that matches with the sequence of time instants stored during the password insertion. The algorithm used to find a time correspondence is reported next:
 \begin{algorithm}[h]
 \DontPrintSemicolon\footnotesize
 \KwIn {$\mathtt{x =(x_0, x_1,..., x_{|password|-1})=}$ time instants stored by first thread\newline
 $\mathtt{t =(t_0,t_1,...,t_{n-1})=}$ time instants relative to peaks of each group\newline
-$\mathtt{threshold=}$ threshold with respect to stored time instant}
-\KwOut {$\mathtt{true}$ if human, $\mathtt{false}$ otherwise}
+$\mathtt{threshold=}$ threshold with respect to stored time instant\newline}
+\KwOut {$\mathtt{true}$ if human, $\mathtt{false}$ otherwise\newline}
 \BlankLine
 $\mathtt{y =(y_0, y_1,..., y_{|password|-1})}$ where $y_i=x_i-x_0$\;
 \BlankLine
 \If{$n<|password|$}{
+\textcolor{blue}{\emph{\\Number of found peaks lower than number of characters of the password}}\;
     \BlankLine
     \Return $false$\;
     \BlankLine
 }
-\emph{//Search of subsequence}\;
+\BlankLine
+\textcolor{blue}{\emph{//Search of subsequence}}\;
 \For{$i\leftarrow 0$ \KwTo $n-1$}{
 \BlankLine
- \BlankLine
  \If{$(n-i)<|password|$}{
+ \textcolor{green}{\emph{//Not enough peaks from $t_i$ on to be analysed to find the time correspondence}}\;
     \BlankLine
     \Return $false$\;
     \BlankLine
  }
  \BlankLine
- \emph{//$t_i$ already verified}\;
+ \textcolor{red}{\emph{//$t_i$ already verified}}\;
  $\mathtt{j\gets} i+1$\;
  $\mathtt{count\gets} 1$\;
  \BlankLine
  \While{$count < |password| \wedge j < n$}{
   \BlankLine
   \If{$(n-j)<(|password|-count)$}{
+   	\textcolor{orange}{\emph{//Not enough peaks from $t_i$ on to be analysed to find the time correspondence}}\;
    \BlankLine
    $\mathtt{break}$  
    \BlankLine
   }
   \uIf{$\mathtt{(t_j-t_i)}<(y_{count}-threshold)$}{
-   	\emph{//Too less time between the time instant of the first character and the time instant of the \textbf{count}-th character}
+   	\textcolor{brown}{\emph{//Too less time between the time instant of the first character and the time instant of the \textbf{count}-th character}}\;
     \BlankLine    
     $\mathtt{j}\gets j+1$\;
     \BlankLine
   }
   \uElseIf{$\mathtt{(t_j-t_i)}<(y_{count}+threshold)$}{
+	\textcolor{brown}{\emph{//Time correspondence}}\;
     \BlankLine
     $\mathtt{count}\gets count+1$\;
     $\mathtt{j}\gets j+1$\;
     \BlankLine
   }
   \Else{
-    \emph{//Too much time between the time instant of the first character and the time instant of the \textbf{count}-th character}\;
+    \textcolor{brown}{\emph{//Too much time between the time instant of the first character and the time instant of the \textbf{count}-th character.}}\;
     \BlankLine
-    $\mathtt{break}$ \emph{//Try another time instant of next peak as first character inserted time instant}\;
+    $\mathtt{break}$
     \BlankLine
   }
   \BlankLine
   \If{$\mathtt{count =} |password|$}{
+    \textcolor{purple}{\emph{//Time correspondence found}}\;
    \BlankLine
    \Return $true$\;
    \BlankLine

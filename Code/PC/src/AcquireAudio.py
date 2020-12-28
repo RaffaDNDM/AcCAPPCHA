@@ -23,7 +23,7 @@ class AcquireAudio:
     FIRST_KEY = True
     KILLED = False
 
-    '''
+    """
     AcquireAudio object acquires key audio from user by
     using also a keylogger to understand pressed key
 
@@ -78,7 +78,7 @@ class AcquireAudio:
         
         count (int): num of elements already inserted of the sequence of 
                      TIME_KEY_PRESSED keys by user
-    '''
+    """
     
     def __init__(self, audio_dir, times_key):
         if not(os.path.exists(audio_dir) and os.path.isdir(audio_dir)):
@@ -96,10 +96,10 @@ class AcquireAudio:
         self.TIMES_KEY_PRESSED = times_key
 
     def already_acquired(self):    
-        '''
+        """
         Instantiate LETTERS dictionary looking at the subfolders 
         of DATA_FOLDER path and the number of wav files in them
-        '''
+        """
         #Initialize LETTERS with number of files already in the subfolder ('a', ...)
         subfolders = os.listdir(self.DATA_FOLDER)
         subfolders.sort()
@@ -144,10 +144,10 @@ class AcquireAudio:
         cprint(utility.LINE, 'blue')
 
     def audio_logging(self):
-        '''
+        """
         Record the waves from microphone and store the audio
         file after TIMES_KEY_PRESSED times a key is pressed
-        '''
+        """
         p = pyaudio.PyAudio()
 
         stream = p.open(format=self.FORMAT,
@@ -196,12 +196,12 @@ class AcquireAudio:
             self.mutex.release()
 
     def press_key(self, key):
-        '''
+        """
         Record the key pressed by user
         
         Args:
             key (key): pynput key
-        '''
+        """
         key_string = utility.key_definition(key)
 
         if self.count < self.TIMES_KEY_PRESSED:
@@ -238,9 +238,9 @@ class AcquireAudio:
                     self.mutex.release()
                 
     def record(self):
-        '''
+        """
         Start keylogger and audio recorder
-        '''
+        """
         try:
             while True:
                 cprint(f'\nType a letter {self.TIMES_KEY_PRESSED} times', 'blue', attrs=['bold'])

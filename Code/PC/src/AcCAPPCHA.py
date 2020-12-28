@@ -39,12 +39,9 @@ class AcCAPPCHA:
     CHANNELS = 2
     RATE = 44100
     SECONDS_NOISE = 2.0
-
     PLOT_FOLDER = '../dat/img/'
-
     SPECTRUM_FOLDER = 'spectrum/'
     CHAR_SPECTRUM_IMG = 'spectrum_{:02d}.png'
-
     WAVE_FOLDER = 'wave/'
     FULL_WAVE_IMG = 'audio_from_user.png'
     CHAR_WAVE_PEAKS_IMG = 'peak_{:02d}.png'
@@ -70,11 +67,140 @@ class AcCAPPCHA:
                   ' /_/    \\_\\___|  \_____/_/    \\_\\_|    |_|     \_____|_|  |_/_/    \\_\\ \n\n'
 
     COLORS = ['g', 'r', 'c', 'm', 'y']
-    #Tolerance [-5 ms, 5 ms] with respect to peaks
+    #Tolerance [-100 ms, 100 ms] with respect to stored time instants
     TIME_THRESHOLD = 0.100
     MAIN_COLOR = 'red'
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
+
+    """
+    AcCAPPCHA implementation.
+
+    Args:
+        time_option (bool): True if you want to use time correspondence 
+                            method, False otherwise
+
+        dl_option (bool): True if you want to use deep learning method, 
+                          False otherwise
+
+        plot_option (bool): True if you want to plot the graphics of
+                            recorded audio files, False otherwise
+
+        debug_option (bool): True if you want to show more debugging info
+                             during the executtion, False otherwise
+
+    Attributes:
+
+                        [****ACQUISITION PARAMETERS****]
+        ___________________________________________________________________________
+        CHUNK (int): (by default 1024)
+
+        FORMAT (pyaudio format): (by default pyaudio.paInt16)
+
+        CHANNELS (int): (by default 2)
+
+        RATE (int): Sampling rate (by default 44100)
+
+        SECONDS_NOISE (float): Seconds of audio file for evaluation of noise
+                               (by default 2 seconds)
+        ___________________________________________________________________________
+
+
+            [****COMMUNICATION BETWEEN RECORDER AND MANAGER OF PASSWORD****]        
+        ___________________________________________________________________________
+        mutex (threading.Lock): Mutual exclusion LOCK
+
+        COMPLETED_INSERT (bool): True if '\r' is inserted by user during the 
+                                 insertion of the password (insertion completed), 
+                                 False otherwise
+
+        KILLED (bool): True when the program detects CTRL+C during the execution of 
+                the main thread and so the audio recorder ends the acqisition
+        ___________________________________________________________________________
+        
+        
+                    [****USEFUL ATTRIBUTES FOR VERIFICATION****]
+        ___________________________________________________________________________
+        CHAR_RANGE (int): Number of samples for each char peak
+        
+        ENTER_RANGE (int): Number of samples for last character (ENTER) peak
+        
+        TIME_OPTION (bool): True if you want to use time correspondence 
+                            method, False otherwise
+        
+        DL_OPTION (bool): True if you want to use deep learning method, 
+                          False otherwise
+        
+        PLOT_OPTION (bool): True if you want to plot the graphics of
+                            recorded audio files, False otherwise
+        
+        DEBUG (bool): True if you want to show more debugging info
+                             during the executtion, False otherwise
+
+        TIME_THRESHOLD (float): Threshold in seconds for time correspondence
+
+        VERIFIED (bool): True if a human, False otherwise
+        
+        NOISE (np.int16): Value of noise, extracted as maximum value of the 
+                          recorded noise signal of SECONDS_NOISE seconds
+        
+        SIGNAL (np.array): Signal from recording session of audio during the
+                           password insertion of the user
+
+        PASSWORD (str): Password inserted by the user
+
+        TIMES (list): List of time instants related to pressed keys, one for
+                      each character inserted by the user
+        ___________________________________________________________________________
+
+
+                            [****OTHER ATTRIBUTES****]
+        ___________________________________________________________________________
+        NAME_CAPPCHA (str): Big title name of the application
+
+        NAME_CAPPCHA2 (str): Small title name of the application
+
+        PLOT_FOLDER (str): Path of the folder that will contain plot images
+
+        SPECTRUM_FOLDER (str): Subfolder of PLOT_FOLDER that will contain only the
+                               spectrum images (used by NN for prediction)
+
+        CHAR_SPECTRUM_IMG (str): Format string for name of spectrum images
+
+        WAVE_FOLDER (str): Subfolder of PLOT_FOLDER that will contain the image of
+                           audio signal with highlighted char ranges, touch and hit
+                           peaks, extracted features and spectrograms 
+                           (used by NN for prediction)
+
+        FULL_WAVE_IMG (str): Name of image with the whole audio signal recorded 
+                             during the insertion of the password and with 
+                             highlighted char intervals
+
+        CHAR_WAVE_PEAKS_IMG (str): Format string for name of images with only a 
+                                   couple of touch and hit peak highlighted and 
+                                   their FFT coefficients
+
+        CHAR_WAVE_SPECTRUM_IMG (str): Format string for name of images with only a 
+                                      couple of touch and hit peak highlighted and 
+                                      their spectrogram image
+
+        TIME_MS (np.array): Sequence of time instants in ms related to each sample
+                            of SIGNAL
+
+        TS (np.array): Sampling period of recording session (1.0/RATE)
+
+        PASSWORD_STRING (str): String shown to user during the insertion of the 
+                               password
+
+        COLORS (list): List of pyplot colors, used to color char ranges
+
+        MAIN_COLOR (str): Main color in NAME_CAPPCHA title
+
+        SHADOW_COLOR (str): Color of shadows in NAME_CAPPCHA title
+
+        BACKGROUND_COLOR (str): Color of background in NAME_CAPPCHA title
+        ___________________________________________________________________________
+    """
 
     def __init__(self, time_option, dl_option, plot_option, debug_option):
         self.mutex = threading.Lock()
@@ -137,7 +263,7 @@ class AcCAPPCHA:
         signal = np.array(temp_signal)
         
         #Analysis of audio signal
-        self.noise = np.max(np.abs(signal))
+        self.NOISE = np.max(np.abs(signal))
 
     def audio(self, folder, option):
         '''
@@ -181,12 +307,12 @@ class AcCAPPCHA:
             cprint('Audio length:', 'green', end=' ')
             print(f'{len(signal)} samples ({len(signal)/self.RATE} s)')
             cprint('Password length:', 'green', end=' ')
-            print(f'{len(self.password)} characters')
+            print(f'{len(self.PASSWORD)} characters')
 
         self.mutex.acquire()
         try:
             self.COMPLETED_INSERT = False    
-            self.signal = signal[:-self.ENTER_RANGE]
+            self.SIGNAL = signal[:-self.ENTER_RANGE]
             self.verify(folder, option)
         finally:
             self.mutex.release()
@@ -196,7 +322,7 @@ class AcCAPPCHA:
         self.TIMES.append(time.perf_counter())
             
         if char_user != '\r':
-            self.password += char_user
+            self.PASSWORD += char_user
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}', end='')
             return True
@@ -225,16 +351,16 @@ class AcCAPPCHA:
         '''
 
         #Time sample step
-        self.ts, self.time_ms, self.signal = utility.signal_adjustment(self.RATE, self.signal)
+        self.TS, self.TIME_MS, self.SIGNAL = utility.signal_adjustment(self.RATE, self.SIGNAL)
 
         if self.PLOT_OPTION:
             #Initialize the figure
             fig = plt.figure('AUDIO')
             #Plot of press peak and hit peak with the signal
-            plt.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
+            plt.plot(self.TIME_MS*self.TS, self.SIGNAL[self.TIME_MS], color='blue')
         
         char_times = []
-        peak_indices = self.analyse(self.signal)
+        peak_indices = self.analyse(self.SIGNAL)
             
         if peak_indices.size > 0:
             char_times = [[peak_indices[0][0],], ]
@@ -248,7 +374,7 @@ class AcCAPPCHA:
                     char_times[start].append(i[0])
 
                     if self.PLOT_OPTION:
-                        plt.plot(i[0]*self.ts, self.signal[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')
+                        plt.plot(i[0]*self.TS, self.SIGNAL[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')
         
             if self.DL_OPTION and self.TIME_OPTION:
                 cprint(utility.LINE, 'blue')
@@ -276,13 +402,13 @@ class AcCAPPCHA:
             fig.savefig(self.PLOT_FOLDER+self.WAVE_FOLDER+self.FULL_WAVE_IMG)
 
     def correspond_time(self, char_times):
-        length_psswd = len(self.password)
+        length_psswd = len(self.PASSWORD)
         if len(char_times) < length_psswd:
             return False, None
 
         peak_times = []
         for list_time in char_times:
-            peak_times.append(list_time[np.argmax(self.signal[list_time])])
+            peak_times.append(list_time[np.argmax(self.SIGNAL[list_time])])
 
         cprint(self.TIMES,'green')
         for x in peak_times:
@@ -319,20 +445,20 @@ class AcCAPPCHA:
     def correspond_keys(self, char_times, folder, option):
         keys = self.predict_keys(char_times, folder, option)
 
-        self.password = self.remove_backspace()
+        self.PASSWORD = self.remove_backspace()
 
-        if len(keys)<len(self.password):
+        if len(keys)<len(self.PASSWORD):
             return False
 
         i=0
         for key_list in keys:
-            if self.password[i] in key_list:
+            if self.PASSWORD[i] in key_list:
                 i += 1
             
-            if i==len(self.password):
+            if i==len(self.PASSWORD):
                 break
         
-        return i==len(self.password)
+        return i==len(self.PASSWORD)
 
     def predict_keys(self, char_times, folder, option):
         net = nn.NeuralNetwork(option, folder)
@@ -342,10 +468,10 @@ class AcCAPPCHA:
 
         for list_time in char_times:
             #Evaluation of press peak and hit peaks
-            analysis = ef.ExtractFeatures(self.RATE, self.signal[list_time[0]:list_time[-1]])
+            analysis = ef.ExtractFeatures(self.RATE, self.SIGNAL[list_time[0]:list_time[-1]])
             
             if utility.OPTIONS[option]=='touch':
-                features = analysis.extract(original_signal=self.signal, index=list_time[0])
+                features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0])
                 
                 if features is None:
                     print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
@@ -362,7 +488,7 @@ class AcCAPPCHA:
                     self.plot_features(count, touch_feature, hit_feature)
 
             elif utility.OPTIONS[option]=='touch_hit':
-                features = analysis.extract(original_signal=self.signal, index=list_time[0])
+                features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0])
                 
                 if features is None:
                     print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
@@ -385,14 +511,14 @@ class AcCAPPCHA:
                 #Extraction of features
                 fig, ax = plt.subplots(1)
                 fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
-                features = analysis.extract(original_signal=self.signal, index=list_time[0], spectrum=True)
+                features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0], spectrum=True)
         
                 if features is None:
                     print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
                     count+=1
                     continue
                 
-                img_feature = np.concatenate((self.signal[features[0]], self.signal[features[1]]))
+                img_feature = np.concatenate((self.SIGNAL[features[0]], self.SIGNAL[features[1]]))
                 spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
                 
                 fig.savefig((self.PLOT_FOLDER+self.SPECTRUM_FOLDER+self.CHAR_SPECTRUM_IMG).format(count), dpi=300)
@@ -411,36 +537,40 @@ class AcCAPPCHA:
 
     def plot_features(self, count, touch_feature, hit_feature):
         fig = plt.figure('CHARACTER'+str(count))
-        fig.tight_layout(pad=3.0)
+        fig.tight_layout(pad=1.0)
         gs = fig.add_gridspec(2, 2)
+        gs.update(hspace=0.5)
         s_top = fig.add_subplot(gs[0, :])
         s1 = fig.add_subplot(gs[1,0])
         s2 = fig.add_subplot(gs[1,1])
     
         #Plot of press peak and hit peak with the signal
-        s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
-        s_top.plot(touch_feature.peak*self.ts, self.signal[touch_feature.peak], color='red')
-        s_top.plot(hit_feature.peak*self.ts, self.signal[hit_feature.peak], color='green')
-        s_top.set_title('Amplitude')
-        s_top.set_xlabel('Time(ms)')
+        s_top.plot(self.TIME_MS*self.TS, self.SIGNAL[self.TIME_MS], color='blue')
+        s_top.plot(touch_feature.peak*self.TS, self.SIGNAL[touch_feature.peak], color='red')
+        s_top.plot(hit_feature.peak*self.TS, self.SIGNAL[hit_feature.peak], color='green')
+        s_top.set_title('Amplitude', fontsize = 10)
+        s_top.set_xlabel('Time(ms)', fontsize = 10)
         s_top.tick_params(axis='both', which='major', labelsize=6)
 
         #Plot FFT double-sided transform of PRESS peak
         s1.plot(touch_feature.freqs, touch_feature.fft_signal, color='red')
-        s1.set_xlabel('Frequency (Hz)')
-        s1.set_ylabel('FFT of PRESS PEAK')
+        s1.set_xlabel('Frequency (Hz)', fontsize = 10)
+        s1.set_ylabel('FFT of TOUCH PEAK', fontsize = 10)
         s1.tick_params(axis='both', which='major', labelsize=6)
         s1.set_xscale('log')
         s1.set_yscale('log')
 
         #Plot FFT single-sided transform of HIT peak
         s2.plot(hit_feature.freqs, hit_feature.fft_signal, color='green')
-        s2.set_xlabel('Frequency(Hz)')
-        s2.set_ylabel('FFT of HIT PEAK')
+        s2.set_xlabel('Frequency(Hz)', fontsize = 10)
+        s2.set_ylabel('FFT of HIT PEAK', fontsize = 10)
         s2.tick_params(axis='both', which='major', labelsize=6)
         s2.set_xscale('log')
         s2.set_yscale('log')
+        s2.yaxis.set_label_position("right")
+        s2.yaxis.tick_right()
         fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_PEAKS_IMG).format(count))
+        plt.close()
         #plt.show()
 
     def plot_spectrum(self, count, features, img_feature):
@@ -451,9 +581,9 @@ class AcCAPPCHA:
         s_bottom = fig.add_subplot(gs[1,0])
 
         #Plot of press peak and hit peak with the signal
-        s_top.plot(self.time_ms*self.ts, self.signal[self.time_ms], color='blue')
-        s_top.plot(features[0]*self.ts, self.signal[features[0]], color='red')
-        s_top.plot(features[1]*self.ts, self.signal[features[1]], color='green')
+        s_top.plot(self.TIME_MS*self.TS, self.SIGNAL[self.TIME_MS], color='blue')
+        s_top.plot(features[0]*self.TS, self.SIGNAL[features[0]], color='red')
+        s_top.plot(features[1]*self.TS, self.SIGNAL[features[1]], color='green')
         s_top.set_title('Amplitude')
         s_top.set_xlabel('Time(ms)')
         s_top.tick_params(axis='both', which='major', labelsize=6)
@@ -481,7 +611,7 @@ class AcCAPPCHA:
                 self.noise_evaluation()
 
                 self.TIMES = []
-                self.password = ''
+                self.PASSWORD = ''
                 
                 if count_trials > 0:
                     cprint('Try to stay in a quiet environment', 'yellow')
@@ -510,12 +640,12 @@ class AcCAPPCHA:
             exit(0)
 
     def analyse(self, signal):
-        return np.argwhere(signal > self.noise)
+        return np.argwhere(signal > self.NOISE)
 
     def obfuscate(self):
         psswd = ''
 
-        for x in self.password:
+        for x in self.PASSWORD:
             if x == '\b':
                 psswd += '\b \b'
             else:
@@ -525,7 +655,7 @@ class AcCAPPCHA:
 
     def remove_backspace(self):
         psswd = ''
-        for x in self.password:
+        for x in self.PASSWORD:
             if x == '\b':
                 psswd = psswd[:-1]
             else:
