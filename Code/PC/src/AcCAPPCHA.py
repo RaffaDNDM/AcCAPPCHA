@@ -71,7 +71,7 @@ class AcCAPPCHA:
 
     COLORS = ['g', 'r', 'c', 'm', 'y']
     #Tolerance [-5 ms, 5 ms] with respect to peaks
-    TIME_THRESHOLD = num_samples(RATE ,0.300)
+    TIME_THRESHOLD = 0.100
     MAIN_COLOR = 'red'
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
@@ -126,21 +126,15 @@ class AcCAPPCHA:
         stream.close()
         p.terminate()
 
-        '''
-        #wf = wave.open(tempfile.gettempdir()+'/tmp.wav', 'wb')
-        wf = wave.open('../dat/noise.wav', 'wb')
-        wf.setnchannels(self.CHANNELS)
-        wf.setsampwidth(p.get_sample_size(self.FORMAT))
-        wf.setframerate(self.RATE)
-        wf.writeframes(b''.join(frames))
-        wf.close()
-
         #Reading audio file
-        fs, signal = wavfile.read('../dat/noise.wav')
-        '''
-
         audio_string = b''.join(frames)
-        signal = np.frombuffer(audio_string, dtype=np.int16)
+        temp_signal = []
+        
+        for i in range(0, len(audio_string), 4):
+            #print(f'{i}:{audio_string[i:i+4]}')
+            temp_signal.append(np.frombuffer(audio_string[i:i+4], dtype=np.int16, count=2))
+        
+        signal = np.array(temp_signal)
         
         #Analysis of audio signal
         self.noise = np.max(np.abs(signal))
@@ -172,24 +166,16 @@ class AcCAPPCHA:
         stream.stop_stream()
         stream.close()
         p.terminate()
-
-        '''
-        wf = wave.open('../dat/tmp.wav', 'wb')
-        wf.setnchannels(self.CHANNELS)
-        wf.setsampwidth(p.get_sample_size(self.FORMAT))
-        wf.setframerate(self.RATE)
-        wf.writeframes(b''.join(frames))
-        wf.close()
-
-
-        #Reading audio file
-        fs, signal = wavfile.read('../dat/tmp.wav')
-        '''
-
-        audio_string = b''.join(frames)
-        signal = np.frombuffer(audio_string, dtype=np.int16)
-        #Analysis of audio signal
         
+        audio_string = b''.join(frames)
+        temp_signal = []
+        for i in range(0, len(audio_string), 4):
+            #print(f'{i}:{audio_string[i:i+4]}')
+            temp_signal.append(np.frombuffer(audio_string[i:i+4], dtype=np.int16, count=2))
+        
+        signal = np.array(temp_signal)
+
+        #Analysis of audio signal
         if self.DEBUG:
             colored(utility.LINE, 'blue')
             cprint('Audio length:', 'green', end=' ')
@@ -207,7 +193,7 @@ class AcCAPPCHA:
 
     def password_from_user(self):
         char_user = utility.getchar()
-        self.TIMES.append(time.time())
+        self.TIMES.append(time.perf_counter())
             
         if char_user != '\r':
             self.password += char_user
@@ -308,23 +294,24 @@ class AcCAPPCHA:
                 return False, None
 
             checked_char_times = [char_times[i],]
-            start = num_samples(self.RATE, i)
+            start = peak_times[i]/self.RATE
             j=i+1
             count_verified = 1 #already verified element in i
             while count_verified < length_psswd and j < len(char_times):
-                if (len(char_times) -i) < (length_psswd-count_verified):
+                if (len(char_times) -j) < (length_psswd-count_verified):
                     return False, None
 
                 while j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-start-0.8) < (num_samples(self.RATE, self.TIMES[count_verified])-self.TIME_THRESHOLD):
+                      ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]-self.TIME_THRESHOLD):
                       j += 1
             
                 if j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-start-0.8) < (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
+                      ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]+self.TIME_THRESHOLD):
                     count_verified += 1
                     checked_char_times.append(char_times[j])
+                    j += 1
                 elif j < len(char_times) and \
-                      (num_samples(self.RATE, peak_times[j])-start-0.8) > (num_samples(self.RATE, self.TIMES[count_verified])+self.TIME_THRESHOLD):
+                      ((peak_times[j]/self.RATE)-start) > (self.TIMES[count_verified]+self.TIME_THRESHOLD):
                     break
 
             if count_verified == length_psswd:
