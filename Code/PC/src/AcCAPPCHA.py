@@ -87,7 +87,7 @@ class AcCAPPCHA:
         self.PLOT_OPTION = plot_option
         self.DEBUG = debug_option
         self.VERIFIED = False
-        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('+', colored('/', self.SHADOW_COLOR))
+        self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('+', colored('\\', self.SHADOW_COLOR))
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('|', colored('|', self.SHADOW_COLOR))
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('/', colored('/', self.SHADOW_COLOR))
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('_', colored('_', self.BACKGROUND_COLOR))
@@ -300,7 +300,7 @@ class AcCAPPCHA:
             
             while count_verified < length_psswd and j < len(char_times):
                 if (len(char_times) -j) < (length_psswd-count_verified):
-                    return False, None
+                    break
 
                 if ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]-self.TIME_THRESHOLD):
                     j += 1

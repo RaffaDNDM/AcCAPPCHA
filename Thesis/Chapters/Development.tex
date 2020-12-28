@@ -30,39 +30,70 @@ In particular \texttt{noise signal} will be analysed by finding its maximum valu
 the application computes $t_i= argmax(x_i)$.\\
 Given the sequence of computed time instants relative to peaks of each group $t=[t_0, t_1, ..., t_{n-1}]$, $n$ number of windows and $|password|$ the size of the password, there is a \textbf{time correspondence} if if there exists a subset of it $t^{*}=[{t*}_0, ..., {t*}_{|password|-1}]$ that matches with the sequence of time instants stored during the password insertion. The algorithm used to find a time correspondence is reported next:
 \begin{algorithm}[h]
-\DontPrintSemicolon
-\KwIn {$\mathtt{x =\{x_1,x_2,...,x_{|password|-1}\}}$= time instants stored by first thread\newline
-$\mathtt{t =\{t_1,t_2,...,t_n\}}$= time instants relative to peaks of each group}
+\DontPrintSemicolon\footnotesize
+\KwIn {$\mathtt{x =(x_0, x_1,..., x_{|password|-1})=}$ time instants stored by first thread\newline
+$\mathtt{t =(t_0,t_1,...,t_{n-1})=}$ time instants relative to peaks of each group\newline
+$\mathtt{threshold=}$ threshold with respect to stored time instant}
 \KwOut {$\mathtt{true}$ if human, $\mathtt{false}$ otherwise}
+\BlankLine
+$\mathtt{y =(y_0, y_1,..., y_{|password|-1})}$ where $y_i=x_i-x_0$\;
 \BlankLine
 \If{$n<|password|$}{
     \BlankLine
     \Return $false$\;
     \BlankLine
 }
+\emph{//Search of subsequence}\;
 \For{$i\leftarrow 0$ \KwTo $n-1$}{
 \BlankLine
+ \BlankLine
  \If{$(n-i)<|password|$}{
     \BlankLine
     \Return $false$\;
     \BlankLine
  }
- \emph{//already verified element in i}
+ \BlankLine
+ \emph{//$t_i$ already verified}\;
  $\mathtt{j\gets} i+1$\;
  $\mathtt{count\gets} 1$\;
+ \BlankLine
  \While{$count < |password| \wedge j < n$}{
-  \If{$(n-i)<(|password|-count)$}{
+  \BlankLine
+  \If{$(n-j)<(|password|-count)$}{
    \BlankLine
-   \Return $false$\;
+   $\mathtt{break}$  
    \BlankLine
   }
-  \While{$j<n \wedge (t_j-t_i-0.5ms)<x_{count}$}
-  
+  \uIf{$\mathtt{(t_j-t_i)}<(y_{count}-threshold)$}{
+   	\emph{//Too less time between the time instant of the first character and the time instant of the \textbf{count}-th character}
+    \BlankLine    
+    $\mathtt{j}\gets j+1$\;
+    \BlankLine
+  }
+  \uElseIf{$\mathtt{(t_j-t_i)}<(y_{count}+threshold)$}{
+    \BlankLine
+    $\mathtt{count}\gets count+1$\;
+    $\mathtt{j}\gets j+1$\;
+    \BlankLine
+  }
+  \Else{
+    \emph{//Too much time between the time instant of the first character and the time instant of the \textbf{count}-th character}\;
+    \BlankLine
+    $\mathtt{break}$ \emph{//Try another time instant of next peak as first character inserted time instant}\;
+    \BlankLine
+  }
+  \BlankLine
+  \If{$\mathtt{count =} |password|$}{
+   \BlankLine
+   \Return $true$\;
+   \BlankLine
+  }
+  \BlankLine
  }
 }
- \caption{VNS ibrido}\label{VNS}
+ \caption{Time correspondence}\label{AcCAPPCHA:time_correspondence}
 \end{algorithm}
-
+\clearpage
 \subsection{Deep learning}
 In the following sections, there is a detailed explanation of the main phases followed by the application:
 \begin{itemize}
