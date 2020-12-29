@@ -756,5 +756,10 @@ def main():
         cprint('##############', 'yellow')
         cprint("#################################", 'yellow', end='\n\n')
 
+    import uuid
+    uuid.uuid4().hex
+    # 'b46290528cd949498ce4cc86ca854173'
+
+
 if __name__=='__main__':
     main()

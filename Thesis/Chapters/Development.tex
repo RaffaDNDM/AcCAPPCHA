@@ -19,12 +19,12 @@ The whole implementation was created using \texttt{Python} language. The structu
 In the second phase, the username and the password of the user will be signed through ECDSA and sent by client to the authentication service if and only if the insertion was performed by a human.
 
 \section{Evaluation of the user's activity}
-The CAPPCHA records two audio signals: the first one created during the insertion of the password by the user and the second one created before this activity for noise evaluation. The second signal is exploited to evaluate a noise threshold useful for the computation of amplitude peaks in the first audio.
+The CAPPCHA records two audio signals: the first one created during the insertion of the password by the user and the second one created before this activity for noise evaluation. The first signal is The second signal is exploited to evaluate a noise threshold useful for the computation of amplitude peaks in the first audio.
 During the insertion of the password, the instants of the time when each character was typed by the user are stored. 
 
-\subsection{Time correspondence}\label{design:time_correspondence}
+\subsection{Time correspondence}\label{AcCAPPCHA:time_correspondence}
 Before asking the user to insert the password, the program records an audio file of 1 second, called \texttt{noise signal}, from the built-in microphone of the laptop. The remaining verification procedure is performed by two threads simultaneously, during password insertion. The first one is continuously waiting for the insertion of a character of the password by the user until he types CARRIAGE RETURN\textit{'\r'}).\\
-Immediately after a key is pressed, the time instant of this action, related to the Epoch of the PC, is stored to be used later. The sequence of time instants stored by the thread is named $x=(x_0, ..., x_{|password|-1})$. The second thread records an audio signal, called \texttt{user activity}, using the same hardware previously mentioned. This task begins its activity before the request of the password to the user and ends after the moment in which the first thread detects a CARRIAGE RETURN.\\
+Immediately after a key is pressed, the time instant of this action, related to the Epoch of the PC, is stored. The sequence of time instants stored by the thread is called $x=(x_0, ..., x_{|password|-1})$. The second thread records an audio signal, called \texttt{user activity}, using the same hardware previously mentioned. This task begins its activity before the request of the password to the user and would end after the moment in which the first thread detects a CARRIAGE RETURN. Then the application removes the last 200 ms of this audio signal to be sure that the \textit{CARRIAGE RETURN} peak isn't included in recorded audio file.\\
 From now on, the application has all it needs to understand if the user is a human or not. In fact the verification is performed by looking if there exists a sequence of time instants of the peaks in the signal recorded in parallel to the insertion of the password and the time instants manually stored for each character.\\
 In particular \texttt{noise signal} will be analysed by finding its maximum value, called $thresh_N$, and then \texttt{user activity} will be analysed by considering only the samples with values higher than $thresh_N$. These sample will be grouped in several disjoint windows of maximum width equal to 5 ms. For each group \textit{i}, the application finds the sample with the highest value, $peak_i$. For example, given \textit{the sampling period or interval} $t_s$ and a specific group of samples: $$x_i = (x_t, x_{t+t_s}, ..., x_{t+\lceil \frac{5ms}{t_s}\rceil * t_s})$$
 the application computes $t_i= argmax(x_i)$.\\
@@ -96,11 +96,18 @@ $\mathtt{y =(y_0, y_1,..., y_{|password|-1})}$ where $y_i=x_i-x_0$\;
   \BlankLine
  }
 }
- \caption{Time correspondence}\label{AcCAPPCHA:time_correspondence}
+ \caption{Time correspondence}\label{AcCAPPCHA:time_algorithm}
 \end{algorithm}
 \clearpage
-\subsection{Deep learning}
-In the following sections, there is a detailed explanation of the main phases followed by the application:
+\subsection{Neural network}
+When pressed each key of the keyboard produces a variation of the signal, called \textit{press peak}, for a time window of about 8-10 ms\cite{keyboard_acoustic}. This signal trend can also be divided in three consecutive and distinctive areas:
+\begin{itemize}
+\descItem{touch peak}{peak in a window of 2-3 ms, caused by the finger touching the key}
+\item{\textbf{noisy meaningless area}}
+\descItem{hit peak}{peak in a window of 2-3 ms, caused by the finger and the key hitting the keyboard supporting plate.}
+\end{itemize}
+To obtain a prediction of each key pressed by the user, we can extract information from the touch peak, that is the most significant, and the hit peak, that increases the information related to the pression.\\
+Following the idea of Asonov and Agrawal, I exploit deep learning to classify each pressed key. In the following sections, there is a detailed explanation of the main phases required and implemented for this classification method:
 \begin{itemize}
 \item{Data acquisition}
 \item{Extraction of features}
@@ -136,14 +143,7 @@ Using these approaches I have a training set of 2000 audio signals for key, comp
 The accuracy of the Neural Network trained on audio signals of both first and second datasets is higher than the one related to the Network trained on first dataset only.  The efficiency of the Neural Network trained on first and third dataset is worst than the one related to the network trained on first dataset only because the third dataset introduces many sequences of FFT coefficients that are very similar even if they are related to different keys. Hence I used only the network trained on the first dataset and both on the first at the second dataset as prediction model. So having 102 keys, I had respectively a dataset of 20400 and 102000 audio files.
 
 \subsubsection{Classification}
-When pressed each key of the keyboard produces a variation of the signal, called \textit{press peak}, for a time window of about 8-10 ms\cite{keyboard_acoustic}. This signal trend can also be divided in three consecutive and distinctive areas:
-\begin{itemize}
-\descItem{touch peak}{peak in a window of 2-3 ms, caused by the finger touching the key}
-\item{\textbf{noisy meaningless area}}
-\descItem{hit peak}{peak in a window of 2-3 ms, caused by the finger and the key hitting the keyboard supporting plate.}
-\end{itemize}
-To obtain a prediction of each key pressed by the user, we can extract information from the touch peak, that is the most significant, and the hit peak, that increases the information related to the pression.\\
-Following the idea of Asonov and Agrawal, I exploit deep learning to classify each pressed key. I use three different approaches, the first two were taken from the work of Asonov and Agrawal and the last one was based on modern sound classification techniques.\\
+I used three different approaches, the first two were taken from the work of Asonov and Agrawal and the last one was based on modern sound classification techniques.\\
 Respectively to the method used, the feature for each key was composed by:
 \begin{itemize}
 \item{FFT coefficients of the touch peak}
@@ -156,16 +156,17 @@ In this way, I remove the last fully connected layers, used for classification o
 \begin{figure}[h]
      \centering
      \includegraphics[width=.9\linewidth]{Images/Design/feature_example}
-     \caption{\footnotesize{Example of normalized FFT computation for the touch and the hit peak.}}\label{AcCAPPCHA:feature_example}
+     \caption{\footnotesize{Example of normalized FFT computation of the touch peak and the hit peak for an audio file of key \textit{'0'}.}}\label{AcCAPPCHA:feature_example}
 \end{figure}
 
 \subsubsection{Verification}
-The audio signal taken, during the insertion of the password, is analysed and then organized in windows as specified in the previous Section, but the prediction can be done in two different ways:
+The audio signal taken, during the insertion of the password, is analysed and then organized in windows as specified in the Section \ref{AcCAPPCHA:time_correspondence}, but the verification is based on:
 \begin{itemize}
-\item{on every window previously computed}
-\item{on the windows that contains the time instants related to the time correspondence}
+\item{every window previously computed}
+\item{the windows that contains the time instants related to the time correspondence}
 \end{itemize}
-In the first approach the application uses the maximum value of each window as the touch peak and looks for the related hit peak, taking it about 10 ms after the previous peak. Then I collect the most probable keys predicted from the Neural Network for this peaks and I repeat the procedure for every window initially computed on the audio. This method is very weak because after this phase, the algorithm tries to find an ordered sequence of characters, one from each window, that corresponds with the password inserted by the user. If this exists, AcCAPPCHA declares that the user was a human, otherwise a bot. The main problem of this approach is that there is no correspondence in time between a character belonging to the final sequence and the moment in which the same character was inserted physically by the user. In fact there can be false positives caused by the prediction from peak that are not related to the absolute maximum one. In other terms, in the set of the maximuma of all the windows there can be someone that is not related to the touch peak but to a local maximum.\\
-The second approach solves the previous problem because the windows, where the maxima are looked for, are obtained by the correspondence time approach. In this case, AcCAPPCHA verification becomes more accurate in theory even if in practice the deep learning technique is not very efficient.
+In the first approach the application uses the maximum value of each window as the touch peak and looks for the related hit peak, taking it about 10 ms after the previous peak. After the computation of the features for the two peaks, with one the methods described in the previous section, I perform the prediction using the Neural Network. I collect the most probable predicted keys and I repeat the procedure for every window initially computed on the audio. This method is very weak because after this phase, the algorithm tries to find an ordered sequence of characters, one from each window, that corresponds with the password inserted by the user. If this exists, AcCAPPCHA declares that the user was a human, otherwise a bot. The main problem of this approach is that there is no correspondence in time between a character belonging to the final sequence and the moment in which the same character was inserted physically by the user. In fact there can be false positives caused by the prediction from peak that are not related to the absolute maximum one. In other terms, in the set of the maximuma of all the windows there can be someone that is not related to the touch peak but to a local maximum.\\
+The second approach solves the previous problem because the windows, where the maxima are looked for, are obtained by the correspondence time approach. In this case, AcCAPPCHA verification becomes more accurate in theory even if in practice the deep learning technique is not very efficient in prediction for a single key.
 
 \section{Communication between client and server}
+The verification of user is performed at client side. Then the response of the verification, signed through ECDSA, is sent to the server\ref{inv:communication}. This type of procedure is useful to signed data sent through HTTP, for example data sent using POST request (as insertion of password during authentication phase). In the test I performed, I test the use of AcCAPPCHA first locally withouth any cliet-server application and then implementing a local client-server application.\\
