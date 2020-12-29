@@ -17,12 +17,14 @@ class SecureElement:
     def __enter__(self):
         self.sd.connect((self.IP_ADDRESS, self.PORT))
         self.sd.send(self.PUBLIC_KEY.to_string())
-        msg = self.sd.recv(2).decode('utf-8', 'ignore')
-        if msg!='OK':
+        msg = self.sd.recv(4).decode('utf-8', 'ignore')
+        if msg!='OK\r\n':
             print('No correct sent of public key')
             self.__exit__(None, None, None)
 
-    def sign(self, response):        
+        return self
+
+    def sign(self, response):  
         sig = self.PRIVATE_KEY.sign(b"message")
         return self.PUBLIC_KEY.verify(sig, b"message")
 

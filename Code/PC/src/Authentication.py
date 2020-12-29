@@ -11,22 +11,27 @@ class Authentication:
     def __init__(self, port):
         self.PORT = port
         self.sd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
+        print('a')
+
     def __enter__(self):
         try:
             self.sd.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.sd.bind(('', self.PORT))
             self.sd.listen(5)
+            print('b')
         except KeyboardInterrupt:
             print("Shutdown\n")
         except Exception as e:
             print(e)
 
+        return self
+
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.sd.close()
+        print('d')
 
     def run(self):
-        while(1):
+        while(True):
             try:
                 client_sd, addr = self.sd.accept()
                 cl = threading.Thread(target=self.verification, args=(client_sd, addr))
@@ -38,10 +43,12 @@ class Authentication:
                 print(e)
 
     def verification(self, client_sd, addr):
-        time.sleep(4)
+        msg = client_sd.recv(132).decode('utf-8', 'ignore')
+        client_sd.send('OK\r\n'.encode())
         #vk = VerifyingKey.from_string(bytes.fromhex(), curve=ecdsa.SECP256k1)
         #vk.verify(bytes.fromhex(sig), message) # True
 
 
 with Authentication(8080) as a:
+    print('c')
     a.run()
