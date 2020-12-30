@@ -39,7 +39,7 @@ class AcCAPPCHA:
     CHANNELS = 2
     RATE = 44100
     SECONDS_NOISE = 2.0
-    PLOT_FOLDER = '../dat/img/'
+    PLOT_FOLDER = '../dat/img/' 
     SPECTRUM_FOLDER = 'spectrum/'
     CHAR_SPECTRUM_IMG = 'spectrum_{:02d}.png'
     WAVE_FOLDER = 'wave/'

@@ -1,5 +1,7 @@
 import ecdsa
 import socket
+import uuid
+
 
 class SecureElement:
 
@@ -16,17 +18,27 @@ class SecureElement:
         
     def __enter__(self):
         self.sd.connect((self.IP_ADDRESS, self.PORT))
+
+        return self
+
+    def sign(self, response):
         self.sd.send(self.PUBLIC_KEY.to_string())
         msg = self.sd.recv(4).decode('utf-8', 'ignore')
+        
         if msg!='OK\r\n':
             print('No correct sent of public key')
             self.__exit__(None, None, None)
 
-        return self
-
-    def sign(self, response):  
-        sig = self.PRIVATE_KEY.sign(b"message")
-        return self.PUBLIC_KEY.verify(sig, b"message")
+        #Bytes object (sig)
+        sig = self.PRIVATE_KEY.sign(response.encode())
+        self.sd.send(sig)
+        
+        print(uuid.uuid4())
+        
+        try:
+            return self.PUBLIC_KEY.verify(sig, b'ciao')
+        except ecdsa.keys.BadSignatureError:
+            return False
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.sd.close()
