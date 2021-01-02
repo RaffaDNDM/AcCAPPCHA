@@ -89,7 +89,7 @@ class Authentication:
             self.ECDSA_CLIENT_PUBLIC_KEY.verify(signature, msg.encode()+nonce)
 
             check = True           
-            user = f'{addr[0]}:{addr[1]}'
+            user = addr[0]
             if user in list(self.USERS.keys()):
                 if nonce in self.USERS[user]:
                     #Replay attack
@@ -99,18 +99,18 @@ class Authentication:
                     self.USERS[user].append(nonce)    
             else:
                 #Authorized
-                self.USERS[user]=[]
+                self.USERS[user]=[nonce,]
 
 
             if check:
                 if msg == 'True':
-                    client_sd.send(b'OK\r\n')
+                    client_sd.send('OK\r\n'.encode())
                 elif msg == 'False':
-                    client_sd.send(b'NO\r\n')
+                    client_sd.send('NO\r\n'.encode())
                 else:
-                    client_sd.send(b'ERROR\r\n')
+                    client_sd.send('ERROR\r\n'.encode())
             else:
-                client_sd.send(b'NO\r\n')
+                client_sd.send('NO\r\n'.encode())
                 
 
         except ecdsa.keys.BadSignatureError:
