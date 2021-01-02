@@ -3,20 +3,25 @@ import socket
 import uuid
 from termcolor import cprint, colored
 import hashlib
+import ssl
 
 class SecureElement:
     # SECP256k1 is the Bitcoin elliptic curve
-    #PRIVATE_KEY = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1).to_string().hex()
-    #PUBLIC_KEY = PRIVATE_KEY.get_verifying_key().to_string().hex()
-    PRIVATE_KEY = '86d2c50e3e273a8c31a08cabac7d416d54868d07b756a3b263096ea87da90b1a'
-    PUBLIC_KEY = '9aedaaa1468e178426e7cfb7257bee4ee589106ded1f282bc2cde90ebaea07ca'+ \
-                 '83ff329740d42624069f77fa360a6c30d2fc26ed7ce9cc32ed97cd5865aaa3c6'
-    
+    #ECDSA_PRIVATE_KEY = ecdsa.SigningKey.generate(curve=ecdsa.SECP256k1, hashfunc=hashlib.sha256)
+    #with open('../dat/crypto/ecdsa.key', 'w') as private_pem:
+    #    private_pem.write(ECDSA_PRIVATE_KEY.to_pem().decode())
+
+    #PUBLIC_KEY = ECDSA_PRIVATE_KEY.get_verifying_key()
+    #with open('../dat/crypto/ecdsa.pem', 'w') as public_pem:
+    #    public_pem.write(PUBLIC_KEY.to_pem().decode())
+
     def __init__(self, IP_address, port):
-        print(colored('PRIVATE KEY length: ', 'blue')+str(len(self.PRIVATE_KEY)))
-        print(colored(' PUBLIC KEY length: ', 'blue')+str(len(self.PUBLIC_KEY)))
-        #cprint(self.PRIVATE_KEY, 'green')
-        #cprint(self.PUBLIC_KEY, 'red')
+        with open('../dat/crypto/ecdsa.key', "r") as sk_file:
+            sk_pem = sk_file.read().encode()
+            self.ECDSA_PRIVATE_KEY = ecdsa.SigningKey.from_pem(sk_pem)
+    
+        #print(colored('PRIVATE KEY length: ', 'blue')+str(len(self.ECDSA_PRIVATE_KEY)))
+        #cprint(self.ECDSA_PRIVATE_KEY, 'green')
 
         self.sd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.IP_ADDRESS = IP_address
@@ -24,20 +29,36 @@ class SecureElement:
         
     def __enter__(self):
         self.sd.connect((self.IP_ADDRESS, self.PORT))
+        self.sd = ssl.wrap_socket(self.sd,
+                                  server_side=False,
+                                  ca_certs = "../dat/crypto/server.pem", 
+                                  certfile="../dat/crypto/client.pem",
+                                  keyfile="../dat/crypto/client.key",
+                                  cert_reqs=ssl.CERT_REQUIRED,
+                                  ssl_version=ssl.PROTOCOL_TLSv1_2)
 
         return self
 
-    def sign(self, message):
-        #Bytes object (sig)
-        sign_key = ecdsa.SigningKey.from_string(bytes.fromhex(self.PRIVATE_KEY), curve=ecdsa.SECP256k1)
-        cprint(message, 'cyan')
+    def sign(self, msg):
+        cprint(msg, 'cyan')
         nonce=uuid.uuid4().bytes
         cprint(nonce, 'blue')
-        hash_msg = hashlib.sha256(message.encode()+nonce).hexdigest()
-        signature = sign_key.sign(hash_msg.encode())
+        #hash_msg = hashlib.sha256().hexdigest()
+        signature = self.ECDSA_PRIVATE_KEY.sign(msg.encode()+nonce)
         cprint(signature, 'green')
-        self.sd.send(message.encode()+b'\r\n'+nonce+signature)
+        self.sd.send(msg.encode()+b'\r\n'+nonce+signature)
+        #Wait for AcCAPPCHA response
+
+        #Return True/False
         
+    def credentials(self, username, password):
+        #Send credentials
+
+        #Wait for response of login
+
+        #Return True/False to be used to count trials in AcCAPPCHA
+        pass
+
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.sd.close()
 

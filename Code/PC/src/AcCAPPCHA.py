@@ -631,6 +631,7 @@ class AcCAPPCHA:
                 audio_logger.join()
                 count_trials += 1
 
+                #With open of secure element
             return self.VERIFIED              
 
         except KeyboardInterrupt:
