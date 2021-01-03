@@ -1,8 +1,8 @@
 -- Database Creation
-CREATE DATABASE autochef OWNER POSTGRES ENCODING = 'UTF8';
+CREATE DATABASE cloudservice OWNER POSTGRES ENCODING = 'UTF8';
 
 -- Connect to autochef db to create data for its 'public' schema
-\c autochef 
+\c cloudservice
 
 -- Create new domains
 -- Correct password format
@@ -20,7 +20,7 @@ CREATE TYPE gendertype AS ENUM (
 );
 
 --Create tables
-CREATE TABLE User(
+CREATE TABLE CloudUser (
     Name VARCHAR NOT NULL,
     Surname VARCHAR NOT NULL,
     Username VARCHAR NOT NULL,

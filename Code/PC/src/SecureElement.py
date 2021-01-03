@@ -68,7 +68,7 @@ class SecureElement:
     def credentials(self, username, password):
         #Send credentials
         hash_pwd = hashlib.sha512(password.encode()).hexdigest()
-        body = f'user={username}&pwd={password}'
+        body = f'user={username}&pwd={hash_pwd}'
 
         request = 'POST /cgi-bin/auth HTTP/1.1\r\n'+ \
                   'Host: foo.example\r\n'+ \
@@ -112,11 +112,20 @@ while(count<3):
         cprint(check, 'yellow')
 
         if check:
-            msg = s.credentials('RaffaDNDM', 'hello35')
-            print(msg)
-            #s.credentials('JohnSM', 'password4')
-            #s.credentials('CristiFB', 'byebye12')
-            #s.credentials('IreneRMN', 'flower10')
+            msg = s.credentials('RaffaDNDM', 'hello3')
+#            msg = s.credentials('raffaeledndm', 'ciao')
+    
+            with open('../dat/html/response.html', 'w') as f:
+                f.write(msg)
+
+                import webbrowser, os
+                webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
+                
+            #print(msg)
+            #msg = s.credentials('RaffaDNDM', 'hello35')
+            #msg = s.credentials('JohnSM', 'password4')
+            #msg = s.credentials('CristiFB', 'byebye12')
+            #msg = s.credentials('IreneRMN', 'flower10')
             break
         else:
             count+=1

@@ -1,5 +1,5 @@
 -- Users population
-INSERT INTO AutoChefUser (Name,
+INSERT INTO CloudUser (Name,
                           Surname,
                           Username,
                           Email,
@@ -13,7 +13,7 @@ VALUES ('Raffaele',
         '72faa3ad3c8ea890b68aa0efac68cc2fcca72de5070e44e4ed471c45fe0c8cf754472aae5af31d3ae2a2810a9c9ae41c060a4e429dddd594c1ba6d4e250b9a8b');
 -- password: hello35
 
-INSERT INTO AutoChefUser (Name,
+INSERT INTO CloudUser (Name,
                           Surname,
                           Username,
                           Email,
@@ -27,7 +27,7 @@ VALUES ('John',
         '11961811bd4e11f23648afbd2d5c251d2784827147f1731be010adaf0ab38ae18e5567c6fd1bee50a4cd35fb544b3c594e7d677efa7ca01c2a2cb47f8fb12b17');
 -- password: password4
 
-INSERT INTO AutoChefUser (Name,
+INSERT INTO CloudUser (Name,
                           Surname,
                           Username,
                           Email,
@@ -41,7 +41,7 @@ VALUES ('Cristina',
         'bb2f4fdc09ce47f7e7ef4e8a4da8999534cdb75231a8dc4411b70c163d39600a48f3526a3aec9739ad38649989b42c400f5b52c69a280a5cb8c6610151bf0727');
 -- password: byebye12
 
-INSERT INTO AutoChefUser (Name,
+INSERT INTO CloudUser (Name,
                           Surname,
                           Username,
                           Email,
