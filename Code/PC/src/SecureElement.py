@@ -28,7 +28,6 @@ class SecureElement:
         self.PORT = port
         
     def __enter__(self):
-        self.sd.connect((self.IP_ADDRESS, self.PORT))
         self.sd = ssl.wrap_socket(self.sd,
                                   server_side=False,
                                   ca_certs = "../dat/crypto/server.pem", 
@@ -36,6 +35,8 @@ class SecureElement:
                                   keyfile="../dat/crypto/client.key",
                                   cert_reqs=ssl.CERT_REQUIRED,
                                   ssl_version=ssl.PROTOCOL_TLSv1_2)
+
+        self.sd.connect((self.IP_ADDRESS, self.PORT))
 
         return self
 
@@ -58,7 +59,7 @@ class SecureElement:
                 break
 
         #Return True/False
-        if check=='OK\r\n':
+        if check[:-2] == 'OK':
             return True
         else:
             return False
@@ -66,13 +67,40 @@ class SecureElement:
 
     def credentials(self, username, password):
         #Send credentials
-        hash_msg = hashlib.sha512(password.encode()).hexdigest()
-        print(len(hash_msg))
-        print(hash_msg)
-        #Wait for response of login
+        hash_pwd = hashlib.sha512(password.encode()).hexdigest()
+        body = f'user={username}&pwd={password}'
 
-        #Return True/False to be used to count trials in AcCAPPCHA
-        pass
+        request = 'POST /cgi-bin/auth HTTP/1.1\r\n'+ \
+                  'Host: foo.example\r\n'+ \
+                  'Content-Type: application/x-www-form-urlencoded\r\n'+ \
+                  f'Content-Length: {len(body)}\r\n'+ \
+                  '\r\n'+ \
+                  body
+
+        self.sd.send(request.encode())
+
+        #Wait for response of login
+        response_header = ''
+
+        while(True):
+            char = self.sd.recv(1).decode('utf-8', 'ignore')
+            response_header += char
+
+            if response_header.endswith('\r\n\r\n'):
+                break
+
+        response_header = response_header[:-4]
+        header_list = response_header.split('\r\n')
+        status = header_list[0].split(' ')
+        headers = {x.split(': ', 1)[0]:x.split(': ', 1)[1] for x in header_list[1:]}
+
+        #Return True/False
+        if status[1] == '200':
+            length = int(headers['Content-Length'])
+            body = self.sd.recv(length).decode('utf-8', 'ignore')
+            return body
+        else:
+            return 'Some error occurs'
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.sd.close()
@@ -80,9 +108,12 @@ class SecureElement:
 count=0
 while(count<3):
     with SecureElement('127.0.0.1', 8080) as s:
-        check = s.sign(str(True))
+        check = s.sign(str(True))        
+        cprint(check, 'yellow')
+
         if check:
-            s.credentials('RaffaDNDM', 'hello35')
+            msg = s.credentials('RaffaDNDM', 'hello35')
+            print(msg)
             #s.credentials('JohnSM', 'password4')
             #s.credentials('CristiFB', 'byebye12')
             #s.credentials('IreneRMN', 'flower10')

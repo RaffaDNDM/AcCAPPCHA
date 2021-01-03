@@ -5,6 +5,7 @@ import time
 import hashlib
 from termcolor import cprint
 import ssl
+import psycopg2
 
 class InvalidMessage(Exception):
     pass
@@ -15,6 +16,10 @@ class Authentication:
     NONCE_LENGTH = 16
     SIGNATURE_LENGTH = 64
     USERS = {}
+    FOLDER_HTML = '../dat/html/'
+    LOGGED_FILE = 'logged.html'
+    FAILURE_FILE = 'failure.html'
+    NO_DB_ENTRY_FILE = 'no_db_entry.html'
 
     def __init__(self, port):
         with open('../dat/crypto/ecdsa.pem', "r") as sk_file:
@@ -105,6 +110,7 @@ class Authentication:
             if check:
                 if msg == 'True':
                     client_sd.send('OK\r\n'.encode())
+                    self.authentication()
                 elif msg == 'False':
                     client_sd.send('NO\r\n'.encode())
                 else:
@@ -112,14 +118,61 @@ class Authentication:
             else:
                 client_sd.send('NO\r\n'.encode())
                 
-
         except ecdsa.keys.BadSignatureError:
             # NO correspondence between signature and sign(msg+nonce)
             client_sd.send(b'Unauthorized\r\n')
         
-        client_sd.send('OK\r\n'.encode())
         #vk = VerifyingKey.from_string(bytes.fromhex(), curve=ecdsa.SECP256k1)
         #vk.verify(bytes.fromhex(sig), message) # True
+
+    def authentication(self):
+        request_header = ''
+
+        while(True):
+            char = self.sd.recv(1).decode('utf-8', 'ignore')
+            request_header += char
+
+            if request_header.endswith('\r\n\r\n'):
+                break
+
+        request_header = request_header[:-4]
+        header_list = request_header.split('\r\n')
+        request_line = header_list[0].split(' ')
+        headers = {x.split(': ', 1)[0]:x.split(': ', 1)[1] for x in header_list[1:]}
+
+        if request_line == ['POST', '/auth', 'HTTP/1.1']:
+            length_body = int(headers['Content-Length'])
+            body = self.sd.recv(length_body).decode('utf-8', 'ignore')
+            parameter_list = body.split('&')
+            
+            if len(parameter_list) != 2:
+                self.sd.send(b'HTTP/1.1 400 Bad Request\r\n\r\n')
+
+            parameters = {x.split('=')[0]:x.split('=')[1] for x in parameter_list}
+            self.auth(parameters)
+
+        elif request_line[1]!='/auth':
+            self.sd.send(b'HTTP/1.1 501 Not Implemented\r\n\r\n')
+
+    def auth(self, parameters):
+        self.sd.send(b'HTTP/1.1 200 OK\r\n')
+        file_path = ''
+
+        if parameters['user']==self.USERNAME_CLIENT:
+            if parameters['pwd']==self.PASSWORD_CLIENT:
+                file_path = self.FOLDER_HTML + self.LOGGED_FILE
+            else:
+                file_path = self.FOLDER_HTML + self.FAILURE_FILE
+        else:
+            file_path = self.FOLDER_HTML + self.NO_DB_ENTRY_FILE
+
+        with open(file_path, 'r') as f:
+            body = f.read()
+
+        msg = f'Content-Length: {len(body)}\r\n\r\n'+ \
+               body
+
+        self.sd.send(msg.encode())
 
 
 with Authentication(8080) as a:
