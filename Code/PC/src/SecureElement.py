@@ -41,12 +41,12 @@ class SecureElement:
         return self
 
     def sign(self, msg):
-        cprint(msg, 'cyan')
+        #cprint(msg, 'cyan')
         nonce=uuid.uuid4().bytes
-        cprint(nonce, 'blue')
+        #cprint(nonce, 'blue')
         #hash_msg = hashlib.sha256().hexdigest()
         signature = self.ECDSA_PRIVATE_KEY.sign(msg.encode()+nonce)
-        cprint(signature, 'green')
+        #cprint(signature, 'green')
         self.sd.send(msg.encode()+b'\r\n'+nonce+signature)
         #Wait for AcCAPPCHA response
         check = ''
@@ -104,28 +104,3 @@ class SecureElement:
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.sd.close()
-
-count=0
-while(count<3):
-    with SecureElement('127.0.0.1', 8080) as s:
-        check = s.sign(str(True))        
-        cprint(check, 'yellow')
-
-        if check:
-            msg = s.credentials('RaffaDNDM', 'hello3')
-#            msg = s.credentials('raffaeledndm', 'ciao')
-    
-            with open('../dat/html/response.html', 'w') as f:
-                f.write(msg)
-
-                import webbrowser, os
-                webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
-                
-            #print(msg)
-            #msg = s.credentials('RaffaDNDM', 'hello35')
-            #msg = s.credentials('JohnSM', 'password4')
-            #msg = s.credentials('CristiFB', 'byebye12')
-            #msg = s.credentials('IreneRMN', 'flower10')
-            break
-        else:
-            count+=1

@@ -33,6 +33,8 @@ tf.get_logger().setLevel(logging.ERROR)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
+from SecureElement import SecureElement
+
 class AcCAPPCHA:
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -591,7 +593,7 @@ class AcCAPPCHA:
         s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=self.RATE)
         fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_SPECTRUM_IMG).format(count))
 
-    def run(self, folder, option):
+    def run(self, folder, option, username):
         '''
         Start keylogger and audio recorder
         '''
@@ -629,7 +631,28 @@ class AcCAPPCHA:
                 self.TIMES = [t-first for t in self.TIMES[:-1]]
 
                 audio_logger.join()
-                count_trials += 1
+
+                with SecureElement('127.0.0.1', 8080) as s:
+                    check = s.sign(str(self.VERIFIED))        
+                    
+                    if check:
+                        msg = s.credentials(username, self.PASSWORD)
+            #            msg = s.credentials('raffaeledndm', 'ciao')
+                
+                        with open('../dat/html/response.html', 'w') as f:
+                            f.write(msg)
+
+                            import webbrowser, os
+                            webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
+                            
+                        #print(msg)
+                        #msg = s.credentials('RaffaDNDM', 'hello35')
+                        #msg = s.credentials('JohnSM', 'password4')
+                        #msg = s.credentials('CristiFB', 'byebye12')
+                        #msg = s.credentials('IreneRMN', 'flower10')
+                        break
+                    else:
+                        count_trials += 1
 
                 #With open of secure element
             return self.VERIFIED              
@@ -742,7 +765,7 @@ def main():
     captcha = AcCAPPCHA(time_option, dl_option, plot_option, debug_option)
     cprint(f'   Authentication\n{utility.LINE}', 'blue')
     username = input(colored('username: ', 'red'))
-    check = captcha.run(folder, option)
+    check = captcha.run(folder, option, username)
 
     if check:
         cprint("#################################", 'yellow')
@@ -752,7 +775,7 @@ def main():
         cprint("#################################", 'yellow', end='\n\n')
     else:
         cprint("#################################", 'yellow')
-        cprint('##############', 'yellow')
+        cprint('##############', 'yellow', end=' ')
         cprint("BOT", 'magenta', end=' ')
         cprint('##############', 'yellow')
         cprint("#################################", 'yellow', end='\n\n')
