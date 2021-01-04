@@ -12,8 +12,6 @@ class InvalidMessage(Exception):
     pass
 
 class Authentication:
-    USERNAME_CLIENT = 'raffaeledndm'
-    PASSWORD_CLIENT = 'ciao'
     NONCE_LENGTH = 16
     SIGNATURE_LENGTH = 64
     USERS = {}
@@ -22,6 +20,40 @@ class Authentication:
     FAILURE_FILE = 'failure.html'
     NO_DB_ENTRY_FILE = 'no_db_entry.html'
 
+    """
+    Authentication object performs signature verification
+    and the authentication phase of the remote client
+
+    Args:
+        port (int): Port number on which the server works
+
+    Attributes:
+        PORT (int):  Port number on which the server works
+
+        sd (socket.socket): TCP socket instance on which server will work
+
+        ECDSA_CLIENT_PUBLIC_KEY (ecdsa.VerifyingKey): client public key for 
+                                                      ECDSA verification
+
+        NONCE_LENGTH (int): Length (#bytes) of nonce in message (uuid4 nonce)
+        
+        SIGNATURE_LENGTH (int): Length (#bytes) of signature of msg + nonce
+        
+        USERS (dict): Dictionary of elements composed by pairs (key, value):
+                      key (str): IP address
+                      value (list): list of nonce used by 'key' IP address
+        
+        FOLDER_HTML (str): Folder that contains HTML files for response to
+                           authentication
+        
+        LOGGED_FILE (str): Name of HTML file for success in authentication
+        
+        FAILURE_FILE (str): Name of HTML file for wrong password in 
+                            authentication
+        
+        NO_DB_ENTRY_FILE (str): Name of HTML file for not existing user with
+                                the username, specified by client, in DB
+    """
     def __init__(self, port):
         with open('../dat/crypto/ecdsa.pem', "r") as sk_file:
             sk_pem = sk_file.read().encode()
@@ -29,8 +61,12 @@ class Authentication:
 
         self.PORT = port
         self.sd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        
+
     def __enter__(self):
+        """
+        Bind and listen for client request
+        """
+
         try:
             self.sd.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.sd.bind(('', self.PORT))
@@ -44,10 +80,17 @@ class Authentication:
         return self
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
+        """
+        Close the socket stream
+        """
+        
         self.sd.close()
-        print('d')
 
     def run(self):
+        """
+        Manage each client request
+        """
+
         while(True):
             try:
                 client_sd, addr = self.sd.accept()
@@ -67,6 +110,19 @@ class Authentication:
                 print(e)
 
     def verification(self, client_sd, addr):
+        """
+        Veify (nonce, message, signature) from client
+        using ECDSA signature
+
+        Args:
+            client_sd (ssl.SSLSocket): SSL socket for communication 
+                                       with client
+
+            addr (tuple): Tuple composed by (IP_address, port) where
+                          IP_address (str): IP address of the client
+                          port (int): Port number of the client
+        """
+        
         #Decoded Message
         msg = ''
 
@@ -127,6 +183,14 @@ class Authentication:
         #vk.verify(bytes.fromhex(sig), message) # True
 
     def authentication(self, client_sd):
+        """
+        Wait for POST request of user and manage it
+        replying to him
+
+        Args:
+            client_sd (ssl.SSLSocket): SSL socket for communication 
+                                       with client
+        """
         request_header = ''
 
         while(True):
@@ -156,6 +220,20 @@ class Authentication:
             client_sd.send(b'HTTP/1.1 501 Not Implemented\r\n\r\n')
 
     def auth(self, client_sd, parameters):
+        """
+        Check if the password inserted by the user was correct
+        looking to DB and reply with HTML page to client
+
+        Args:
+            client_sd (ssl.SSLSocket): SSL socket for communication 
+                                       with client
+
+            parameters (dict): Dictionary composed by two (key, value) pairs.
+                               The two entries are: 
+                               ('user', value) where value is the username
+                               ('pwd', value) where value is his password
+        """
+        
         client_sd.send(b'HTTP/1.1 200 OK\r\n')
         file_path = ''
 

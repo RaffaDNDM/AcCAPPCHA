@@ -43,24 +43,46 @@ class PlotExtract:
 	Attributes:
 		filename (str): Path of the wav file that you want to plot
 						or from which you want to extract features
+		
 		DATA_FOLDER (str): Path of the directory with files (or subfolders
 						   with files) that you want to plot or from which 
 						   you want to extract features
+		
 		OUTPUT_FOLDER (str): Path of the directory where you want to save 
 							 the plot extracted features and peaks of the
 						  	 audio files
-		FEATURE_SIZE (int):
+		
+		DEFAULT_OUTPUT = Default output folder
+
+		FEATURE_SIZE (int): Size of a feature
 
 		wav_files (list): [-p option]
 						  [-e option with (-f option) or (-d option but folder
 						   with not only subfolders but also wav files)]
 						  List containing wav files in the path audio_dir or 
 						  wav file at path filename
+		
 		wav_files (dict): [-e option with output_dir] 
 						  Dictionary with elements composed by:
 						  key (str): subfolder_name of audio_dir (key name)
 						  value (list): wav files names in subfolder with name
 						  				equal to key
+	
+		RECURSIVE (bool): If wav_files is a dict
+
+		LINE (str): Line string for print purpose
+		
+		DATA_FOLDER (str): Folder containing audio files or subfolders
+						   with audio files inside them
+		
+		EXTENSION_PLOT (str): Format for plot images [-p option specified]
+		
+		OUTPUT_CSV_TRAINING (str): Name of csv file with extracted features + labels
+		
+		OUTPUT_CSV_DICT_LABEL = Name of csv file with labels and related indices
+
+		WIDGETS (list): List of progress bar widgets, used to show evolution
+						of extraction of features
 	'''
 
 	def __init__(self, filename, audio_dir, output_dir):		
@@ -119,8 +141,11 @@ class PlotExtract:
 
 	def plot(self, zoom):
 		'''
-        Plot the waves of audio signals w.r.t.
-		selected mode
+        Plot the waves of audio signals w.r.t. selected mode
+
+		Args:
+			zoom (bool): True if you want to plot zoomed version of
+						 press peak, False otherwise
         '''
 		bar = progressbar.ProgressBar(maxval=20,
 									  widgets= self.WIDGETS)
@@ -200,11 +225,15 @@ class PlotExtract:
 		in subfolder with highlighted peaks
         
         Args:
-			subfolder (str): name of subfolder
+			subfolder (str): Name of subfolder
+
 			signals (list): List of tuples, with each one composed by:
 							f: name of file
 							analysis: ExtractFeatures related to the
 									  wav file with name f
+
+			zoom (bool): True if you want to plot zoomed version of
+						 press peak, False otherwise
         '''
 		n = int(math.sqrt(len(signals)))
 		m = math.ceil(len(signals)/n)
@@ -267,8 +296,12 @@ class PlotExtract:
         
         Args:
 			filename (str): name of wav file
+
 			analysis (ExtractFeatures): ExtractFeatures related to the
   	    								wav file with name filename
+
+			zoom (bool): True if you want to plot zoomed version of
+						 press peak, False otherwise
         '''
 		#Evaluation of press peak and hit peaks
 		features = analysis.extract()
@@ -327,8 +360,16 @@ class PlotExtract:
 			plt.show()
 		
 	def extract(self, option):
+		'''
+		Extract features, store them in OUTPUT_CSV_TRAINING with related
+		labels and store labels with their indices in OUTPUT_CSV_DICT_LABEL
+        
+        Args:
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+        '''
 		try:
-
 			if self.RECURSIVE:
 				cprint('\n   Completed extraction for:', 'red')
 				cprint(self.LINE, 'red')
@@ -359,6 +400,21 @@ class PlotExtract:
 
 	def compute_entry(self, csv_train, csv_label, option):
 		'''
+		Compute entries (feature+label) for each wav file
+        
+        Args:
+			csv_train (csv.writer): Writer used to write feature+label for 
+									each audio file
+
+			csv_label (csv.writer): Writer used to write labels related with
+									their indices
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+
+		Returns:
+			label (int): Number of keys processed
 		'''
 		label = 0
 		row_length = 0
@@ -412,6 +468,25 @@ class PlotExtract:
 		return label
 
 	def print_key(self, csv_label, key, label, row_length):
+		"""
+		Print a key and insert it in the csv file with its label
+
+		Args:
+			csv_label (csv.writer): Writer used to write labels related with
+									their indices
+
+			key (str): Key value mapped by keylogger
+
+			label (int): Label (index) related to key that will be used to
+						 classify a press peak later.
+
+			row_length (int): Length of last row of printed keys
+							  (to obtain symmetry and to be readable on CLI)
+
+		Returns:
+			label (int): Number of keys processed
+		"""
+
 		#If the key is going to overcome line limit
 		if (row_length + len(key)) > (len(self.LINE)-1):
 			print(f'\n{key}', end='  ')
@@ -425,6 +500,31 @@ class PlotExtract:
 		return row_length
 
 	def store_features(self, csv_writer, subfolder, filename, analysis, label, option):
+		"""
+		Print a key and insert it in the csv file with its label
+
+		Args:
+			csv_train (csv.writer): Writer used to write feature+label for 
+									each audio file
+
+			subfolder (str): subfolder of OUTPUT_FOLDER+'/spectrum_less' where all the 
+							 spectrogram images related to 'subfolder' label will be stored
+
+			filename (str): Filename format for each spectrogram image
+
+			analysis (ExtractFeatures.ExtractFeatures): Object for analysis of a particular
+														audio peak
+
+			label (int): Number of keys processed
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+
+		Returns:
+			length_feature (int): Length of the feature computed
+		"""
+
 		length_feature = 0
 
 		if utility.OPTIONS[option]=='touch':

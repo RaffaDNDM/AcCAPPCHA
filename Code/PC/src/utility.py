@@ -41,7 +41,7 @@ RATE = 44100
 FORMAT = pyaudio.paInt16
 
 def swap(m, n):
-    '''
+    """
     Invert order of args
 
     Args:
@@ -51,11 +51,12 @@ def swap(m, n):
     Returns:
         n (int): second number
         m (int): first number
-    '''
+    """
+    
     return n, m
 
 def uniform_dir_path(directory):
-    '''
+    """
     Return directory path with '/' at the end
 
     Args:
@@ -63,14 +64,15 @@ def uniform_dir_path(directory):
 
     Returns:
         directory (str): modified directory path that ends with '/'
-    '''
+    """
+
     if directory.endswith('/') or directory.endswith('\\'):
         return directory
     else:
         return directory+'/'
 
 def key_definition(key):
-    '''
+    """
     Evaluate which key has been pressed
 
     Args:
@@ -78,7 +80,8 @@ def key_definition(key):
 
     Returns:
         key_string (str): string that correspond to the pressed key
-    '''
+    """
+
     #Obtain string of key inserted
     try:
         key_string = str(key.char)
@@ -206,9 +209,12 @@ def key_definition(key):
     return key_string
 
 def getchar():
-    '''
+    """
     Returns a single character from standard input
-    '''
+    
+    Returns:
+        ch (str): Character corresponding to pressed key
+    """
 
     ch = ''
     if os.name == 'nt': # how it works on windows
@@ -230,6 +236,20 @@ def getchar():
     return ch
 
 def correct_csv_file(csv_file, default_file):
+    """
+    Check if a file exists and it's a csv file
+
+    Args:
+        csv_file (str): File path to be checked
+
+        default_file (str): If check fails, this is returned
+
+    Returns:
+        file_path (str): csv_file if it exists and it's a csv,
+                         default_file otherwise
+
+    """
+    
     if csv_file:
         if os.path.isfile(csv_file) and csv_file.endswith('.csv'):
             return csv_file
@@ -243,7 +263,7 @@ def correct_csv_file(csv_file, default_file):
         return default_file
 
 def signal_adjustment(fs, signal):
-    '''
+    """
     Analyse number of channels, compute mean of signal for
     2-channels signals and other useful information
     
@@ -259,7 +279,7 @@ def signal_adjustment(fs, signal):
                             each sample of the signal
         signal (np.array): signal analysed looking
                             to the number of channels
-    '''
+    """
     #Duration of audio by looking to its number of samples
     N = signal.shape[0]
     secs = N / float(fs)
@@ -275,7 +295,7 @@ def signal_adjustment(fs, signal):
     return ts, time_ms, signal
 
 def num_samples(fs, seconds):
-    '''
+    """
     Extract the feature from the signal
     
     Args:
@@ -288,14 +308,22 @@ def num_samples(fs, seconds):
     Returns:
         features: number of time instances related to ts
     
-    '''
+    """
     return int(seconds*fs)
 
 def results_to_string(results):
-    '''
-    Color list of results (already ordered by decreasing value
-                           of probability of prediction) 
-    '''
+    """
+    Create string of results from a list (already ordered by 
+    decreasing value of probability of prediction)
+    
+    Args:
+        results (list): list to be printed
+
+    Returns:
+        res_string (str): string with elements of results, separated 
+                          by commas, with first value in blue color 
+                          and the others in green color 
+    """
     res_string = ''
 
     res_string += colored(f'{results[0]}', 'blue')
@@ -306,19 +334,19 @@ def results_to_string(results):
     return res_string
 
 def plot_detailed():
-    '''
+    """
     Create images for each audio file in '../dat/MSI/'+sys.argv[1]
-    '''
+    """
     subfolders = os.listdir('D:/THESIS/dat/MSI/'+sys.argv[1]+'/')
 
     for fold in subfolders:
         os.system('python3 .\DatasetAcquisition.py -p -d D:/THESIS/dat/MSI/'+sys.argv[1]+'/'+fold+' -o D:/THESIS/dat/MSI/graphics/detailed/'+fold)
 
 def remove_wrong_files_recursive():
-    '''
+    """
     Remove audio files in specific subfolders of a given folder, 
     that are not in graphics in subfolders of a given folder
-    '''
+    """
 
     PATH_IMG = 'D:/THESIS/dat/MSI/graphics/detailed/'
     PATH_WAV = 'D:/THESIS/dat/MSI/audio/'
@@ -333,10 +361,10 @@ def remove_wrong_files_recursive():
                 os.remove(PATH_WAV+fold+'/'+f)
 
 def remove_wrong_files_folder():
-    '''
+    """
     Remove audio files in a given folder,
     that are not in graphics in a given folder
-    '''
+    """
 
     img_files = os.listdir('../dat/MSI/graphics/detailed/2/')
     wav_files = os.listdir('../dat/MSI/TEST/2/')
@@ -346,9 +374,10 @@ def remove_wrong_files_folder():
             os.remove('../dat/MSI/TEST/2/'+f)
 
 def rename_files_recursive():
-    '''
+    """
     Rename files (counter for each subfolder)
-    '''
+    """
+
     PATH_WAV = 'D:/THESIS/dat/MSI/audio3/'
     subfolders = os.listdir(PATH_WAV)
 
@@ -361,9 +390,10 @@ def rename_files_recursive():
             count+=1
 
 def same_folder():
-    '''
+    """
     See if 2 folders have the same content
-    '''
+    """
+
     PATH_1 = 'D:/THESIS/dat/MSI/audio/'
     PATH_2 = 'D:/THESIS/dat/MSI/TEST/'
     subfolders_1 = os.listdir(PATH_1)
@@ -388,9 +418,10 @@ def same_folder():
     return check
 
 def state_dataset():
-    '''
+    """
     Print number of elements in dataset
-    '''
+    """
+    
     dataset_size = 0
     list_low = []
     list_high=[]
@@ -426,10 +457,10 @@ def print_list(title, wav_list):
     print(SHORT_LINE, end='\n\n\n')
 
 def merge_subfolders():
-    '''
+    """
     Merge content of each couple of subfolders
     with names: 'folder' and 'folder_2'
-    '''
+    """
 
     PATH = 'D:/THESIS/dat/MSI/audio/'
     subfolders = [x for x in os.listdir(PATH) if x.endswith('_2')]
@@ -455,7 +486,7 @@ def merge_subfolders():
 
 def add_noise():
     """
-    
+    Add noise to existin audio files, creating new ones
     """
     OLD_PATH = 'D:/THESIS/dat/MSI/NEW/'
     NEW_PATH = 'D:/THESIS/dat/MSI/NOISE/'
@@ -504,7 +535,7 @@ def add_noise():
 
 def time_shift():
     """
-    
+    Time shift of audio files, creating new ones
     """
     OLD_PATH = 'D:/THESIS/dat/MSI/'
     NEW_PATH = 'D:/THESIS/dat/MSI/NEW/'
@@ -544,6 +575,13 @@ def time_shift():
         bar.finish()
 
 def select_option_feature():
+    """
+    Select which type of features you want to use
+
+    Returns:
+        option (int): Option selected
+    """
+    
     check = True
     while check:
         try:
@@ -568,6 +606,10 @@ def select_option_feature():
     return option
 
 def fusion_csv():
+    """
+    Merge conetent of 2 csv files in one csv file
+    """
+    
     PATH_1000 = '../dat/1000/'
     PATH_2000 = '../dat/2000/'
     PATH_noise = '../dat/noise/'
@@ -599,6 +641,10 @@ def fusion_csv():
                 writer_out.writerow(row)
 
 def remove_useless_rows():
+    """
+    Remove useless rows in csv files
+    """
+ 
     PATHS = {'../dat/1000_time_less/','../dat/2000_less/','../dat/1000_noise_less/'}
 
     for path in PATHS:
@@ -626,6 +672,12 @@ def remove_useless_rows():
                             writer_out.writerow(row)
 
 def extract_features_from_imgs():
+    """
+    Extract features from images through pre-trained Neural Network,
+    store them in CSV_DATASET file and store labels with indices in
+    CSV_DICT_LABELS
+    """
+    
     PATH = f'D:/THESIS/dat/MSI/graphics/{sys.argv[1]}/'
     CSV_DICT_LABELS = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/label_dict.csv'
     CSV_DATASET = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/dataset.csv'
@@ -648,7 +700,19 @@ def extract_features_from_imgs():
                 csv_writer.writerow(row)
 
 def extract(model, path):
-    PATH_SQUARE = 'D:/THESIS/dat/MSI/graphics/spectrum_square_less/'        
+    """
+    Extract feature from image with file path path and using
+    model specified
+
+    Args:
+        model (tensorflow.keras.applications): DL model to be used
+
+        path (str): Path of image from which we want to extract the 
+                    features
+
+    Returns:
+        feature (numpy.array): Feature array    
+    """
     img = image.load_img(path, color_mode='rgb', target_size=(224, 224))
 
     #if not os.path.exists(PATH_SQUARE+fold):
@@ -663,6 +727,10 @@ def extract(model, path):
     return GlobalAveragePooling2D()(features)
 
 def create_label_dict():
+    """
+    Create csv file with labels from a dictionary
+    """
+    
     LABELS = {  '0':0, '1':1, '2':2, '3':3, '4':4,
                 '5':5, '6':6, '7':7, '8':8, '9':9, 
                 'a':10, 'b':11, 'c':12, 'd':13, 

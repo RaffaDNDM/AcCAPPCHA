@@ -15,6 +15,24 @@ class SecureElement:
     #with open('../dat/crypto/ecdsa.pem', 'w') as public_pem:
     #    public_pem.write(PUBLIC_KEY.to_pem().decode())
 
+    """
+    Authentication object performs signature verification
+    and the authentication phase of the remote client
+
+    Args:
+        IP_address (str): IP address of the authentication server
+        
+        port (int): Port number of the authentication server
+
+    Attributes:
+        IP_ADDRESS (str): IP address of the authentication server
+        
+        PORT (int):  Port number on which the server works
+
+        sd (socket.socket): TCP socket instance on which client will work
+
+        ECDSA_PRIVATE_KEY (ecdsa.SigningKey): private key for ECDSA signing
+    """
     def __init__(self, IP_address, port):
         with open('../dat/crypto/ecdsa.key', "r") as sk_file:
             sk_pem = sk_file.read().encode()
@@ -28,6 +46,10 @@ class SecureElement:
         self.PORT = port
         
     def __enter__(self):
+        """
+        Connect to server after wrapping socket in SSL socket
+        """
+        
         self.sd = ssl.wrap_socket(self.sd,
                                   server_side=False,
                                   ca_certs = "../dat/crypto/server.pem", 
@@ -41,6 +63,17 @@ class SecureElement:
         return self
 
     def sign(self, msg):
+        """
+        Sign a message, send it to the server and wait for
+        the response
+
+        Args:
+            msg (str): Message to be signed with a nonce 
+
+        Returns:
+            response (bool): True if human, False otherwise
+        """
+        
         #cprint(msg, 'cyan')
         nonce=uuid.uuid4().bytes
         #cprint(nonce, 'blue')
@@ -64,8 +97,20 @@ class SecureElement:
         else:
             return False
 
-
     def credentials(self, username, password):
+        """
+        Send HTTP POST request with credentials and wait for
+        response HTML page
+
+        Args:
+            username (str): Username inserted by user
+
+            password (str): Password to be hashed with SHA512
+
+        Returns:
+            response (bool): True if human, False otherwise
+        """
+
         #Send credentials
         hash_pwd = hashlib.sha512(password.encode()).hexdigest()
         body = f'user={username}&pwd={hash_pwd}'
@@ -103,4 +148,8 @@ class SecureElement:
             return 'Some error occurs'
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
+        """
+        Close the socket stream
+        """
+        
         self.sd.close()

@@ -31,14 +31,14 @@ class AcquireAudio:
         audio_dir (str): Path of the directory where the program will 
                          create a subfolder for each new pressed key
 
-        time_key (int): Number of pressed keys that acquisition
-                        will wait before saving a file 
-                        (e.g. times_key=10  key='a', recorded audio
+        times_key (int): Number of pressed keys that acquisition
+                         will wait before saving a file 
+                         (e.g. times_key=10  key='a', recorded audio
                          will contain 10 'a')
-                        [****WARNING****] 
-                        the keylogger will check only the value of
-                        the first pressed key for each audio and 
-                        trusts user for the (times_key - 1) insertions
+                         [****WARNING****] 
+                         the keylogger will check only the value of
+                         the first pressed key for each audio and 
+                         trusts user for the (times_key - 1) insertions
 
     Attributes:
         DATA_FOLDER (float): Path of the directory where the program will 

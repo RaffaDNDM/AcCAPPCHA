@@ -3,25 +3,20 @@ import pyaudio
 import wave
 import sys
 from scipy.io import wavfile
+import time
 from time import sleep
 import threading
 from termcolor import cprint, colored
 import os
 import utility
 from utility import num_samples
-import tempfile
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt, use
 import colorama
-import time
 from pynput import keyboard
 import sys
 import argparse
-import datetime
-from timeit import default_timer as timer
-import timeit
-import array
 #Deep learning only
 from collections import Counter
 import ExtractFeatures as ef
@@ -235,6 +230,11 @@ class AcCAPPCHA:
                     os.remove(self.PLOT_FOLDER+self.WAVE_FOLDER+f)
 
     def noise_evaluation(self):
+        '''
+        Evaluate noise recording an audio long SECONDS_NOISE seconds
+        and computing maximum value of the signal
+        '''
+        
         p = pyaudio.PyAudio()
 
         stream = p.open(format=self.FORMAT,
@@ -269,8 +269,17 @@ class AcCAPPCHA:
 
     def audio(self, folder, option):
         '''
-        Record the waves from microphone and store the audio
-        file after TIMES_KEY_PRESSED times a key is pressed
+        Record audio while password insertion and verify if the user
+        was a human or a bot
+
+        Args:
+            folder (str): Folder containing the subfolders related
+                          to the extracted features
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+
         '''
         p = pyaudio.PyAudio()
 
@@ -320,6 +329,10 @@ class AcCAPPCHA:
             self.mutex.release()
 
     def password_from_user(self):
+        '''
+        Take the password, one character a time, from the user
+        '''
+        
         char_user = utility.getchar()
         self.TIMES.append(time.perf_counter())
             
@@ -343,13 +356,15 @@ class AcCAPPCHA:
 
     def verify(self, folder, option):
         '''
-        Plot the audio signal with name filename with
-        highlighted peaks and FFT of push and hit peaks
+        Verify if the password was inserted by a human or a bot
         
         Args:
-            filename (str): name of wav file
-            analysis (ExtractFeatures): ExtractFeatures related to the
-                                        wav file with name filename
+            folder (str): Folder containing the subfolders related
+                          to the extracted features
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
         '''
 
         #Time sample step
@@ -404,6 +419,28 @@ class AcCAPPCHA:
             fig.savefig(self.PLOT_FOLDER+self.WAVE_FOLDER+self.FULL_WAVE_IMG)
 
     def correspond_time(self, char_times):
+        '''
+        Verify if there is a time correspondence between time
+        instants of insertion of each character of the password
+        and instants from the audio file 
+        (recorded during insertion of the password)
+
+        Args:
+            char_times (list): List of lists 
+                               (each one containing indices of signal
+                               samples in signal and representing 
+                               indices of each time subwindow where
+                               peaks must be found)
+
+        Returns:
+            response (bool): True if human, False if bot
+            
+            checked_char_times (list): List of only lists in char_times
+                                       related to time instants of each
+                                       char insertion of the password
+
+        '''
+        
         length_psswd = len(self.PASSWORD)
         if len(char_times) < length_psswd:
             return False, None
@@ -445,6 +482,29 @@ class AcCAPPCHA:
         return False, None
 
     def correspond_keys(self, char_times, folder, option):
+        '''
+        Verify if there is a character correspondence between 
+        character of the password and the predicted ones from
+        the audio file 
+        
+        Args:
+            char_times (list): List of lists 
+                               (each one containing indices of signal
+                               samples in signal and representing 
+                               indices of each time subwindow where
+                               peaks must be found)
+
+            folder (str): Folder containing the subfolders related
+                          to the extracted features
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+
+        Returns:
+            response (bool): True if human, False if bot
+        '''
+        
         keys = self.predict_keys(char_times, folder, option)
 
         self.PASSWORD = self.remove_backspace()
@@ -463,6 +523,30 @@ class AcCAPPCHA:
         return i==len(self.PASSWORD)
 
     def predict_keys(self, char_times, folder, option):
+        '''
+        Extraction of features from audio peaks of char_times windows
+        and prediction through deep learning of 10 most probable labels
+
+        Args:
+            char_times (list): List of lists 
+                               (each one containing indices of signal
+                               samples in signal and representing 
+                               indices of each time subwindow where
+                               peaks must be found)
+
+            folder (str): Folder containing the subfolders related
+                          to the extracted features
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+
+        Returns:
+            keys (list): List of lists 
+                         (each one contains the 10 most probable 
+                          labels for a window of indices in char_times)
+        '''
+
         net = nn.NeuralNetwork(option, folder)
         count = 0
         model = VGG16(weights='imagenet', include_top=False)
@@ -538,6 +622,20 @@ class AcCAPPCHA:
         return keys
 
     def plot_features(self, count, touch_feature, hit_feature):
+        '''
+        Plot touch feature and hit feature for the count-th
+        peak of SIGNAL
+
+        count (int): Order of the peak in char_times sequence
+
+        touch_feature (ExtractFeatures.Feature): Feature of touch peak
+                                                 related to the count-th
+                                                 peak 
+
+        hit_feature (ExtractFeatures.Feature): Feature of hit peak
+                                               related to the count-th
+                                               peak
+        '''
         fig = plt.figure('CHARACTER'+str(count))
         fig.tight_layout(pad=1.0)
         gs = fig.add_gridspec(2, 2)
@@ -576,6 +674,20 @@ class AcCAPPCHA:
         #plt.show()
 
     def plot_spectrum(self, count, features, img_feature):
+        '''
+        Plot touch feature and hit feature for the count-th
+        peak of SIGNAL
+
+        count (int): Order of the peak in char_times sequence
+
+        features (numpy.array): Indices of touch and hit peaks samples
+                                related to the count-th peak
+
+        img_feature (numpy.array): Feature (FFT transform) of hit peak 
+                                   concatenated to Feature of touch peak
+                                   related to the count-th peak
+        '''
+
         fig = plt.figure('CHARACTER'+str(count))
         fig.tight_layout(pad=3.0)
         gs = fig.add_gridspec(2, 1)
@@ -595,7 +707,22 @@ class AcCAPPCHA:
 
     def run(self, folder, option, username):
         '''
-        Start keylogger and audio recorder
+        Start password insertion for user and audio recorder 
+        and verify if the user is a human or a bot
+        
+        Args:
+            folder (str): Folder containing the subfolders related
+                          to the extracted features
+
+            option (int): Number used to select type of features
+                          and subfolder to be used for trained model
+                          extraction
+    
+            username (str): Username of the user for which we check
+                            that the password was inserted by a human    
+
+        Returns:
+            VERIFIED (bool): True if human, False if bot
         '''
         if self.DL_OPTION and utility.OPTIONS[option]=='spectrum':
             if not os.path.exists(self.PLOT_FOLDER+self.SPECTRUM_FOLDER):
@@ -664,9 +791,26 @@ class AcCAPPCHA:
             exit(0)
 
     def analyse(self, signal):
+        '''
+        Find the indices of all the signal samples with
+        values higher than the noise maximum value
+
+        Args:
+            signal (numpy.array): Signal of which I want to find
+                                  the feasible indices 
+        '''
+
         return np.argwhere(signal > self.NOISE)
 
     def obfuscate(self):
+        '''
+        Obfuscate PASSWORD by replacing each character
+        with a *
+
+        Returns:
+            psswd (str): Obfuscated PASSWORD
+        '''
+        
         psswd = ''
 
         for x in self.PASSWORD:
@@ -678,6 +822,15 @@ class AcCAPPCHA:
         return psswd
 
     def remove_backspace(self):
+        '''
+        Remove backspaces inserted in the password by
+        replacing '\b' with '\b \b' 
+        (effect of \b on strings in every OS)
+
+        Returns:
+            psswd (str): Updated PASSWORD
+        '''
+        
         psswd = ''
         for x in self.PASSWORD:
             if x == '\b':
@@ -779,10 +932,6 @@ def main():
         cprint("BOT", 'magenta', end=' ')
         cprint('##############', 'yellow')
         cprint("#################################", 'yellow', end='\n\n')
-
-    import uuid
-    uuid.uuid4().hex
-    # 'b46290528cd949498ce4cc86ca854173'
 
 
 if __name__=='__main__':

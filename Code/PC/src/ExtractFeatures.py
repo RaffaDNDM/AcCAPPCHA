@@ -20,28 +20,38 @@ class ExtractFeatures:
 
     Args:
         fs (float): Sample rate
+        
         signal (np.array): Sequence of audio samples, obtained 
                            reading the audio file
 
     Attributes:
-        ts (float): Sampling time step
+        ts (float): Sampling period
+        
+        fs (float): Sampling rate
+        
         time_ms (np.array): Array with float time instances of each 
                             sample in signal
+        
         signal (np.array): Array with audio values of each audio sample
+        
         STEP_PEAKS (float): number of seconds that will be used as 
                             unit of measure to define range of peaks
+        
         WIDTH_PRESS_PEAK (int): width of press peak 
                                 in terms of number of STEP_PEAKS, in time
                                 space
                                 (distance between the start instance of
                                  touch peak and the end instance of hit peak)
+        
         START_TOUCH_PEAK (int): start instance of touch peak
                                in terms of number of STEP_PEAKS, in time 
                                space, before the touch peak (max of audio)
+        
         WIDTH_TOUCH_PEAK (int): width of touch peak
                                in terms of number of STEP_PEAKS, in time 
                                space, from the start index of the touch peak
                                (max of the values of audio signal samples)
+        
         WIDTH_HIT_PEAK (int): width of hit peak
                                in terms of number of STEP_PEAKS, in time 
                                space, from the start index of the hit peak
@@ -56,13 +66,21 @@ class ExtractFeatures:
         Extract the feature from the signal
         
         Args:
-        
-        Raises:
+            original_signal (numpy.array): Original signal from wich SIGNAL
+                                           is taken as a part of it
+
+            index (int): Index of first sample of SIGNAL in original_signal
+
+            spectrum (bool): True for spectrum feature, False otherwise
 
         Returns:
-            features (dict): dictionary of Feature objects 
-                             related to touch and hit peaks
+            features (dict): dictionary of ExtractFeature.Feature 
+                             objects related to touch and hit peaks
+
+            features (list): list of indices of samples of touch peak and 
+                             hit peak (w.r.t indices of original signal )
         '''
+
         #Find peaks (hit and touch) of press peaks
         touch_peak, hit_peak = self.press_peaks(index)
         
@@ -100,13 +118,12 @@ class ExtractFeatures:
         Extract touch peak and hit peak from the signal
         
         Args:
-        
-        Raises:
+            index (int): Index of first sample in original signal
 
         Returns:
-            touch_peak(np.array): array of indices of samples of
+            touch_peak (np.array): array of indices of samples of
                                  signal that define the touch peak
-            hit_peak(np.array): array of indices of samples of
+            hit_peak (np.array): array of indices of samples of
                                 signal that define the hit peak
         '''
         #Find touch peak (max of the wave values)
@@ -137,19 +154,20 @@ class ExtractFeatures:
         of the audio signal 
         
         Args:
-            touch_peak(np.array): array of indices of samples of
+            original_signal (np.array): Original signal
+
+            touch_peak(np.array): Array of indices of samples of
                                  signal that define the touch peak
-            hit_peak(np.array): array of indices of samples of
+            
+            hit_peak(np.array): Array of indices of samples of
                                 signal that define the hit peak
 
-        Raises:
-
         Returns:
-            features (dict): dictionary of Feature objects 
-                             related to touch and hit peaks
+            features (dict): dictionary of ExtractFeature.Feature 
+                             objects related to touch and hit peaks
         '''
-        peaks = {}
 
+        peaks = {}
         #TOUCH PEAK
         #Number of samples in the peak
         N_touch = len(touch_peak)
