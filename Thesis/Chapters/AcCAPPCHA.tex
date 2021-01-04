@@ -182,7 +182,7 @@ The client performs the authentication following these steps:
 \item{$sign(m||n)$ is the ECDSA signature of the concatenation $m||n$ of the response and the nonce. For ECDSA was used SHA256 algorithm.}
 \end{itemize}
 From a practical point of view, I format the message in the following way:
-\begin{table}[h]
+\begin{table}[H]
 \centering\footnotesize
 \begin{tabular}{|c|}
 \hline
@@ -192,7 +192,7 @@ From a practical point of view, I format the message in the following way:
 \end{table}
 According to basic rules in grammar of \textbf{HTTP/1.1} (see Section 2.2 of \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}), \textit{CR} is the carriage return ('$\setminus r$') and LF is the line feed ('$\setminus n$'). The spaces in the message aren't considered. In this way, I can separate easily m looking at '$\setminus r\setminus n$'. The nonce has a fixed length of 16 bytes.}
 \item{The client waits for response of the server with format:
-\begin{table}[h]
+\begin{table}[H]
 \centering\footnotesize
 \begin{tabular}{|c|}
 \hline
@@ -201,20 +201,20 @@ According to basic rules in grammar of \textbf{HTTP/1.1} (see Section 2.2 of \hr
 \end{tabular}
 \end{table}
 If the answer is equal '$OK\setminus r\setminus n$', AcCAPPCHA will go on with the authentication step, otherwise the client-side application performs again the verification, asking again to user to insert the password. The maximum number of trials for a particular user is 3.}
-\item{If everything goes well in the previous step, The client sends the credentials (username, password) to the server through a POST request to '/cgi-bin/auth' resource. The name of folder '/cgi-bin' comes from the standard name of the folder with functions and \textit{auth} is the name of the function that server will call. This naming approach was used very much in the past to separate functions code from pure HTML code. The password is not sent directly but it's hashed before using SHA512. The POST request used by the client has the following format:
-\begin{table}[h]
-\centering\footnotesize
-\begin{tabular}{|c|}
+\item{If everything goes well in the previous step, The client sends the credentials (username, password) to the server through a POST request to '/cgi-bin/auth' resource. The name of folder '/cgi-bin' comes from the standard name of the folder with functions and \textit{auth} is the name of the function that server will call. This naming approach was used very much in the past to separate functions code from pure HTML code. The password is not sent directly but it's hashed before using SHA512. The POST request used by the client has the following format:\\
+\begin{table}[H]
+\hspace{2cm}\centering\footnotesize
+\begin{tabular}{|l|}
 \hline
 \texttt{POST /cgi-bin/auth HTTP/1.1} $\mathtt{\setminus r\setminus n}$\\
 \texttt{Host: SP foo.example CRLF}\\
 \texttt{Content-Type: SP application/x-www-form-urlencoded CRLF}\\
 \texttt{Content-Length: SP SIZE CRLF CRLF}\\
-\texttt{user=USERNAME&pwd=HASHEDPWD}\\
+\texttt{user=USERNAME$\&$pwd=HASHEDPWD}\\
 \hline
 \end{tabular}
-where everything follows as before the grammar in \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}). In fact also \textbf{SP} represents the space character as in the documentation. \textbf{SIZE}, \textbf{USERNAME} and \textbf{HASHEDPWD} are replaced respectively with the size of the HTTP body, the username of the client and its password hashed with SHA512.
 \end{table}
+where everything follows as before the grammar in \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}). In fact also \textbf{SP} represents the space character as in the documentation. \textbf{SIZE}, \textbf{USERNAME} and \textbf{HASHEDPWD} are replaced respectively with the size of the HTTP body, the username of the client and its password hashed with SHA512.
 }
 \item{The client waits for the HTTP response of the server, containing HTML code as body. Then the client saves the code on the file system and opens the default web browser only to show. The HTML code is intended to show 3 possible scenarios: the user was correctly logged in, the user inserted wrong password, the username wasn't already stored on the server database.}
 \end{enumerate}
@@ -223,7 +223,7 @@ where everything follows as before the grammar in \href{https://tools.ietf.org/h
 The client performs the authentication following these steps:
 \begin{enumerate}
 \item{It establishes a connection with the client, after his request, over TLS layer to increase the security strength of the communication between the parties;}
-\item{\item{It receives the message $(m, n, sign(m||n))$ and check the integrity of the message. To do it, the server decrypts the ECDSA signature using the client's ECDSA public key and compares the result with \textit{m||n}.}
+\item{It receives the message $(m, n, sign(m||n))$ and check the integrity of the message. To do it, the server decrypts the ECDSA signature using the client's ECDSA public key and compares the result with \textit{m||n}.}
 \item{If compared messages were the same, the server checks if the nonce was already used by the same client. If so, the server thinks that there was an attacker that is performing a replay attack. If the nonce wasn't already used by the client, it will be stored in a dictionary to monitor clients activity. Each entry of the dictionary is composed by:
 \begin{itemize}
 \descItem{Key: IP address}{It is the IP address of the client and it is a simplification of the information that identifies a client. For example the client could be associated also to port number used to make the request, the Operating System on which the AcCAPPCHA was running on client-side or other useful parameters.}
@@ -231,10 +231,68 @@ The client performs the authentication following these steps:
 \end{itemize}
 }
 \item{If the nonce was used for the first time by the client, the server checks the value of the response received by the client. If the response is 'True', the server replies '$OK\setminus r\setminus n$' otherwise '$NO\setminus r\setminus n$'. If some error occurs it sends '$ERROR\setminus r\setminus n$' to the client. In the last two cases, the server terminates.}
-\item{If the server doesn't terminate, it waits for the POST request from the client and analyses it to perform authentication service. If the username doesn't exist in the database, the server }
+\item{If the server doesn't terminate, it waits for the POST request from the client and analyses it to perform authentication service. The server replies to client with several status codes:
+\begin{itemize}
+\item{\textbf{501 (}Not implemented\textbf{)}\\
+If the request is not a POST (e.g. GET)}
+\item{\textbf{400 (}Bad Request\textbf{)}\\
+If the number of the parameters in the POST body is different from 2 (username and password).}
+\item{\textbf{200 (}OK\textbf{)}\\
+If the number of the parameters in the POST body is equal to 2, the server will reply with an HTTP response with a body content depending on several cases:
+\begin{itemize}
+\descItem{User not in the database}{the server sends the following HTML code if the specified username isn't already stored in the database.
+\begin{table}[H]
+\hspace{2cm}\centering\footnotesize
+\begin{tabular}{|p{6cm}|c}
+\cline{1-1}
+\texttt{\key{<!DOCTYPE html>}}&\hspace{0.5cm}\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/no_db_html}}\\
+\texttt{\key{<html>}}&\\
+\texttt{\hspace{0.5cm}\key{<body>}}&\\
+\texttt{\hspace{1.0cm}\key{<h1>}Failure\key{</h1>}}&\\
+\texttt{\hspace{1.0cm}\key{<p>}First sign up.\key{</p>}}&\\
+\texttt{\hspace{0.5cm}\key{</body>}}&\\
+\texttt{\key{</html>}}&\\
+\cline{1-1}
+\end{tabular}
+\end{table}
+}
+\descItem{Wrong password}{the server sends the following HTML code if the hashed password received from the client isn't the same with respect to the one stored in database for the specified username.
+\begin{table}[H]
+\hspace{2cm}\centering\footnotesize
+\begin{tabular}{|p{6cm}|c}
+\cline{1-1}
+\texttt{\key{<!DOCTYPE html>}}&\hspace{0.5cm}\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/failure_html}}\\
+\texttt{\key{<html>}}&\\
+\texttt{\hspace{0.5cm}\key{<body>}}&\\
+\texttt{\hspace{1.0cm}\key{<h1>}Failure\key{</h1>}}&\\
+\texttt{\hspace{1.0cm}\key{<p>}Wrong password.\key{</p>}}&\\
+\texttt{\hspace{0.5cm}\key{</body>}}&\\
+\texttt{\key{</html>}}&\\
+\cline{1-1}
+\end{tabular}
+\end{table}
+}
+\descItem{User logged in}{the server sends the following HTML code if the specified username exists in the database and  its hashed password stored in the database is the same of the one received through POST request.
+\begin{table}[H]
+\hspace{2.5cm}\centering\footnotesize
+\begin{tabular}{|p{6cm}|c}
+\cline{1-1}
+\texttt{\key{<!DOCTYPE html>}}&\hspace{0.5cm}\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/logged_html}}\\
+\texttt{\key{<html>}}&\\
+\texttt{\hspace{0.5cm}\key{<body>}}&\\
+\texttt{\hspace{1.0cm}\key{<h1>}Logged in\key{</h1>}}&\\
+\texttt{\hspace{1.0cm}\key{<p>}Welcome back.\key{</p>}}&\\
+\texttt{\hspace{0.5cm}\key{</body>}}&\\
+\texttt{\key{</html>}}&\\
+\cline{1-1}
+\end{tabular}
+\end{table}
+}
+\end{itemize}
+}
+\end{itemize}
+}
 \end{enumerate}
-
-
 
 \subsection{Database}
 
