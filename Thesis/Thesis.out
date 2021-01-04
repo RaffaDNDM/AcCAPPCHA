@@ -26,12 +26,17 @@
 \BOOKMARK [0][-]{chapter.5}{AcCAPPCHA}{}% 26
 \BOOKMARK [1][-]{section.5.1}{Evaluation of the user's activity}{chapter.5}% 27
 \BOOKMARK [2][-]{subsection.5.1.1}{Time correspondence}{section.5.1}% 28
-\BOOKMARK [2][-]{subsection.5.1.2}{Neural network}{section.5.1}% 29
+\BOOKMARK [2][-]{subsection.5.1.2}{Character correspondence}{section.5.1}% 29
 \BOOKMARK [3][-]{subsubsection.5.1.2.1}{Data acquisition}{subsection.5.1.2}% 30
 \BOOKMARK [3][-]{subsubsection.5.1.2.2}{Classification}{subsection.5.1.2}% 31
 \BOOKMARK [3][-]{subsubsection.5.1.2.3}{Verification}{subsection.5.1.2}% 32
 \BOOKMARK [1][-]{section.5.2}{Communication between client and server}{chapter.5}% 33
-\BOOKMARK [0][-]{chapter.6}{Experimental results}{}% 34
-\BOOKMARK [0][-]{chapter.7}{Security Analysis}{}% 35
-\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 36
-\BOOKMARK [0][-]{table.A.1}{Bibliography}{}% 37
+\BOOKMARK [2][-]{subsection.5.2.1}{Client}{section.5.2}% 34
+\BOOKMARK [2][-]{subsection.5.2.2}{Server}{section.5.2}% 35
+\BOOKMARK [2][-]{subsection.5.2.3}{Database}{section.5.2}% 36
+\BOOKMARK [2][-]{subsection.5.2.4}{Encryption Keys}{section.5.2}% 37
+\BOOKMARK [0][-]{chapter.6}{Security Analysis}{}% 38
+\BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 39
+\BOOKMARK [1][-]{section.7.1}{Bot}{chapter.7}% 40
+\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 41
+\BOOKMARK [0][-]{table.A.1}{Bibliography}{}% 42

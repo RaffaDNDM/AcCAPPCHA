@@ -27,12 +27,17 @@
 \contentsline {chapter}{\numberline {5}AcCAPPCHA}{35}{chapter.5}% 
 \contentsline {section}{\numberline {5.1}Evaluation of the user's activity}{36}{section.5.1}% 
 \contentsline {subsection}{\numberline {5.1.1}Time correspondence}{36}{subsection.5.1.1}% 
-\contentsline {subsection}{\numberline {5.1.2}Neural network}{39}{subsection.5.1.2}% 
+\contentsline {subsection}{\numberline {5.1.2}Character correspondence}{39}{subsection.5.1.2}% 
 \contentsline {subsubsection}{\numberline {5.1.2.1}Data acquisition}{39}{subsubsection.5.1.2.1}% 
 \contentsline {subsubsection}{\numberline {5.1.2.2}Classification}{41}{subsubsection.5.1.2.2}% 
 \contentsline {subsubsection}{\numberline {5.1.2.3}Verification}{43}{subsubsection.5.1.2.3}% 
 \contentsline {section}{\numberline {5.2}Communication between client and server}{43}{section.5.2}% 
-\contentsline {chapter}{\numberline {6}Experimental results}{45}{chapter.6}% 
-\contentsline {chapter}{\numberline {7}Security Analysis}{47}{chapter.7}% 
-\contentsline {chapter}{\numberline {A}Key Mapping}{49}{appendix.A}% 
-\contentsline {chapter}{Bibliography}{55}{table.A.1}% 
+\contentsline {subsection}{\numberline {5.2.1}Client}{44}{subsection.5.2.1}% 
+\contentsline {subsection}{\numberline {5.2.2}Server}{45}{subsection.5.2.2}% 
+\contentsline {subsection}{\numberline {5.2.3}Database}{45}{subsection.5.2.3}% 
+\contentsline {subsection}{\numberline {5.2.4}Encryption Keys}{45}{subsection.5.2.4}% 
+\contentsline {chapter}{\numberline {6}Security Analysis}{47}{chapter.6}% 
+\contentsline {chapter}{\numberline {7}Experimental results}{49}{chapter.7}% 
+\contentsline {section}{\numberline {7.1}Bot}{49}{section.7.1}% 
+\contentsline {chapter}{\numberline {A}Key Mapping}{51}{appendix.A}% 
+\contentsline {chapter}{Bibliography}{57}{table.A.1}% 

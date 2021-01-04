@@ -18,7 +18,7 @@ The whole implementation was created using \texttt{Python} language. The structu
 \end{itemize}
 In the second phase, the username and the password of the user will be signed through ECDSA and sent by client to the authentication service if and only if the insertion was performed by a human.
 
-\section{Evaluation of the user's activity}
+\section{Evaluation of the user's activity}\label{AcCAPPCHA:user_activity}
 The CAPPCHA records two audio signals: the first one created during the insertion of the password by the user and the second one created before this activity for noise evaluation. The first signal is The second signal is exploited to evaluate a noise threshold useful for the computation of amplitude peaks in the first audio.
 During the insertion of the password, the instants of the time when each character was typed by the user are stored. 
 
@@ -99,7 +99,7 @@ $\mathtt{y =(y_0, y_1,..., y_{|password|-1})}$ where $y_i=x_i-x_0$\;
  \caption{Time correspondence}\label{AcCAPPCHA:time_algorithm}
 \end{algorithm}
 \clearpage
-\subsection{Neural network}
+\subsection{Character correspondence}
 When pressed each key of the keyboard produces a variation of the signal, called \textit{press peak}, for a time window of about 8-10 ms\cite{keyboard_acoustic}. This signal trend can also be divided in three consecutive and distinctive areas:
 \begin{itemize}
 \descItem{touch peak}{peak in a window of 2-3 ms, caused by the finger touching the key}
@@ -169,4 +169,74 @@ In the first approach the application uses the maximum value of each window as t
 The second approach solves the previous problem because the windows, where the maxima are looked for, are obtained by the correspondence time approach. In this case, AcCAPPCHA verification becomes more accurate in theory even if in practice the deep learning technique is not very efficient in prediction for a single key.
 
 \section{Communication between client and server}
-The verification of user is performed at client side. Then the response of the verification, signed through ECDSA, is sent to the server\ref{inv:communication}. This type of procedure is useful to signed data sent through HTTP, for example data sent using POST request (as insertion of password during authentication phase). In the test I performed, I test the use of AcCAPPCHA first locally withouth any cliet-server application and then implementing a local client-server application.\\
+The algorithm that perform the evaluation of user activity (Section \ref{AcCAPPCHA:user_activity}) is performed at client side but the value returned by it is evaluated at server-side. The response of the evaluation of user activity concatenated with a nonce and then signed through ECDSA, is sent to the server\ref{inv:communication}. The use of the nonce, unique and random generated sequence, is very important to guarantee that no reply attacks would be performed. In fact the server, after the reception of a message from the client, the server can check if the client has already sent the same nonce before and in this case it declines the message of the client. In this way, any attacker can't reuse a message that previously establishes a client was human. This type of procedure can be also useful to sign HTTP data, for example data sent using POST request (as insertion of password during authentication phase). In the testing phase I performed, I designed and implemented also a simplified version of the communication between the client and the server for an authentication service.\\
+The application was tested on local network and the actions performed by involved parties are described in details in the following sections (see Figure ).
+\subsection{Client}
+The client performs the authentication following these steps:
+\begin{enumerate}
+\item{It establishes a connection with the server over TLS layer to increase the security strength of the communication between the parties;}
+\item{It sends the message $(m, n, sign(m||n))$ where:
+\begin{itemize}
+\item{$m$ is the string with the response of AcCAPPCHA algorithm on client side (\textit{'True'} if Human, \textit{False} if bot)}
+\item{$n$ is the the nonce}
+\item{$sign(m||n)$ is the ECDSA signature of the concatenation $m||n$ of the response and the nonce. For ECDSA was used SHA256 algorithm.}
+\end{itemize}
+From a practical point of view, I format the message in the following way:
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{|c|}
+\hline
+\texttt{m CRLF n sign(m||n)}\\
+\hline
+\end{tabular}
+\end{table}
+According to basic rules in grammar of \textbf{HTTP/1.1} (see Section 2.2 of \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}), \textit{CR} is the carriage return ('$\setminus r$') and LF is the line feed ('$\setminus n$'). The spaces in the message aren't considered. In this way, I can separate easily m looking at '$\setminus r\setminus n$'. The nonce has a fixed length of 16 bytes.}
+\item{The client waits for response of the server with format:
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{|c|}
+\hline
+\texttt{response CRLF}\\
+\hline
+\end{tabular}
+\end{table}
+If the answer is equal '$OK\setminus r\setminus n$', AcCAPPCHA will go on with the authentication step, otherwise the client-side application performs again the verification, asking again to user to insert the password. The maximum number of trials for a particular user is 3.}
+\item{If everything goes well in the previous step, The client sends the credentials (username, password) to the server through a POST request to '/cgi-bin/auth' resource. The name of folder '/cgi-bin' comes from the standard name of the folder with functions and \textit{auth} is the name of the function that server will call. This naming approach was used very much in the past to separate functions code from pure HTML code. The password is not sent directly but it's hashed before using SHA512. The POST request used by the client has the following format:
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{|c|}
+\hline
+\texttt{POST /cgi-bin/auth HTTP/1.1} $\mathtt{\setminus r\setminus n}$\\
+\texttt{Host: SP foo.example CRLF}\\
+\texttt{Content-Type: SP application/x-www-form-urlencoded CRLF}\\
+\texttt{Content-Length: SP SIZE CRLF CRLF}\\
+\texttt{user=USERNAME&pwd=HASHEDPWD}\\
+\hline
+\end{tabular}
+where everything follows as before the grammar in \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}). In fact also \textbf{SP} represents the space character as in the documentation. \textbf{SIZE}, \textbf{USERNAME} and \textbf{HASHEDPWD} are replaced respectively with the size of the HTTP body, the username of the client and its password hashed with SHA512.
+\end{table}
+}
+\item{The client waits for the HTTP response of the server, containing HTML code as body. Then the client saves the code on the file system and opens the default web browser only to show. The HTML code is intended to show 3 possible scenarios: the user was correctly logged in, the user inserted wrong password, the username wasn't already stored on the server database.}
+\end{enumerate}
+
+\subsection{Server}
+The client performs the authentication following these steps:
+\begin{enumerate}
+\item{It establishes a connection with the client, after his request, over TLS layer to increase the security strength of the communication between the parties;}
+\item{\item{It receives the message $(m, n, sign(m||n))$ and check the integrity of the message. To do it, the server decrypts the ECDSA signature using the client's ECDSA public key and compares the result with \textit{m||n}.}
+\item{If compared messages were the same, the server checks if the nonce was already used by the same client. If so, the server thinks that there was an attacker that is performing a replay attack. If the nonce wasn't already used by the client, it will be stored in a dictionary to monitor clients activity. Each entry of the dictionary is composed by:
+\begin{itemize}
+\descItem{Key: IP address}{It is the IP address of the client and it is a simplification of the information that identifies a client. For example the client could be associated also to port number used to make the request, the Operating System on which the AcCAPPCHA was running on client-side or other useful parameters.}
+\descItem{Value: list of nonces}{Every time a client performs a new verification request on the server, the nonce is added to the list related to its IP address in the dictionary.}
+\end{itemize}
+}
+\item{If the nonce was used for the first time by the client, the server checks the value of the response received by the client. If the response is 'True', the server replies '$OK\setminus r\setminus n$' otherwise '$NO\setminus r\setminus n$'. If some error occurs it sends '$ERROR\setminus r\setminus n$' to the client. In the last two cases, the server terminates.}
+\item{If the server doesn't terminate, it waits for the POST request from the client and analyses it to perform authentication service. If the username doesn't exist in the database, the server }
+\end{enumerate}
+
+
+
+\subsection{Database}
+
+
+\subsection{Encryption Keys}
