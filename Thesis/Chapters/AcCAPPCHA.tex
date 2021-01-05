@@ -171,6 +171,10 @@ The second approach solves the previous problem because the windows, where the m
 \section{Communication between client and server}
 The algorithm that perform the evaluation of user activity (Section \ref{AcCAPPCHA:user_activity}) is performed at client side but the value returned by it is evaluated at server-side. The response of the evaluation of user activity concatenated with a nonce and then signed through ECDSA, is sent to the server\ref{inv:communication}. The use of the nonce, unique and random generated sequence, is very important to guarantee that no reply attacks would be performed. In fact the server, after the reception of a message from the client, the server can check if the client has already sent the same nonce before and in this case it declines the message of the client. In this way, any attacker can't reuse a message that previously establishes a client was human. This type of procedure can be also useful to sign HTTP data, for example data sent using POST request (as insertion of password during authentication phase). In the testing phase I performed, I designed and implemented also a simplified version of the communication between the client and the server for an authentication service.\\
 The application was tested on local network and the actions performed by involved parties are described in details in the following sections (see Figure ).
+\begin{figure}
+\centering
+\includegraphics[width=.8\textwidth]{Images/AcCAPPCHA/client-server}
+\end{figure}
 \subsection{Client}
 The client performs the authentication following these steps:
 \begin{enumerate}
@@ -210,7 +214,7 @@ If the answer is equal '$OK\setminus r\setminus n$', AcCAPPCHA will go on with t
 \texttt{Host: SP foo.example CRLF}\\
 \texttt{Content-Type: SP application/x-www-form-urlencoded CRLF}\\
 \texttt{Content-Length: SP SIZE CRLF CRLF}\\
-\texttt{user=USERNAME$\&$pwd=HASHEDPWD}\\
+\texttt{user = USERNAME $\mathtt{\&}$ pwd = HASHEDPWD}\\
 \hline
 \end{tabular}
 \end{table}
@@ -243,15 +247,15 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \descItem{User not in the database}{the server sends the following HTML code if the specified username isn't already stored in the database.
 \begin{table}[H]
 \hspace{2cm}\centering\footnotesize
-\begin{tabular}{|p{6cm}|c}
+\begin{tabular}{|p{6cm}|p{0.5cm}c}
 \cline{1-1}
-\texttt{\key{<!DOCTYPE html>}}&\hspace{0.5cm}\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/no_db_html}}\\
-\texttt{\key{<html>}}&\\
+\texttt{\key{<!DOCTYPE html>}}&\multirow{7}{*}{\includegraphics[width=0.5cm]{Images/arrow}}&\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/no_db_html}}\\
+\texttt{\key{<html>}}&&\\
 \texttt{\hspace{0.5cm}\key{<body>}}&\\
-\texttt{\hspace{1.0cm}\key{<h1>}Failure\key{</h1>}}&\\
-\texttt{\hspace{1.0cm}\key{<p>}First sign up.\key{</p>}}&\\
-\texttt{\hspace{0.5cm}\key{</body>}}&\\
-\texttt{\key{</html>}}&\\
+\texttt{\hspace{1.0cm}\key{<h1>}Failure\key{</h1>}}&&\\
+\texttt{\hspace{1.0cm}\key{<p>}First sign up.\key{</p>}}&&\\
+\texttt{\hspace{0.5cm}\key{</body>}}&&\\
+\texttt{\key{</html>}}&&\\
 \cline{1-1}
 \end{tabular}
 \end{table}
@@ -259,31 +263,31 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \descItem{Wrong password}{the server sends the following HTML code if the hashed password received from the client isn't the same with respect to the one stored in database for the specified username.
 \begin{table}[H]
 \hspace{2cm}\centering\footnotesize
-\begin{tabular}{|p{6cm}|c}
+\begin{tabular}{|p{6cm}|p{0.5cm}c}
 \cline{1-1}
-\texttt{\key{<!DOCTYPE html>}}&\hspace{0.5cm}\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/failure_html}}\\
-\texttt{\key{<html>}}&\\
-\texttt{\hspace{0.5cm}\key{<body>}}&\\
-\texttt{\hspace{1.0cm}\key{<h1>}Failure\key{</h1>}}&\\
-\texttt{\hspace{1.0cm}\key{<p>}Wrong password.\key{</p>}}&\\
-\texttt{\hspace{0.5cm}\key{</body>}}&\\
-\texttt{\key{</html>}}&\\
+\texttt{\key{<!DOCTYPE html>}}&\multirow{7}{*}{\includegraphics[width=0.5cm]{Images/arrow}}&\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/failure_html}}\\
+\texttt{\key{<html>}}&&\\
+\texttt{\hspace{0.5cm}\key{<body>}}&&\\
+\texttt{\hspace{1.0cm}\key{<h1>}Failure\key{</h1>}}&&\\
+\texttt{\hspace{1.0cm}\key{<p>}Wrong password.\key{</p>}}&&\\
+\texttt{\hspace{0.5cm}\key{</body>}}&&\\
+\texttt{\key{</html>}}&&\\
 \cline{1-1}
 \end{tabular}
 \end{table}
 }
 \descItem{User logged in}{the server sends the following HTML code if the specified username exists in the database and  its hashed password stored in the database is the same of the one received through POST request.
-\begin{table}[H]
+\begin{table}[h]
 \hspace{2.5cm}\centering\footnotesize
-\begin{tabular}{|p{6cm}|c}
+\begin{tabular}{|p{6cm}|p{0.5cm}c}
 \cline{1-1}
-\texttt{\key{<!DOCTYPE html>}}&\hspace{0.5cm}\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/logged_html}}\\
-\texttt{\key{<html>}}&\\
-\texttt{\hspace{0.5cm}\key{<body>}}&\\
-\texttt{\hspace{1.0cm}\key{<h1>}Logged in\key{</h1>}}&\\
-\texttt{\hspace{1.0cm}\key{<p>}Welcome back.\key{</p>}}&\\
-\texttt{\hspace{0.5cm}\key{</body>}}&\\
-\texttt{\key{</html>}}&\\
+\texttt{\key{<!DOCTYPE html>}}&\multirow{7}{*}{\includegraphics[width=0.5cm]{Images/arrow}}&\multirow{7}{*}{\includegraphics[scale=0.8]{Images/AcCAPPCHA/logged_html}}\\
+\texttt{\key{<html>}}&&\\
+\texttt{\hspace{0.5cm}\key{<body>}}&&\\
+\texttt{\hspace{1.0cm}\key{<h1>}Logged in\key{</h1>}}&&\\
+\texttt{\hspace{1.0cm}\key{<p>}Welcome back.\key{</p>}}&&\\
+\texttt{\hspace{0.5cm}\key{</body>}}&&\\
+\texttt{\key{</html>}}&&\\
 \cline{1-1}
 \end{tabular}
 \end{table}
@@ -295,6 +299,60 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \end{enumerate}
 
 \subsection{Database}
-
+The database, created to simulate the search of a username by the server, was made using PostgreSQL. I could store all the information in a simple text file or a csv file but I decide to use this approach to be more flexible to future integration to more complex database.\\
+The database is composed by only a table \texttt{CloudUser} to store information about user identity usually stored during the sign up phase. The creation of the database was performed through the following instructions:
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstinputlisting[language=SQL]{../Code/PC/dat/db/db_creation.sql}
+I created several domain to manage format of some information of the user. For example the password is a string of 128 characters because each password is hashed using SHA512 and then formatting the result as a string of hexadecimal values.
+Then I populated the dataset with some entries, related to fake user, only for testing purpose. An example of inserted users is the following one:
+\vspace{0.5cm}
+\begin{lstlisting}[language=SQL, showstringspaces=false]
+INSERT INTO CloudUser (Name,
+                       Surname,
+                       Username,
+                       Email,
+                       Sex,
+                       Password)
+                       
+VALUES ('Raffaele', 
+        'Di Nardo Di Maio', 
+        'RaffaDNDM', 
+        'example1@gmail.com', 
+        'Male',
+        HASHPASSWORD);
+\end{lstlisting}
+In practice, \texttt{HASHPASSWORD} is replaced by the string of 128 characters corresponding to the hashed password in hexadecimal format.
 
 \subsection{Encryption Keys}
+req = X.509 Certificate Signing Request ( CSR ) Management\\
+-days arg = specifies the number of days to make a certificate valid for. The default is 30 days.\\
+openssl req -x509 combines req and x509 into one; it generates a CSR and signs it, issuing a certificate in one go. That's why req supports the -days flag, as it passes it internally to the x509 command.\\
+-new = This option generates a new certificate request. It will prompt the user for the relevant field values. The actual fields prompted for and their maximum and minimum sizes are specified in the configuration file and any requested extensions.If the -key option is not used it will generate a new RSA private key using information specified in the configuration file.\\
+-nodes = If this option is specified then if a private key is created it will not be encrypted.\\
+-out = certificate\\
+-keyout = private key\\
+x509 = Certificate display and signing utility\\
+\begin{lstlisting}[language=bash, showstringspaces=false, tabsize=4]
+openssl req -new -x509 -days 365 -nodes -out client.pem
+		-keyout client.key
+\end{lstlisting}
+\begin{lstlisting}[language=bash, showstringspaces=false, tabsize=4]
+openssl req -new -x509 -days 365 -nodes -out server.pem 
+		-keyout server.key
+\end{lstlisting}
+SECP256k1 is the Bitcoin elliptic curve.
+\begin{lstlisting}[language=python, showstringspaces=false, tabsize=4]
+from ecdsa import *
+from hashlib import sha256
+
+PRIVATE_KEY = SigningKey.generate(curve=SECP256k1,
+                                  hashfunc=sha256)
+
+with open('ecdsa.key', 'w') as private_pem:
+	private_pem.write(PRIVATE_KEY.to_pem().decode())
+
+PUBLIC_KEY = PRIVATE_KEY.get_verifying_key()
+
+with open('ecdsa.pem', 'w') as public_pem:
+	public_pem.write(PUBLIC_KEY.to_pem().decode())
+\end{lstlisting}
