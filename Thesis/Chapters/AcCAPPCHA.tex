@@ -324,14 +324,8 @@ VALUES ('Raffaele',
 In practice, \texttt{HASHPASSWORD} is replaced by the string of 128 characters corresponding to the hashed password in hexadecimal format.
 
 \subsection{Encryption Keys}
-req = X.509 Certificate Signing Request ( CSR ) Management\\
--days arg = specifies the number of days to make a certificate valid for. The default is 30 days.\\
-openssl req -x509 combines req and x509 into one; it generates a CSR and signs it, issuing a certificate in one go. That's why req supports the -days flag, as it passes it internally to the x509 command.\\
--new = This option generates a new certificate request. It will prompt the user for the relevant field values. The actual fields prompted for and their maximum and minimum sizes are specified in the configuration file and any requested extensions.If the -key option is not used it will generate a new RSA private key using information specified in the configuration file.\\
--nodes = If this option is specified then if a private key is created it will not be encrypted.\\
--out = certificate\\
--keyout = private key\\
-x509 = Certificate display and signing utility\\
+The creation of the TLS socket for the communication between the client and the server is done by using keys and certificates created thanks to the following bash instructions:
+\vspace{0.3cm}
 \begin{lstlisting}[language=bash, showstringspaces=false, tabsize=4]
 openssl req -new -x509 -days 365 -nodes -out client.pem
 		-keyout client.key
@@ -340,7 +334,11 @@ openssl req -new -x509 -days 365 -nodes -out client.pem
 openssl req -new -x509 -days 365 -nodes -out server.pem 
 		-keyout server.key
 \end{lstlisting}
-SECP256k1 is the Bitcoin elliptic curve.
+OpenSSL is a open-source implementation of TLS/SSL protocols and, thanks to the option \texttt{-x509}, you can display certificates and also access to many signing protocols.
+In particular, in the previous bash instructions, a X.509 Certificate Signing Request (CSR) is generated and signed for both the parties.\\
+Thanks to \texttt{-nodes} the private key is created and not encrypted. The certificates are stored respectively in \textit{server.pem} for the server side and \textit{client.pem} for the client and they are valid for 365 days. The private keys are stored thanks to \texttt{-keyout} option in the \textit{client.pem} and \textit{server.key}.\\\\
+The keys, used in ECDSA signing and verification, were created as follow from Python language instead of using a bash tool:
+\vspace{0.3cm}
 \begin{lstlisting}[language=python, showstringspaces=false, tabsize=4]
 from ecdsa import *
 from hashlib import sha256
@@ -356,3 +354,4 @@ PUBLIC_KEY = PRIVATE_KEY.get_verifying_key()
 with open('ecdsa.pem', 'w') as public_pem:
 	public_pem.write(PUBLIC_KEY.to_pem().decode())
 \end{lstlisting}
+The \textit{ecdsa} module gives access to the management of operations performed by signing and verification phase. In this case the private key, used to sign a message from the client, was computed on the curve \texttt{SECP256k1} usually used in Bitcoin applications.

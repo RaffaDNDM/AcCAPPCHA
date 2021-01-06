@@ -129,7 +129,7 @@ The Secure Element can be accessed only through PIN authentication of the off-ca
 The most popular attacks, that have been analysed, are\cite{Invisible_CAPPCHA}:
 \begin{itemize}
 \descItem{Replay attack}
-{
+{Because the message is signed together with a nonce, an attacker can't easily use a message already sent by a client to the server. In fact, the server checks if a nonce was already used by the client and if so, the server refuse the message of the attacker.
 }
 \descItem{Reverse engineering attack}
 {Even if the attacker can de-obfuscate the code of the application running on the browser, he can access to reserved data on the server only if the verification message for human interaction was correctly signed by the Secure Element. Hence this type of attack can't be performed.}
