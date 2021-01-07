@@ -35,8 +35,11 @@
 \BOOKMARK [2][-]{subsection.5.2.2}{Server}{section.5.2}% 35
 \BOOKMARK [2][-]{subsection.5.2.3}{Database}{section.5.2}% 36
 \BOOKMARK [2][-]{subsection.5.2.4}{Encryption Keys}{section.5.2}% 37
-\BOOKMARK [0][-]{chapter.6}{Security Analysis}{}% 38
-\BOOKMARK [0][-]{chapter.7}{Experimental results}{}% 39
-\BOOKMARK [1][-]{section.7.1}{Bot}{chapter.7}% 40
-\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 41
-\BOOKMARK [0][-]{section*.37}{Bibliography}{}% 42
+\BOOKMARK [0][-]{chapter.6}{Experimental results}{}% 38
+\BOOKMARK [1][-]{section.6.1}{Human trials}{chapter.6}% 39
+\BOOKMARK [1][-]{section.6.2}{Bot detection}{chapter.6}% 40
+\BOOKMARK [1][-]{section.6.3}{Security analysis}{chapter.6}% 41
+\BOOKMARK [0][-]{chapter.7}{Future}{}% 42
+\BOOKMARK [0][-]{appendix.A}{Key Mapping}{}% 43
+\BOOKMARK [0][-]{appendix.B}{Program}{}% 44
+\BOOKMARK [0][-]{section*.39}{Bibliography}{}% 45

@@ -301,7 +301,7 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \subsection{Database}
 The database, created to simulate the search of a username by the server, was made using PostgreSQL. I could store all the information in a simple text file or a csv file but I decide to use this approach to be more flexible to future integration to more complex database.\\
 The database is composed by only a table \texttt{CloudUser} to store information about user identity usually stored during the sign up phase. The creation of the database was performed through the following instructions:
-\lstset{basicstyle=\footnotesize\ttfamily,breaklines=true}
+\lstset{basicstyle=\footnotesize,breaklines=true}
 \lstinputlisting[language=SQL]{../Code/PC/dat/db/db_creation.sql}
 I created several domain to manage format of some information of the user. For example the password is a string of 128 characters because each password is hashed using SHA512 and then formatting the result as a string of hexadecimal values.
 Then I populated the dataset with some entries, related to fake user, only for testing purpose. An example of inserted users is the following one:
