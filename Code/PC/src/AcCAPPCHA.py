@@ -688,6 +688,11 @@ class AcCAPPCHA:
                                    related to the count-th peak
         '''
 
+        #fig  = plt.figure()
+        #fig.tight_layout(pad=3.0)
+        #plt.ylabel('Frequency(Hz)')
+        #plt.xlabel('Time(s)')
+
         fig = plt.figure('CHARACTER'+str(count))
         fig.tight_layout(pad=3.0)
         gs = fig.add_gridspec(2, 1)

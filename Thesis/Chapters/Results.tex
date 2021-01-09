@@ -1,4 +1,4 @@
-\chapter{Experimental results}
+\chapter{Experimental results}\label{chapter:Results}
 All the tests were performed on a MSI GL63 8RD laptop, using Windows 10 Home version 1909 as Operating System.
 
 \section{Human detection}
@@ -184,3 +184,4 @@ The server doesn't know if AcCAPPCHA was called more than once by the client. If
 \descItem{Denial Of Service (DOS)}
 {For the same reason previously explained, the number of passwords received by the server is 1. To prevent a DOS attack, the server could use the same approach with black list designed to prevent the previous attack. In fact the server won't be overloaded, because the client will refuse next attempts.}
 \end{itemize}
+If an attacker has remote control of the pcon which client-side AcCAPPCHA can run, the user could understand on Windows 10 that he's under attack by looking the microphone icon on the taskbar. In fact, I suggest every user to enable this icon in \textbf{Settings > Personalisation > Taskbar > Turn system icons on or off} even if an attacker could disable it. Every time that an application accesses the microphone resource, the user could see the icon on the taskbar if it was enabled on the settings.   
