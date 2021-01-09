@@ -28,10 +28,10 @@ However during the insertion of the password, the user can obviously type backsl
      \caption{\footnotesize{Keys to be used in the password (highlighted in green).}}\label{Results:keyboard}
 \end{figure}
 \begin{table}[h]
-\centering
+\centering\footnotesize
 \begin{tabular}{ccc}
 \hline
-{\textbf{Feature type}}&{\textit{bye5}}&{\textit{hello35}}\\
+{\textbf{Feature type}}&{\texttt{\textit{bye5}}}&{\texttt{\textit{hello35}}}\\
 \hline
 \multirow{3}{*}{FFT of touch peak} & {2 (3/4)} & {1}\\
 & {2 (3)} & {1}\\
@@ -154,4 +154,33 @@ In the last two approaches the audio recorded by AcCAPPCHA are very similar and 
      \caption{\footnotesize{Plot of audio during the password insertion with low noise during noise evaluation.}}\label{Results:noise_img}
 \end{figure}
 
+\section{Usability}
+The verification with deep learning techniques would be more strong if the predictions would be more accurate. A problem of this methods is that the neural network must be trained using audio file of keys of a specific keyboard. This method limits the usability of the resulting weights for all the neurons to the specific keyboard previously used. \\
+To use the character correspondence on every possible keyboard, each producer of keyboards should record audio produced by pressed keys and share the results to increase the efficiency of AcCAPPCHA. This action should also bring to a malicious use of the data (e.g. an attacker could use them to produce an advanced key-logger).\\
+I used also other input devices to test the usability of the best method (time correspondence). At first I tested AcCAPPCHA using an external wireless keyboard (Logitech K480) by positioning it in front of my laptop. I tested AcCAPPCHA using touch keyboard and one the following hardware devices:
+\begin{itemize}
+\descItem{Mouse}{this device guarantees to perform the time correspondence exploiting the sound of each mouse click needed to select a key.}
+\descItem{Touchpad}{this device also guarantees to perform the time correspondence exploiting the sound of each click the touchpad needed to select a key. The only condition, required by AcCAPPCHA to work correctly, is that the user clicks the physical left button at the bottom side of the touchpad.}
+\end{itemize}
+The results of verification using these three devices were the same of the ones obtained using the keyboard of the laptop.
+
 \section{Security analysis}
+Following the analysis performed for Invisible CAPPCHA\cite{Invisible_CAPPCHA}, I'm going to discuss the strength of AcCAPPCHA against the following attacks:
+\begin{itemize}
+\descItem{Replay attack}
+{The message is still concatenated with a nonce and then they are signed to guarantee a client would use a nonce only one. The server still prevents this type of attacks by refusing the second message from a client with a nonce already used by him.}
+\descItem{Reverse engineering attack}
+{The code working on the client must be kept secure by the File System. Even if the attacker could reverse code on server, the signature of the message and the TLS communication guarantee that this attack cannot be performed.}
+\descItem{Human-solver relay attack}
+{AcCAPPCHA is strong there aren't additional tasks to be performed as in classical CAPTCHAs. Hence no challenges can be sent to remote human solver.}
+\descItem{Brute force and password replay attacks}
+{at the contrary of Invisible CAPPCHA, a single call to AcCAPPCHA performs the verification of human identity for at most 3 times:
+\begin{itemize}
+\descItem{if a bot is detected in one of the 3 attempts}{the program asks again the password to the user and reduces the number of remaining trials}
+\descItem{Otherwise}{the password inserted by the user is compared with the one in the database. In any case, the client program terminates receiving an HTML page with the result of the login phase.}
+\end{itemize}
+The server doesn't know if AcCAPPCHA was called more than once by the client. If the server wants to allow no more than a fixed amount of attempts, it could count the number of POST requests received during a fixed amount of time by each client. If the number of requests reaches the maximum number of designed attempts, the server adds the corresponding client to a black list and then communicates it to the client. Hence the client-side of AcCAPPCHA, receiving the message from server, will refuse next attempts of verification (insertion of password).
+}
+\descItem{Denial Of Service (DOS)}
+{For the same reason previously explained, the number of passwords received by the server is 1. To prevent a DOS attack, the server could use the same approach with black list designed to prevent the previous attack. In fact the server won't be overloaded, because the client will refuse next attempts.}
+\end{itemize}

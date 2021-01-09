@@ -39,8 +39,9 @@
 \contentsline {chapter}{\numberline {6}Experimental results}{53}{chapter.6}% 
 \contentsline {section}{\numberline {6.1}Human detection}{53}{section.6.1}% 
 \contentsline {section}{\numberline {6.2}Bot detection}{55}{section.6.2}% 
-\contentsline {section}{\numberline {6.3}Security analysis}{57}{section.6.3}% 
-\contentsline {chapter}{\numberline {7}Future}{59}{chapter.7}% 
-\contentsline {chapter}{\numberline {A}Key Mapping}{61}{appendix.A}% 
-\contentsline {chapter}{\numberline {B}Program}{69}{appendix.B}% 
-\contentsline {chapter}{Bibliography}{71}{section*.42}% 
+\contentsline {section}{\numberline {6.3}Usability}{57}{section.6.3}% 
+\contentsline {section}{\numberline {6.4}Security analysis}{59}{section.6.4}% 
+\contentsline {chapter}{\numberline {7}Future}{61}{chapter.7}% 
+\contentsline {chapter}{\numberline {A}Key Mapping}{63}{appendix.A}% 
+\contentsline {chapter}{\numberline {B}Program}{71}{appendix.B}% 
+\contentsline {chapter}{Bibliography}{73}{section*.42}% 
