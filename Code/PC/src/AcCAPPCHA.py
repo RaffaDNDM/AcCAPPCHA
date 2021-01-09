@@ -769,7 +769,7 @@ class AcCAPPCHA:
                         with open('../dat/html/response.html', 'w') as f:
                             f.write(msg)
 
-                            import webbrowser, os
+                            import webbrowser
                             webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
                             
                         #print(msg)
