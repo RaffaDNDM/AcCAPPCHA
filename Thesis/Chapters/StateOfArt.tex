@@ -38,12 +38,12 @@ The design of CAPTCHA challenges takes inspiration from the previous test becaus
 
 %\vspace{4cm}
 \section{Traditional CAPTCHAs}
-The traditional CAPTCHAs are based on the knowledge and correct insertion of solution by the user. These CAPTCHA schemes are designed to exploit character recognition, image understanding and speech recognition to guarantee that the challenges will successfully block bots.\\
-The main types of these CAPTCHAs are described in the following sections but the details about specific implementations can be found in the article of Walid Khalifa Abdullah Hasan\cite{survey_advanced_CAPTCHA}. With respect to user experience, the most enjoyable traditional CAPTCHAs are usually the game-based and image-based ones but the most frustrating CAPTCHA is the text-based one\cite{usability_CAPTCHA}. A summary of usability and security issues is shown in \myref{Table}{soa:traditional_table}.
+The traditional CAPTCHAs are based on the knowledge and correct insertion of solution by the user. These CAPTCHA schemes are designed to exploit character recognition, image analysis and speech recognition to guarantee that the challenges will successfully block bots.\\
+The main types of traditional CAPTCHAs are described in the following sections but the details about specific implementations can be found in the article of Walid Khalifa Abdullah Hasan\cite{survey_advanced_CAPTCHA}. With respect to user experience, the most enjoyable traditional CAPTCHAs are usually the game-based and image-based ones but the most frustrating CAPTCHA is the text-based one\cite{usability_CAPTCHA}. A summary of usability and security issues, explained in the following sections, is also reported in \myref{Table}{soa:traditional_table}.
 
 \subsection{Audio-based CAPTCHAs}
-This type of CAPTCHAs asks the user to type the words listened by an audio file (see \myref{Figure}{soa:audio_CAPTCHA}). It's developed for vision-impaired users. It usually has problems in usability related to the language dictionary, from which words are taken, and the similarity of the sound between several words. It has been proofed that this CAPTCHA is a hard task even for blind users, in fact  only 46\% of the challenges were solved by participants to an experiment\cite{usability_audio}.\\
-One of the most popular CAPTCHAs is \textit{Audio reCAPTCHA}, developed at Carnegie Mellon University and then bought by Google. In this scheme, the user needs to recognize and write a set of 8 spoken characters from a noisy audio file with background voices. If the user makes a mistake, the test declares that he's a bot.\\
+This type of CAPTCHAs asks the user to type the words contained in an audio file (see \myref{Figure}{soa:audio_CAPTCHA}). It's developed for vision-impaired users. Audio-based CAPTCHAs usually have problems in usability related to the language dictionary, from which the words are taken, and the similarity of sound for several words. This CAPTCHA is a hard task even for blind users, in fact  during an experiment only 46\% of the challenges were solved by the participants\cite{usability_audio}.\\
+One of the most popular Audio-Based CAPTCHAs is \textit{Audio reCAPTCHA}, developed at Carnegie Mellon University and then bought by Google. In this scheme, the user needs to recognize and write a set of 8 spoken characters from a noisy audio file with several background voices. If the user makes a mistake, the test declares that he's a bot.\\
 Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) programs\cite{improving_audio} but also Deep Learning techniques (e.g. DeepCRACk\cite{DeepCRACk}). A good overview about results, obtained by several classification methods, is described in the work of Jennifer Tam et al.\cite{break_audio}.
 \begin{figure}[h]
      \centering
@@ -52,9 +52,9 @@ Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) p
 \end{figure}
 
 \subsection{Game-based CAPTCHAs}
-This type of CAPTCHAs performs the verification of the user nature through a set of several kind of games (see \myref{Figure}{soa:game}). The strength of this CAPTCHAs is relative to the comprehension phase of the rules that only humans can perform.\\
-This type of CAPTCHAs is called \textit{Dynamic Cognitive Game (DCG)} is usually developed using Flash and HTML5 with JavaScript. These technologies download the game code to the client and execute it locally.\\
-The only difficult for the bot to attack the challenge is the encryption/obfuscation of the code. This strategy prevent the store of the code onto different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see \myref{Section}{soa:security_CAPTCHAs}).
+This type of CAPTCHAs performs the verification of the user identity through a set of several kinds of games (see \myref{Figure}{soa:game}). The strength of Game-based CAPTCHA is related to the the rules of the game that only humans can understand.\\
+There exist an implementation of these CAPTCHAs, called \textit{Dynamic Cognitive Game (DCG)}, that is usually developed using Flash, HTML5 and JavaScript. These technologies download the game code to the client and execute it locally.\\
+The only difficult for the bot to attack the challenge is the encryption/obfuscation of the code. This strategy prevents the code from being stored on different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see \myref{Section}{soa:security_CAPTCHAs}).
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -76,7 +76,7 @@ The only difficult for the bot to attack the challenge is the encryption/obfusca
 \end{figure}
 
 \subsection{Image-based CAPTCHAs}
-Image-based CAPTCHAs require to understand a written text describing a task that needs an image evaluation to pass the test. This type of CAPTCHAs can be categorized into the following classes, looking to the task that the user needs to perform:
+Image-based CAPTCHAs is based on a written text that describes a task related to evaluation of images. The user must understand the action and he passes the test if he performs it in the right way. This type of CAPTCHAs can be categorized into the following classes, looking to the task that the user needs to perform:
 \begin{itemize}
 \descItem{Click-based CAPTCHAs}
 {this type of CAPTCHAs shows an image and a text that explains where the user needs to click (see \myref{Figure}{soa:click_CAPTCHA}).
@@ -107,7 +107,7 @@ Image-based CAPTCHAs require to understand a written text describing a task that
 }
 \descItem{Drag \& Drop-based CAPTCHAs}
 {this type of CAPTCHAs usually asks the user to complete a visual puzzle, created by dividing a given image in a set of pieces\cite{survey_CAPTCHA} (see \myref{Figure}{soa:puzzle}).\\
-The task isn't easy for users because this type of CAPTCHAs takes more time to solve the puzzle but the security level is very high\cite{survey_CAPTCHA}. To improve the usability of the CAPTCHA, there exists a variant of the puzzle-based CAPTCHA in which needs to insert only some pieces of the puzzle instead of completing the whole puzzle (see \myref{Figure}{soa:puzzle2}).
+The task isn't easy for users because this type of CAPTCHAs takes more time to solve the puzzle but the security level is very high\cite{survey_CAPTCHA}. To improve the usability of the CAPTCHA, there exists a variant of the puzzle-based CAPTCHA in which the user needs to insert only some pieces of the puzzle instead to complete it (see \myref{Figure}{soa:puzzle2}).
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -127,14 +127,14 @@ The task isn't easy for users because this type of CAPTCHAs takes more time to s
 \end{figure}
 }
 \descItem{Selection-based CAPTCHAs}
-{the user usually needs to select the images that contain a requested subject. The set of images, on which the user needs to identify the subject, can be implemented in different ways, for example:
+{the user usually needs to select the images that contain a requested subject. The set of images, on which the user needs to identify the subject, can be implemented in several ways, for example:
 \begin{itemize}
 \item{An image is divided into a set of sub-squares and each of them is a candidate image (see \myref{Figure}{soa:selection}}
 \item{There are many images, each one with a unique different subject (see \myref{Figure}{soa:selection2})}
 \end{itemize}
 This type of CAPTCHAs is vulnerable to different Object Recognition techniques developed for Computer Vision purposes.\\
-An extension of this type of CAPTCHAs, called \textit{FaceDCAPTCHA}, has been introduced\cite{FaceDCAPTCHA}. It incorporates elements of face detection. The human brain is very effective in the process of natural face segmentation even if there are complex backgrounds. This approach increases the security efficiency because the Computer Vision programs can easily detect if there is a face, e.g. Viola-Jones algorithm\cite{Viola_Jones}, but have many problems differentiating real and non-real photographs of faces.\\
-Face, fingerprint and eye detections in images remain also a difficult challenge to be performed by computers. For this reason these results were used to develop a new variant of image-based CAPTCHA called \textit{MB CAPTCHA}\cite{MB_CAPTCHA}.
+An extension of this type of CAPTCHAs, called \textit{FaceDCAPTCHA}, has been introduced\cite{FaceDCAPTCHA} and it incorporates elements of face detection. The human brain is very effective in the process of natural face segmentation even if there are complex backgrounds. In fact, this approach increases the security efficiency because the Computer Vision programs can easily detect if there is a face, e.g. Viola-Jones algorithm\cite{Viola_Jones}, but they have many problems understanding if the photographs of faces are real or not.\\
+One of the most difficult challenges, to be performed by a computer, is the detection of faces, fingerprints and eyes in an image. For this reason the previous idea has been used to to develop a new version of image-based CAPTCHA, called \textit{MB CAPTCHA}\cite{MB_CAPTCHA}.
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -164,7 +164,7 @@ Face, fingerprint and eye detections in images remain also a difficult challenge
 \end{itemize}
 
 \subsection{Math CAPTCHAs}
-Looking to an operation specified in a frame, the user needs to insert the result in a text field. The operation is written in plain text or, to improve the security of this challenge, it's warped like text-based CAPTCHAs (see \myref{Figure}{soa:arithmetic}). These classical math-CAPTCHAs, also known as \textit{arithmetic CAPTCHAs}, are vulnerable to OCR (Optical Character Recognition) techniques.\\
+Looking to an operation, specified in a frame, the user needs to insert the result in a text field. The operation is written in plain text or, to improve the security of this challenge, it's warped like text-based CAPTCHAs (see \myref{Figure}{soa:arithmetic}). These classical math-CAPTCHAs, also known as \textit{arithmetic CAPTCHAs}, are vulnerable to OCR (Optical Character Recognition) techniques.\\
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -181,8 +181,7 @@ Looking to an operation specified in a frame, the user needs to insert the resul
 		\caption{\footnotesize{Example of arithmetic CAPTCHAs.}}
 		\label{soa:arithmetic}
 \end{figure}
-An advanced version of this CAPTCHA is used in the Quantum Random Bit Generator Service (QRBGS) sign-up Web Page\cite{math_CAPTCHA} (see \myref{Figure}{soa:QRBGS}). This type of CAPTCHA asks user to solve an advanced math expression. It prevents the use of free or commercial OCRs because many mathematical symbols are not considered in their detection algorithm. However, it's vulnerable to side-channel attack \cite{math_CAPTCHA}.\\
-Hence many math symbols are wrongly translated by bot programs and the challenge is very secure. The only problem is that this CAPTCHA is very complex for normal users and many of them could not solve the challenge correctly.
+An advanced version of this CAPTCHA is used in the Quantum Random Bit Generator Service (QRBGS) sign-up Web Page\cite{math_CAPTCHA} (see \myref{Figure}{soa:QRBGS}). This type of CAPTCHA asks the user to solve an advanced math expression. It prevents the use of free or commercial OCR techniques because many mathematical symbols are not considered in the traditional detection algorithms. Hence many math symbols are wrongly translated by bot programs and the challenge is very secure. However, this CAPTCHA is vulnerable to side-channel attacks \cite{math_CAPTCHA} and it's very complex for normal users. In fact many people can't solve it correctly because the required level of math knowledge is very high and not very common.
 \begin{figure}[h]
      \centering
      \includegraphics[width=.6\linewidth]{Images/StateOfArt/QRBGS}
@@ -190,13 +189,13 @@ Hence many math symbols are wrongly translated by bot programs and the challenge
 \end{figure}
 
 \subsection{Slider CAPTCHAs}
-Slider CAPTCHAs only asks users to move the slider across the screen. Hence, image recognition is not part of the challenge to be classified as a human.\\
-The most popular CAPTCHAs are the following:
+Slider CAPTCHAs ask users to move a slider across the screen. The image recognition is not part of the challenge.\\
+The most popular CAPTCHAs of this type are the following:
 \begin{itemize}
 \descItem{CAPTCHA used by Taobao.com}{it asks the user to drag the slider from the start to the end of the sliding bar to verify his identity (see \myref{Figure}{soa:slider}).}
 \descItem{CAPTCHA used by TheyMakeApps.com}{it asks the user to move the slider to the end of the line to submit a form\cite{sliding_CAPTCHA} (see \myref{Figure}{soa:slider2}).}
 \end{itemize}
-Different variations of this type of CAPTCHAs have been bypassed with a simple JavaScript code and puppeteer.
+Over the years several implementations of this type of CAPTCHAs have been bypassed with a simple JavaScript code and puppeteer.
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -216,18 +215,18 @@ Different variations of this type of CAPTCHAs have been bypassed with a simple J
 \end{figure}
 
 \subsection{Text-based CAPTCHAs}
-In text-based CAPTCHA schemes a random series of wrapped characters and/or numbers is displayed on the screen inside an image(see \myref{Figure}{soa:text_CAPTCHA}). The user needs to understand which are the characters that composes the shown sequence and then type them inside a text-field. The text-based CAPTCHAs can be also classified in three main classes looking to the type of wrapped characters:
+In text-based CAPTCHA schemes a random series of wrapped characters and/or numbers is displayed on the screen inside an image (see \myref{Figure}{soa:text_CAPTCHA}). The user needs to understand which are the characters that composes the sequence and then he types them inside a text-field. The text-based CAPTCHAs can be also classified in three main classes looking to the type of wrapped characters:
 \begin{itemize}
 \descItem{2D}{the digits are wrapped on a 2D plane, parallel to the screen plane}
 \descItem{3D}{the digits are wrapped on a 3D plane oriented in the space and then a 2D image is taken from a specific point of view}
 \end{itemize}
-This type of CAPTCHAs is vulnerable to several type of attacks, related to Computer Vision techniques, that are:
+This type of CAPTCHAs is vulnerable to several attacks, related to Computer Vision techniques:
 \begin{itemize}
 \item{OCR techniques\cite{OCR}}
 \item{Segmentation techniques (e.g. DECAPTCHA\cite{DECAPTCHA})}
 \item{Machine Learning and Deep Learning techniques}
 \end{itemize}
-In the design phase of a text-based CAPTCHA there are many issues, related to Computer Vision techniques, to be considered. For each of them, there is usually a solution in the design phase of the CAPTCHA that reduces the possibility that the challenge would be broken by a bot\cite{DECAPTCHA}.
+In the design phase of a text-based CAPTCHA there are many issues, related to Computer Vision attacks, to be considered. For each of them, there is usually a solution in the design phase of the CAPTCHA that reduces the probability that the challenge will be broken by a bot\cite{DECAPTCHA}.
 \begin{figure}[h]
      \centering
      \includegraphics[width=.55\linewidth]{Images/StateOfArt/text_CAPTCHA}
@@ -235,9 +234,9 @@ In the design phase of a text-based CAPTCHA there are many issues, related to Co
 \end{figure}
 
 \subsection{Video-based CAPTCHAs}
-This type of CAPTCHA is not very common because of the weight of the file to be downloaded\cite{survey_advanced_CAPTCHA}. The traditional video-based CAPTCHA is composed by a video in which a sliding text is shown (see \myref{Figure}{soa:video}). The user needs to type this message in a text field to pass the challenge. Some implementations of this type of CAPTCHAs are vulnerable to machine learning attacks.\\
-Another variant of this CAPTCHA is the \textit{Motion CAPTCHA}\cite{Motion_CAPTCHA}, developed by M. Shirali-shahreza and S. Shirali-shahreza, in which the user needs to watch a video. Then he needs to select which action was performed in the played file, choosing it from multiple answers (see \myref{Figure}{soa:video2}). The strength of these implementations of CAPTCHAs depends on the relationship between the multiple choices submitted to the user\cite{video_attack}.\\
-A similar implementation of the previous variant, it's the one developed by Kluever et al. in which the user watches a video and needs to write three words that describe what he sees\cite{video_desc}. The same authors also performed a tag frequency-based attack to evaluate the security of their CAPTCHA schemes achieving a success rate of 13\%.
+This type of CAPTCHA isn't very common because it requires the download of a very huge file\cite{survey_advanced_CAPTCHA}. The traditional video-based CAPTCHA is composed by a video in which a sliding text is shown (see \myref{Figure}{soa:video}). The user needs to type this message in a text field to pass the challenge. Some implementations of this type of CAPTCHAs are vulnerable to machine learning attacks.\\
+Another version of the CAPTCHA is \textit{Motion CAPTCHA}\cite{Motion_CAPTCHA}, developed by M. Shirali-shahreza and S. Shirali-shahreza, in which the user needs to watch a video. Then he needs to select which action was performed in the played file, choosing it from multiple answers (see \myref{Figure}{soa:video2}). The strength of these implementations of CAPTCHAs depends on the relationship between the multiple choices of the answer\cite{video_attack}.\\
+A similar implementation of the previous version, it's the one developed by Kluever et al. in which the user watches a video and then he needs to write three words that describe what he sees\cite{video_desc}. The same authors created a tag frequency-based attack to evaluate the security of their CAPTCHA scheme and they achieve a success rate of 13\%.
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -257,26 +256,25 @@ A similar implementation of the previous variant, it's the one developed by Klue
 \end{figure}
 
 \section{Modern CAPTCHAs}
-The type of CAPTCHAs and authentication mechanisms described in the following section are far from traditional CAPTCHAs and aren't based on cognitive knowledge of the human user but on other parameters, such as behavioural analysis and sensors readings. In the following sections there is a summary of the most known CAPTCHA schemes of this type.
+The type of CAPTCHAs and authentication mechanisms, described in the following sections, are far from traditional CAPTCHAs because they aren't based on cognitive knowledge of a human user. They work exploiting other parameters, such as behavioural analysis and data of the sensors. In the following sections there is a summary of the most known CAPTCHA schemes of this type.
 
 \subsection{Biometrics-based CAPTCHAs}
-The most known authentication mechanisms, that use biometric parameters of the user, are based on the following CAPTCHA schemes:
+Biometric-based CAPTCHAs are very used to support the authentication mechanisms of a user. The most known schemes of this type are the following:
 \begin{itemize}
 \descItem{Bio-CAPTCHA voice-based Authentication}
-{This authentication method was developed starting from good results reached in the authentication phase of cloud systems (Alexa for Amazon, Siri for Apple, Cortana for windows)\cite{voice_CAPTCHA}. This particular implementation uses a random voice-based password challenge. This password changes at every login of the user and this method uses CAPTCHA challenge to provide unpredictability and ambiguity to the authentication process. The experiments reveals that unauthorized access probability decreases, while it keeps high usability because it needs
-only a mic.}
-\descItem{rtCAPTCHA}{this type of authentication method is a Real-time CAPTCHA that asks users to perform some tasks like smile, blink or nod in front of the camera of the mobile phone. The recorded video is sent to the service provider that checks if in the file, there is the expected user performing the required action.\\
-This implementation of CAPTCHA solves many problems of similar CAPTCHAs that are also based on liveness mechanisms and video capture. The attackers can extract patterns or features from existing or captured images and embed them into a new generated video in attack in the compromised device.\\
+{This authentication method was developed starting from good results reached in the authentication phase of cloud systems\cite{voice_CAPTCHA} (Alexa for Amazon, Siri for Apple, Cortana for Microsoft). This particular implementation uses a random voice-based password challenge. This password changes at every login of the user and this method uses CAPTCHA challenge to provide unpredictability and ambiguity to the authentication process. The experiments reveals that unauthorized access probability decreases, while it keeps high usability because it needs only a mic.}
+\descItem{rtCAPTCHA}{this type of authentication method is a Real-time CAPTCHA that asks users to perform some tasks like smile, blink or nod in front of the camera of the mobile phone. The recorded video is sent to the service provider that checks if there is the expected user performing the required action in the file.\\
+This implementation of CAPTCHA solves many problems of similar CAPTCHAs that are also based on liveness mechanisms and video capture. The attackers can extract patterns or features from existing or captured images of the user. Then he embeds them into a new generated video to attack the authentication system in the compromised device.\\
 In the work of Erkam Uzun, Simon Pak Ho Chung, Irfan Essa and Wenke Lee\cite{rtCAPTCHA}, there is a detailed comparison between other similar authentication mechanisms and rtCAPTCHA, looking to all possible Computer Vision attacks.}
 \end{itemize}
 
 \subsection{Behavioural-based CAPTCHAs}
-In 2014 Google announced that today’s Artificial Intelligence can solve even the most difficult variant of text-based CAPTCHAs at 99.8\% accuracy\cite{break_text}. For this reason, the company develops the following CAPTCHA schemes:
+In 2014 Google announced that the Artificial Intelligence can solve now even the most difficult variant of text-based CAPTCHAs at 99.8\% accuracy\cite{break_text}. For this reason, the company develops the following CAPTCHA schemes:
 \begin{itemize}
 \descItem{Google no CAPTCHA}
-{Google developed in 2015 a new CAPTCHA system that is simpler than traditional CAPTCHAs in terms of user interaction\cite{google}. This CAPTCHA system is composed by two layers of protection:
+{Google developed this new CAPTCHA system in 2015. It's simpler than traditional CAPTCHAs in terms of user interaction\cite{google}. This CAPTCHA system is composed by two layers of protection:
 \begin{enumerate}
-\item{Checkbox \textit{"I'm not a robot"} to be clicked by user as in \myref{Figure}{soa:noCAPTCHA} (or image-based CAPTCHA on mobile devices)
+\item{Checkbox \textit{"I'm not a robot"} to be clicked by the user as shown in \myref{Figure}{soa:noCAPTCHA} (or image-based CAPTCHA on mobile devices)
 \begin{figure}[h]
      \centering
      \includegraphics[width=.4\linewidth]{Images/StateOfArt/noCAPTCHA}
@@ -285,9 +283,10 @@ In 2014 Google announced that today’s Artificial Intelligence can solve even t
 }
 \item{Traditional text-based CAPTCHA with two warped words}
 \end{enumerate}
-The second layer is reached only if the user doesn't succeed in the first one. For the checkbox step, the application evaluates in background the user's behaviour (e.g. the mouse movement, where the users click, how long they linger over a checkbox). Then the program performs an \textit{advanced risk analysis}, by looking results of first step but also spam traffic and passed/failed CAPTCHAs. It understands in this way if the test is passed or not.\\
-The tests done confirms that this phase was very inefficient and many times the first layer failed even if a human user was performing correctly the task. A problem of this type of CAPTCHA is that many attacks exploits the image-based CAPTCHA and text-based CAPTCHA using attacks based on known Computer Vision techniques or their variants (e.g. CAPTCHA breaker made by Suphannee Sivakorn, Jason Polakis and Angelos D. Keromytis\cite{break_google}).
+The second layer is reached only if the user doesn't succeed in the first one. For the checkbox step, the application evaluates in background the user's behaviour (e.g. the mouse movement, where the user clicks, how long he lingers over a checkbox). Then the program performs an \textit{advanced risk analysis}, by looking results of first step but also spam traffic and number of passed/failed challenges. In this way the CAPTCHA understands if the test is passed or not.\\
+The experimental results confirm that the first phase is very inefficient and many times the user fails performing this challenge even if he was a human and was performing correctly the task. A problem of this type of CAPTCHA is that many attacks exploits the image-based CAPTCHA (used on mobile phones) and the text-based CAPTCHA of the second phase using attacks based on known Computer Vision techniques or their variants (e.g. CAPTCHA breaker made by Suphannee Sivakorn, Jason Polakis and Angelos D. Keromytis\cite{break_google}).
 }
+%HERE
 \descItem{Google Invisible ReCAPTCHA}
 {It's a top layer over the \textit{Google noCAPTCHA v2.0}, adding the option to bind directly to the form's submit element\cite{google}. It usually requires the use of cookies, used to track the user's behaviour. There exist two version of this CAPTCHA:
 \begin{itemize}
