@@ -1,10 +1,10 @@
 \chapter{State of the Art}\label{chapter:StateOfArt}
-CAPTCHA takes inspiration and is related to three main elements\cite{types_CAPTCHA}:
+CAPTCHA is the acronym of \textit{"Completely Automated Public Turing-test-to-tell Computers and Humans Apar"} and it's a challenge born from the union of the following ideas\cite{types_CAPTCHA}:
 \begin{enumerate}
-\descItem{Turing test}{it's used to determine how much a machine can think like a human. The test is made by three figures: a human examiner, an human and a machine. The examiner asks some questions to both other two figures and, after a fixed amount of time, evaluates if the two answers are different or not.\\
-If they are similar w.r.t. the point of view of the examiner, the machine is an AI (Artificial Intelligence) similar to an human. The test is very important if the answers have many possibilities.}
+\descItem{Turing test}{it's a test used to determine how much a machine could think like a human. The experiment involves three figures: a human examiner, a human and a machine. The examiner asks some questions to the other figures and, after a fixed amount of time, he evaluates if the two answers were different or not.\\
+If they were similar, with respect to the point of view of the examiner, the machine is classified as an AI (Artificial Intelligence). The test is very reliable if each question could have many possibilities.}
 \descItem{Human-Computer Interaction (HCI)}
-{according to cognitive psychology studies, a human process data in a specific way and this test evaluates the interaction between humans and machines. The HCI model is divided into five levels:
+{according to cognitive psychology studies, a human processes data in a specific way and this test evaluates the interaction between humans and machines. The HCI model is divided into five levels:
 \begin{itemize}
 	\item{task level}
 	\item{semantic level}
@@ -21,19 +21,19 @@ Then the obtained information is processed by:
 \end{itemize}   
 }
 \descItem{Human Interactive Proof (HIP)}
-{it's used to make differentiation between machine and human users and computer user programs. The test require a type of interaction, that is simple to be done by human instead of bot. The main goals of this type of test are:
+{it's used to classify machines and humans looking at a type of interaction, that is simple to be done by a human instead of a bot. The main goals of the test are:
 \begin{itemize}
 	\item{To differentiate the humans from the computers}
 	\item{To differentiate a category of the humans}
 	\item{To differentiate a specific human from the category of humans}
 \end{itemize}
-HIP has the test program that is subjected to the human and the computer. As a result, only a specific group of humans can positively solve the test and then the test results can be validated by the computer.}
+HIP consists of a test program administered to humans and computers. The main problem of this proof is that the complexity of the task is very complex and only a specific group of humans can usually solve the test.}
 \end{enumerate}
-In order to guarantee a good level of security, a CAPTCHA has to satisfy the following requirements:
+The design of CAPTCHA challenges takes inspiration from the previous test because its goal is to establish if the user is a bot or a human. A bot is usually an advanced program that exploits some AI information and pretends to be a human. A CAPTCHA challenge sometimes is so complex that a human user can't solve it. For this reason and in order to guarantee an high level of security, a CAPTCHA has to satisfy the following requirements:
 \begin{itemize}
-	\item{The solution to the CAPTCHA isn't conditional and shouldn't depend on the user's language and/or age.}
-	\item{The solution of the CAPTCHA must be easy for the humans and hard for the bots. Hence, humans in no longer than 30 seconds with very high success rate}
-	\item{The creation of the CAPTCHA must not disturb the user privacy (not linked to the user).}
+	\item{The solution of a CAPTCHA isn't conditional and it shouldn't depend on the user's language and/or age;}
+	\item{The solution of a CAPTCHA must be easy for the humans and hard for the bots. In fact humans should solve it in no longer than 30 seconds with very high success rate;}
+	\item{The creation of a CAPTCHA shouldn't affect the user privacy.}
 \end{itemize}
 
 %\vspace{4cm}
@@ -362,51 +362,6 @@ In some CAPTCHAs, the information are evaluated on the client side by a trusted 
 \descItem{Compatibility with different devices}
 {Many CAPTCHA schemes, e.g. behavioural ones, use specific forms factors but a good challenge should be compatible with different factors.}
 \end{itemize}
-
-\begin{table}
-\centering \footnotesize
-\renewcommand*\arraystretch{1.3}
-\begin{tabular}{ccll}
-\toprule
-\multicolumn{1}{c}{\textbf{Type}} & \multicolumn{1}{c}{\textbf{Scheme}} & \multicolumn{1}{c}{\textbf{Usability issues}} & \multicolumn{1}{c}{\textbf{Security}}\\
-\midrule
-%Audio row
-\multirow{5}{*}{\textbf{\textit{Audio}}} & & {Issues of recognition:} & {It's vulnerable to:}\\
-&&{\itemCell{Knowledge of English}}&{\itemCell{ASR programs.}}\\
-&{\textit{Audio reCAPTCHA}}& {\hspace{1em}dictionary by the user.} &{\itemCell{Deep Learning and ML}}\\
-&&{\itemCell{Some character sounds}}& {\hspace{1em}techniques.}\\
-&& {\hspace{1em}very similar to others.} & \\
-\midrule
-\multirow{2}{*}{\textbf{\textit{Game}}} & {\textit{Dynamic Cognitive}} & {Comprehension of rules.} & {Vulnerable to Stream Relay}\\
-& {\textit{Game (DCG)}} &&{Attack.}\\
-\midrule
-\multirow{5}{*}{\textbf{\textit{Image}}} & {\textit{Click-based}} & {Difficulty in identification} & {Vulnerable to:}\\
-& {\textit{Drag \& Drop-based}} & {of images caused by:} & {\itemCell{Segmentation techniques}}\\
-& {\textit{Sliding-based}} & {\itemCell{Blur of images.}} & {\itemCell{Deep Learning and ML}}\\
-& {\textit{Selection-based}} & {\itemCell{Low vision condition.}} & {\hspace{1em}techniques}\\
-& {\textit{Interactive-based}} &&{\itemCell{OCR techniques}}\\
-\midrule
-%Math row
-\multirow{3}{*}{\textbf{\textit{Math}}} & {\textit{Arithmetic}} & {It requires basic or advanced} & {Vulnerable to:}\\
-{} & {\textit{QRBGS}} & {math knowledge.} & {\itemCell{OCR techniques}}\\
-&&&{\itemCell{Side-channel attacks}}\\
-\midrule
-\multirow{2}{*}{\textbf{\textit{Slider}}} & {Taobao.com} & {Simple and intuitive} & {Simple bypassed by Javascript}\\
-& {TheyMakeApps.com} & {interaction.} & {code and pupeeteer.}\\
-\midrule
-\multirow{6}{*}{\textbf{\textit{Text}}} & & {Many problems have to} & {It can be identified by:}\\
-&&{be solved by user:}&{\itemCell{OCR technique}}\\
-&{\textit{2D}}&{\itemCell{Multiple fonts}}&{\itemCell{Segmentation techniques}}\\
-&{\textit{3D}}&{\itemCell{Font size}}&{\itemCell{Deep Learning and ML}}\\
-&&{\itemCell{Blurred Letters}}& {\hspace{1em}techniques}\\
-&&{\itemCell{Wave Motion}}&\\
-\midrule
-{\textbf{\textit{Video}}} & {\textit{Motion CAPTCHA}} & {Heavy file to be downloaded} & {}\\
-\bottomrule
-\end{tabular}
-\caption{\footnotesize{Survey of main types of traditional CAPTCHAs\cite{survey_CAPTCHA}.}}
-\label{soa:traditional_table}
-\end{table}
 
 \begin{sidewaystable}
 \centering \footnotesize
