@@ -41,7 +41,7 @@
 \contentsline {section}{\numberline {6.2}Bot detection}{57}{section.6.2}% 
 \contentsline {section}{\numberline {6.3}Usability}{59}{section.6.3}% 
 \contentsline {section}{\numberline {6.4}Security analysis}{61}{section.6.4}% 
-\contentsline {chapter}{\numberline {7}Future}{63}{chapter.7}% 
+\contentsline {chapter}{\numberline {7}Future work}{63}{chapter.7}% 
 \contentsline {chapter}{\numberline {A}Key Mapping}{65}{appendix.A}% 
 \contentsline {chapter}{\numberline {B}Program}{73}{appendix.B}% 
 \contentsline {chapter}{Bibliography}{75}{section*.43}% 
