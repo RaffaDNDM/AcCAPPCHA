@@ -30,6 +30,9 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 from SecureElement import SecureElement
 
+class BlockAccessError(Exception):
+    pass
+
 class AcCAPPCHA:
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -69,6 +72,8 @@ class AcCAPPCHA:
     MAIN_COLOR = 'red'
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
+    BLOCK_FILE = '../dat/html/block.txt'
+    BLOCK_DEADLINE_sec = 100
 
     """
     AcCAPPCHA implementation.
@@ -200,6 +205,18 @@ class AcCAPPCHA:
     """
 
     def __init__(self, time_option, dl_option, plot_option, debug_option):
+        if os.path.exists(self.BLOCK_FILE):
+            moment = ''
+            start = 0
+            with open(self.BLOCK_FILE, 'r') as f:
+                moment = f.read()
+                start = time.mktime(time.strptime(moment, "%a, %d %b %Y %H:%M:%S +0000"))
+                
+            if (start + self.BLOCK_DEADLINE_sec) > time.time():
+                raise BlockAccessError()
+            else:
+                os.remove(self.BLOCK_FILE)
+                    
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
@@ -740,16 +757,15 @@ class AcCAPPCHA:
 
         try:
             count_trials = 0
-            while not self.VERIFIED and count_trials < 3:
+            count_pwd_trials = 0
+            
+            while count_pwd_trials < 3 and count_trials < 3:
                 self.COMPLETED_INSERT = False
                 self.noise_evaluation()
 
                 self.TIMES = []
                 self.PASSWORD = ''
-                
-                if count_trials > 0:
-                    cprint('Try to stay in a quiet environment', 'yellow')
-                
+                                
                 cprint('password:', 'red', end=' ')
                 audio_logger = threading.Thread(target=self.audio, args=(folder,option))
                 audio_logger.start()
@@ -770,23 +786,35 @@ class AcCAPPCHA:
                     if check:
                         msg = s.credentials(username, self.PASSWORD)
             #            msg = s.credentials('raffaeledndm', 'ciao')
-                
+                        
                         with open('../dat/html/response.html', 'w') as f:
                             f.write(msg)
 
                             import webbrowser
                             webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
-                            
+
+                        if not 'Logged in' in msg:
+                            count_pwd_trials+=1
+                        else:
+                            break
+
                         #print(msg)
                         #msg = s.credentials('RaffaDNDM', 'hello35')
                         #msg = s.credentials('JohnSM', 'password4')
                         #msg = s.credentials('CristiFB', 'byebye12')
                         #msg = s.credentials('IreneRMN', 'flower10')
-                        break
-                    else:
-                        count_trials += 1
 
-                #With open of secure element
+                    else:
+                        cprint('Try to stay in a quiet environment', 'yellow')
+                        count_trials += 1
+    
+            if count_pwd_trials == 3:
+                moment = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime())
+
+                with open(self.BLOCK_FILE, 'w') as f:
+                    f.write(moment)
+            
+            #With open of secure element
             return self.VERIFIED              
 
         except KeyboardInterrupt:
@@ -920,24 +948,32 @@ def main():
     if dl_option:
         option = utility.select_option_feature()
 
-    captcha = AcCAPPCHA(time_option, dl_option, plot_option, debug_option)
-    cprint(f'   Authentication\n{utility.LINE}', 'blue')
-    username = input(colored('username: ', 'red'))
-    check = captcha.run(folder, option, username)
+    try:
+        captcha = AcCAPPCHA(time_option, dl_option, plot_option, debug_option)
 
-    if check:
-        cprint("#################################", 'yellow')
-        cprint('#############', 'yellow', end=' ')
-        cprint("HUMAN", 'magenta', end=' ')
-        cprint('#############', 'yellow')
-        cprint("#################################", 'yellow', end='\n\n')
-    else:
-        cprint("#################################", 'yellow')
-        cprint('##############', 'yellow', end=' ')
-        cprint("BOT", 'magenta', end=' ')
-        cprint('##############', 'yellow')
-        cprint("#################################", 'yellow', end='\n\n')
+        cprint(f'   Authentication\n{utility.LINE}', 'blue')
+        username = input(colored('username: ', 'red'))
+        check = captcha.run(folder, option, username)
 
+        if check:
+            cprint("#################################", 'yellow')
+            cprint('#############', 'yellow', end=' ')
+            cprint("HUMAN", 'magenta', end=' ')
+            cprint('#############', 'yellow')
+            cprint("#################################", 'yellow', end='\n\n')
+        else:
+            cprint("#################################", 'yellow')
+            cprint('##############', 'yellow', end=' ')
+            cprint("BOT", 'magenta', end=' ')
+            cprint('##############', 'yellow')
+            cprint("#################################", 'yellow', end='\n\n')
+
+    except BlockAccessError:
+        cprint("#################################", 'blue')
+        cprint('##', 'blue', end=' ')
+        cprint("NO ACCESS TO SECURE ELEMENT", 'red', end=' ')
+        cprint('##', 'blue')
+        cprint("#################################", 'blue', end='\n\n')
 
 if __name__=='__main__':
     main()

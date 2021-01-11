@@ -1,5 +1,5 @@
 \chapter{Side-channel attacks}\label{chapter:SideCH}
-A side-channel attack is an attack in which the malicious user exploits a side-information of transmitted encrypted data, to give access to user private data. 
+A side-channel attack is an attack in which the malicious user exploits a side-information of transmitted encrypted data, to give access to the user's private data. 
 This type of extra information is usually: timing information, power consumption, electromagnetic radiations, sound and so on.\\
 In the past the main side-channel attacks require the physical access to the victim's device. Nowadays, side-channel attacks are evolved and can be conducted by remote hackers using malicious code (e.g. cache-timing attacks, DRAM row buffer attacks), even exploiting information from sensors on mobile devices\cite{side_classification}.\\
 In fact an hacker can obtain side-channel information on mobile devices, from several sensors\cite{side_attacks}:
@@ -22,7 +22,7 @@ Side-channel attacks can also be classified, looking at the distance between the
 \item{Vicinity attacks}
 \item{Remote attacks}
 \end{itemize}
-In this chapter there is a summary of the most popular side-channel attacks, organized with respect to the previous classifications (see \myref{Table}{sc:review}). This study was conducted to find a feasible side-channel to be used in a new CAPTCHA scheme during the authentication phase.
+In this chapter there is a summary of the most popular side-channel attacks, organized with respect to the previous classifications (see \myref{Table}{sc:review}). This study was conducted to find a feasible side-channel to be used in the design phase of a new CAPTCHA scheme, as support to the authentication phase.
 
 \section{Local side-channel attacks}
 In local attacks, the attacker needs to get the target device or to be very near to it. In many cases the hacker physically needs to manipulate the device or to obtain access to the chip.\\\\
@@ -30,7 +30,7 @@ In local attacks, the attacker needs to get the target device or to be very near
 The following attacks are used to break cryptographic system implementations:
 \begin{itemize}
 \descItem{\textit{Power Analysis}}
-{this type of attacks are based on the analysis of the power variations in transistors. There exist several attacks\cite{intro_DPA}:
+{this type of attacks are based on the analysis of the power variations in transistors. There exist several popular attacks\cite{intro_DPA}:
 \begin{itemize}
 \descItem{\textit{Simple Power Analysis (SPA)}}
 {the attacker analyses the power consumption of the system, that depends on the microprocessor used. This analysis can be useful to understand which operations are performed by different implementations of cryptographic algorithm (e.g. RSA, DES).}
@@ -54,17 +54,17 @@ The following attacks are used to break cryptographic system implementations:
 The following attacks require that the hacker physically gets the device for a while:
 \begin{itemize}
 \descItem{\textit{Clock/Power Glitching}}
-{in the past the attacker can fault inject on embedded devices by exploiting variations of the clock signal, (e.g. overclocking). To do it, he needs to use an external clock source.}
+{in the past the attacker can fault inject on embedded devices by exploiting variations of the clock signal, (e.g. overclocking). However he needs to use an external clock source to do it.}
 \descItem{\textit{Electromagnetic Fault Injection (EMFI)}}
 {the attacker uses short (e.g. nanoseconds) high-energy electromagnetic pulses to change the state of memory cells. This attack allows to target specific regions of a microchip by locating the EM probe (e.g. on the instruction memory, the data memory, or CPU registers).}
 \descItem{\textit{Laser/Optical Faults}}
 {the attacker needs to decapsulate the chip to obtain access to it and, using a laser beam, it change the state of a transistor (e.g. changing bit value of a memory cell).}
 \descItem{\textit{Temperature Variation}}
-{the attacker can change the temperature, in which the target device is working, causing malfunctioning of the hardware. Temperature higher than the maximum one, supported by hardware, causes faults in memory cells. Temperature too low changes the speed, for which the content of the RAM disappear, after turning the device off.}
+{the attacker can change the temperature, in which the target device is working, causing malfunctioning of the hardware. Temperature higher than the maximum one, supported by the hardware, causes faults in memory cells. Temperature too low changes the speed, for which the content of the RAM disappear, after turning the device off.}
 \descItem{\textit{Differential Computation Analysis}}
 {the attacker needs to have full control of the white-box environment, manipulating intermediate values in the system computation.}
 \descItem{\textit{NAND Mirroring}}
-{the attacker exploits the duplication of the data, usually used to recover data after faults, to restore a previous system state. The hacker can force the reset of the state as demonstrated by Skorobogatov for an Apple device\cite{side_apple}.}
+{the attacker exploits the duplication of the data, usually used to recover data after faults, to restore a previous system state. The hacker can force the reset of the state as demonstrated by Skorobogatov for an Apple device\cite{side_Apple}.}
 \end{itemize}
 
 \section{Vicinity side-channel attacks}
@@ -75,7 +75,7 @@ The attacker needs to wiretap or eavesdrop the network communication of the vict
 {the attacker can exploit meta data, related to the encrypted data, transmitted over the network. This information gives access to sensitive information about the traffic.\\
 For example a Web-application works between two parties: the client and the server. For this reason the communication channel is usually encrypted and the requests made by the user work through the \textit{HTTPS} protocol.\\
 This solution isn't enough to prevent an attacker from exploiting reserved data because each web page has a distinct size and loads resources of different sizes. Hence the attacker can fingerprint the page even if HTTPS protocol is used.\\
-Another cause of these attack on Web-services is given by the trend of Web to work on \textit{stateful protocols}, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.\\}
+Another cause of these attacks on Web-services is given by the trend of Web to work on \textit{stateful protocols}, providing better performance to the client by keeping track of the connection information. TCP session for example works on Stateful Protocol because both systems maintain information about the session itself during its life\cite{side_leaks}.}
 \descItem{\textit{USB Power Analysis}}
 {the attacker can modify USB charging stations for mobile devices to obtain an analysis about the power consumption and the related sensitive information.}
 \descItem{\textit{Wi-Fi Signal Monitoring}}
@@ -89,7 +89,7 @@ Another cause of these attack on Web-services is given by the trend of Web to wo
 
 
 \section{Remote side-channel attacks}
-These attacks are software-only based and they depend on the installation of the malicious code on the target device. 
+These attacks are software-only based and they depend on the installation of the malicious code on the target device.\\
 \textbf{Passive attacks}
 \begin{itemize}
 \descItem{\textit{Linux-inherited procfs Leaks}}
@@ -119,7 +119,7 @@ These attacks are software-only based and they depend on the installation of the
 \descItem{\textit{Microarchitectural Attacks}}
 {By measuring execution times and memory accesses, the attacker can obtain sensitive information from processes running in parallel on the same device. This type of information can be evaluated from CPU caches, that are a big source of information leaks.}
 \descItem{\textit{Sensor-based Keyloggers}}
-{in mobile devices, the attacker can exploit information from equipped sensors with any permission. The user's interaction with the device can be evaluated by analysing information from sensors.}
+{in mobile devices, the attacker can exploit information from equipped sensors with any permission. The user's interaction with the device can be evaluated by analysing information from the sensors.}
 \descItem{\textit{Fingerprinting Devices/Users}}
 {the attacker can obtain the identity of the device and the user and also the fingerprint by exploiting hardware issues and cookies.}
 \descItem{\textit{Location Inference}}
