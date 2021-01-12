@@ -3,6 +3,7 @@ import socket
 import threading
 import time
 import hashlib
+import argparse
 from termcolor import cprint
 import ssl
 import psycopg2
@@ -19,6 +20,7 @@ class Authentication:
     LOGGED_FILE = 'logged.html'
     FAILURE_FILE = 'failure.html'
     NO_DB_ENTRY_FILE = 'no_db_entry.html'
+    LINE = '_____________________________________________________'
 
     """
     Authentication object performs signature verification
@@ -27,8 +29,14 @@ class Authentication:
     Args:
         port (int): Port number on which the server works
 
+        debug_option (bool): True if you want to show more debugging info
+                             during the execution, False otherwise
+
     Attributes:
         PORT (int):  Port number on which the server works
+
+        DEBUG (bool): True if you want to show more debugging info
+                      during the execution, False otherwise
 
         sd (socket.socket): TCP socket instance on which server will work
 
@@ -54,12 +62,13 @@ class Authentication:
         NO_DB_ENTRY_FILE (str): Name of HTML file for not existing user with
                                 the username, specified by client, in DB
     """
-    def __init__(self, port):
+    def __init__(self, port, debug_option):
         with open('../dat/crypto/ecdsa.pem', "r") as sk_file:
             sk_pem = sk_file.read().encode()
             self.ECDSA_CLIENT_PUBLIC_KEY = ecdsa.VerifyingKey.from_pem(sk_pem)
 
         self.PORT = port
+        self.DEBUG = debug_option
         self.sd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     def __enter__(self):
@@ -141,11 +150,14 @@ class Authentication:
         #Encoded nonce and signature
         nonce = client_sd.recv(self.NONCE_LENGTH)
         signature = client_sd.recv(self.SIGNATURE_LENGTH)
-        cprint(msg, 'cyan')
-        cprint(nonce, 'blue')
-        cprint(signature, 'green')
-        print(addr)
+        cprint(f'{addr}', 'blue')
 
+        if self.DEBUG:
+            cprint(self.LINE, 'blue')
+            cprint(msg, 'cyan')
+            cprint(nonce, 'blue')
+            cprint(signature, 'green')
+        
         try:
             #hash_msg = hashlib.sha256(msg.encode()+nonce).hexdigest()
             self.ECDSA_CLIENT_PUBLIC_KEY.verify(signature, msg.encode()+nonce)
@@ -274,7 +286,33 @@ class Authentication:
             if (connection):
                 cursor.close()
                 connection.close()
-                print("PostgreSQL connection is closed")
 
-with Authentication(8080) as a:
-    a.run()
+                if self.DEBUG:
+                    print("PostgreSQL connection is closed")
+                    cprint(self.LINE, 'blue', end='\n\n')
+
+def args_parser():
+    '''
+    Parser of command line arguments
+    '''
+    #Parser of command line arguments
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-debug", "-dbg", 
+                        dest="debug",
+                        help="""If specified, it shows debug info""",
+                        action='store_true')
+
+    #Parse command line arguments
+    args = parser.parse_args()
+
+    return args.debug
+
+def main():
+    debug_option = args_parser()
+
+    with Authentication(8080, debug_option) as a:
+        a.run()
+
+if __name__=='__main__':
+    main()

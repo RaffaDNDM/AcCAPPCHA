@@ -1,5 +1,5 @@
 \chapter{AcCAPPCHA}\label{chapter:AcCAPPCHA}
-AcCAPPCHA is a verification that works like a key-logger. This type of programs is usually malicious and intended to be used by an attacker to acquire information about the user's activity. This application analyses the sequence of keys inserted by exploiting side-channel information. Its implementation depends on the party, that the hacker wants to attack\cite{keylogging}, and that could be:
+AcCAPPCHA is a verification method that works like a key-logger. This type of programs is usually malicious and intended to be used by an attacker to acquire information about the user's activity. This application analyses the sequence of keys inserted by exploiting side-channel information. Its implementation depends on the party, that the hacker wants to attack\cite{keylogging}, and that could be:
 \begin{itemize}
 \descItem{The user}
 {these attacks are based on the exploitation of physical information related to the typing state. For example, they can use electroencephalography (EEG), motion of the wrist in the smartwatches, video with keyboard line-of-sight and WiFi signal distortion.}
@@ -10,7 +10,7 @@ AcCAPPCHA is a verification that works like a key-logger. This type of programs 
 \descItem{The network}
 {these attacks exploit the packets exchanged in the client-server communication. For example, a network packet can be related to a keystroke revealing the key press time of the victim and the payload size of the server response.}
 \end{itemize}
-Analysing the previous key-logger based on side-channel information, attacks mentioned in \myref{Chapter}{chapter:SideCH} and the structure of Invisible CAPPCHA in Section \myref{Section}{chapter:InvisibleCAPPCHA}, I design this new implementation of CAPTCHA. It exploits acoustic side-channel of microphone to implement a particular type of keylogger that ensures that Authentication phase would be performed by a human user.\\
+Analysing the previous key-logger based on side-channel information, attacks mentioned in \myref{Chapter}{chapter:SideCH} and the structure of Invisible CAPPCHA in Section \myref{Section}{chapter:InvisibleCAPPCHA}, I design this new implementation of CAPTCHA. It exploits acoustic side-channel of the microphone to implement a particular type of keylogger that ensures that the Authentication phase would be performed by a human user.\\
 The whole implementation was created using \texttt{Python} language. The structure and the behaviour of AcCAPPCHA are similar to the ones proposed in Invisible CAPPCHA because they are both based on the evaluation of signal, detected by some sensor (motion sensors for Invisible CAPPCHA and microphone for AcCAPPCHA). With respect to Invisible CAPPCHA the program can perform also a classification of the audio signal using neural networks. The two phases of the verification are:
 \begin{itemize}
 \item{Evaluation of the user's activity}
@@ -19,7 +19,7 @@ The whole implementation was created using \texttt{Python} language. The structu
 In the second phase, the username and the password of the user will be signed through ECDSA and sent by client to the authentication service if and only if the insertion was performed by a human.
 
 \section{Evaluation of the user's activity}\label{AcCAPPCHA:user_activity}
-The CAPPCHA records two audio signals: the first one created during the insertion of the password by the user and the second one created before this activity for noise evaluation. The first signal is The second signal is exploited to evaluate a noise threshold useful for the computation of amplitude peaks in the first audio.
+AcCAPPCHA records two audio signals: the first one created during the insertion of the password by the user and the second one created before this activity for the noise evaluation. The first signal is The second signal is exploited to evaluate a noise threshold useful for the computation of amplitude peaks in the first audio.
 During the insertion of the password, the instants of the time when each character was typed by the user are stored. 
 
 \subsection{Time correspondence}\label{AcCAPPCHA:time_correspondence}

@@ -31,6 +31,10 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 from SecureElement import SecureElement
 
 class BlockAccessError(Exception):
+    '''
+        Exception raised when a user try to run AcCAPPCHA 
+        during the block period (after 3 invalid authentication)
+    '''
     pass
 
 class AcCAPPCHA:
@@ -89,7 +93,7 @@ class AcCAPPCHA:
                             recorded audio files, False otherwise
 
         debug_option (bool): True if you want to show more debugging info
-                             during the executtion, False otherwise
+                             during the execution, False otherwise
 
     Attributes:
 
@@ -137,7 +141,7 @@ class AcCAPPCHA:
                             recorded audio files, False otherwise
         
         DEBUG (bool): True if you want to show more debugging info
-                             during the executtion, False otherwise
+                      during the execution, False otherwise
 
         TIME_THRESHOLD (float): Threshold in seconds for time correspondence
 
@@ -153,6 +157,12 @@ class AcCAPPCHA:
 
         TIMES (list): List of time instants related to pressed keys, one for
                       each character inserted by the user
+
+        BLOCK_FILE (str): Complete path of 'block.txt' file to be used to block
+                          access to the secure element
+
+        BLOCK_DEADLINE_sec (int): Number of seconds for which a user must be 
+                                  blocked after 3 invalid authentications
         ___________________________________________________________________________
 
 
@@ -331,7 +341,7 @@ class AcCAPPCHA:
 
         #Analysis of audio signal
         if self.DEBUG:
-            colored(utility.LINE, 'blue')
+            cprint(utility.LINE, 'blue')
             cprint('Audio length:', 'green', end=' ')
             print(f'{len(signal)} samples ({len(signal)/self.RATE} s)')
             cprint('Password length:', 'green', end=' ')
@@ -429,7 +439,7 @@ class AcCAPPCHA:
         cprint(utility.LINE, 'blue')
 
         if self.DEBUG:
-            print(colored('Human: ', 'green')+f'\n{self.VERIFIED}', end='\n\n')
+            print(colored('\rHuman: ', 'green')+f'{self.VERIFIED}', end='\n\n')
 
         if self.PLOT_OPTION:
             plt.tick_params(axis='both', which='major', labelsize=6)
@@ -466,11 +476,21 @@ class AcCAPPCHA:
         for list_time in char_times:
             peak_times.append(list_time[np.argmax(self.SIGNAL[list_time])])
 
-        cprint(self.TIMES,'green')
-        for x in peak_times:
-            cprint(x/self.RATE, 'cyan', end=' ')
-        print('')
-        
+        if self.DEBUG:
+            cprint(f'Stored time instants: [', 'green', end='')
+            
+            for x in self.TIMES:
+                print(x, end=colored(', ', 'green'))
+
+            cprint('\b\b]', 'green')
+            
+            cprint(f'Detected time instants: [', 'green', end='')
+            
+            for x in peak_times:
+                print(x/self.RATE, end=colored(', ', 'green'))
+            
+            cprint('\b\b]', 'green')
+                    
         for i in range(0, len(char_times)):
             if len(char_times) - i < length_psswd:
                 return False, None
@@ -577,7 +597,9 @@ class AcCAPPCHA:
                 features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0])
                 
                 if features is None:
-                    print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
+                    if self.DEBUG:
+                        print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
+                    
                     count+=1
                     continue
 
@@ -585,7 +607,9 @@ class AcCAPPCHA:
                 hit_feature = features['hit']
                 touch_X = touch_feature.fft_signal.reshape((1, 66))
                 keys.append(net.test(touch_X))
-                print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
+                
+                if self.DEBUG:
+                    print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
                 
                 if self.PLOT_OPTION:
                     self.plot_features(count, touch_feature, hit_feature)
@@ -594,7 +618,9 @@ class AcCAPPCHA:
                 features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0])
                 
                 if features is None:
-                    print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
+                    if self.DEBUG:
+                        print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
+                    
                     count+=1
                     continue
 
@@ -605,7 +631,9 @@ class AcCAPPCHA:
                 touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))                
                 #cprint(touch_hit_X.shape, 'red')
                 keys.append(net.test(touch_hit_X))
-                print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
+                
+                if self.DEBUG:
+                    print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
                 
                 if self.PLOT_OPTION:
                     self.plot_features(count, touch_feature, hit_feature)
@@ -617,7 +645,9 @@ class AcCAPPCHA:
                 features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0], spectrum=True)
         
                 if features is None:
-                    print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
+                    if self.DEBUG:
+                        print(colored(f'{count} ---> ', 'red')+'EMPTY SEQUENCE')
+                    
                     count+=1
                     continue
                 
@@ -629,8 +659,10 @@ class AcCAPPCHA:
 
                 final_features = utility.extract(model, (self.PLOT_FOLDER+self.SPECTRUM_FOLDER+self.CHAR_SPECTRUM_IMG).format(count))
                 keys.append(net.test(final_features))
-                print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
-
+                
+                if self.DEBUG:
+                    print(colored(f'{count} ---> ', 'red')+utility.results_to_string(keys[-1]))
+                
                 if self.PLOT_OPTION:
                     self.plot_spectrum(count, features, img_feature)
 
@@ -795,6 +827,15 @@ class AcCAPPCHA:
 
                         if not 'Logged in' in msg:
                             count_pwd_trials+=1
+
+                            if 'First sign up.' in msg:
+                                cprint(f"The username {username} doesn't exist", 'yellow')
+                                cprint(f'\n   Authentication\n{utility.LINE}', 'blue')
+                                username = input(colored('username: ', 'red'))
+
+                            elif 'Wrong password.' in msg:
+                                cprint(f"The password was wrong", 'yellow')
+
                         else:
                             break
 
