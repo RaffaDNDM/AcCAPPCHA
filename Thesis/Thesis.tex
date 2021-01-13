@@ -103,40 +103,24 @@
 }
 
 %Formatted item with description
-\newcommand{\descItem}[2]{
-\item{\textbf{#1}\\#2}
-}
+\newcommand{\descItem}[2]{\item{\textbf{#1}\\#2}}
 
 %Formatted item with description
-\newcommand{\myBibItem}[4]{
-\bibitem{#1}#2, "#3" in \emph{#4}.
-}
+\newcommand{\myBibItem}[4]{\bibitem{#1}#2, "#3" in \emph{#4}.}
 
-\newcommand{\myBibRef}[5]{
-\bibitem{#1}#2, \href{#3}{"#4"}, \emph{#5}.
-}
+\newcommand{\myBibRef}[5]{\bibitem{#1}#2, \href{#3}{"#4"}, \emph{#5}.}
 
 %Cell with vertical text
-\newcommand{\verticalCell}[2]{
-\multirow{#1}{*}{\rotatebox[origin=c]{90}{#2}}
-}
+\newcommand{\verticalCell}[2]{\multirow{#1}{*}{\rotatebox[origin=c]{90}{#2}}}
 
 %Tab Item Cell
-\newcommand{\itemCell}[1]{
-\textbullet\ {#1}
-}
+\newcommand{\itemCell}[1]{\textbullet\ {#1}}
 
-\newcommand{\itemCellTab}[1]{
-\hspace{0.5cm}\textbullet\ {#1}
-}
+\newcommand{\itemCellTab}[1]{\hspace{0.5cm}\textbullet\ {#1}}
 
-\newcommand{\key}[1]{
-\textbf{\color{blue}{#1}}
-}
+\newcommand{\key}[1]{\textbf{\color{blue}{#1}}}
 
-\newcommand{\myref}[2]{
-\textbf{#1 \ref{#2}}
-}
+\newcommand{\myref}[2]{\textbf{#1 \ref{#2}}}
 
 \begin{document}
 \frontmatter

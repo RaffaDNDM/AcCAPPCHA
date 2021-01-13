@@ -788,10 +788,10 @@ class AcCAPPCHA:
                     os.remove(self.PLOT_FOLDER+self.SPECTRUM_FOLDER+f)
 
         try:
-            count_trials = 0
+            count_bot_trials = 0
             count_pwd_trials = 0
             
-            while count_pwd_trials < 3 and count_trials < 3:
+            while count_pwd_trials < 3 and count_bot_trials < 3:
                 self.COMPLETED_INSERT = False
                 self.noise_evaluation()
 
@@ -814,7 +814,8 @@ class AcCAPPCHA:
 
                 with SecureElement('127.0.0.1', 8080) as s:
                     check = s.sign(str(self.VERIFIED))        
-                    
+                    self.bot_human(check)
+
                     if check:
                         msg = s.credentials(username, self.PASSWORD)
             #            msg = s.credentials('raffaeledndm', 'ciao')
@@ -847,9 +848,9 @@ class AcCAPPCHA:
 
                     else:
                         cprint('Try to stay in a quiet environment', 'yellow')
-                        count_trials += 1
+                        count_bot_trials += 1
     
-            if count_pwd_trials == 3:
+            if count_pwd_trials == 3 or count_bot_trials == 3:
                 moment = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime())
 
                 with open(self.BLOCK_FILE, 'w') as f:
@@ -913,7 +914,20 @@ class AcCAPPCHA:
                 psswd += x
 
         return psswd
-        
+
+    def bot_human(self, check):
+        if check:
+            cprint("#################################", 'blue')
+            cprint('#############', 'blue', end=' ')
+            cprint("HUMAN", 'red', end=' ')
+            cprint('#############', 'blue')
+            cprint("#################################", 'blue', end='\n\n')
+        else:
+            cprint("#################################", 'blue')
+            cprint('##############', 'blue', end=' ')
+            cprint("BOT", 'red', end=' ')
+            cprint('##############', 'blue')
+            cprint("#################################", 'blue', end='\n\n')
 
 def args_parser():
     '''
@@ -994,20 +1008,7 @@ def main():
 
         cprint(f'   Authentication\n{utility.LINE}', 'blue')
         username = input(colored('username: ', 'red'))
-        check = captcha.run(folder, option, username)
-
-        if check:
-            cprint("#################################", 'yellow')
-            cprint('#############', 'yellow', end=' ')
-            cprint("HUMAN", 'magenta', end=' ')
-            cprint('#############', 'yellow')
-            cprint("#################################", 'yellow', end='\n\n')
-        else:
-            cprint("#################################", 'yellow')
-            cprint('##############', 'yellow', end=' ')
-            cprint("BOT", 'magenta', end=' ')
-            cprint('##############', 'yellow')
-            cprint("#################################", 'yellow', end='\n\n')
+        captcha.run(folder, option, username)
 
     except BlockAccessError:
         cprint("#################################", 'blue')
