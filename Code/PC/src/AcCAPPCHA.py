@@ -77,6 +77,8 @@ class AcCAPPCHA:
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
     BLOCK_FILE = '../dat/html/block.txt'
+    MAX_BOT_TRIALS = 3
+    MAX_PWD_TRIALS = 3
     BLOCK_DEADLINE_sec = 100
 
     """
@@ -791,7 +793,9 @@ class AcCAPPCHA:
             count_bot_trials = 0
             count_pwd_trials = 0
             
-            while count_pwd_trials < 3 and count_bot_trials < 3:
+            while count_pwd_trials < self.MAX_PWD_TRIALS and \
+                  count_bot_trials < self.MAX_BOT_TRIALS:
+                
                 self.COMPLETED_INSERT = False
                 self.noise_evaluation()
 
@@ -831,8 +835,12 @@ class AcCAPPCHA:
 
                             if 'First sign up.' in msg:
                                 cprint(f"The username {username} doesn't exist", 'yellow')
-                                cprint(f'\n   Authentication\n{utility.LINE}', 'blue')
-                                username = input(colored('username: ', 'red'))
+                                
+                                if count_pwd_trials != self.MAX_PWD_TRIALS:
+                                    cprint(f'\n   Authentication\n{utility.LINE}', 'blue')
+                                    username = input(colored('username: ', 'red'))
+                                else:
+                                    print('')
 
                             elif 'Wrong password.' in msg:
                                 cprint(f"The password was wrong", 'yellow')
@@ -850,7 +858,9 @@ class AcCAPPCHA:
                         cprint('Try to stay in a quiet environment', 'yellow')
                         count_bot_trials += 1
     
-            if count_pwd_trials == 3 or count_bot_trials == 3:
+            if count_pwd_trials == self.MAX_PWD_TRIALS or \
+               count_bot_trials == self.MAX_BOT_TRIALS:
+               
                 moment = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime())
 
                 with open(self.BLOCK_FILE, 'w') as f:
