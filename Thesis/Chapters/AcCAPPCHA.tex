@@ -239,8 +239,9 @@ This could happen if the audio recorded for noise evaluation is very flat but th
 The second approach that performs \myref{Algorithm}{AcCAPPCHA:char_algorithm} on only features obtained from audio peaks related to the time instants of the time correspondence. In this case, AcCAPPCHA verification becomes more accurate even if in practice character correspondence isn't very efficient because of the neural network often fails in single key prediction, causing some false negatives.
 
 \section{Communication between client and server}
-In the second phase, the username and the password of the user will be signed through ECDSA and sent by client to the authentication service if and only if the insertion was performed by a human. The algorithm that perform the evaluation of user activity (see \myref{Section}{AcCAPPCHA:user_activity}) is performed at client side but the value returned by it is evaluated at server-side. The response of the evaluation of user activity concatenated with a nonce and then signed through ECDSA, is sent to the server (see \myref{Section}{inv:communication}). The use of the nonce, unique and random generated sequence, is very important to guarantee that no reply attacks would be performed. In fact the server, after the reception of a message from the client, the server can check if the client has already sent the same nonce before and in this case it declines the message of the client. In this way, any attacker can't reuse a message that previously establishes a client was human. This type of procedure can be also useful to sign HTTP data, for example data sent using POST request (as insertion of password during authentication phase). In the testing phase I performed, I designed and implemented also a simplified version of the communication between the client and the server for an authentication service.\\
-The application was tested on local network and the actions performed by involved parties are described in details in the following sections (see \myref{Figure}{AcCAPPCHA:ClientServer}).
+After the evaluation of the user activity, the response will be signed through ECDSA and the credentials of the client will be sent to the server if and only if the insertion of the password was performed by a human. The evaluation of the user's activity (see \myref{Section}{AcCAPPCHA:user_activity}) is performed at the client side but the server is the one that establishes if the user was a human.\\
+The response of the evaluation of user activity concatenated with a nonce and then signed through ECDSA, is sent to the server (see \myref{Section}{inv:communication}). The use of the nonce, unique and random generated sequence, is very important to guarantee that no reply attacks would be performed. In fact after the reception of a message from the client, the server can check if the same client has sent the same nonce before and in this case it declines the message of the client. In this way, any attacker can't reuse a message sent by a human client before.\\
+The ECDSA signature can be also useful to sign HTTP data, for example a POST request, to increase the integrity of the messages and the security of the communication between the client and the server. In the testing phase I performed, I designed and implemented also a simplified version of the communication between the client and the server during the authentication service. The application was tested on the local network and the actions performed by the involved parties are described in details in the following sections (see \myref{Figure}{AcCAPPCHA:ClientServer}).
 \begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{Images/AcCAPPCHA/client-server}
@@ -249,14 +250,14 @@ The application was tested on local network and the actions performed by involve
 \subsection{Client}
 The client performs the authentication following these steps:
 \begin{enumerate}
-\item{It establishes a connection with the server over TLS layer to increase the security strength of the communication between the parties;}
-\item{It sends the message $(m, n, sign(m||n))$ where:
+\item{It establishes a connection with the server using the Transport Layer Secure (TLS) protocol to increase the security strength of the communication between the parties;}
+\item{It sends the message $(m, n, sign(m||n))$ to the server where:
 \begin{itemize}
-\item{$m$ is the string with the response of AcCAPPCHA algorithm on client side (\textit{'True'} if Human, \textit{False} if bot)}
-\item{$n$ is the the nonce}
-\item{$sign(m||n)$ is the ECDSA signature of the concatenation $m||n$ of the response and the nonce. For ECDSA was used SHA256 algorithm.}
+\item{$m$ is the string with the response of the evaluation of the user's activity on the client side (\textit{'True'} if Human, \textit{'False'} if bot)}
+\item{$n$ is the client nonce}
+\item{$sign(m||n)$ is the ECDSA signature of the concatenation $m||n$ of the response and the nonce. I decided to use SHA256 as hashing function exploited by ECDSA.}
 \end{itemize}
-From a practical point of view, I format the message in the following way:
+In practice, I format the message $(m, n, sign(m||n))$ in the following way to easily distinguish the portions of the message:
 \begin{table}[H]
 \centering\footnotesize
 \begin{tabular}{|c|}
@@ -265,8 +266,8 @@ From a practical point of view, I format the message in the following way:
 \hline
 \end{tabular}
 \end{table}
-According to basic rules in grammar of \textbf{HTTP/1.1} (see Section 2.2 of \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}), \textit{CR} is the carriage return ('$\setminus r$') and LF is the line feed ('$\setminus n$'). The spaces in the message aren't considered. In this way, I can separate easily m looking at '$\setminus r\setminus n$'. The nonce has a fixed length of 16 bytes.}
-\item{The client waits for response of the server with format:
+According to basic rules in grammar of \textbf{HTTP/1.1} (see Section 2.2 of \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}), \textit{CR} is the carriage return ('$\setminus r$') and LF is the line feed ('$\setminus n$'). The spaces in the format message aren't inserted in the message, if not explicitly specified with format string \textbf{SP}. The introduction of '$\setminus r\setminus n$' is intended to easily identify $m$ because it can be a message 4 or 5 characters. However the nonce is a Universally unique identifier (UUID) and it has a fixed length of 16 bytes. In this way, I emulated the uniqueness of the nonce.}
+\item{The client waits for the response of the server, that has the following format:
 \begin{table}[H]
 \centering\footnotesize
 \begin{tabular}{|c|}
@@ -275,8 +276,8 @@ According to basic rules in grammar of \textbf{HTTP/1.1} (see Section 2.2 of \hr
 \hline
 \end{tabular}
 \end{table}
-If the answer is equal '$OK\setminus r\setminus n$', AcCAPPCHA will go on with the authentication step, otherwise the client-side application performs again the verification, asking again to user to insert the password. The maximum number of trials for a particular user is 3.}
-\item{If everything goes well in the previous step, The client sends the credentials (username, password) to the server through a HTTP POST request to '/cgi-bin/auth' resource. The name of folder '/cgi-bin' comes from the standard name of the folder with functions and \textit{auth} is the name of the function that server will call. This naming approach was used very much in the past to separate functions code from pure HTML code. The password is not sent directly but it's hashed before using SHA512. The POST request used by the client has the following format:\\
+If the answer is equal '$OK\setminus r\setminus n$', the user was a human and AcCAPPCHA will go on with the authentication step. Otherwise the user is classified as a bot and the client-side application performs again the verification, asking the user to insert the password. The maximum number of trials for a specific user is 3 and if the client reaches it, the client-side will block the next accesses to AcCAPPCHA for a fixed amount of time. In this case AcCAPPCHA can't run and it terminates immediately the execution by writing on the standard output that the user hasn't access to the client.}
+\item{If the user was classified as a human, the client sends the credentials (username, password) to the resource \texttt{'/cgi-bin/auth'} of the server using an HTTP POST request. The name of the folder '/cgi-bin' comes from the standard name of the path containing several functions. In fact \textit{auth} is the name of the function that server will call during the authentication phase. This naming approach was used very much in the past to separate functions code from pure HTML code. The password is not sent directly but it's hashed using SHA512. The POST request sent by the client has the following format:\\
 \begin{table}[H]
 \hspace{2cm}\centering\footnotesize
 \begin{tabular}{|l|}
@@ -289,24 +290,25 @@ If the answer is equal '$OK\setminus r\setminus n$', AcCAPPCHA will go on with t
 \hline
 \end{tabular}
 \end{table}
-where everything follows as before the grammar in \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}). In fact also \textbf{SP} represents the space character as in the documentation. \textbf{SIZE}, \textbf{USERNAME} and \textbf{HASHEDPWD} are replaced respectively with the size of the HTTP body, the username of the client and its password hashed with SHA512.
+where \textbf{SIZE}, \textbf{USERNAME} and \textbf{HASHEDPWD} are replaced respectively with the size of the HTTP body, the username of the client and its password hashed with SHA512. The format of the POST request follows again the grammar specified in \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}).
 }
-\item{The client waits for the HTTP response of the server, containing HTML code as body. Then the client saves the code on the file system and opens the default web browser only to show. The HTML code is intended to show 3 possible scenarios: the user was correctly logged in, the user inserted wrong password, the username wasn't already stored on the server database.}
+\item{The client waits for the HTTP response of the server, containing HTML code as body. Then the client saves the code on the file system and opens the default web browser to show the HTML page received. The HTML code is intended to show 3 possible scenarios: the user was correctly logged in, the user inserted wrong password, the username wasn't already stored on the server database. The client can insert wrong credentials for at most 3 times. If the limit is reached, the access to the client side of AcCAPPCHA is blocked as previously explained.}
 \end{enumerate}
+When the user is blocked because of wrong credentials or bot detected, the client-side of AcCAPPCHA stores the datetime in a file called \texttt{block.txt}. At every startup of AcCAPPCHA on the client side, the program checks if a fixed amount of time was passed from the stored datetime. If the block period is already elapsed, the file \texttt{block.txt} is removed by the client, otherwise it leave it as it is for future checks. During the testing phase, I used a block period of 100 seconds but in practice it should be bigger.
 
 \subsection{Server}
-The client performs the authentication following these steps:
+The server performs the authentication of the client following these steps:
 \begin{enumerate}
-\item{It establishes a connection with the client, after his request, over TLS layer to increase the security strength of the communication between the parties;}
-\item{It receives the message $(m, n, sign(m||n))$ and check the integrity of the message. To do it, the server decrypts the ECDSA signature using the client's ECDSA public key and compares the result with \textit{m||n}.}
-\item{If compared messages were the same, the server checks if the nonce was already used by the same client. If so, the server thinks that there was an attacker that is performing a replay attack. If the nonce wasn't already used by the client, it will be stored in a dictionary to monitor clients activity. Each entry of the dictionary is composed by:
+\item{It establishes a connection with the client, after his request, using the TLS protocol to increase the security strength of the communication between the parties;}
+\item{It receives the message $(m, n, sign(m||n))$ and it checks the integrity of the message. To do it, the server decrypts the ECDSA signature using the client's ECDSA public key and compares the result with \textit{m||n}. If the comparison fails, the server replies '$No\;integrity\setminus r\setminus n$' to the client.}
+\item{If the previous comparison has a positive response, the server checks if the nonce was already used by the same client. If this happens, the server thinks that an attacker is performing a replay attack and the server replies '$NO\setminus r\setminus n$' to the client. If the nonce wasn't already used by the client, it will be stored in a dictionary to monitor clients activity. Each entry of the dictionary is composed by:
 \begin{itemize}
 \descItem{Key: IP address}{It is the IP address of the client and it is a simplification of the information that identifies a client. For example the client could be associated also to port number used to make the request, the Operating System on which the AcCAPPCHA was running on client-side or other useful parameters.}
-\descItem{Value: list of nonces}{Every time a client performs a new verification request on the server, the nonce is added to the list related to its IP address in the dictionary.}
+\descItem{Value: list of nonces}{Every time a client performs a new verification request on the server, the nonce used is added to the list related to its key in the dictionary.}
 \end{itemize}
 }
-\item{If the nonce was used for the first time by the client, the server checks the value of the response received by the client. If the response is 'True', the server replies '$OK\setminus r\setminus n$' otherwise '$NO\setminus r\setminus n$'. If some error occurs it sends '$ERROR\setminus r\setminus n$' to the client. In the last two cases, the server terminates.}
-\item{If the server doesn't terminate, it waits for the POST request from the client and analyses it to perform authentication service. The server replies to client with several status codes:
+\item{If the nonce was used for the first time by the client, the server checks the value of the response received by the client. If the response is 'True', the server replies '$OK\setminus r\setminus n$' otherwise '$NO\setminus r\setminus n$'. If some error occurs it sends '$ERROR\setminus r\setminus n$' to the client. In the last two cases, the server doesn't perform the following steps.}
+\item{If the server doesn't terminate, it waits for the POST request from the client and analyses it to perform authentication service. The server replies to the client with an HTTP 1.1 response with several possible status codes:
 \begin{itemize}
 \item{\textbf{501 (}Not implemented\textbf{)}\\
 If the request is not a POST (e.g. GET)}
@@ -315,7 +317,7 @@ If the number of the parameters in the POST body is different from 2 (username a
 \item{\textbf{200 (}OK\textbf{)}\\
 If the number of the parameters in the POST body is equal to 2, the server will reply with an HTTP response with a body content depending on several cases:
 \begin{itemize}
-\descItem{User not in the database}{the server sends the following HTML code if the specified username isn't already stored in the database.
+\descItem{The user isn't in the database}{the server sends the following HTML code if the specified username isn't already stored in the database.
 \begin{table}[H]
 \hspace{2cm}\centering\footnotesize
 \begin{tabular}{|p{6cm}|p{0.5cm}c}
@@ -331,7 +333,7 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \end{tabular}
 \end{table}
 }
-\descItem{Wrong password}{the server sends the following HTML code if the hashed password received from the client isn't the same with respect to the one stored in database for the specified username.
+\descItem{The password is wrong}{the server sends the following HTML code if the hashed password received from the client isn't the equal to the one stored in the database for the specified username.
 \begin{table}[H]
 \hspace{2cm}\centering\footnotesize
 \begin{tabular}{|p{6cm}|p{0.5cm}c}
@@ -347,7 +349,7 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \end{tabular}
 \end{table}
 }
-\descItem{User logged in}{the server sends the following HTML code if the specified username exists in the database and  its hashed password stored in the database is the same of the one received through POST request.
+\descItem{The user correctly logged in}{the server sends the following HTML code if the specified username exists in the database and the hashed password stored in the database is equal to the one received in the POST request.
 \begin{table}[h]
 \hspace{2.5cm}\centering\footnotesize
 \begin{tabular}{|p{6cm}|p{0.5cm}c}
@@ -368,14 +370,15 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \end{itemize}
 }
 \end{enumerate}
-
+\vspace{10cm}
 \subsection{Database}
-The database, created to simulate the search of a username by the server, was made using PostgreSQL. I could store all the information in a simple text file or a csv file but I decide to use this approach to be more flexible to future integration to more complex database.\\
-The database is composed by only a table \texttt{CloudUser} to store information about user identity usually stored during the sign up phase. The creation of the database was performed through the following instructions:
+The database, created to simulate the search of a username by the server, was made using PostgreSQL. I could store all the information in a simple text file or a csv file but I decide to use this approach to be more flexible for future integration of more complex database.\\
+The database is composed by a single table \texttt{CloudUser} that stores information about the user identity, that are usually asked to the user during the sign up phase. The creation of the database table was performed using the following instructions:
+\vspace{1cm}
 \lstset{basicstyle=\footnotesize,breaklines=true}
 \lstinputlisting[language=SQL]{../Code/PC/dat/db/db_creation.sql}
-I created several domain to manage format of some information of the user. For example the password is a string of 128 characters because each password is hashed using SHA512 and then formatting the result as a string of hexadecimal values.
-Then I populated the dataset with some entries, related to fake user, only for testing purpose. An example of inserted users is the following one:
+I created several domains to manage format of some information of the user. For example the password is a string of 128 characters because each password is hashed using SHA512 and then stored as a string of hexadecimal digits.
+Then I populated the dataset with some entries, related to fake users, only for testing purpose. An example of the query that I use to insert information about a user is reported next:
 \vspace{0.5cm}
 \begin{lstlisting}[language=SQL, showstringspaces=false]
 INSERT INTO CloudUser (Name,
@@ -392,7 +395,7 @@ VALUES ('Raffaele',
         'Male',
         HASHPASSWORD);
 \end{lstlisting}
-In practice, \texttt{HASHPASSWORD} is replaced by the string of 128 characters corresponding to the hashed password in hexadecimal format.
+During the insertion, \texttt{HASHPASSWORD} was replaced by the string of 128 characters corresponding to the hashed password in hexadecimal format.
 
 \subsection{Encryption Keys}
 The creation of the TLS socket for the communication between the client and the server is done by using keys and certificates created thanks to the following bash instructions:
@@ -407,8 +410,8 @@ openssl req -new -x509 -days 365 -nodes -out server.pem
 \end{lstlisting}
 OpenSSL is a open-source implementation of TLS/SSL protocols and, thanks to the option \texttt{-x509}, you can display certificates and also access to many signing protocols.
 In particular, in the previous bash instructions, a X.509 Certificate Signing Request (CSR) is generated and signed for both the parties.\\
-Thanks to \texttt{-nodes} the private key is created and not encrypted. The certificates are stored respectively in \textit{server.pem} for the server side and \textit{client.pem} for the client and they are valid for 365 days. The private keys are stored thanks to \texttt{-keyout} option in the \textit{client.pem} and \textit{server.key}.\\\\
-The keys, used in ECDSA signing and verification, were created as follow from Python language instead of using a bash tool:
+Thanks to \texttt{-nodes} the private key is created and not encrypted. The certificates are stored respectively in \textit{server.pem} for the server side and \textit{client.pem} for the client and they are valid for 365 days. The private keys are stored, using the \texttt{-keyout} option, in the files \textit{client.key} and \textit{server.key}.\\\\
+The keys, used in ECDSA signing and verification, were created as follow from the Python language instead of using a bash tool:
 \vspace{0.3cm}
 \begin{lstlisting}[language=python, showstringspaces=false, tabsize=4]
 from ecdsa import *
@@ -425,4 +428,4 @@ PUBLIC_KEY = PRIVATE_KEY.get_verifying_key()
 with open('ecdsa.pem', 'w') as public_pem:
 	public_pem.write(PUBLIC_KEY.to_pem().decode())
 \end{lstlisting}
-The \textit{ecdsa} module gives access to the management of operations performed by signing and verification phase. In this case the private key, used to sign a message from the client, was computed on the curve \texttt{SECP256k1} usually used in Bitcoin applications.
+The \textit{ecdsa} module gives access to the operations performed during the ECDSA signing and verification phases. In this case the private key, used to sign a message from the client, was computed on the curve \texttt{SECP256k1} usually used in Bitcoin applications.

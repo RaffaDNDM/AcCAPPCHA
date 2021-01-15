@@ -189,10 +189,11 @@ class Authentication:
                 
         except ecdsa.keys.BadSignatureError:
             # NO correspondence between signature and sign(msg+nonce)
-            client_sd.send(b'Unauthorized\r\n')
+            client_sd.send(b'No integrity\r\n')
         
         #vk = VerifyingKey.from_string(bytes.fromhex(), curve=ecdsa.SECP256k1)
         #vk.verify(bytes.fromhex(sig), message) # True
+        client_sd.close()
 
     def authentication(self, client_sd):
         """
