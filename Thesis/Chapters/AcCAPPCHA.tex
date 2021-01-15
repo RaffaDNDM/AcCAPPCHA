@@ -78,7 +78,7 @@ $\mathtt{y =(y_0, y_1,..., y_{|password|-1})}$ where $y_i=x_i-x_0$\;
   \If{$(n-j)<(|password|-count)$}{
    	\textcolor{commentAlg}{//Not enough peaks from $t_i$ on to be analysed to find the time correspondence}\;
    \BlankLine
-   $\mathtt{break}$  
+   $\mathtt{break}$\;
    \BlankLine
   }
   \uIf{$\mathtt{(t_j-t_i)}<(y_{count}-threshold)$}{
@@ -97,7 +97,7 @@ $\mathtt{y =(y_0, y_1,..., y_{|password|-1})}$ where $y_i=x_i-x_0$\;
   \Else{
     \textcolor{commentAlg}{//Too much time between the time instant of the first character and the time instant of the \textbf{count}-th character.}\;
     \BlankLine
-    $\mathtt{break}$
+    $\mathtt{break}$\;
     \BlankLine
   }
   \BlankLine
@@ -142,7 +142,7 @@ The dataset acquisition was performed using two tasks running in parallel: the f
 The choice of running two tasks in parallel is because the recording session must start before the key press and it must end a little bit later the acquisition of the character. In this way the shape of the signal of the audio peak, related to the key press, are not going to be cut. The data acquisition program can also acquire audio files for a series of key presses but in this case I decided to record one audio file for each key press.\\
 In details the key-logger waits for the insertion of a single key by the user and then reports it to the thread that performs audio recording. This last task closes the audio stream and stores the audio signal into a \textit{wav} file named with a progressive number. All the audio files are dynamically organized into a set of subfolders of an output directory, each one with the name of the respective typed key.\\
 The recording phase was performed using the built-in Realtek microphone and the keyboard of my MSI GL63 8RD laptop. The names of the subfolders (labels), in which each audio file of a press is inserted, are reported in \myref{Appendix}{chapter:KeyMapping}.\\
-Looking at the Table in the Appendix, the keylogger  is evident. It maps each key to an ASCII string of upper or lower alphabetic characters because otherwise many keys would be mapped into invalid names of folders (for example, the key \textit{'.'} is now mapped into the label \textit{'POINT'}). Another observation about the table in \myref{Appendix}{chapter:KeyMapping} is that there are two columns of labels: the first one related to the label seen by the key-logger, the second one related to the label manually assigned by me to each key. Sometimes these labels differ for the same entry because of:
+Looking at the Table in the Appendix, the keylogger  is evident. It maps each key to an ASCII string of upper or lower alphabetic characters because otherwise many keys would be mapped into invalid names of folders (for example, the key \textit{'.'} is now mapped into the label \textit{'POINT'}). Another observation about the table in \myref{Appendix}{appendix:KeyMap} is that there are two columns of labels: the first one related to the label seen by the key-logger, the second one related to the label manually assigned by me to each key. Sometimes these labels differ for the same entry because of:
 \begin{itemize}
 \descItem{higher accuracy for spatial distribution of the keys on the keyboard}{for example, \textit{'INSERT'} and \textbf{'0\_INSERT'} (with Num lock on) would be mapped into \textit{'INSERT'} by the keylogger but they are considered different thanks to my map;}
 \descItem{improvement of the the classification of the keys made by the keylogger}{for example, \textit{'ALT'} label is wrongly mapped into \textit{'SHIFT'} by the keylogger.}
@@ -155,7 +155,7 @@ However I record 200 audio signals for each key of my keyboard obtaining a datas
 \descItem{Introduction of Gaussian noise}{from each audio signal I created four new audio signals by adding a sequence of random samples, taken from a Gaussian distribution with the standard deviation equal to 150 and the mean equal 0.}
 \end{itemize}
 Using these approaches I obtained a training set of 1800 audio signals for key, composed respectively by the following datasets:
-\begin{itemize}
+\begin{itemize}[itemsep=1\itemsep,parsep=1\parsep,partopsep=1\partopsep,topsep=1\topsep]
 \item{200 audio signals manually recorded by me}
 \item{800 audio signals obtained by time-shift technique}
 \item{800 audio signals from introduction of Gaussian noise}
@@ -171,40 +171,80 @@ I tried three different approaches for the extraction of the features and for ea
 \item{FFT coefficients of the hit peak and the touch peak}
 \item{Features obtained from the hit peak and the touch peak using a deep learning pre-trained model}
 \end{itemize}
-The first two approaches come from the idea in the work of Asonov and Agrawal and the last one was based on the modern sound classification techniques. In the first two cases, the coefficients are extracted from a window of 3 ms around the peaks and then they are normalized in floating point values in range $[0, 1]$ (see \myref{Figure}{AcCAPPCHA:feature_example}).\\
-In the third case, the touch peak and the hit peak samples, taken by 3ms windows, are concatenated and then the spectrogram is computed over these samples (see \myref{Figure}{AcCAPPCHA:spectrogram}). From the spectrogram, I extract a feature composed by 512 values through the use of the VGG16 convolutional neural network.\\
-The network was pre-trained on the images in the \href{http://www.image-net.org/}{ImageNet} database and I used the intermediate results of neurons, before the last fully connected layers, as feature. The reason of this approach is that a pre-trained network already extracts very well features for good classification of a many labels and it can extract features better than a Convolutional Neural Network for image classification created from scratch.\\
-The features obtained from the audio files are divide into three new dataset: the training set and the test set. \\
-After the extraction of the features with the previous methods, I created a deep neural network from scratch. Its number of input neurons is equal to the size of a feature and the number of output neurons is equal to the number of keys to be mapped. I tried to insert several hidden layers composed by different number of neurons but after changing many parameters, I decided to use only one hidden layer 1024 neurons if the feature was obtained using the spectrograms and 100 otherwise. This choice comes from the best trade-off between the accuracy of the network on the test set and the prediction of labels for new audio peaks obtained later during the insertion of the password.
+The first two approaches come from the idea in the work of Asonov and Agrawal and the last one was based on the modern sound classification techniques. In the first two cases, the coefficients are extracted from a window of 3 ms around the peaks and then they are normalized in floating point values in range $[0, 1]$ (see \myref{Figure}{AcCAPPCHA:feature_example}).
 \begin{figure}[H]
      \centering
      \includegraphics[width=.9\linewidth]{Images/AcCAPPCHA/feature_example}
      \caption{\footnotesize{Example of normalized FFT computation of the touch peak and the hit peak for an audio file of key \textit{'0'}.}}\label{AcCAPPCHA:feature_example}
 \end{figure}
+In the third case, the touch peak and the hit peak samples, taken by 3ms windows, are concatenated and then the spectrogram is computed over these samples (see \myref{Figure}{AcCAPPCHA:spectrogram}). From the spectrogram, I extract a feature composed by 512 values through the use of the VGG16 convolutional neural network.
 \begin{figure}[H]
      \centering
      \includegraphics[width=.8\linewidth]{Images/AcCAPPCHA/spectrogram}
      \caption{\footnotesize{Example of spectrogram for an audio file of key \textit{'0'}.}}\label{AcCAPPCHA:spectrogram}
 \end{figure}
+The network was pre-trained on the images in the \href{http://www.image-net.org/}{ImageNet} database and I used the intermediate results of neurons, before the last fully connected layers, as feature. The reason of this approach is that a pre-trained network already extracts very well features for good classification of a many labels and it can extract features better than a Convolutional Neural Network for image classification created from scratch.\\
+The features obtained from the audio files are divide into three new dataset: the training set and the test set. After the extraction of the features with the previous methods, I created a deep neural network from scratch.\\
+Its number of input neurons is equal to the size of a feature and the number of output neurons is equal to the number of keys to be mapped. I tried to insert several hidden layers composed by different number of neurons but after changing many parameters, I decided to use only one hidden layer 1024 neurons if the feature was obtained using the spectrograms and 100 otherwise. \\
+This choice comes from the best trade-off between the accuracy (83-86\%) of the network on the test set and the prediction of labels for new audio peaks obtained later during the insertion of the password. Each label associated to a key press (see \myref{Appendix}{appendix:KeyMap}), is mapped into an integer number in $[0, n-1]$ where $n$ is the number of the output neurons.\\
+Each time the neural network receives a feature as input, it would return a series of floating point value (probability) in $[0, 1]$, one for each output neuron. The neuron, related to the highest probability, is the label predicted from the input feature. The training phase of the neural network is performed looking at the real label of each audio file and the predicted one. Thanks to back the propagation procedure, the weights of the network are modified and hence the network becomes trained. 
 
 \subsubsection{Verification}
 The verification phase is performed by AcCAPPCHA. The audio signal, taken during the insertion of the password, is analysed and then the verification can be based on:
 \begin{itemize}
-\item{every audio peak obtained using threshold obtained from the noise evaluation}
+\item{every audio peaks obtained using threshold obtained from the noise evaluation}
 \item{audio peaks related to the time instants of to the time correspondence}
 \end{itemize}
-After the selection of the previous peaks, AcCAPPCHA selects the touch and the hit peaks and it computes the features with the approach previously selected by the user from the ones reported in \myref{Section}{AcCAPPCHA:classification}. 
-
-
-I perform the prediction using the Neural Network. I collect the most probable predicted keys and I repeat the procedure for every window initially computed on the audio. This method is very weak because after this phase, the algorithm tries to find an ordered sequence of characters, one from each window, that corresponds with the password inserted by the user. If this exists, AcCAPPCHA declares that the user was a human, otherwise a bot. The main problem of this approach is that there is no correspondence in time between a character belonging to the final sequence and the moment in which the same character was inserted physically by the user. In fact there can be false positives caused by the prediction from peak that are not related to the absolute maximum one. In other terms, in the set of the maximuma of all the windows there can be someone that is not related to the touch peak but to a local maximum.\\
-The second approach solves the previous problem because the windows, where the maxima are looked for, are obtained by the correspondence time approach. In this case, AcCAPPCHA verification becomes more accurate in theory even if in practice the deep learning technique is not very efficient in prediction for a single key.
+After the selection of the previous peaks, AcCAPPCHA analyses the touch and the hit peaks and it computes the features with the approach chosen by the user, from the ones described in \myref{Section}{AcCAPPCHA:classification}, at the start-up of the program. The selection of the features is only for testing purpose and, if the CAPTCHA is released, it will be removed by using only the feature with best results. I perform the prediction using the Neural Network trained during the classification phase. For the feature of each audio peak $f_i$, I collect the 10 most probable predicted labels in the set $Y_i=({y_i}^{0}, {y_i}^{1}, ..., {y_i}^{9})  $.\\
+Then AcCAPPCHA evaluates if there exists a character correspondence by using \myref{Algorithm}{AcCAPPCHA:char_algorithm}.
+\begin{algorithm}[h]
+\DontPrintSemicolon\footnotesize
+\KwIn {$\mathtt{password=(x_0, x_1, ..., x_{|password|-1})=}$ sequence related to the password, where $x_i$ is the label related to i-th character of the password typed by the user\newline
+$\mathtt{Y =(Y_0,Y_1,...,Y_{n-1})=}$ sets of labels related to audio peaks\newline}
+\KwOut {$\mathtt{true}$ if human, $\mathtt{false}$ otherwise\newline}
+\BlankLine
+\If{$n<|password|$}{
+\textcolor{commentAlg}{//Number of found peaks lower than number of characters of the password}\;
+    \BlankLine
+    \Return $false$\;
+    \BlankLine
+}
+\BlankLine
+\textcolor{commentAlg}{//Search of sequence}\;
+$\mathtt{i\gets} 0$\;
+\For{$j\leftarrow 0$ \KwTo $n-1$}{
+\BlankLine
+ \If{$x_i\;\in\; Y_j$}{
+ \textcolor{commentAlg}{//Not enough peaks from $t_i$ on to be analysed to find the time correspondence}\;
+    \BlankLine
+    $\mathtt{i\gets} i+1$\;
+    $\mathtt{j\gets} j+1$\;
+    \BlankLine
+ }
+ \If{$i==n$}{
+ \textcolor{commentAlg}{//Not enough peaks from $t_i$ on to be analysed to find the time correspondence}\;
+    \BlankLine
+    $\mathtt{break}$\;
+    \BlankLine
+ }
+\BlankLine
+}
+\BlankLine
+\Return i==n
+\BlankLine
+ \caption{Character correspondence}\label{AcCAPPCHA:char_algorithm}
+\end{algorithm}
+If there exists a sequence of sets that "overlaps" with the characters of the password, inserted by the user, the algorithm decrees that a human performed the action. Otherwise, the user was a bot. If the verification is performed using every audio peaks, the results are very weak because it could introduce also false positives.\\
+This could happen if the audio recorded for noise evaluation is very flat but the audio during the password insertion is very noisy. In this case the sequence found by the verification could be associated to audio peaks that aren't related all to the real key presses. The main problem of this approach is caused by the missing time correspondence between a character, belonging to the final sequence, and the moment in which the same character was physically inserted by the user.\\
+The second approach that performs \myref{Algorithm}{AcCAPPCHA:char_algorithm} on only features obtained from audio peaks related to the time instants of the time correspondence. In this case, AcCAPPCHA verification becomes more accurate even if in practice character correspondence isn't very efficient because of the neural network often fails in single key prediction, causing some false negatives.
 
 \section{Communication between client and server}
 In the second phase, the username and the password of the user will be signed through ECDSA and sent by client to the authentication service if and only if the insertion was performed by a human. The algorithm that perform the evaluation of user activity (see \myref{Section}{AcCAPPCHA:user_activity}) is performed at client side but the value returned by it is evaluated at server-side. The response of the evaluation of user activity concatenated with a nonce and then signed through ECDSA, is sent to the server (see \myref{Section}{inv:communication}). The use of the nonce, unique and random generated sequence, is very important to guarantee that no reply attacks would be performed. In fact the server, after the reception of a message from the client, the server can check if the client has already sent the same nonce before and in this case it declines the message of the client. In this way, any attacker can't reuse a message that previously establishes a client was human. This type of procedure can be also useful to sign HTTP data, for example data sent using POST request (as insertion of password during authentication phase). In the testing phase I performed, I designed and implemented also a simplified version of the communication between the client and the server for an authentication service.\\
-The application was tested on local network and the actions performed by involved parties are described in details in the following sections (see Figure ).
-\begin{figure}
+The application was tested on local network and the actions performed by involved parties are described in details in the following sections (see \myref{Figure}{AcCAPPCHA:ClientServer}).
+\begin{figure}[h]
 \centering
 \includegraphics[width=.8\textwidth]{Images/AcCAPPCHA/client-server}
+\caption{\footnotesize{Authentication between client and server using AcCAPPCHA.}}\label{AcCAPPCHA:ClientServer}
 \end{figure}
 \subsection{Client}
 The client performs the authentication following these steps:
