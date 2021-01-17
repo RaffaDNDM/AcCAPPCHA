@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  23 DEC 2020 14:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  17 JAN 2021 15:50
 entering extended mode
 **./Title.tex
 (Title.tex
@@ -136,22 +136,13 @@ or  <return>  to continue without it.
 Missing character: There is no [ in font nullfont!
 Missing character: There is no H in font nullfont!
 Missing character: There is no ] in font nullfont!
-! Undefined control sequence.
-l.10   \scshape{\Large
-                      {\bfseries{University of Padova}}} \\
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 
 LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
 (Font)              using `OT1/cmr/bx/n' instead on input line 10.
 
 ! Undefined control sequence.
-l.12   \scshape{\Large
-                      {Engineering~Departement}} \\
+l.10   \scshape{\bfseries{\large
+                                {Università Degli Studi Di Padova}}} \\
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -172,15 +163,13 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (9011.12497pt too wide) in paragraph at lines 5--16
+Overfull \hbox (8191.99997pt too wide) in paragraph at lines 5--16
  []$[]$$[]$ 
  []
 
 ! Undefined control sequence.
-<recently read> \Large 
-                       
-l.18 ...Large{Computer~Engineering~Master~Degree}}
-                                                   \\
+l.18 \Large
+           {\textit{\textit{Master~Degree~in~Computer~Engineering}}} \\
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -188,8 +177,18 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-Overfull \hbox (61.5996pt too wide) in paragraph at lines 18--18
- []\OT1/cmr/m/it/10 Computer En- 
+Overfull \hbox (48.58853pt too wide) in paragraph at lines 18--18
+ []\OT1/cmr/m/it/10 Master De- 
+ []
+
+
+Overfull \hbox (54.81625pt too wide) in paragraph at lines 18--18
+ \OT1/cmr/m/it/10 gree in Com- 
+ []
+
+
+Overfull \hbox (41.15527pt too wide) in paragraph at lines 18--18
+ \OT1/cmr/m/it/10 puter En- 
  []
 
 
@@ -203,18 +202,8 @@ Overfull \hbox (22.10536pt too wide) in paragraph at lines 18--18
  []
 
 
-Overfull \hbox (37.58865pt too wide) in paragraph at lines 18--18
- \OT1/cmr/m/it/10 ing Mas- 
- []
-
-
-Overfull \hbox (30.42197pt too wide) in paragraph at lines 18--18
- \OT1/cmr/m/it/10 ter De- 
- []
-
-
-Overfull \hbox (17.74565pt too wide) in paragraph at lines 18--18
- \OT1/cmr/m/it/10 gree 
+Overfull \hbox (14.17352pt too wide) in paragraph at lines 18--18
+ \OT1/cmr/m/it/10 ing 
  []
 
 ! Undefined control sequence.
@@ -422,125 +411,80 @@ Overfull \hbox (20.0pt too wide) in paragraph at lines 30--30
  []
 
 
-Overfull \hbox (21.46652pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 Can- 
+Overfull \hbox (24.82196pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 Can- 
  []
 
 
-Overfull \hbox (11.75548pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 di- 
+Overfull \hbox (13.61098pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 di- 
  []
 
 
-Overfull \hbox (18.14432pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 date 
+Overfull \hbox (20.9942pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 date 
  []
 
 
-Overfull \hbox (14.56657pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 Su- 
+Overfull \hbox (16.84984pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 Su- 
  []
 
 
-Overfull \hbox (16.9943pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 per- 
+Overfull \hbox (19.80536pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 per- 
  []
 
 
-Overfull \hbox (11.24435pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 vi- 
+Overfull \hbox (13.0221pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 vi- 
  []
 
 
-Overfull \hbox (14.49295pt too wide) in paragraph at lines 32--32
-\OT1/cmr/m/it/10 sor  
+Overfull \hbox (16.9082pt too wide) in paragraph at lines 32--32
+\OT1/cmr/bx/it/10 sor  
  []
 
-! Undefined control sequence.
-l.34   \hspace{25pt} \large
-                           {\textbf{\footnotesize{Di Nardo Di Maio Raffaele}...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-<recently read> \footnotesize 
-                              
-l.34 ...{\footnotesize{Di Nardo Di Maio Raffaele}}
-                                                  } \hspace{55pt} \large{\te...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.34 ...o Di Maio Raffaele}}} \hspace{55pt} \large
-                                                  {\textbf{\footnotesize{Pro...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-<recently read> \footnotesize 
-                              
-l.34 ...xtbf{\footnotesize{Prof. Migliardi Mauro}}
-                                                  }\\
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-Overfull \hbox (12.01382pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Di 
- []
-
-
-Overfull \hbox (31.4651pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Nardo 
- []
-
-
-Overfull \hbox (12.01382pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Di 
- []
-
-
-Overfull \hbox (25.45123pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Maio 
- []
-
-
-Overfull \hbox (21.56236pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Raf- 
- []
-
-
-Overfull \hbox (22.84015pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 faele 
- []
-
-
-Overfull \hbox (25.05544pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Prof. 
- []
-
-
-Overfull \hbox (46.15947pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Migliardi 
- []
-
-
-Overfull \hbox (33.38176pt too wide) in paragraph at lines 34--34
-\OT1/cmr/bx/sc/10 Mauro  
- []
-
+Missing character: There is no D in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no N in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no D in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no M in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no R in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no e in font nullfont!
+Missing character: There is no P in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no o in font nullfont!
+Missing character: There is no f in font nullfont!
+Missing character: There is no . in font nullfont!
+Missing character: There is no M in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no g in font nullfont!
+Missing character: There is no l in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no d in font nullfont!
+Missing character: There is no i in font nullfont!
+Missing character: There is no M in font nullfont!
+Missing character: There is no a in font nullfont!
+Missing character: There is no u in font nullfont!
+Missing character: There is no r in font nullfont!
+Missing character: There is no o in font nullfont!
 
 Overfull \hbox (20.0pt too wide) in paragraph at lines 39--39
 [] 
@@ -578,12 +522,12 @@ Overfull \hbox (25.87207pt too wide) in paragraph at lines 44--45
 
 
 Overfull \hbox (25.88864pt too wide) in paragraph at lines 44--45
- \OT1/cmr/m/sc/10 2021- 
+ \OT1/cmr/m/sc/10 2020- 
  []
 
 
 Overfull \hbox (22.1109pt too wide) in paragraph at lines 44--45
- \OT1/cmr/m/sc/10 2022 
+ \OT1/cmr/m/sc/10 2021 
  []
 
 
@@ -621,11 +565,11 @@ or  <return>  to continue without it.
 
  
 Here is how much of TeX's memory you used:
- 23 strings out of 492452
- 342 string characters out of 3134016
+ 25 strings out of 492452
+ 353 string characters out of 3134016
  61872 words of memory out of 3000000
- 4478 multiletter control sequences out of 15000+200000
- 4595 words of font info for 17 fonts, out of 3000000 for 9000
+ 4479 multiletter control sequences out of 15000+200000
+ 4954 words of font info for 18 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 20i,9n,18p,173b,290s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 20i,9n,18p,120b,288s stack positions out of 5000i,500n,10000p,200000b,50000s
 !  ==> Fatal error occurred, no output PDF file produced!

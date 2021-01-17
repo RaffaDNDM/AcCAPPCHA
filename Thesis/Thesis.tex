@@ -78,8 +78,12 @@
 \usepackage[colorlinks=true, linkcolor=black, citecolor=blue, urlcolor=black]{hyperref}
 
 %------------------------------ define Abstract environment, missing in the 'book' class
-\newenvironment{abstract}{\cleardoublepage \null \vfill \begin{center}\bfseries\abstractname \end{center}}{\vfill\null}
-\addto\captionsenglish{\renewcommand*\abstractname{Abstract}} % change Abstract title
+\newenvironment{abstract}{
+  \vspace*{\fill}
+  \begin{center}%
+    \bfseries\abstractname
+  \end{center}}%
+  {\vfill} % change Abstract title
 
 %------------------------------ active url
 \usepackage{url}
@@ -122,9 +126,13 @@
 \newcommand{\key}[1]{\textbf{\color{blue}{#1}}}
 
 \newcommand{\myref}[2]{\textbf{#1 \ref{#2}}}
+\newcommand\DocLength[1]{%
+  The value for \texttt{#1} is \printinunitsof{mm}\prntlen{\csname#1\endcsname}\par}
+  
 
 \begin{document}
 \frontmatter
+%\input{Chapters/Cover.tex}
 \input{Chapters/Title.tex}
 \input{Chapters/Dedication.tex}
 \input{Chapters/Quotations.tex}
