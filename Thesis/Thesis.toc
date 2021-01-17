@@ -1,7 +1,7 @@
 \babel@toc {italian}{}
 \babel@toc {italian}{}
 \babel@toc {english}{}
-\contentsline {chapter}{Abstract}{vii}{table.caption.2}% 
+\contentsline {chapter}{Abstract}{vii}{table.caption.1}% 
 \babel@toc {italian}{}
 \babel@toc {english}{}
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}% 
@@ -51,4 +51,7 @@
 \contentsline {chapter}{\numberline {7}Future work}{69}{chapter.7}% 
 \contentsline {chapter}{\numberline {A}Key Map}{71}{appendix.A}% 
 \contentsline {chapter}{\numberline {B}Program}{77}{appendix.B}% 
-\contentsline {chapter}{Bibliography}{79}{section*.44}% 
+\contentsline {section}{\numberline {B.1}DatasetAcquisition.py}{77}{section.B.1}% 
+\contentsline {section}{\numberline {B.2}AcCAPPCHA.py}{78}{section.B.2}% 
+\contentsline {section}{\numberline {B.3}Authentication.py}{79}{section.B.3}% 
+\contentsline {chapter}{Bibliography}{81}{section*.44}% 

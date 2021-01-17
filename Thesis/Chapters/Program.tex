@@ -1,1 +1,78 @@
 \chapter{Program}\label{appendix:Program}
+In the following sections, I describe the command line parameters of the main programs, developed to perform AcCAPPCHA verification. As explained in the previous chapters, all the code was developed using the \texttt{Python} programming language.
+
+\section{DatasetAcquisition.py}
+\texttt{DatasetAcquisition.py} does several actions: the recording of the audio during the insertion of a key, the plotting of the graphics of the audio files, the extraction of the features from the audio peak in each audio files. The audio recording terminates after a number of key presses. The label related to first key press defines the name of the subfolder of the output path where the wav file will be stored. By default the program waits only for sequences of 1 key and then stores it.
+
+{\footnotesize
+\begin{longtable}{rl}
+\hline
+\textbf{Parameter} & \textbf{Description}\\
+\hline
+\texttt{-plot} & If specified, it plots data already acquired instead of acquire\\
+\texttt{-p} & new audio files\\
+&\\
+\texttt{-record} & If specified, it records audio while the keylogger is going on\\
+\texttt{-r} &\\
+&\\
+\texttt{-extract} & If specified, it extract features from data already acquired\\
+\texttt{-e} & instead of acquire new audio files\\
+\texttt{-zoom} & If specified, it extract plot or extract features showing zoomed\\
+\texttt{-z} & graphics\\
+&\\
+\texttt{-file} \textit{path} & Path of the file that you want to plot or from which you want\\
+\texttt{-f} \textit{path} & to extract features\\
+&\\
+\texttt{-dir} \textit{path} & It specifies the \textit{path} the folder where:\\
+\texttt{-d} \textit{path} & \itemCellTab{\textbf{-r option}}\\
+& \hspace{0.8cm}there will be stored audio files acquired from the work\\
+& \hspace{0.8cm}of both the recorder and the keylogger\\
+&\itemCellTab{\textbf{-p option and -e option}}\\
+& \hspace{0.8cm}there are already recored audio on which the extraction\\
+& \hspace{0.8cm}and the plotting will be applied\\
+&\\
+\texttt{-out} \textit{path} & Path of the output folder in which the graphics will be stored as\\
+\texttt{-o} \textit{path} & images\\
+\hline
+\end{longtable}}
+
+\section{AcCAPPCHA.py}
+\texttt{AcCAPPCHA.py} runs at the client side and it performs the verification of the user identity, using either time or character correspondence. Then it sends the results to the server and communicates with it during the authentication phase.
+
+{\footnotesize
+\begin{longtable}{rl}
+\hline
+\textbf{Parameter} & \textbf{Description}\\
+\hline
+\texttt{-dir} \textit{path} & If specified, it is the path of the folder with the\\
+\texttt{-d} \textit{path} & 3 subfolders: 'touch/', 'touch\_hit/' and 'spectrum/'.\\
+& Each of them contains a folder called 'model/' that\\
+& contains information of the pre-trained network that\\
+& classifies thekeys of the keyboard\\
+&\\
+\texttt{-time} &If specified, it performs human verification through analysis of\\
+\texttt{-t} & elapsed time between insertion of 2 keys and time between 2 peaks\\
+\texttt{-deep} & If specified, it performs human verification through\\
+\texttt{-dl} & deep learning method (predicting pressed keys)\\
+&\\
+\texttt{-plot} & If specified, it performs plot of partial results\\
+\texttt{-p} &\\
+&\\
+\texttt{-debug} & If specified, it shows debug info\\
+\texttt{-dbg} & \\
+\hline
+\end{longtable}}
+
+\section{Authentication.py}
+\texttt{Authentication.py} runs forever at the server side. It performs the verification of the message received by the client and it accesses the database during the authentication phase.
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{rl}
+\hline
+\textbf{Parameter} & \textbf{Description}\\
+\hline
+\texttt{-debug} & If specified, it shows debug info\\
+\texttt{-dbg} &\\
+\hline
+\end{tabular}
+\end{table}
