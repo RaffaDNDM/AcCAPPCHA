@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  17 JAN 2021 11:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  17 JAN 2021 12:37
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -1445,7 +1445,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 ]
 Chapter 7.
-) (Chapters/KeyMapping.tex [69] [70
+) (Chapters/KeyMap.tex [69] [70
 
 ]
 Appendix A.
@@ -2100,31 +2100,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 4--154
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 4--154
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--154
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--154
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--154
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4--154
-
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [83
@@ -2142,7 +2117,7 @@ Package rerunfilecheck Info: File `Thesis.out' has not changed.
  ) 
 Here is how much of TeX's memory you used:
  27617 strings out of 492452
- 499522 string characters out of 3134016
+ 499506 string characters out of 3134016
  903684 words of memory out of 3000000
  31049 multiletter control sequences out of 15000+200000
  556910 words of font info for 76 fonts, out of 3000000 for 9000
@@ -2185,7 +2160,7 @@ fonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmr6.pfb>
 7.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Programs
 /Miktex/fonts/type1/public/amsfonts/cm/cmtt10.pfb><D:/Programs/Miktex/fonts/typ
 e1/public/amsfonts/cm/cmtt8.pfb>
-Output written on Thesis.pdf (96 pages, 30300420 bytes).
+Output written on Thesis.pdf (96 pages, 30301123 bytes).
 PDF statistics:
  2478 PDF objects out of 2487 (max. 8388607)
  458 named destinations out of 1000 (max. 500000)
