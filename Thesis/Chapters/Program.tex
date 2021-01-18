@@ -9,30 +9,33 @@ In the following sections, I describe the command line parameters of the main pr
 \hline
 \textbf{Parameter} & \textbf{Description}\\
 \hline
-\texttt{-plot} & If specified, it plots data already acquired instead of acquire\\
-\texttt{-p} & new audio files\\
+\texttt{-plot} & If specified, the program plots data already acquired instead of\\
+\texttt{-p} & new acquired audio files\\
 &\\
-\texttt{-record} & If specified, it records audio while the keylogger is going on\\
+\texttt{-record} & If specified, the program records audio while the keylogger is going on\\
 \texttt{-r} &\\
 &\\
-\texttt{-extract} & If specified, it extract features from data already acquired\\
-\texttt{-e} & instead of acquire new audio files\\
-\texttt{-zoom} & If specified, it extract plot or extract features showing zoomed\\
-\texttt{-z} & graphics\\
+\texttt{-extract} & If specified, the program extracts features from audio already recorded\\
+\texttt{-e} &\\
 &\\
-\texttt{-file} \textit{path} & Path of the file that you want to plot or from which you want\\
-\texttt{-f} \textit{path} & to extract features\\
 &\\
-\texttt{-dir} \textit{path} & It specifies the \textit{path} the folder where:\\
+\texttt{-zoom} & If specified, the program plots the audio peaks of the input files in\\
+\texttt{-z} & graphic images, showing only the signal in the neighbourhood of the peak.\\
+&\\
+\texttt{-file} \textit{path} & It specifies the \textit{path} of the file that you want to plot\\
+\texttt{-f} \textit{path} & or from which you want to extract features\\
+&\\
+\texttt{-dir} \textit{path} & It specifies, it is the \textit{path} the folder where:\\
 \texttt{-d} \textit{path} & \itemCellTab{\textbf{-r option}}\\
 & \hspace{0.8cm}there will be stored audio files acquired from the work\\
 & \hspace{0.8cm}of both the recorder and the keylogger\\
 &\itemCellTab{\textbf{-p option and -e option}}\\
-& \hspace{0.8cm}there are already recored audio on which the extraction\\
-& \hspace{0.8cm}and the plotting will be applied\\
+& \hspace{0.8cm}there are already recored audio files on which the\\
+& \hspace{0.8cm}extraction and the plotting will be applied\\
 &\\
-\texttt{-out} \textit{path} & Path of the output folder in which the graphics will be stored as\\
-\texttt{-o} \textit{path} & images\\
+\texttt{-out} \textit{path} & It specifies the \textit{path} of the output folder\\
+\texttt{-o} \textit{path} & in which the graphics will be stored as \textit{path}\\
+& images (if \texttt{-p/-plot} selected)\\
 \hline
 \end{longtable}}
 
@@ -44,22 +47,24 @@ In the following sections, I describe the command line parameters of the main pr
 \hline
 \textbf{Parameter} & \textbf{Description}\\
 \hline
-\texttt{-dir} \textit{path} & If specified, it is the path of the folder with the\\
+\texttt{-dir} \textit{path} & It specifies the \textit{path} of the folder with the\\
 \texttt{-d} \textit{path} & 3 subfolders: 'touch/', 'touch\_hit/' and 'spectrum/'.\\
-& Each of them contains a folder called 'model/' that\\
-& contains information of the pre-trained network that\\
-& classifies thekeys of the keyboard\\
+& Each of them contains a folder called 'model/' that contains the information\\
+& of the pre-trained network that classifies the keys of the keyboard.\\
+& It's mandatory if -deep/-dl option is specified.\\
 &\\
-\texttt{-time} &If specified, it performs human verification through analysis of\\
-\texttt{-t} & elapsed time between insertion of 2 keys and time between 2 peaks\\
-\texttt{-deep} & If specified, it performs human verification through\\
-\texttt{-dl} & deep learning method (predicting pressed keys)\\
+\texttt{-time} & If specified, AcCAPPCHA performs the time correspondence.\\
+\texttt{-t} & \\
 &\\
-\texttt{-plot} & If specified, it performs plot of partial results\\
-\texttt{-p} &\\
 &\\
-\texttt{-debug} & If specified, it shows debug info\\
-\texttt{-dbg} & \\
+\texttt{-deep} & If specified, AcCAPPCHA performs the character correspondence.\\
+\texttt{-dl} & \\
+&\\
+\texttt{-plot} & If specified, AcCAPPCHA plots the graphics of the peaks in the\\
+\texttt{-p} & audio signal recorded during the password insertion.\\
+&\\
+\texttt{-debug} & If specified, AcCAPPCHA shows debug information about the\\
+\texttt{-dbg} & verification phases\\
 \hline
 \end{longtable}}
 
@@ -71,7 +76,7 @@ In the following sections, I describe the command line parameters of the main pr
 \hline
 \textbf{Parameter} & \textbf{Description}\\
 \hline
-\texttt{-debug} & If specified, it shows debug info\\
+\texttt{-debug} & If specified, the program shows debug information about the remote client\\
 \texttt{-dbg} &\\
 \hline
 \end{tabular}
