@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  18 JAN 2021 18:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  19 JAN 2021 19:07
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -1282,74 +1282,80 @@ Package pdftex.def Info: Images/AcCAPPCHA/hello35_time.png  used on input line
 File: Images/AcCAPPCHA/feature_example.png Graphic file (type png)
 <use Images/AcCAPPCHA/feature_example.png>
 Package pdftex.def Info: Images/AcCAPPCHA/feature_example.png  used on input li
-ne 177.
+ne 176.
 (pdftex.def)             Requested size: 350.99762pt x 263.26257pt.
 <Images/AcCAPPCHA/spectrogram.png, id=814, 462.528pt x 346.896pt>
 File: Images/AcCAPPCHA/spectrogram.png Graphic file (type png)
 <use Images/AcCAPPCHA/spectrogram.png>
 Package pdftex.def Info: Images/AcCAPPCHA/spectrogram.png  used on input line 1
-83.
+82.
 (pdftex.def)             Requested size: 312.00119pt x 234.01236pt.
+
+Underfull \vbox (badness 2418) has occurred while \output is active []
+
  [46 <./Images/AcCAPPCHA/feature_example.png>] [47 <./Images/AcCAPPCHA/spectrog
 ram.png>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Images/AcCAPPCHA/client-server.png, id=835, 643.40375pt x 410.53375pt>
+[48]
+<Images/AcCAPPCHA/client-server.png, id=841, 643.40375pt x 410.53375pt>
 File: Images/AcCAPPCHA/client-server.png Graphic file (type png)
 <use Images/AcCAPPCHA/client-server.png>
 Package pdftex.def Info: Images/AcCAPPCHA/client-server.png  used on input line
- 247.
+ 246.
 (pdftex.def)             Requested size: 312.00119pt x 199.08357pt.
-[48] [49] [50 <./Images/AcCAPPCHA/client-server.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 280--292
+ [49] [50 <./Images/AcCAPPCHA/client-server.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 279--291
 
  []
 
 [51] [52]
+Overfull \hbox (6.35345pt too wide) in paragraph at lines 302--303
+\T1/cmr/m/n/12 with \T1/cmr/m/it/12 m||n\T1/cmr/m/n/12 . If the com-par-i-son f
+ails, the server replies $[]$
+ []
+
+[53]
 LaTeX Font Info:    Font shape `T1/cmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 335.
-<Images/arrow.png, id=888, 99.46838pt x 99.46838pt>
+(Font)              Font shape `T1/cmtt/m/n' tried instead on input line 334.
+<Images/arrow.png, id=895, 99.46838pt x 99.46838pt>
 File: Images/arrow.png Graphic file (type png)
 <use Images/arrow.png>
-Package pdftex.def Info: Images/arrow.png  used on input line 335.
+Package pdftex.def Info: Images/arrow.png  used on input line 334.
 (pdftex.def)             Requested size: 14.22636pt x 14.22598pt.
-<Images/AcCAPPCHA/no_db_html.png, id=889, 99.37125pt x 72.87225pt>
+<Images/AcCAPPCHA/no_db_html.png, id=896, 99.37125pt x 72.87225pt>
 File: Images/AcCAPPCHA/no_db_html.png Graphic file (type png)
 <use Images/AcCAPPCHA/no_db_html.png>
 Package pdftex.def Info: Images/AcCAPPCHA/no_db_html.png  used on input line 33
-5.
+4.
 (pdftex.def)             Requested size: 79.4971pt x 58.29787pt.
- [53]
 File: Images/arrow.png Graphic file (type png)
 <use Images/arrow.png>
-Package pdftex.def Info: Images/arrow.png  used on input line 351.
+Package pdftex.def Info: Images/arrow.png  used on input line 350.
 (pdftex.def)             Requested size: 14.22636pt x 14.22598pt.
 <Images/AcCAPPCHA/failure_html.png, id=897, 102.3825pt x 78.2925pt>
 File: Images/AcCAPPCHA/failure_html.png Graphic file (type png)
 <use Images/AcCAPPCHA/failure_html.png>
 Package pdftex.def Info: Images/AcCAPPCHA/failure_html.png  used on input line 
-351.
+350.
 (pdftex.def)             Requested size: 81.9061pt x 62.63406pt.
 File: Images/arrow.png Graphic file (type png)
 <use Images/arrow.png>
-Package pdftex.def Info: Images/arrow.png  used on input line 367.
+Package pdftex.def Info: Images/arrow.png  used on input line 366.
 (pdftex.def)             Requested size: 14.22636pt x 14.22598pt.
 <Images/AcCAPPCHA/logged_html.png, id=898, 121.05225pt x 70.46326pt>
 File: Images/AcCAPPCHA/logged_html.png Graphic file (type png)
 <use Images/AcCAPPCHA/logged_html.png>
 Package pdftex.def Info: Images/AcCAPPCHA/logged_html.png  used on input line 3
-67.
+66.
 (pdftex.def)             Requested size: 96.84192pt x 56.37067pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [54 <./Images/arrow.png> <./Images/AcCAPPCHA/no_db_html.png> <./Images/AcCAPPC
-HA/failure_html.png>] (D:\Programs\Miktex\tex/latex/listings\lstlang1.sty
+[54 <./Images/arrow.png> <./Images/AcCAPPCHA/no_db_html.png> <./Images/AcCAPPCH
+A/failure_html.png>] (D:\Programs\Miktex\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2019/09/10 1.8c listings language file
 )
 (../Code/PC/dat/db/db_creation.sql [55 <./Images/AcCAPPCHA/logged_html.png>])
@@ -1362,17 +1368,11 @@ File: lstlang1.sty 2019/09/10 1.8c listings language file
 (D:\Programs\Miktex\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2019/09/10 1.8c listings language file
 )
-Underfull \hbox (badness 10000) in paragraph at lines 411--416
+Underfull \hbox (badness 10000) in paragraph at lines 410--415
 
  []
 
-) (Chapters/Results.tex
-Overfull \hbox (2.03073pt too wide) in paragraph at lines 431--1
-\T1/cmr/m/n/12 The \T1/cmr/m/it/12 ecdsa \T1/cmr/m/n/12 mod-ule gives ac-cess t
-o the op-er-a-tions per-formed dur-ing the ECDSA
- []
-
-[57] [58
+) (Chapters/Results.tex [57] [58
 
 ]
 Chapter 6.
@@ -1384,9 +1384,9 @@ Package pdftex.def Info: Images/Results/keyboard_less.jpg  used on input line 2
 9.
 (pdftex.def)             Requested size: 272.99881pt x 90.29454pt.
  [60]
-Overfull \hbox (31.12233pt too wide) in paragraph at lines 56--58
+Overfull \hbox (18.77534pt too wide) in paragraph at lines 56--58
 \T1/cmr/m/n/12 PCHA. I em-u-lated it us-ing sev-eral ap-proaches and us-ing the
- user-name \T1/cmtt/m/n/12 'RaffaDNDM'
+ user-name \T1/cmtt/m/n/12 RaffaDNDM
  []
 
 [61 <./Images/Results/keyboard_less.jpg>] [62] [63]
@@ -2043,7 +2043,7 @@ Overfull \hbox (12.75473pt too wide) in alignment at lines 31--40
 [77
 
 ]
-Overfull \hbox (21.72476pt too wide) in alignment at lines 46--69
+Overfull \hbox (16.28165pt too wide) in alignment at lines 46--69
  [] [] 
  []
 
@@ -2144,7 +2144,7 @@ Package rerunfilecheck Info: File `Thesis.out' has not changed.
 Here is how much of TeX's memory you used:
  27633 strings out of 492452
  499675 string characters out of 3134016
- 903784 words of memory out of 3000000
+ 903818 words of memory out of 3000000
  31058 multiletter control sequences out of 15000+200000
  557600 words of font info for 77 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2185,10 +2185,11 @@ fonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmr6.pfb>
 /amsfonts/cm/cmsy10.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy
 7.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmsy8.pfb><D:/Programs
 /Miktex/fonts/type1/public/amsfonts/cm/cmtt10.pfb><D:/Programs/Miktex/fonts/typ
-e1/public/amsfonts/cm/cmtt8.pfb>
-Output written on Thesis.pdf (96 pages, 30307999 bytes).
+e1/public/amsfonts/cm/cmtt12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfont
+s/cm/cmtt8.pfb>
+Output written on Thesis.pdf (96 pages, 30312806 bytes).
 PDF statistics:
- 2496 PDF objects out of 2984 (max. 8388607)
+ 2502 PDF objects out of 2984 (max. 8388607)
  464 named destinations out of 1000 (max. 500000)
  1122 words of extra memory for PDF output out of 10000 (max. 10000000)
 
