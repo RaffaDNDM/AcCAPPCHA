@@ -2,15 +2,15 @@
 In the following sections, I describe the command line parameters of the main programs, developed to perform AcCAPPCHA verification. As explained in the previous chapters, all the code was developed using the \texttt{Python} programming language.
 
 \section{DatasetAcquisition.py}
-\texttt{DatasetAcquisition.py} does several actions: the recording of the audio during the insertion of a key, the plotting of the graphics of the audio files, the extraction of the features from the audio peak in each audio files. The audio recording terminates after a number of key presses. The label related to first key press defines the name of the subfolder of the output path where the wav file will be stored. By default the program waits only for sequences of 1 key and then stores it.
+\texttt{DatasetAcquisition.py} does several actions: the recording of the audio during the insertion of a key, the plotting of the graphics of the audio files, the extraction of the features from the audio peak in each audio files. The audio recording terminates after a number of key presses. The label related to the first key press defines the name of the subfolder of the output path where the wav file will be stored. By default the program waits only for sequences of 1 key and then stores it.
 
 {\footnotesize
 \begin{longtable}{rl}
 \hline
 \textbf{Parameter} & \textbf{Description}\\
 \hline
-\texttt{-plot} & If specified, the program plots data already acquired instead of\\
-\texttt{-p} & new acquired audio files\\
+\texttt{-plot} & If specified, the program plots existing audio files\\
+\texttt{-p} &\\
 &\\
 \texttt{-record} & If specified, the program records audio while the keylogger is going on\\
 \texttt{-r} &\\
@@ -25,17 +25,16 @@ In the following sections, I describe the command line parameters of the main pr
 \texttt{-file} \textit{path} & It specifies the \textit{path} of the file that you want to plot\\
 \texttt{-f} \textit{path} & or from which you want to extract features\\
 &\\
-\texttt{-dir} \textit{path} & It specifies, it is the \textit{path} the folder where:\\
+\texttt{-dir} \textit{path} & It specifies the \textit{path} of the folder where:\\
 \texttt{-d} \textit{path} & \itemCellTab{\textbf{-r option}}\\
 & \hspace{0.8cm}there will be stored audio files acquired from the work\\
 & \hspace{0.8cm}of both the recorder and the keylogger\\
 &\itemCellTab{\textbf{-p option and -e option}}\\
-& \hspace{0.8cm}there are already recored audio files on which the\\
-& \hspace{0.8cm}extraction and the plotting will be applied\\
+& \hspace{0.8cm}there are already the recorded audio files on which the extraction\\
+& \hspace{0.8cm}of the features or the plotting will be performed\\
 &\\
-\texttt{-out} \textit{path} & It specifies the \textit{path} of the output folder\\
-\texttt{-o} \textit{path} & in which the graphics will be stored as \textit{path}\\
-& images (if \texttt{-p/-plot} selected)\\
+\texttt{-out} \textit{path} & It specifies the \textit{path} of the output folder where the graphics\\
+\texttt{-o} \textit{path} & will be stored as images (if \texttt{-p/-plot} selected)\\
 \hline
 \end{longtable}}
 
@@ -47,15 +46,14 @@ In the following sections, I describe the command line parameters of the main pr
 \hline
 \textbf{Parameter} & \textbf{Description}\\
 \hline
-\texttt{-dir} \textit{path} & It specifies the \textit{path} of the folder with the\\
-\texttt{-d} \textit{path} & 3 subfolders: \texttt{touch/}, \texttt{touch\_hit/} and \texttt{spectrum/}.\\
-& Each of them contains a folder called \texttt{model/} that contains the information\\
-& of the pre-trained network that classifies the keys of the keyboard.\\
+\texttt{-dir} \textit{path} & It specifies the \textit{path} of the folder with the 3 subfolders:\\
+\texttt{-d} \textit{path} & \texttt{touch/}, \texttt{touch\_hit/} and \texttt{spectrum/}.\\
+& Each of them contains a folder called \texttt{model/} that contains the info\\
+& about the pre-trained network that classifies the keys of the keyboard.\\
 & It's mandatory if -deep/-dl option is specified.\\
 &\\
 \texttt{-time} & If specified, AcCAPPCHA performs the time correspondence.\\
 \texttt{-t} & \\
-&\\
 &\\
 \texttt{-deep} & If specified, AcCAPPCHA performs the character correspondence.\\
 \texttt{-dl} & \\
