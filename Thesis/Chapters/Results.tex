@@ -1,29 +1,29 @@
 \chapter{Experimental results}\label{chapter:Results}
-All the tests were performed on a MSI GL63 8RD laptop, using the version 2004 of Windows 10 Home as Operating System. AcCAPPCHA results are described in the following analysing two aspect: the security efficiency and the usability.
+All the tests were performed on a MSI GL63 8RD laptop, using the version 2004 of Windows 10 Home as Operating System. AcCAPPCHA results are described in the following sections, analysing two aspect: the security efficiency and the usability.
 
 \section{Security analysis}
-The main tests were performed by analysing the response of AcCAPPCHA when the user is a human and when it is a bot. All the techniques, described in \myref{Section}{AcCAPPCHA:user_activity}, are tested and the strength against the attacks, mentioned in \myref{Section}{AcCAPPCHA:user_activity} for Invisible CAPPCHA, is analysed again for the new CAPPCHA.  
+The main tests were performed by analysing the response of AcCAPPCHA when the user is a human and when it is a bot. All the techniques, described in \myref{Section}{AcCAPPCHA:user_activity}, are tested and the strength against the attacks mentioned in Invisible CAPPCHA (see \myref{Section}{inv:attacks}) are analysed again for the new CAPPCHA.  
 
-\subsection{Human detection}
-The responses of AcCAPPCHA was tested in all the three possible operating modes of the challenge (see \myref{Section}{AcCAPPCHA:user_activity}): 
+\subsection{Human detection}\label{Results:human}
+The responses of AcCAPPCHA for a human user were tested in all the three possible operating modes (see \myref{Section}{AcCAPPCHA:user_activity}): 
 \begin{itemize}
 \item{Time correspondence}
 \item{Character correspondence}
 \item{Both time and character correspondence}
 \end{itemize}
 The first method is the most efficient and AcCAPPCHA usually already detect the human activity of a user at first or second trial. Sometimes the correspondence isn't found at first trial because of background noise. The last two approaches based on deep learning require the reduction of the number of labels for the classification of a key.\\
-In this way I limit the possible characters that user could use and the password should be composed of lower case alphabetic characters, accented vowels or numbers (see \myref{Figure}{Results:keyboard}). Hence I train again the network using less labels and the audio files related only to these labels. However the user can also type the backslash key $\mathtt{\setminus b}$ but the corresponding character isn't analysed in the final verification.\\
+In this way I limit the possible characters that user could use. Hence the password can be composed of lower case alphabetic characters, accented vowels or numbers (see \myref{Figure}{Results:keyboard}). For this reason, I trained again the network using less labels and only the audio files related to these labels. However the user can also type the backslash key $\mathtt{\setminus b}$ but the corresponding character isn't analysed in the final verification.\\
 AcCAPPCHA still considers the 10 most probable labels, predicted by the neural network, for each audio peak during the insertion of the password. The prediction apparently seems to work better after the simplification but this happens only because the correct key of an audio peak has higher probability to be predicted on a subset of all the keys of the keyboard.\\
-At the contrary of D. Asonov, R. Agrawal's conclusions\cite{keyboard_acoustic}, I notice that, using the deep learning techniques, there are many false negatives given by the similar sound produces by several keys. The reasons of their presence could be:
+At the contrary of D. Asonov, R. Agrawal's conclusions\cite{keyboard_acoustic}, I notice that, using the deep learning techniques, there are many false negatives given by the similar sound produced by several keys. The reasons of their presence could be:
 \begin{itemize}
 \item{different parts of my keyboard plate produce similar sounds}
 \item{the built-in microphone of my laptop is more affected by the noise than an external microphone}
 \item{the movements of the user's hands influence the noise during the password insertion}
 %WORN OUT = usurato
-\item{some keys are more worn out that other} 
+\item{some keys are more worn out than other} 
 \end{itemize}
-In \myref{Table}{Results:verification}, AcCAPPCHA was run three times for each password and for each type of used features. For each execution of AcCAPPCHA, the table reports the number of the step in which a human user is correctly detected as a human using both the character and the time correspondences. If the number of the step is replaced by the string NO, it means that AcCAPPCHA wasn't able to understand that the user was a human during the three trials. For each entry of the table where the number of the step is different from one, I also reported the number of characters correctly predicted in all the previous steps.\\
-As explained in \myref{Section}{AcCAPPCHA:client}, a human user has at most 3 attempts to be correctly classified as human during an execution of AcCAPPCHA. According to the results in the table, the worst deep learning method is the one that uses the spectrograms and a pre-trained deep learning model to extract the features of a press peak.
+AcCAPPCHA was executed three times for both the passwords \texttt{bye5} and \texttt{hello35} and for each type of used features. As explained in \myref{Section}{AcCAPPCHA:client}, a human user has at most 3 attempts to be correctly classified as human during an execution of AcCAPPCHA. For each execution of AcCAPPCHA, the \myref{Table}{Results:verification} reports the number of the step in which a human user is correctly detected as a human using both the character and the time correspondences. If the number of the step is replaced by the string NO, it means that AcCAPPCHA wasn't able to understand that the user was a human during the three trials. For each entry of the table where the number of the step is different from one, I also reported the number of characters correctly predicted in all the previous steps.\\
+According to the results in the table, the worst deep learning method is the one that uses the spectrograms and a pre-trained deep learning model to extract the features of a press peak.
 \begin{figure}[H]
      \centering
 	 \includegraphics[width=0.7\textwidth]{Images/Results/keyboard_less}
@@ -56,7 +56,7 @@ As explained in \myref{Section}{AcCAPPCHA:client}, a human user has at most 3 at
 I've tested the bot activity analysing the response generated by AcCAPPCHA. I emulated it using several approaches and using the username \texttt{RaffaDNDM} and its password \textbf{hello35}:
 \begin{itemize}
 \item{\textbf{Python program with} \texttt{popen} \textbf{communication}\\
-this approach opens a subprocess and a communication through pipes with stdin and stdout streams of AcCAPPCHA (see ). Assuming the hacker obtained the credentials in some way, the bot communicates the username and the password to running CAPPCHA with only the time correspondence selected. In practice the strength of AcCAPPCHA against this attack is very high because the insertion of the password is managed by AcCAPPCHA using consecutive calls to \texttt{getwch()} in the Windows Operating system. \\
+this approach opens a subprocess and a communication through pipes with stdin and stdout streams of AcCAPPCHA. Supposing that the hacker obtained the credentials in some way, the bot communicates the username and the password to running CAPPCHA with only the time correspondence selected. In practice the strength of AcCAPPCHA against this attack is very high because the insertion of the password is managed by AcCAPPCHA using consecutive calls to \texttt{getwch()} in the Windows Operating system. \\
 This function belongs to \texttt{msvcrt} module and takes one character at the time. This module guarantees also that the console I/O routines are not compatible with stream I/O or low-level I/O library routines. In the Windows operating systems, the output from these functions is always directed to the console and cannot be redirected through any kind of pipes.\\
 The program easily accepts the username, because AcCAPPCHA acquires it using the standard \texttt{input()} function, and then it waits for the insertion of the password. Hence the CAPPCHA waits forever the insertion of the first character of the password because \texttt{popen} can't access to the stream analysed by \texttt{getwch()}. I didn't iterate the insertion of the password for the maximum number of possible trials because even at the first insertion, AcCAPPCHA doesn't see any action performed by the bot.
 \begin{lstlisting}[language=python, showstringspaces=false, tabsize=4, basicstyle=\footnotesize, caption={\footnotesize{Bot using popen.}},label={Results:popen_bot}]
@@ -84,7 +84,7 @@ def popen_bot(username, password):
 \end{lstlisting}
 }
 \item{\textbf{Python program with} \texttt{pynput} \textbf{module}\\
-Using this module, I pretended to be a bot and to access directly the console, bypassing the stream limits of \textbf{msvcrt} character acquisition. To emulate the user the bot program should start the execution and immediately after the hacker must open the working terminal with AcCAPPCHA running. Then each character of the password is inserted by the bot on the terminal selected after by the use, by emulating the press and the release of the corresponding key of the keyboard.\\
+Using this module, I pretended to be a bot and to access directly the console, bypassing the stream limits of \textbf{msvcrt} character acquisition. To emulate the user, the bot program should start the execution and immediately after the hacker must open the working terminal with AcCAPPCHA running. Then each character of the password is inserted by the bot on the selected terminal, by emulating the press and the release of the corresponding key of the keyboard.\\
 This scenario isn't realistic because it requires the management of terminal windows by a human user. However it was useful to establish if the insertion of the password by a malware is correctly classified as a bot activity.
 \begin{lstlisting}[language=python, showstringspaces=false, tabsize=4, basicstyle=\footnotesize, caption={\footnotesize{Bot using pynput module.}},label={Results:pynput_bot}]
 from pynput.keyboard import Key, Controller
@@ -120,15 +120,16 @@ def input_bot(username, password):
 \end{lstlisting}
 }
 \item{\textbf{Remote control of the PC}\\
-the last test was performed by using the program \texttt{Team Viewer} and accessing directly the terminal on which the remote user will run AcCAPPCHA. This type of attack isn't realistic but it has only a testing purpose ì like the previous mentioned attack with the Python bot.}
+the last test was performed by using the program \texttt{Team Viewer} and accessing directly the terminal on which the remote user will run AcCAPPCHA. This type of attack isn't realistic but it has only a testing purpose like the previous mentioned attack with the Python bot.}
 \end{itemize}
 In the last two approaches the audio recorded by AcCAPPCHA are very similar and highlights the two most probable situations:
 \begin{itemize}
-\descItem{The noise during noise evaluation is very high}{If this happens, no audio peaks can be found (see \myref{Figure}{Results:silence_img}).}
-\descItem{The noise during noise evaluation is very low}{If this happens, some audio peaks can be found, even if the user was a bot, because there is some noise during the password insertion. However these audio peaks don't have a time correspondence with the time instants stored during the password insertion (see \myref{Figure}{Results:noise_img}). The only case, in which a bot could authenticate it self, is when there is a sequence of audio peaks caused by the noise and the time between them is the same of the stored ones.\\
-However this event isn't very probable because it is hard that there would be an high noise only during the insertion of the password and not during the noise evaluation. If no noise evaluation was performed, the attacker could also analyse the background noise of the user and find a sequence of peaks. Then the hacker could generate the sequence of characters with the same time intervals discovered in the pattern. This highlights the strength and the importance of the noise evaluation performed before the insertion of the password.}
+\descItem{The noise during the noise evaluation is very high}{If this happens, no audio peaks can be found (see \myref{Figure}{Results:silence_img}).}
+\descItem{The noise during the noise evaluation is very low}{If this happens, some audio peaks can be found, even if the user was a bot, because there is some noise during the password insertion. However these audio peaks don't have a time correspondence with the time instants stored during the password insertion (see \myref{Figure}{Results:noise_img}). The only case, in which a bot could authenticate it self, is when there is a sequence of audio peaks caused by the noise and the time between them is the same of the stored ones.\\
+However this event isn't very probable because it is hard that there would be an high noise only during the insertion of the password and not during the noise evaluation. If no noise evaluation was performed, the attacker could also analyse the background noise of the user and find a periodic sequence of peaks. Then the hacker could type the characters with the same time intervals discovered in the previous noise pattern. This highlights the strength and the importance of the noise evaluation performed before the insertion of the password.}
 \end{itemize}
-\begin{figure}[h]
+The bots activity was tested only using time correspondence of AcCAPPCHA because this is the best method for the analysis of the user's activity (see \myref{Section}{Results:human}). The tests were not performed using only character correspondence because many false positives can be found. The character correspondence were not applied after the time correspondence because the bots already fail the first verification based on time instants.
+\begin{figure}[H]
      \centering
 	 \begin{subfigure}[b]{0.48\textwidth}
          \centering
@@ -143,7 +144,7 @@ However this event isn't very probable because it is hard that there would be an
      \end{subfigure}
      \caption{\footnotesize{Plot of audio during the password insertion with high noise during noise evaluation.}}\label{Results:silence_img}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[H]
      \centering
 	 \begin{subfigure}[b]{0.48\textwidth}
          \centering
@@ -158,9 +159,8 @@ However this event isn't very probable because it is hard that there would be an
      \end{subfigure}
      \caption{\footnotesize{Plot of audio during the password insertion with low noise during noise evaluation.}}\label{Results:noise_img}
 \end{figure}
-
 \subsection{Strength against known attacks}\label{Results:attacks}
-Following the analysis performed for Invisible CAPPCHA\cite{Invisible_CAPPCHA}, I'm going to discuss the strength of AcCAPPCHA against the following attacks:
+Following the analysis performed for Invisible CAPPCHA\cite{Invisible_CAPPCHA}, I analyse the strength of AcCAPPCHA against the following attacks:
 \begin{itemize}
 \descItem{Replay attack}
 {The message is still concatenated with a nonce and then they are signed to guarantee a client would use a nonce only one. The server still prevents this type of attacks by refusing the second message from a client with a nonce already used by him.}
@@ -174,6 +174,7 @@ Following the analysis performed for Invisible CAPPCHA\cite{Invisible_CAPPCHA}, 
 \descItem{Denial Of Service (DOS)}
 {If a bot was detected by AcCAPPCHA for 3 times during the execution, the program will block also the next trials on the client side. Hence the server won't be overloaded, because the client will refuse next attempts without communicating any message to the server.}
 \end{itemize}
+After the analysis of side-channel attacks, I decided also to modify the messages transmitted between the client and the server (see \myref{Section}{AcCAPPCHA:communication_CS}). All the messages, included the POST requests, are padded with space character such that for each step an hacker cannot understand which string was sent. In fact, as explained in \myref{Section}{SideCH:vicinity}, the attacker could analyse the size of the packets to understand which data were exchanged by the parties if padding isn't applied. The reason of the success of this attacks is that the packets have different sizes, given by different messages.
 
 \subsection{Other security considerations}
 I analyse also other important aspects the guarantees the security of AcCAPPCHA. The first one is the choice of the HTTP POST method instead of HTTP GET method. I choose the first one because it's because it's more secure to exchange sensible information than the second one. In fact, an HTTP GET method is associated to an URL that could be easily stored in the Browser History, even if in my application I didn't exploit any browser.\\
