@@ -165,6 +165,12 @@ class AcCAPPCHA:
 
         BLOCK_DEADLINE_sec (int): Number of seconds for which a user must be 
                                   blocked after 3 invalid authentications
+
+        MAX_BOT_TRIALS (int): maximum number of times in which the user could be
+                              classified as a bot during the execution of AcCAPPCHA
+        
+        MAX_PWD_TRIALS (int): maximum number of times in which the user could type
+                              wrong credentials during the execution of AcCAPPCHA
         ___________________________________________________________________________
 
 

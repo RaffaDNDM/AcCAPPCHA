@@ -50,6 +50,18 @@ class Authentication:
         NONCE_LENGTH (int): Length (#bytes) of nonce in message (uuid4 nonce)
         
         SIGNATURE_LENGTH (int): Length (#bytes) of signature of msg + nonce
+
+        SIZE_SIGN_REQUEST (int): Length (#bytes) of the message (m, n, sign(m||n))
+                                 sent by the client
+        
+        SIZE_SIGN_RESPONSE (int): Length (#bytes) of the message, sent by the
+                                  server, to answer to (m, n, sign(m||n))
+    
+        SIZE_POST_REQUEST (int): Length (#bytes) of the POST request, containing
+                                 the user's credentials, sent by the client
+        
+        SIZE_POST_RESPONSE (int): Length (#bytes) of the message, sent by the
+                                  server, to answer to POST request
         
         USERS (dict): Dictionary of elements composed by pairs (key, value):
                       key (str): IP address
@@ -67,22 +79,29 @@ class Authentication:
                                 the username, specified by client, in DB
     """
     def __init__(self, port, debug_option):
+        #Read public key of the client
         with open('../dat/crypto/ecdsa.pem', "r") as sk_file:
             sk_pem = sk_file.read().encode()
             self.ECDSA_CLIENT_PUBLIC_KEY = ecdsa.VerifyingKey.from_pem(sk_pem)
 
-        self.PORT = port
-        self.DEBUG = debug_option
+        #Creation of the TCP socket
         self.sd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+        #Server information
+        self.PORT = port
+        #Debug information
+        self.DEBUG = debug_option
+        
     def __enter__(self):
         """
         Bind and listen for client request
         """
 
         try:
+            #Reusability option
             self.sd.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            #Server works on 127.0.0.1 on port specified in the constructor
             self.sd.bind(('', self.PORT))
+            #Server has a queue of maximum 5 pending requests
             self.sd.listen(5)
             
         except KeyboardInterrupt:
@@ -106,16 +125,20 @@ class Authentication:
 
         while(True):
             try:
+                #Receive a client request of connection
                 client_sd, addr = self.sd.accept()
+                #Wrap TCP socket of the client in TLS socket
                 client_sd = ssl.wrap_socket(client_sd, server_side=True, 
                                               ca_certs = "../dat/crypto/client.pem",
                                               certfile="../dat/crypto/server.pem",
                                               keyfile="../dat/crypto/server.key",
                                               cert_reqs=ssl.CERT_REQUIRED,
                                               ssl_version=ssl.PROTOCOL_TLSv1_2)
-
+                
+                #Manage the client with a thread
                 cl = threading.Thread(target=self.verification, args=(client_sd, addr))
                 cl.start()
+
             except KeyboardInterrupt:
                 print("Shutdown\n")
                 return
@@ -136,7 +159,7 @@ class Authentication:
                           port (int): Port number of the client
         """
         
-        #Decoded Message
+        #Response of the verification (m, n, sign(m||n))
         msg = ''
 
         while(True):
@@ -151,14 +174,13 @@ class Authentication:
         if len(msg.split('\r\n'))>3:
             raise InvalidMessage
 
-        #Encoded nonce and signature
         nonce = client_sd.recv(self.NONCE_LENGTH)
         signature = client_sd.recv(self.SIGNATURE_LENGTH)
-        #Reading of padding spaces
         n = len(msg)+2+len(nonce)+len(signature)
         padding = client_sd.recv(self.SIZE_SIGN_REQUEST-n)
         cprint(f'{addr}', 'blue')
 
+        #Debug information
         if self.DEBUG:
             cprint(self.LINE, 'blue')
             cprint(msg, 'cyan')
@@ -166,43 +188,51 @@ class Authentication:
             cprint(signature, 'green')
         
         try:
-            #hash_msg = hashlib.sha256(msg.encode()+nonce).hexdigest()
+            #ECDSA verification
             self.ECDSA_CLIENT_PUBLIC_KEY.verify(signature, msg.encode()+nonce)
-
             check = True           
             user = addr[0]
+
             if user in list(self.USERS.keys()):
                 if nonce in self.USERS[user]:
                     #Replay attack
                     check = False
                 else:
-                    #Authorized (Tracking all the nonce used in this session)
+                    #Authorized (not the first request of the user)
                     self.USERS[user].append(nonce)    
             else:
-                #Authorized
+                #Authorized (first request of the user)
                 self.USERS[user]=[nonce,]
 
-
             if check:
+                #Authorized user (ECDSA ok, Nonce ok)
+
                 if msg == 'True':
+                    #The user was a human
                     response = self.pad_msg(b'OK\r\n', self.SIZE_SIGN_RESPONSE)
                     client_sd.send(response)
                     self.authentication(client_sd)
+                
                 elif msg == 'False':
+                    #The user was a bot
                     response = self.pad_msg(b'NO\r\n', self.SIZE_SIGN_RESPONSE)
                     client_sd.send(response)
+                
                 else:
+                    #The response of the user's evaluation has invalid format
                     response = self.pad_msg(b'ERROR\r\n', self.SIZE_SIGN_RESPONSE)
-                    client_sd.send(response)
+                    client_sd.send(response)            
             else:
+                #Unauthorized user (ECDSA ok, Nonce no)
                 response = self.pad_msg(b'NO\r\n', self.SIZE_SIGN_RESPONSE)
                 client_sd.send(response)
                 
         except ecdsa.keys.BadSignatureError:
-            # NO correspondence between signature and sign(msg+nonce)
+            # No integrity in ECDSA [(msg+nonce)!=sign^(-1)(signature)]
             response = self.pad_msg(b'No integrity\r\n', self.SIZE_SIGN_RESPONSE)
             client_sd.send(response)
         
+        #Close the client socket
         client_sd.close()
 
     def authentication(self, client_sd):
@@ -214,6 +244,8 @@ class Authentication:
             client_sd (ssl.SSLSocket): SSL socket for communication 
                                        with client
         """
+
+        #POST request from the client
         request_header = ''
 
         while(True):
@@ -229,21 +261,25 @@ class Authentication:
         headers = {x.split(': ', 1)[0]:x.split(': ', 1)[1] for x in header_list[1:]}
 
         if request_line == ['POST', '/cgi-bin/auth', 'HTTP/1.1']:
+            #Analysis of the parameters in the HTTP POST request
             length_body = int(headers['Content-Length'])
             body = client_sd.recv(length_body).decode('utf-8', 'ignore')
             parameter_list = body.split('&')
-            
             n = len(request_header)+length_body
             padding = client_sd.recv(self.SIZE_POST_REQUEST-n)
             
             if len(parameter_list) != 2:
+                #Number of parameters != 2 (username, password)
                 response = self.pad_msg(b'HTTP/1.1 400 Bad Request\r\n\r\n', self.SIZE_POST_RESPONSE)
                 client_sd.send(response)
 
+            #Dictionary of parameters (name_parameter, value)
             parameters = {x.split('=')[0]:x.split('=')[1] for x in parameter_list}
+            #Authenticate the user
             self.auth(client_sd, parameters)
 
-        elif request_line[1]!='/cgi-bin/auth':
+        elif request_line[1]!='/cgi-bin/auth' or request_line[0]!='POST':
+            #Invalid request by the client
             response = self.pad_msg(b'HTTP/1.1 501 Not Implemented\r\n\r\n', self.SIZE_POST_RESPONSE)
             client_sd.send(response)
 
@@ -262,10 +298,13 @@ class Authentication:
                                ('pwd', value) where value is his password
         """
         
+        #Response to the client for the POST request
         status_line = b'HTTP/1.1 200 OK\r\n'
         file_path = ''
 
+        #Search of credentials in the database
         try:
+            #Connection to the database
             connection = psycopg2.connect(user="postgres",
                                     password="postgres",
                                     host="127.0.0.1",
@@ -274,7 +313,7 @@ class Authentication:
 
             cursor = connection.cursor()
 
-            # Read PostgreSQL purchase timestamp value into Python datetime
+            #Search the hashed password of the specified Username=parameters['user'] 
             cursor.execute(f"SELECT Password FROM CloudUser WHERE Username = '{parameters['user']}'")
             hash_pssword = cursor.fetchone()
 
@@ -282,16 +321,20 @@ class Authentication:
                 #No entry in DB with Username = parameters['user']
                 file_path = self.FOLDER_HTML + self.NO_DB_ENTRY_FILE
             else:
+                #Compare password in the POST
                 if parameters['pwd']==hash_pssword[0]:
+                    #Correct password
                     file_path = self.FOLDER_HTML + self.LOGGED_FILE
                 else:
+                    #Wrong password
                     file_path = self.FOLDER_HTML + self.FAILURE_FILE
 
+            #Read the file related to the status of the search
             with open(file_path, 'r') as f:
                 body = f.read()
 
+            #Send response to the client
             response = status_line+ (f'Content-Length: {len(body)}\r\n\r\n'+ body).encode()
-
             response = self.pad_msg(response, self.SIZE_POST_RESPONSE)
             client_sd.send(response)
 
@@ -299,6 +342,7 @@ class Authentication:
             print("Error while connecting to PostgreSQL", error)
         
         finally:
+            #Close the connection with the database
             if (connection):
                 cursor.close()
                 connection.close()
@@ -308,13 +352,27 @@ class Authentication:
                     cprint(self.LINE, 'blue', end='\n\n')
 
     def pad_msg(self, msg, size):
+        """
+        Pad a message to a fixed length message using space characters
         
+        Args:
+            msg (bytes): Bytes message to be padded
+
+            size (int): Size of final padded message
+
+        Returns:
+            padded_msg (bytes): Padded message of size bytes
+        """
+
         if len(msg)<size:
+            #Padding of the message
             msg = msg + b' '*(size-len(msg))
+
         elif len(msg)<size:
+            #Message longer than size bytes
             print(f'Padding error, msg size is bigger than maximum ({size})')
 
-        return msg
+        return msg     
 
 def args_parser():
     '''

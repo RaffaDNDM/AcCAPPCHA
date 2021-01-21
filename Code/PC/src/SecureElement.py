@@ -32,6 +32,19 @@ class SecureElement:
         sd (socket.socket): TCP socket instance on which client will work
 
         ECDSA_PRIVATE_KEY (ecdsa.SigningKey): private key for ECDSA signing
+
+        SIZE_SIGN_REQUEST (int): Length (#bytes) of the message (m, n, sign(m||n))
+                                 sent by the client
+        
+        SIZE_SIGN_RESPONSE (int): Length (#bytes) of the message, sent by the
+                                  server, to answer to (m, n, sign(m||n))
+    
+        SIZE_POST_REQUEST (int): Length (#bytes) of the POST request, containing
+                                 the user's credentials, sent by the client
+        
+        SIZE_POST_RESPONSE (int): Length (#bytes) of the message, sent by the
+                                  server, to answer to POST request
+
     """
     SIZE_SIGN_REQUEST = 100
     SIZE_SIGN_RESPONSE = 10
@@ -39,7 +52,7 @@ class SecureElement:
     SIZE_POST_RESPONSE = 300
 
     def __init__(self, IP_address, port):
-        #Read the private key
+        #Read its private key
         with open('../dat/crypto/ecdsa.key', "r") as sk_file:
             sk_pem = sk_file.read().encode()
             self.ECDSA_PRIVATE_KEY = ecdsa.SigningKey.from_pem(sk_pem)
@@ -55,6 +68,7 @@ class SecureElement:
         Connect to server after wrapping socket in SSL socket
         """
         
+        #Wrap TCP socket in TLS socket
         self.sd = ssl.wrap_socket(self.sd,
                                   server_side=False,
                                   ca_certs = "../dat/crypto/server.pem", 
@@ -63,6 +77,7 @@ class SecureElement:
                                   cert_reqs=ssl.CERT_REQUIRED,
                                   ssl_version=ssl.PROTOCOL_TLSv1_2)
 
+        #Connection to the server (check certificate and keys)
         self.sd.connect((self.IP_ADDRESS, self.PORT))
 
         return self
@@ -79,16 +94,11 @@ class SecureElement:
             response (bool): True if human, False otherwise
         """
         
-        #cprint(msg, 'cyan')
+        #Send verification response (m, n, sign(m||n))
         nonce=uuid.uuid4().bytes
-        #cprint(nonce, 'blue')
-        #hash_msg = hashlib.sha256().hexdigest()
         signature = self.ECDSA_PRIVATE_KEY.sign(msg.encode()+nonce)
-        #cprint(signature, 'green')
         result = msg.encode()+b'\r\n'+nonce+signature        
-        result = self.pad_msg(result, self.SIZE_SIGN_REQUEST)
-        
-        print(len(result))
+        result = self.pad_msg(result, self.SIZE_SIGN_REQUEST)        
         self.sd.send(result)
 
         #Wait for AcCAPPCHA response
@@ -104,10 +114,12 @@ class SecureElement:
         n = len(check)
         padding = self.sd.recv(self.SIZE_SIGN_RESPONSE-n)
             
-        #Return True/False
+        #Check the response
         if check[:-2] == 'OK':
+            #Human
             return True
         else:
+            #Bot or error
             return False
 
     def credentials(self, username, password):
@@ -124,7 +136,7 @@ class SecureElement:
             response (bool): True if human, False otherwise
         """
 
-        #Send credentials
+        #Send credentials using a POST request
         hash_pwd = hashlib.sha512(password.encode()).hexdigest()
         body = f'user={username}&pwd={hash_pwd}'
 
@@ -136,8 +148,6 @@ class SecureElement:
                   body
 
         request = self.pad_msg(request.encode(), self.SIZE_POST_REQUEST)
-        print(len(request))
-
         self.sd.send(request)
 
         #Wait for response of login
@@ -155,23 +165,39 @@ class SecureElement:
         status = header_list[0].split(' ')
         headers = {x.split(': ', 1)[0]:x.split(': ', 1)[1] for x in header_list[1:]}
 
-        #Return True/False
+        #Check how POST request is
         if status[1] == '200':
+            #The server was able to access to the DB
             length = int(headers['Content-Length'])
             body = self.sd.recv(length).decode('utf-8', 'ignore')
             n = len(response_header)+4+length
             padding = self.sd.recv(self.SIZE_POST_RESPONSE-n)
             return body
         else:
+            #Wrong format of POST request
             n = len(response_header)+4
             padding = self.sd.recv(self.SIZE_POST_RESPONSE-n)
             return 'Some error occurs'
 
     def pad_msg(self, msg, size):
+        """
+        Pad a message to a fixed length message using space characters
         
+        Args:
+            msg (bytes): Bytes message to be padded
+
+            size (int): Size of final padded message
+
+        Returns:
+            padded_msg (bytes): Padded message of size bytes
+        """
+
         if len(msg)<size:
+            #Padding of the message
             msg = msg + b' '*(size-len(msg))
+
         elif len(msg)<size:
+            #Message longer than size bytes
             print(f'Padding error, msg size is bigger than maximum ({size})')
 
         return msg            

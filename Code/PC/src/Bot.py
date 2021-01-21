@@ -1,10 +1,16 @@
-import subprocess
-import sys
-import colorama
-import msvcrt
 from time import sleep
 
 def popen_bot(username, password):
+    """
+    Bot that uses pipes
+
+    Args:
+        username (str): Username of the user
+
+        password (str): Password of the user (plain text)
+    """
+
+    import subprocess
     #Subprocess that redirects pipes
     process = subprocess.Popen('python3 AcCAPPCHA.py -t -plot', shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
@@ -16,9 +22,18 @@ def popen_bot(username, password):
     
     print(output.decode())
 
-from pynput.keyboard import Key, Controller
-
 def input_bot(username, password):
+    """
+    Bot that uses pynput module
+
+    Args:
+        username (str): Username of the user
+
+        password (str): Password of the user (plain text)
+    """
+    
+    from pynput.keyboard import Key, Controller
+
     #Object for control of keyboard events
     keyboard = Controller()
 
@@ -45,7 +60,6 @@ def input_bot(username, password):
 
         press_release(Key.enter)
         count += 1
-
 
 def main():
     username = 'RaffaDNDM'
