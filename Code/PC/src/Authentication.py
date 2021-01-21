@@ -15,6 +15,10 @@ class InvalidMessage(Exception):
 class Authentication:
     NONCE_LENGTH = 16
     SIGNATURE_LENGTH = 64
+    SIZE_SIGN_REQUEST = 100
+    SIZE_SIGN_RESPONSE = 10
+    SIZE_POST_REQUEST = 300
+    SIZE_POST_RESPONSE = 300
     USERS = {}
     FOLDER_HTML = '../dat/html/'
     LOGGED_FILE = 'logged.html'
@@ -150,6 +154,9 @@ class Authentication:
         #Encoded nonce and signature
         nonce = client_sd.recv(self.NONCE_LENGTH)
         signature = client_sd.recv(self.SIGNATURE_LENGTH)
+        #Reading of padding spaces
+        n = len(msg)+2+len(nonce)+len(signature)
+        padding = client_sd.recv(self.SIZE_SIGN_REQUEST-n)
         cprint(f'{addr}', 'blue')
 
         if self.DEBUG:
@@ -178,21 +185,24 @@ class Authentication:
 
             if check:
                 if msg == 'True':
-                    client_sd.send('OK\r\n'.encode())
+                    response = self.pad_msg(b'OK\r\n', self.SIZE_SIGN_RESPONSE)
+                    client_sd.send(response)
                     self.authentication(client_sd)
                 elif msg == 'False':
-                    client_sd.send('NO\r\n'.encode())
+                    response = self.pad_msg(b'NO\r\n', self.SIZE_SIGN_RESPONSE)
+                    client_sd.send(response)
                 else:
-                    client_sd.send('ERROR\r\n'.encode())
+                    response = self.pad_msg(b'ERROR\r\n', self.SIZE_SIGN_RESPONSE)
+                    client_sd.send(response)
             else:
-                client_sd.send('NO\r\n'.encode())
+                response = self.pad_msg(b'NO\r\n', self.SIZE_SIGN_RESPONSE)
+                client_sd.send(response)
                 
         except ecdsa.keys.BadSignatureError:
             # NO correspondence between signature and sign(msg+nonce)
-            client_sd.send(b'No integrity\r\n')
+            response = self.pad_msg(b'No integrity\r\n', self.SIZE_SIGN_RESPONSE)
+            client_sd.send(response)
         
-        #vk = VerifyingKey.from_string(bytes.fromhex(), curve=ecdsa.SECP256k1)
-        #vk.verify(bytes.fromhex(sig), message) # True
         client_sd.close()
 
     def authentication(self, client_sd):
@@ -223,14 +233,19 @@ class Authentication:
             body = client_sd.recv(length_body).decode('utf-8', 'ignore')
             parameter_list = body.split('&')
             
+            n = len(request_header)+length_body
+            padding = client_sd.recv(self.SIZE_POST_REQUEST-n)
+            
             if len(parameter_list) != 2:
-                client_sd.send(b'HTTP/1.1 400 Bad Request\r\n\r\n')
+                response = self.pad_msg(b'HTTP/1.1 400 Bad Request\r\n\r\n', self.SIZE_POST_RESPONSE)
+                client_sd.send(response)
 
             parameters = {x.split('=')[0]:x.split('=')[1] for x in parameter_list}
             self.auth(client_sd, parameters)
 
         elif request_line[1]!='/cgi-bin/auth':
-            client_sd.send(b'HTTP/1.1 501 Not Implemented\r\n\r\n')
+            response = self.pad_msg(b'HTTP/1.1 501 Not Implemented\r\n\r\n', self.SIZE_POST_RESPONSE)
+            client_sd.send(response)
 
     def auth(self, client_sd, parameters):
         """
@@ -247,7 +262,7 @@ class Authentication:
                                ('pwd', value) where value is his password
         """
         
-        client_sd.send(b'HTTP/1.1 200 OK\r\n')
+        status_line = b'HTTP/1.1 200 OK\r\n'
         file_path = ''
 
         try:
@@ -275,10 +290,10 @@ class Authentication:
             with open(file_path, 'r') as f:
                 body = f.read()
 
-            msg = f'Content-Length: {len(body)}\r\n\r\n'+ \
-                body
+            response = status_line+ (f'Content-Length: {len(body)}\r\n\r\n'+ body).encode()
 
-            client_sd.send(msg.encode())
+            response = self.pad_msg(response, self.SIZE_POST_RESPONSE)
+            client_sd.send(response)
 
         except (Exception, Error) as error:
             print("Error while connecting to PostgreSQL", error)
@@ -291,6 +306,15 @@ class Authentication:
                 if self.DEBUG:
                     print("PostgreSQL connection is closed")
                     cprint(self.LINE, 'blue', end='\n\n')
+
+    def pad_msg(self, msg, size):
+        
+        if len(msg)<size:
+            msg = msg + b' '*(size-len(msg))
+        elif len(msg)<size:
+            print(f'Padding error, msg size is bigger than maximum ({size})')
+
+        return msg
 
 def args_parser():
     '''
