@@ -86,12 +86,15 @@ class PlotExtract:
 	'''
 
 	def __init__(self, filename, audio_dir, output_dir):		
-		
+		#Define output folder if the specified one exists
+		#Otherwise use the default one
 		if output_dir and os.path.isdir(output_dir):
 			self.OUTPUT_FOLDER = utility.uniform_dir_path(output_dir)
 
 		if filename:
+			#If specified single input file
 			if os.path.exists(self.DATA_FOLDER+filename):
+				#List of audio files to be extracted/plot (with only one file)
 				self.wav_files = [filename, ]
 			else:
 				cprint('\n[Not existing FILE]', 'blue', end=' ')
@@ -101,6 +104,7 @@ class PlotExtract:
 				exit(0)
 
 		elif audio_dir:
+			#If specified input directory
 			if not(os.path.exists(audio_dir) and os.path.isdir(audio_dir)):
 				cprint("\n[Not existing FOLDER]", 'blue', end=' ')
 				print("The input directory", end=' ')
@@ -123,15 +127,20 @@ class PlotExtract:
 				count += 1
 
 			if count==len(files):
+				#There are subfolders in input directory
 				self.RECURSIVE = True
+				#Perform extraction/plot on all the wav files in each subfolder 
 				self.wav_files = {file:[x for x in os.listdir(self.DATA_FOLDER+file) if x.endswith('.wav')] for file in files}
 			
 			else:
+				#There aren't subfolders in input directory
 				cprint('\n[NOT ONLY DIRECTORIES IN INPUT FOLDER]', 'blue', end=' ')
 				print('I try to perform plot on audio files in', end=' ')
 				cprint(f'{self.DATA_FOLDER}', 'green')
 
+				#Perform extraction/plot on wav files in input dir
 				self.wav_files= [x for x in os.listdir(self.DATA_FOLDER) if x.endswith('.wav')]
+				
 				if not self.wav_files:
 					cprint('[EMPTY FOLDER]', 'blue', end=' ')
 					print('The directory', end=' ')
@@ -235,9 +244,11 @@ class PlotExtract:
 			zoom (bool): True if you want to plot zoomed version of
 						 press peak, False otherwise
         '''
+		#Size of the grid in the frame
 		n = int(math.sqrt(len(signals)))
 		m = math.ceil(len(signals)/n)
 
+		#Creation of the frame
 		fig = plt.figure(subfolder)
 		
 		if m>n:
@@ -253,6 +264,7 @@ class PlotExtract:
 		x = 0
 		y = 0
 		for (filename, analysis) in signals:
+			#Compute touch and hit peak
 			touch_peak, hit_peak = analysis.press_peaks()
 			ts = analysis.ts
 			signal = analysis.signal
@@ -270,6 +282,7 @@ class PlotExtract:
 				last_time = hit_peak[-1] + analysis.num_samples(1e-2)
 				time_ms = np.arange(first_time, last_time)
 
+			#Plot an audio files with highlighted peaks
 			s.plot(time_ms*ts, signal[time_ms], color='blue', label = filename[:-4])
 			s.plot(touch_peak*ts, signal[touch_peak], color='red')
 			s.plot(hit_peak*ts, signal[hit_peak], color='green')
@@ -284,9 +297,11 @@ class PlotExtract:
 				x += 1
 
 		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
+			#Store the graphics as image on the File System
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+subfolder+self.EXTENSION_PLOT)
 			plt.close(fig)
 		else:
+			#Show the graphics in a window
 			plt.show()
 
 	def plot_single_wave(self, filename, analysis, zoom):
@@ -354,9 +369,11 @@ class PlotExtract:
 		s2.set_yscale('log')
 
 		if self.OUTPUT_FOLDER != self.DEFAULT_OUTPUT:
+			#Store the graphics as image on the File System
 			fig.savefig(os.path.dirname(self.OUTPUT_FOLDER)+'/'+filename[:-4]+self.EXTENSION_PLOT)
 			plt.close(fig)
 		else:
+			#Show the graphics in a window
 			plt.show()
 		
 	def extract(self, option):
@@ -371,14 +388,17 @@ class PlotExtract:
         '''
 		try:
 			if self.RECURSIVE:
+				#Extraction performed only on recusrive input folder
 				cprint('\n   Completed extraction for:', 'red')
 				cprint(self.LINE, 'red')
 				
+				#If specified output dir for csv doesn't exist, it creates it
 				path_csv = utility.uniform_dir_path(self.OUTPUT_FOLDER+utility.OPTIONS[option])
 				if not utility.OPTIONS[option] in os.listdir(self.OUTPUT_FOLDER):
 					if not os.path.exists(path_csv):
 						os.mkdir(path_csv)
 
+				#Write features+labels and labels+index in csv files
 				label = 0
 				with open(path_csv+self.OUTPUT_CSV_TRAINING, 'w', newline='') as train_fp,\
 					 open(path_csv+self.OUTPUT_CSV_DICT_LABEL, 'w', newline='') as label_fp:
@@ -386,6 +406,7 @@ class PlotExtract:
 					csv_label  = writer(label_fp)
 					label=self.compute_entry(csv_train, csv_label, option)
 
+				#Debug info
 				cprint('\n'+self.LINE, 'red')
 				print('{:>20s}'.format('Features size:'), end=' ')
 				cprint('{:<d}'.format(self.FEATURE_SIZE), 'green')
@@ -487,7 +508,7 @@ class PlotExtract:
 			label (int): Number of keys processed
 		"""
 
-		#If the key is going to overcome line limit
+		#Manage the print if the key is going to overcome line limit
 		if (row_length + len(key)) > (len(self.LINE)-1):
 			print(f'\n{key}', end='  ')
 			row_length = 0
@@ -528,7 +549,7 @@ class PlotExtract:
 		length_feature = 0
 
 		if utility.OPTIONS[option]=='touch':
-			#Extraction of features
+			#Extraction of touch feature
 			features = analysis.extract()
 			touch_features = features['touch'].fft_signal
 			final_features = np.append(touch_features, label)
@@ -536,7 +557,7 @@ class PlotExtract:
 			length_feature = len(final_features)
 
 		elif utility.OPTIONS[option]=='touch_hit':
-			#Extraction of features
+			#Extraction of touch_hit feature
 			features = analysis.extract()
 			touch_features = features['touch'].fft_signal
 			hit_features = features['hit'].fft_signal	
@@ -546,21 +567,17 @@ class PlotExtract:
 			length_feature = len(final_features)
 		
 		elif utility.OPTIONS[option]=='spectrum':
-			#Extraction of features
+			#Extraction of feature from spectrogram
 			features = analysis.extract(spectrum=True)
 			fig, ax = plt.subplots(1)
 			fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
 			img_feature = np.concatenate((analysis.signal[features[0]], analysis.signal[features[1]]))
 			ax.axis('equal')
 			spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
-			#float_features = (features['touch'].peak).astype(float)
-			#melspec = librosa.feature.melspectrogram(float_features, n_mels=128)
-			#logspec = librosa.amplitude_to_db(melspec)
-			#logspec = logspec.T.flatten()[:np.newaxis].T
-			#final_features = np.array(logspec)
 
-			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum_less/'+subfolder):
-				os.mkdir(self.OUTPUT_FOLDER+'spectrum_less/'+subfolder)
+			#Creation of subfolder in output folder to store the spectrogram images
+			if not os.path.exists(self.OUTPUT_FOLDER+'spectrum/'+subfolder):
+				os.mkdir(self.OUTPUT_FOLDER+'spectrum/'+subfolder)
 
 			#plt.show()
 			fig.savefig(self.OUTPUT_FOLDER+'spectrum_less/'+subfolder+'/'+filename[:-4]+'.jpg', dpi=300)

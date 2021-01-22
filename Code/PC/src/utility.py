@@ -4,7 +4,6 @@ import sys
 import numpy as np
 from numpy import loadtxt
 from scipy.io import wavfile
-import pyaudio
 import progressbar
 import colorama
 from csv import reader, writer
@@ -35,10 +34,6 @@ import tensorflow as tf
 tf.get_logger().setLevel(logging.ERROR)
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-
-CHANNELS = 2
-RATE = 44100
-FORMAT = pyaudio.paInt16
 
 def swap(m, n):
     """
@@ -217,10 +212,12 @@ def getchar():
     """
 
     ch = ''
-    if os.name == 'nt': # how it works on windows
+    if os.name == 'nt': 
+        #Windows
         import msvcrt
         ch = msvcrt.getwch()
-    else:
+    else: 
+        #Linux
         import tty, termios, sys
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
@@ -450,6 +447,18 @@ def state_dataset():
     print(SHORT_LINE, end='\n\n')
 
 def print_list(title, wav_list):
+    """
+    Print the number of remaining audio files to
+    reach 200 files per label
+    
+    Args:
+        title (str): title before the print of the wav_list
+        
+        wav_list(list): list of tuples (fold, length) where
+                        fold (str): name of the folder
+                        length (int): number of audio files in fold
+    """
+    
     print('{:^46s}'.format(title))
     print(SHORT_LINE)
     for (fold,length) in wav_list:
@@ -682,6 +691,7 @@ def extract_features_from_imgs():
     CSV_DICT_LABELS = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/label_dict.csv'
     CSV_DATASET = f'D:/github/Invisible-CAPPCHA/Code/PC/dat/{sys.argv[2]}/spectrum/dataset.csv'
 
+    #Model for extraction of feature from spectrograms
     model = VGG16(weights='imagenet', include_top=False)
 
     labels = {}
@@ -751,5 +761,6 @@ def create_label_dict():
             csv_writer.writerow([k, v])
 
 if __name__=='__main__':
+    #Colored print
     colorama.init()
     pass

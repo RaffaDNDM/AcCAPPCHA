@@ -82,15 +82,24 @@ class AcquireAudio:
     
     def __init__(self, audio_dir, times_key):
         if not(os.path.exists(audio_dir) and os.path.isdir(audio_dir)):
+            #Use default audio directory
+            #audio_dir not existing or not a directory
             os.mkdir(self.DATA_FOLDER)
 
         if audio_dir:
+            #If audio dir ok, uniform the path of audio_dir
             self.DATA_FOLDER = utility.uniform_dir_path(audio_dir)
     
+        #Check the folder in audio dir 
+        #(saving how many files are recorded for each label in a dictionary)
         self.already_acquired()
 
+        #Start acquisition after typing a key
         input('Print something to start the acquisition of audio')
         sleep(2)
+
+        #Communication between threads and management of 
+        #sequences of key presses
         self.mutex = threading.Lock()
         self.count = 0
         self.TIMES_KEY_PRESSED = times_key
@@ -148,6 +157,8 @@ class AcquireAudio:
         Record the waves from microphone and store the audio
         file after TIMES_KEY_PRESSED times a key is pressed
         """
+
+        #Open the stream with microphone
         p = pyaudio.PyAudio()
 
         stream = p.open(format=self.FORMAT,
@@ -159,6 +170,7 @@ class AcquireAudio:
         cprint(utility.LINE, 'blue')
         cprint('\n*** Recording ***', 'green', attrs=['bold'])
 
+        #Recording        
         frames = []
 
         while self.CHECK_TYPING:
@@ -179,6 +191,7 @@ class AcquireAudio:
         while not self.WAVE_OUTPUT_FILENAME:
             sleep(1)
 
+        #Store the audio file on the File System
         wf = wave.open(self.DATA_FOLDER+self.WAVE_OUTPUT_FILENAME, 'wb')
         wf.setnchannels(self.CHANNELS)
         wf.setsampwidth(p.get_sample_size(self.FORMAT))
@@ -186,6 +199,7 @@ class AcquireAudio:
         wf.writeframes(b''.join(frames))
         wf.close()
 
+        #Communicate to keylogger that the file was stored
         self.mutex.acquire()
         try:
             self.WAVE_OUTPUT_FILENAME = None
@@ -202,14 +216,20 @@ class AcquireAudio:
         Args:
             key (key): pynput key
         """
+
+        #Read a character from the user
         key_string = utility.key_definition(key)
 
+        #If the number of characters in the audio sequence 
+        #isn't equal to the wanted number of insertions
         if self.count < self.TIMES_KEY_PRESSED:
+            #Increase the counter of peaks
             self.count += 1
 
             sleep(1)
             self.mutex.acquire()
             try:
+                #Update dictionary of counters for each label
                 if key_string in self.LETTERS.keys():
                     self.WAVE_OUTPUT_FILENAME = key_string+'/'+'{:03d}'.format(self.LETTERS[key_string])+'.wav'
                     self.LETTERS[key_string] += 1
@@ -223,6 +243,7 @@ class AcquireAudio:
                 self.mutex.release()
 
             if self.FIRST_KEY:
+                #If the key was pressed for the first time
                 self.mutex.acquire()
                 try:
                     self.FIRST_KEY = False
@@ -230,6 +251,8 @@ class AcquireAudio:
                     self.mutex.release()
 
             if self.count == self.TIMES_KEY_PRESSED:
+                #Commmunicate to audio recorder that the audio has to be
+                #stopped because it has the required number of keys
                 self.mutex.acquire()
                 try:
                     self.CHECK_TYPING = False
@@ -245,8 +268,11 @@ class AcquireAudio:
             while True:
                 cprint(f'\nType a letter {self.TIMES_KEY_PRESSED} times', 'blue', attrs=['bold'])
 
+                #Audio recorder
                 audiologger = threading.Thread(target=self.audio_logging)
                 audiologger.start()
+                
+                #Keyboard
                 with keyboard.Listener(on_press=self.press_key) as listener:
                     #Manage keyboard input
                     listener.join()

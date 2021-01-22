@@ -633,17 +633,21 @@ class AcCAPPCHA:
                          (each one contains the 10 most probable 
                           labels for a window of indices in char_times)
         '''
-
+        
+        #Model used to extract features from spectrograms
+        model = VGG16(weights='imagenet', include_top=False)
+        #Model used for prediction of labels        
         net = nn.NeuralNetwork(option, folder)
         count = 0
-        model = VGG16(weights='imagenet', include_top=False)
         keys = []
 
+        #Analysis of all the windows found
         for list_time in char_times:
             #Evaluation of press peak and hit peaks
             analysis = ef.ExtractFeatures(self.RATE, self.SIGNAL[list_time[0]:list_time[-1]])
             
             if utility.OPTIONS[option]=='touch':
+                #Touch feature
                 features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0])
                 
                 if features is None:
@@ -656,6 +660,7 @@ class AcCAPPCHA:
                 touch_feature = features['touch']
                 hit_feature = features['hit']
                 touch_X = touch_feature.fft_signal.reshape((1, 66))
+                #Predicted labels are appended in keys list
                 keys.append(net.test(touch_X))
                 
                 if self.DEBUG:
@@ -665,6 +670,7 @@ class AcCAPPCHA:
                     self.plot_features(count, touch_feature, hit_feature)
 
             elif utility.OPTIONS[option]=='touch_hit':
+                #Touch peak and hit peak
                 features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0])
                 
                 if features is None:
@@ -679,7 +685,7 @@ class AcCAPPCHA:
                 touch_X = touch_feature.fft_signal
                 hit_X = hit_feature.fft_signal
                 touch_hit_X = np.concatenate((touch_X, hit_X)).reshape((1, 132))                
-                #cprint(touch_hit_X.shape, 'red')
+                #Predicted labels are appended in keys list
                 keys.append(net.test(touch_hit_X))
                 
                 if self.DEBUG:
@@ -689,7 +695,7 @@ class AcCAPPCHA:
                     self.plot_features(count, touch_feature, hit_feature)
 
             else:
-                #Extraction of features
+                #Create spectrogram of touch peak and hit peak 
                 fig, ax = plt.subplots(1)
                 fig.subplots_adjust(left=0,right=1,bottom=0,top=1)
                 features = analysis.extract(original_signal=self.SIGNAL, index=list_time[0], spectrum=True)
@@ -704,10 +710,13 @@ class AcCAPPCHA:
                 img_feature = np.concatenate((self.SIGNAL[features[0]], self.SIGNAL[features[1]]))
                 spectrum, freqs, t, img_array = ax.specgram(img_feature, NFFT=len(features[0]), Fs=analysis.fs)
                 
+                #Save the spectrogram image
                 fig.savefig((self.PLOT_FOLDER+self.SPECTRUM_FOLDER+self.CHAR_SPECTRUM_IMG).format(count), dpi=300)
                 plt.close(fig)
 
+                #Extract feature using VGG16
                 final_features = utility.extract(model, (self.PLOT_FOLDER+self.SPECTRUM_FOLDER+self.CHAR_SPECTRUM_IMG).format(count))
+                #Predicted labels are appended in keys list
                 keys.append(net.test(final_features))
                 
                 if self.DEBUG:
@@ -735,6 +744,8 @@ class AcCAPPCHA:
                                                related to the count-th
                                                peak
         '''
+
+        #Define the frame characteristics
         fig = plt.figure('CHARACTER'+str(count))
         fig.tight_layout(pad=1.0)
         gs = fig.add_gridspec(2, 2)
@@ -768,9 +779,10 @@ class AcCAPPCHA:
         s2.set_yscale('log')
         s2.yaxis.set_label_position("right")
         s2.yaxis.tick_right()
+        
+        #Save the plot
         fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_PEAKS_IMG).format(count))
         plt.close()
-        #plt.show()
 
     def plot_spectrum(self, count, features, img_feature):
         '''
@@ -792,6 +804,7 @@ class AcCAPPCHA:
         #plt.ylabel('Frequency(Hz)')
         #plt.xlabel('Time(s)')
 
+        #Define the frame characteristics
         fig = plt.figure('CHARACTER'+str(count))
         fig.tight_layout(pad=3.0)
         gs = fig.add_gridspec(2, 1)
@@ -806,6 +819,7 @@ class AcCAPPCHA:
         s_top.set_xlabel('Time(ms)')
         s_top.tick_params(axis='both', which='major', labelsize=6)
 
+        #Save the plot
         s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=self.RATE)
         fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_SPECTRUM_IMG).format(count))
 
@@ -828,19 +842,27 @@ class AcCAPPCHA:
         Returns:
             VERIFIED (bool): True if human, False if bot
         '''
+        
+        #If deep learning option with spectrograms specified
         if self.DL_OPTION and utility.OPTIONS[option]=='spectrum':
             if not os.path.exists(self.PLOT_FOLDER+self.SPECTRUM_FOLDER):
+                #Create subfolder for spectrograms of audio files during the password insertion
                 os.mkdir(self.PLOT_FOLDER+self.SPECTRUM_FOLDER)
             else:
+                #Delete graphics of audio files already in the subfolder
                 files = os.listdir(self.PLOT_FOLDER+self.SPECTRUM_FOLDER)
 
                 for f in files:
                     os.remove(self.PLOT_FOLDER+self.SPECTRUM_FOLDER+f)
 
         try:
+            #Execute AcCAPPCHA
             count_bot_trials = 0
             count_pwd_trials = 0
             
+            #Go on until (authentication ok) or (maximum attepmts for wrong 
+            #credentials or bot deceted are performed)
+            #
             while count_pwd_trials < self.MAX_PWD_TRIALS and \
                   count_bot_trials < self.MAX_BOT_TRIALS:
                 
@@ -849,39 +871,51 @@ class AcCAPPCHA:
 
                 self.TIMES = []
                 self.PASSWORD = ''
-                                
+
+                #Audio recording thread during the insertion of the password              
                 cprint('password:', 'red', end=' ')
                 audio_logger = threading.Thread(target=self.audio, args=(folder,option))
                 audio_logger.start()
 
+                #Insertion of the password
                 no_end = True
                 sleep(1)
                 while no_end:
                     no_end = self.password_from_user()
                 
+                #Definition of time intervals w.r.t. the first time instant stored
                 first = self.TIMES[0]
                 self.TIMES = [t-first for t in self.TIMES[:-1]]
 
                 audio_logger.join()
 
+                #Connection to the server
                 with SecureElement('127.0.0.1', 8080) as s:
+                    #Signature of the message
                     check = s.sign(str(self.VERIFIED))        
+                    #Print if human or bot
                     self.bot_human(check)
 
                     if check:
+                        #If humman, send credentials
                         msg = s.credentials(username, self.PASSWORD)
-            #            msg = s.credentials('raffaeledndm', 'ciao')
                         
+                        #Open the web browser showing the response of the server
                         with open('../dat/html/response.html', 'w') as f:
+                            #Store the HTML code
                             f.write(msg)
 
+                            #Store HTML code in web browser
                             import webbrowser
                             webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
 
+                        #Analysis of HTML response of the server
                         if not 'Logged in' in msg:
+                            #User credentials wrong
                             count_pwd_trials+=1
 
                             if 'First sign up.' in msg:
+                                #Username not in the database
                                 cprint(f"The username {username} doesn't exist", 'yellow')
                                 
                                 if count_pwd_trials != self.MAX_PWD_TRIALS:
@@ -891,33 +925,34 @@ class AcCAPPCHA:
                                     print('')
 
                             elif 'Wrong password.' in msg:
+                                #Wrong password for the username (it is in database)
                                 cprint(f"The password was wrong", 'yellow')
 
                         else:
+                            #User correctly logged in
                             break
 
-                        #print(msg)
-                        #msg = s.credentials('RaffaDNDM', 'hello35')
-                        #msg = s.credentials('JohnSM', 'password4')
-                        #msg = s.credentials('CristiFB', 'byebye12')
-                        #msg = s.credentials('IreneRMN', 'flower10')
-
                     else:
+                        #Bot detected
                         cprint('Try to stay in a quiet environment', 'yellow')
                         count_bot_trials += 1
     
             if count_pwd_trials == self.MAX_PWD_TRIALS or \
                count_bot_trials == self.MAX_BOT_TRIALS:
-               
+                #Block the user 
+                #Maximum number of attemps reached for wrong credentials
+                #or maximum number of trials for bot user reached               
                 moment = time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.localtime())
 
+                #Store in block.txt file the current time
                 with open(self.BLOCK_FILE, 'w') as f:
                     f.write(moment)
             
-            #With open of secure element
+            #Return file verification result
             return self.VERIFIED              
 
         except KeyboardInterrupt:
+            #CTRL+C during the execution (Exit from the program)
             self.KILLED = True
             sleep(1)
             cprint('\nClosing the program', 'red', attrs=['bold'], end='\n\n')
@@ -937,8 +972,7 @@ class AcCAPPCHA:
 
     def obfuscate(self):
         '''
-        Obfuscate PASSWORD by replacing each character
-        with a *
+        Obfuscate PASSWORD by replacing each character with a *
 
         Returns:
             psswd (str): Obfuscated PASSWORD
@@ -968,6 +1002,7 @@ class AcCAPPCHA:
         i=0
         for x in self.PASSWORD:
             if x == '\b':
+                #Remove time instants related to '\b' and the previous character
                 self.TIMES=self.TIMES[:i-1]+self.TIMES[i+1:]
                 psswd = psswd[:-1]
             else:
@@ -1056,22 +1091,28 @@ def args_parser():
     return args.dir, args.time, args.deep, args.plot, args.debug
 
 def main():
+    #Colored print
     colorama.init()
+    #Read command line arguments
     folder, time_option, dl_option, plot_option, debug_option = args_parser()
 
+    #Select tye of the feature for deep learning technique
     option = -1
     
     if dl_option:
         option = utility.select_option_feature()
 
     try:
+        #Initialize AcCAPPCHA
         captcha = AcCAPPCHA(time_option, dl_option, plot_option, debug_option)
 
+        #User not blocked
         cprint(f'   Authentication\n{utility.LINE}', 'blue')
         username = input(colored('username: ', 'red'))
         captcha.run(folder, option, username)
 
     except BlockAccessError:
+        #User blocked
         cprint("#################################", 'blue')
         cprint('##', 'blue', end=' ')
         cprint("NO ACCESS TO SECURE ELEMENT", 'red', end=' ')

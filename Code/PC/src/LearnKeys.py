@@ -46,15 +46,17 @@ def args_parser():
     return args.dir
 
 def main():
-    #Initialize colored prints
+    #Colored print
     colorama.init()
-    #Parser of command line arguments
+    #Read command line arguments
     folder = args_parser()
 
+    #Select the type of features you want to use to train the network
     option = utility.select_option_feature()
     count = 0
 
     if option==3:
+        #Train the network with all the types of features
         while count<option:
             net = nn.NeuralNetwork(option,folder)
             cprint(utility.LINE, 'blue')
@@ -69,8 +71,10 @@ def main():
 
             cprint(utility.LINE, 'blue')
             cprint(utility.LINE, 'blue')
-            net.train()            
+            net.train()    
     else:
+        #Train the network with only the selected type 
+        #of features
         net = nn.NeuralNetwork(option,folder)
         cprint(utility.LINE, 'blue')
         print('Number of labels:', end=' ')

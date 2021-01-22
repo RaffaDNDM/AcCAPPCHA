@@ -65,8 +65,8 @@ def main():
     username = 'RaffaDNDM'
     password = 'hello35'
     
-    popen_bot(username, password)
-    #input_bot(username, password)
+    #popen_bot(username, password)
+    input_bot(username, password)
 
 if __name__=='__main__':
     main()

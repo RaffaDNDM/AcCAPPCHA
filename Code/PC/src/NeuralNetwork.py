@@ -125,13 +125,11 @@ class NeuralNetwork:
             print("doesn't contain required csv files of dataset and labels dictionary")
             exit(0)
 
-        # Load the dataset
+        #Load the dataset
         dataset = loadtxt(self.DATA_FOLDER+self.CSV_DATASET, delimiter=',')
-        # Split into input (X) and input/label (y) variables
+        #Split into input (X) and input/label (y) variables
         self.X_train = dataset[0:len(dataset):2,:-1]
         self.Y_train = dataset[0:len(dataset):2, -1]
-        #self.X_train = dataset[0:len(dataset),:-1]
-        #self.Y_train = dataset[0:len(dataset), -1]
         self.X_validation = dataset[1:len(dataset):4,:-1]
         self.Y_validation = dataset[1:len(dataset):4, -1]
         self.X_test = dataset[3:len(dataset):4,:-1]
@@ -139,20 +137,25 @@ class NeuralNetwork:
         print(len(self.X_train))
         
         cprint(f'\n\n{len(dataset)}', 'red', end='\n\n')
-        # Define the keras model
+        
+        
+        #Define the keras model
         model = Sequential()
 
+        #Map labels into integer values
         self.Y_train = to_categorical(self.Y_train, len(self.labels))
         self.Y_validation = to_categorical(self.Y_validation, len(self.labels))
         self.Y_test = to_categorical(self.Y_test, len(self.labels))
         
         if self.OPTION == 'spectrum':
+            #Create the network with spectrogram feature as input
             model.add(Dense(1024, input_dim=len(self.X_train[0]), activation='relu'))
             model.add(Dense(len(self.labels), activation='sigmoid'))
             model.compile(loss=CategoricalCrossentropy(), optimizer='adam', metrics=['accuracy'])
 
             history = model.fit(self.X_train, self.Y_train, epochs=30, shuffle=True)
         else:
+            #Create the network with touch/touch_hit feature as input
             model.add(Dense(100, input_dim=len(self.X_train[0]), activation='relu'))
             model.add(Dense(len(self.labels), activation='sigmoid'))
             model.compile(loss=CategoricalCrossentropy(), optimizer='adam', metrics=['accuracy'])
@@ -183,12 +186,8 @@ class NeuralNetwork:
         cprint(f'Test accuracy:', 'green', end='  ')
         print(f'{scores[1]*100} %')
 
+        #Save the model on the File System
         model.save(self.DATA_FOLDER+self.MODEL_NAME)
-        # serialize model to JSON
-        #model_json = self.model.to_json()
-
-        #with open(self.DATA_FOLDER+self.MODEL_NAME, "w") as json_file:
-        #    json_file.write(model_json)
 
     def test(self, X):
         '''

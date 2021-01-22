@@ -103,7 +103,10 @@ def main():
     Main function initializes the acquisition of audios
     and plot or extraction of features from wav files 
     '''
+
+    #Colored print
     colorama.init()
+    #Read command line arguments
     plot_option, record_option, extract_option, zoom, filename, audio_dir, output = args_parser()
     print(audio_dir)
 
