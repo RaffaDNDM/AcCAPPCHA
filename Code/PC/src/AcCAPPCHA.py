@@ -223,28 +223,34 @@ class AcCAPPCHA:
     """
 
     def __init__(self, time_option, dl_option, plot_option, debug_option):
+        #If block.txt exists, read it
         if os.path.exists(self.BLOCK_FILE):
-            moment = ''
             start = 0
             with open(self.BLOCK_FILE, 'r') as f:
                 moment = f.read()
                 start = time.mktime(time.strptime(moment, "%a, %d %b %Y %H:%M:%S +0000"))
-                
+            
             if (start + self.BLOCK_DEADLINE_sec) > time.time():
+                #Block period not elapsed
                 raise BlockAccessError()
             else:
+                #Block period elapsed (remove the file)
                 os.remove(self.BLOCK_FILE)
-                    
+
+        #Management of communication between the keylogger and the audio recorder
         self.mutex = threading.Lock()
         self.COMPLETED_INSERT = False
         self.KILLED = False
+        #Verification parameters
         self.CHAR_RANGE = num_samples(self.RATE, 0.10)
         self.ENTER_RANGE = num_samples(self.RATE, 0.2)
         self.TIME_OPTION = time_option
+        self.VERIFIED = False
+        #Options
         self.DL_OPTION = dl_option
         self.PLOT_OPTION = plot_option
         self.DEBUG = debug_option
-        self.VERIFIED = False
+        #Colored title
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('+', colored('\\', self.SHADOW_COLOR))
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('|', colored('|', self.SHADOW_COLOR))
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('/', colored('/', self.SHADOW_COLOR))
@@ -252,13 +258,17 @@ class AcCAPPCHA:
         self.NAME_CAPPCHA = self.NAME_CAPPCHA.replace('*', colored('\\', self.MAIN_COLOR))
         cprint('\n'+self.NAME_CAPPCHA, 'blue')
 
+        #If plot folder doesn't exist, create it
         if not os.path.exists(self.PLOT_FOLDER):
             os.mkdir(self.PLOT_FOLDER)
 
+        #If plot option specified
         if self.PLOT_OPTION:
             if not os.path.exists(self.PLOT_FOLDER+self.WAVE_FOLDER):
+                #Create subfolder for graphics of audio files during the password insertion
                 os.mkdir(self.PLOT_FOLDER+self.WAVE_FOLDER)
             else:
+                #Delete graphics of audio files already in the subfolder
                 files = os.listdir(self.PLOT_FOLDER+self.WAVE_FOLDER)
 
                 for f in files:
@@ -270,6 +280,7 @@ class AcCAPPCHA:
         and computing maximum value of the signal
         '''
         
+        #Open the stream with microphone
         p = pyaudio.PyAudio()
 
         stream = p.open(format=self.FORMAT,
@@ -278,7 +289,7 @@ class AcCAPPCHA:
                     input=True,
                     frames_per_buffer=self.CHUNK)
         
-        #RECORDING
+        #Recording
         frames = []
 
         for i in range(0, int(self.RATE / self.CHUNK * self.SECONDS_NOISE)):
@@ -294,7 +305,6 @@ class AcCAPPCHA:
         temp_signal = []
         
         for i in range(0, len(audio_string), 4):
-            #print(f'{i}:{audio_string[i:i+4]}')
             temp_signal.append(np.frombuffer(audio_string[i:i+4], dtype=np.int16, count=2))
         
         signal = np.array(temp_signal)
@@ -316,6 +326,8 @@ class AcCAPPCHA:
                           extraction
 
         '''
+        
+        #Open the stream with microphone
         p = pyaudio.PyAudio()
 
         stream = p.open(format=self.FORMAT,
@@ -324,7 +336,7 @@ class AcCAPPCHA:
                     input=True,
                     frames_per_buffer=self.CHUNK)
         
-        #RECORDING
+        #Recording
         frames = []
 
         while not self.COMPLETED_INSERT:
@@ -341,8 +353,8 @@ class AcCAPPCHA:
         
         audio_string = b''.join(frames)
         temp_signal = []
+
         for i in range(0, len(audio_string), 4):
-            #print(f'{i}:{audio_string[i:i+4]}')
             temp_signal.append(np.frombuffer(audio_string[i:i+4], dtype=np.int16, count=2))
         
         signal = np.array(temp_signal)
@@ -368,6 +380,7 @@ class AcCAPPCHA:
         Take the password, one character a time, from the user
         '''
         
+        #Get a character and store its time instant
         char_user = utility.getchar()
         self.TIMES.append(time.perf_counter())
             
@@ -378,9 +391,11 @@ class AcCAPPCHA:
             return True
 
         else:
+            #End of the password
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}')
 
+            #Communication with the audio recorder
             self.mutex.acquire()
             try:
                 self.COMPLETED_INSERT = True
@@ -411,13 +426,16 @@ class AcCAPPCHA:
             #Plot of press peak and hit peak with the signal
             plt.plot(self.TIME_MS*self.TS, self.SIGNAL[self.TIME_MS], color='blue')
         
+        #List of lists (list containing the samples of all the windows)
         char_times = []
         peak_indices = self.analyse(self.SIGNAL)
             
+        #If there are samples with values greater than the noise
         if peak_indices.size > 0:
+            #Definition of windows
             char_times = [[peak_indices[0][0],], ]
-            
             start = 0
+
             for i in peak_indices[1:]:
                 if (i[0]-char_times[start][0])>self.CHAR_RANGE:
                     char_times.append([i[0],])
@@ -428,20 +446,31 @@ class AcCAPPCHA:
                     if self.PLOT_OPTION:
                         plt.plot(i[0]*self.TS, self.SIGNAL[i[0]], color=self.COLORS[start%len(self.COLORS)], marker='x')
         
+            #Verification of the user's activity
             if self.DL_OPTION and self.TIME_OPTION:
+                #Remove backspaces
+                self.PASSWORD = self.remove_backspace()
+                #Time correspondence
                 cprint(utility.LINE, 'blue')
                 verified_time, checked_char_times = self.correspond_time(char_times)
 
+                #If time correspondence detects bot (verified_time=False)
                 self.VERIFIED = verified_time
 
+                #Character correspondence
                 if verified_time:
                     self.VERIFIED = self.correspond_keys(checked_char_times, folder, option)
                     
             elif self.DL_OPTION:
+                #Remove backspaces
+                self.PASSWORD = self.remove_backspace()
+
+                #Character correspondence
                 cprint(utility.LINE, 'blue')
                 self.VERIFIED = self.correspond_keys(char_times, folder, option)
 
             elif self.TIME_OPTION:
+                #Time correspondence
                 self.VERIFIED = self.correspond_time(char_times)[0]
 
         cprint(utility.LINE, 'blue')
@@ -450,6 +479,7 @@ class AcCAPPCHA:
             print(colored('\rHuman: ', 'green')+f'{self.VERIFIED}', end='\n\n')
 
         if self.PLOT_OPTION:
+            #Save the plot of the audio file recorded during the insertion of the password
             plt.tick_params(axis='both', which='major', labelsize=6)
             fig.savefig(self.PLOT_FOLDER+self.WAVE_FOLDER+self.FULL_WAVE_IMG)
 
@@ -476,10 +506,12 @@ class AcCAPPCHA:
 
         '''
         
+        #If number of windows lower than number of characters of the password
         length_psswd = len(self.PASSWORD)
         if len(char_times) < length_psswd:
             return False, None
 
+        #Find the peak for every window
         peak_times = []
         for list_time in char_times:
             peak_times.append(list_time[np.argmax(self.SIGNAL[list_time])])
@@ -498,32 +530,43 @@ class AcCAPPCHA:
                 print(x/self.RATE, end=colored(', ', 'green'))
             
             cprint('\b\b]', 'green')
-                    
+
+        #Look for time correspondence            
         for i in range(0, len(char_times)):
+            #Not enough remaining audio peaks to find time correspondence
             if len(char_times) - i < length_psswd:
                 return False, None
 
             checked_char_times = [char_times[i],]
             start = peak_times[i]/self.RATE
+            #Already verified element in i
             j=i+1
-            count_verified = 1 #already verified element in i
+            count_verified = 1
             
+            #Analysis of next peaks after peak[i]
             while count_verified < length_psswd and j < len(char_times):
+                #Not enough remaining audio peaks to find time correspondence
                 if (len(char_times) -j) < (length_psswd-count_verified):
                     break
 
                 if ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]-self.TIME_THRESHOLD):
+                    #Too low time between peak[i] and peak[j] (analyse next peak)
                     j += 1
                 elif ((peak_times[j]/self.RATE)-start) < (self.TIMES[count_verified]+self.TIME_THRESHOLD):
+                    #peak[j] corresponds to time instant of the count_verified-th character of the password
                     count_verified += 1
                     checked_char_times.append(char_times[j])
                     j += 1
                 elif ((peak_times[j]/self.RATE)-start) > (self.TIMES[count_verified]+self.TIME_THRESHOLD):
+                    #Too much time between peak[i] and peak[j] (no time correspondence)
+                    #Change start peak (start = peak[i+1])
                     break
 
                 if count_verified == length_psswd:
+                    #Found time correspondence
                     return True, checked_char_times
 
+        #No time correspondence found
         return False, None
 
     def correspond_keys(self, char_times, folder, option):
@@ -550,9 +593,8 @@ class AcCAPPCHA:
             response (bool): True if human, False if bot
         '''
         
+        #Find labels related to peaks of all the windows
         keys = self.predict_keys(char_times, folder, option)
-
-        self.PASSWORD = self.remove_backspace()
 
         if len(keys)<len(self.PASSWORD):
             return False
@@ -923,11 +965,14 @@ class AcCAPPCHA:
         '''
         
         psswd = ''
+        i=0
         for x in self.PASSWORD:
             if x == '\b':
+                self.TIMES=self.TIMES[:i-1]+self.TIMES[i+1:]
                 psswd = psswd[:-1]
             else:
                 psswd += x
+                i+=1
 
         return psswd
 
