@@ -1,7 +1,6 @@
 # AcCAPPCHA implementation for PC
-## Definition of training set
-### Dependencies installation
-<details><summary><b>Install PyAudio</b></summary>
+## Dependencies installation
+<details><summary><b>PyAudio</b></summary>
 <b><i>Linux:</i></b><br>
   <code>
   sudo apt install portaudio19-dev
@@ -20,36 +19,7 @@
   python3 -m pip install PyAudio-0.2.11-cp37-cp37m-win_amd64.whl
   </code>
 </details>
-<details><summary><b>Install other modules</b></summary>
-  Type the following command on terminal:<br>
-  <code>
-  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
-  </code><br>
-  or<br>
-  <code>
-  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
-  </code>
-</details>
-
-### Relative code
-<details><summary><b>Python Files</b></summary>
-  <ul>
-  <li><i><b>AcquireAudio.py</b></i><br>File with <i>AcquireAudio<i> class definition that is used to create an object for audio recording and key logging in parallel.</li>
-  <li><i><b>ExtractFeatures.py</b></i><br>File with <i>ExtractFeatures<i> class definition that is used to create an object for the analysis and extraction of an audio signal.</li>
-  <li><i><b>PlotExtract.py</b></i><br>File with <i>PlotExtract<i> class definition that is used to plot or extract features from audios in an input folder.</li>
-  <li><i><b>DatasetAcquisition.py</b></i><br>Main file with command line arguments and creation of objects of other classes.</li>
-  </ul>
-</details>
-<details><summary><b>Commands to launch the program</b></summary>
-  <code>
-  python3 DatasetAcquisition.py
-  </code>
-</details>
-
-
-## Neural Network creation and training phase
-### Dependencies installation
-<details><summary><b>Install Tensorflow</b></summary>
+<details><summary><b>Tensorflow</b></summary>
   Run the following command on terminal:<br>
   <code>
   pip3 install tensorflow
@@ -72,25 +42,26 @@
 <details><summary><b>Install CUDA and CUDNN</b></summary>
 This dipendency is important for tensorflow to perform computation using the user's NVIDIA GPU card. You can follow the [official installation guide](https://www.tensorflow.org/install/gpu) made by tensorflow team.
 </details>
-<details><summary><b>Install other modules</b></summary>
+<details><summary><b>Other modules</b></summary>
   Type the following command on terminal:<br>
   <code>
-  pip3 install numpy csv termcolor
+  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
   </code><br>
   or<br>
   <code>
-  python3 -m pip install numpy csv termcolor
+  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
   </code>
 </details>
 
-### Relative code
-<details><summary><b>Python Files</b></summary>
-  <ul>
+<code>
+python3 NeuralNetwork.py
+</code>
+
+<ul>
+  <li><i><b>AcquireAudio.py</b></i><br>File with <i>AcquireAudio<i> class definition that is used to create an object for audio recording and key logging in parallel.</li>
+  <li><i><b>ExtractFeatures.py</b></i><br>File with <i>ExtractFeatures<i> class definition that is used to create an object for the analysis and extraction of an audio signal.</li>
+  <li><i><b>PlotExtract.py</b></i><br>File with <i>PlotExtract<i> class definition that is used to plot or extract features from audios in an input folder.</li>
+  <li><i><b>DatasetAcquisition.py</b></i><br>Main file with command line arguments and creation of objects of other classes.</li>
   <li><i><b>NeuralNetwork.py</b></i><br>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.</li>
-  </ul>
-</details>
-<details><summary><b>Commands to launch the program</b></summary>
-  <code>
-  python3 NeuralNetwork.py
-  </code>
-</details>
+  <li><i><b>NeuralNetwork.py</b></i><br>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.</li>
+</ul>
