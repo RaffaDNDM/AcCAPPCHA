@@ -54,15 +54,30 @@ This dipendency is important for tensorflow to perform computation using the use
 </details>
 
 ## Python code
-<details><summary><a href="AcquireAudio.py"><i><b>AcquireAudio.py</b></i></href></summary>
-  File with <i>AcquireAudio<i> class definition that is used to create an object for audio recording and key logging in parallel.
+<details><summary><a href="AcCAPPCHA.py"><i><b>AcCAPPCHA.py</b></i></a></summary>
+  File with the definition of the class <i>AcCAPPCHA<i>, used for the verification of the user's identity.
 </details>
-<details><summary><a href="ExtractFeatures.py"><i><b>ExtractFeatures.py</b></i></href></summary>File with <i>ExtractFeatures<i> class definition that is used to create an object for the analysis and extraction of an audio signal.
+<details><summary><a href="AcquireAudio.py"><i><b>AcquireAudio.py</b></i></a></summary>
+  File with the definition of the class <i>AcquireAudio<i>, used to create record audio files during the execution of a key-logger. It records the audio signal of every key press to create the training set and the test set.
 </details>
-<details><summary><a href="PlotExtract.py"><i><b>PlotExtract.py</b></i></href></summary>File with <i>PlotExtract<i> class definition that is used to plot or extract features from audios in an input folder.
+<details><summary><a href="Authentication.py"><i><b>Authentication.py</b></i></a></summary>
+  File with the definition of the class <i>Authentication<i>, used to send and receive message on the server-side.
 </details>
-<details><summary><a href="DatasetAcquisition.py"><i><b>DatasetAcquisition.py</b></i></href></summary>Main file with command line arguments and creation of objects of other classes.
+<details><summary><a href="Bot.py"><i><b>Bot.py</b></i></a></summary>
+  File with the two functions used to test the strength of AcCAPPCHA against the bot attempt of authentication.
 </details>
-  <details><summary><a href="NeuralNetwork.py"><i><b>NeuralNetwork.py</b></i></href></summary>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.
+<details><summary><a href="DatasetAcquisition.py"><i><b>DatasetAcquisition.py</b></i></a></summary>File with the main function used to: record audio files, extract features and plot waves of the training set and the test set.
+</details>
+<details><summary><a href="ExtractFeatures.py"><i><b>ExtractFeatures.py</b></i></a></summary>File with the definition of the class <i>ExtractFeatures<i> class definition that is used to create an object for the analysis and extraction of an audio signal.
+</details>
+<details><summary><a href="LearnKeys.py"><i><b>LearnKeys.py</b></i></a></summary>File with the main function used to create a neural network, train it and save the trained model on the File System.
+</details>
+<details><summary><a href="NeuralNetwork.py"><i><b>NeuralNetwork.py</b></i></a></summary>File with the definition of the class <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.
+</details>
+<details><summary><a href="PlotExtract.py"><i><b>PlotExtract.py</b></i></a></summary>File with the definition of the class <i>PlotExtract<i> class definition that is used to plot or extract features from audios in an input folder.
+</details>
+<details><summary><a href="SecureElement.py"><i><b>SecureElement.py</b></i></a></summary>File with the definition of the class <i>SecureElement<i>, used to send and receive message on the client-side.
 </details>
 
+## Data
+You need to download [dat]() subfolder of PC directory to run the program.
