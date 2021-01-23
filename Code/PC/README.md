@@ -121,19 +121,24 @@ You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIW
     </li>
   </ul>
   The database must be created by login to PostgreSQL:<br>
-  <code>
-  psql -U userName
-  </code> on Windows Operating System with <i>postgres</i> as password <br><br>
-  <code>
-  su - postgres
-  </code><br>
-  <code>
-  psql
-  </code> on Linux without default password<br><br>
+  <li><b><i>Windows/</i></b><br>
+    <code>
+    psql -U userName
+    </code><br>
+    with <i>postgres</i> as password <br><br>
+  </li>
+  <li><b><i>Linux</i></b><br>
+    <code>
+    su - postgres
+    </code><br>
+    <code>
+    psql
+    </code><br> on Linux without default password<br><br>
+  </li>
   After the login phase, the user must type the following commands on the terminal:<br>
   <code>
   \i db_creation.sql
-  </code><br><br>
+  </code><br>
   <code>
   \i db_population.sql
   </code>
