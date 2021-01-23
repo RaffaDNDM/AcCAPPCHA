@@ -57,11 +57,14 @@ This dipendency is important for tensorflow to perform computation using the use
 python3 NeuralNetwork.py
 </code>
 
-<ul>
-  <li><i><b>AcquireAudio.py</b></i><br>File with <i>AcquireAudio<i> class definition that is used to create an object for audio recording and key logging in parallel.</li>
-  <li><i><b>ExtractFeatures.py</b></i><br>File with <i>ExtractFeatures<i> class definition that is used to create an object for the analysis and extraction of an audio signal.</li>
-  <li><i><b>PlotExtract.py</b></i><br>File with <i>PlotExtract<i> class definition that is used to plot or extract features from audios in an input folder.</li>
-  <li><i><b>DatasetAcquisition.py</b></i><br>Main file with command line arguments and creation of objects of other classes.</li>
-  <li><i><b>NeuralNetwork.py</b></i><br>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.</li>
-  <li><i><b>NeuralNetwork.py</b></i><br>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.</li>
-</ul>
+<details><summary><a href="AcquireAudio.py"><i><b>AcquireAudio.py</b></i></href></summary>
+  File with <i>AcquireAudio<i> class definition that is used to create an object for audio recording and key logging in parallel.
+</details>
+<details><summary><a href="AcquireAudio.py"><i><b>ExtractFeatures.py</b></i></href></summary>File with <i>ExtractFeatures<i> class definition that is used to create an object for the analysis and extraction of an audio signal.
+</details>
+<details><summary><a href="AcquireAudio.py"><i><b>PlotExtract.py</b></i></href></summary>File with <i>PlotExtract<i> class definition that is used to plot or extract features from audios in an input folder.
+</details>
+<details><summary><a href="AcquireAudio.py"><i><b>DatasetAcquisition.py</b></i></href></summary>Main file with command line arguments and creation of objects of other classes.
+</details>
+  <details><summary><a href="AcquireAudio.py"><i><b>NeuralNetwork.py</b></i></href></summary>File with <i>NeuralNetwork<i> class definition that is used to create an object for construction of a neural network for training and test phase of the algorithm.
+</details>
