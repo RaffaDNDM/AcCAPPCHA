@@ -167,3 +167,6 @@ AcCAPPCHA uses this folder if <i>-plot</i> option is selected.
 </li>
 </ul>
 </details>
+
+## Help
+For <b><i>AcCAPPCHA.py</i></b>, <b><i>Authentication.py</i></b>, <b><i>DatasetAcquisition.py</i></b> and <b><i>LearnKeys.py</i></b> you can run the program with parameter <code>-h</code> or <code>-h</code><code>--help</code> to see the list of parameters.
