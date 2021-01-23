@@ -125,7 +125,10 @@ You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIW
   psql -U userName
   </code> on Windows Operating System with <i>postgres</i> as password <br><br>
   <code>
-  psql -U userName
+  su - postgres
+  </code><br>
+  <code>
+  psql
   </code> on Linux without default password<br><br>
   After the login phase, the user must type the following commands on the terminal:<br>
   <code>
@@ -136,24 +139,31 @@ You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIW
   </code>
 </details>
 <details><summary><b><i>html/</i></b><br></summary>
-  Folder containing the 3 HTML possible responses of the server for the client, after the authentication phase:
-  <ul>
-    <li><b><i>failure.html</i></b><br>
-      <img src="git_img/failure.PNG" width="650" alt="version_python"><br>
-    </li>
-    <li><b><i>logged.html</i></b><br>
-      <img src="git_img/logged.PNG" width="650" alt="version_python"><br>
-    </li>
-    <li><b><i>no_db_entry.html</i></b><br>
-      <img src="git_img/no_db_entry.PNG" width="650" alt="version_python"><br>
-    </li>
-  </ul>
-  It also contain the response read by the client during the execution of AcCAPPCHA.
+  Folder containing the 3 HTML possible responses of the server for the client, after the authentication phase:<br><br>
+  <table>
+  <tr>
+    <td><b><i>failure.html</i></b></td>
+    <td><b><i>logged.html</i></b></td>
+    <td><b><i>no_db_entry.html</i></b></td>
+  </tr>
+  <tr>
+    <td> <img src="git_img/failure.PNG"  alt="1" width = 150px height = 100px ></td>
+    <td><img src="git_img/logged.PNG" alt="3" width = 150px height = 100px></td>
+    <td><img src="git_img/no_db_entry.PNG" alt="4" width = 150px height = 100px></td>
+  </tr>
+  </table>
+  It also contains the response <b><i>response.html</i></b>, read by the client during the execution of AcCAPPCHA, and <b><i>block.txt</i></b> file for the management of block period.
 </details>
 <details><summary><b><i>img/</i></b><br></summary>
 It is composed by 2 subfolders:
 <ul>
-<li>spectrum</li>
-<li>wave</li>
+<li><b><i>spectrum/</i></b><br>
+The folder contains the spectrogram images of all the audio peaks detected. This folder is used by AcCAPPCHA if the user selected the spectrogram feature.
+</li>
+<li><b><i>wave/</i></b><br>
+  The folder will contain the plot image (<b><i>audio_from_user.png</i></b>)of all the audio peaks in the audio file recorded during the insertion of the password.<br>
+  If deep learning techniques are selected, the folder also contains an image <i>peak_XX.png</i>, one for each audio peak evaluated by the deep learning technique, where <i>XX</i> is a progressive number. In the image there is the plot of signal, recorded during the insertion of the password, with highlighted only the peak plotted in the image.  
+AcCAPPCHA uses this folder if <i>-plot</i> option is selected.
+</li>
 </ul>
 </details>
