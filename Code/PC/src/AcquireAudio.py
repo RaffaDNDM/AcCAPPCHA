@@ -7,7 +7,6 @@ import scipy.fftpack as fftpk
 from time import sleep
 import threading
 from pynput import keyboard
-import datetime
 from termcolor import cprint
 import os
 import utility

@@ -6,7 +6,7 @@
   sudo apt install portaudio19-dev
   pip3 install pyaudio
   </code><br><br>
-  <b><i>Windows:</i></b><br>
+<b><i>Windows:</i></b><br>
   Check the version and either you have 64 or 32 Python just open python on terminal, obtaining for example this result:<br>
   <img src="git_img/version_python.PNG" width="650" alt="version_python"><br>
   Download from the appropriate <i>.whl</i> file from [here](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyaudio). An example of the name of this file is <b>PyAudio‑0.2.11‑cp37‑cp37m‑win_amd64.whl</b><br><br>
@@ -42,15 +42,27 @@
 <details><summary><b>Install CUDA and CUDNN</b></summary>
 This dipendency is important for tensorflow to perform computation using the user's NVIDIA GPU card. You can follow the [official installation guide](https://www.tensorflow.org/install/gpu) made by tensorflow team.
 </details>
-<details><summary><b>Other modules</b></summary>
-  Type the following command on terminal:<br>
+<details><summary><b>SSL/TLS</b></summary>
+  The module <i>ssl</i> uses the OpenSSL library, that you can dowload <a href="https://slproweb.com/products/Win32OpenSSL.html">here</a> for Windows (in Linux it's already install).<br>
+  Type the following command on terminal to install the <i>ssl</i> python module:<br>
   <code>
-  pip3 install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
+  pip3 install ssl
   </code><br>
   or<br>
   <code>
-  python3 -m pip install matplotlib pyaudio scipy numpy wave pynput Datetime termcolor argparse csv colorama
-  </code>
+  python3 -m pip install ssl
+  </code><br>
+  <br><br>
+</details>
+<details><summary><b>Other modules</b></summary>
+  Type the following command on terminal:<br>
+  <code>
+  pip3 install matplotlib scipy numpy wave pynput termcolor argparse csv colorama Pillow progressbar logging psycopg2 uuid hashlib
+  </code><br>
+  or<br>
+  <code>
+  python3 -m pip install matplotlib scipy numpy wave pynput termcolor argparse csv colorama Pillow progressbar logging psycopg2 uuid hashlib
+  </code><br><br>
 </details>
 
 ## Python code
@@ -80,4 +92,33 @@ This dipendency is important for tensorflow to perform computation using the use
 </details>
 
 ## Data
-You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIWOe266AXYPA4Q/view?usp=sharing) subfolder of PC directory to run the program.
+You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIWOe266AXYPA4Q/view?usp=sharing) subfolder of PC directory to run the program.<br> The folder is composed by the following subfolders:
+<ul>
+<li><b><i>audio/</i></b><br>
+  It contains a subfolder for each dataset used in the training phase with inside at most three subfolders (<i>spectrum/</i> related to spectrogram features, <i>touch/</i> related to touch features, <i>touch_hit/</i> related to touch features concatenated with the hit features). In each one of these 3 subfolders, there is:
+    <ul>
+      <li><b><i>dataset.csv</i></b><br>
+        csv file where each row is composed by features and index of the label. It's used to train the neural network.
+      </li>
+      <li><b><i>label_dict.csv</i></b><br>
+        csv file where each row is composed by a label and the index related to it.
+      </li>
+      <li><b><i>model/</i></b><br>
+        folder containing information of neural network trained on data in <i>dataset.csv</i>.
+      </li>
+  </ul>
+</li>
+<li><b><i>crypto/</i></b><br>
+</li>
+<li><b><i>db/</i></b><br>
+</li>
+<li><b><i>html/</i></b><br>
+</li>
+<li><b><i>img/</i></b><br>
+It is composed by 2 subfolders:
+<ul>
+<li>spectrum</li>
+<li>wave</li>
+</ul>
+</li>
+</ul>

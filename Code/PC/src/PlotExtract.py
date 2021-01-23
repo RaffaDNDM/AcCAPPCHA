@@ -9,7 +9,6 @@ import utility
 import ExtractFeatures as ef
 from csv import writer
 from PIL import Image
-import librosa
 import progressbar
 
 class PlotExtract:
