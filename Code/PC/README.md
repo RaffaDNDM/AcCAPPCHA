@@ -93,32 +93,67 @@ This dipendency is important for tensorflow to perform computation using the use
 
 ## Data
 You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIWOe266AXYPA4Q/view?usp=sharing) subfolder of PC directory to run the program.<br> The folder is composed by the following subfolders:
-<ul>
-<li><b><i>audio/</i></b><br>
+<details><summary><b><i>audio/</i></b><br></summary>
   It contains a subfolder for each dataset used in the training phase with inside at most three subfolders (<i>spectrum/</i> related to spectrogram features, <i>touch/</i> related to touch features, <i>touch_hit/</i> related to touch features concatenated with the hit features). In each one of these 3 subfolders, there is:
-    <ul>
-      <li><b><i>dataset.csv</i></b><br>
-        csv file where each row is composed by features and index of the label. It's used to train the neural network.
-      </li>
-      <li><b><i>label_dict.csv</i></b><br>
-        csv file where each row is composed by a label and the index related to it.
-      </li>
-      <li><b><i>model/</i></b><br>
-        folder containing information of neural network trained on data in <i>dataset.csv</i>.
-      </li>
+  <ul>
+    <li><b><i>dataset.csv</i></b><br>
+      csv file where each row is composed by features and index of the label. It's used to train the neural network.
+    </li>
+    <li><b><i>label_dict.csv</i></b><br>
+      csv file where each row is composed by a label and the index related to it.
+    </li>
+    <li><b><i>model/</i></b><br>
+      folder containing information of neural network trained on data in <i>dataset.csv</i>.
+    </li>
   </ul>
-</li>
-<li><b><i>crypto/</i></b><br>
-</li>
-<li><b><i>db/</i></b><br>
-</li>
-<li><b><i>html/</i></b><br>
-</li>
-<li><b><i>img/</i></b><br>
+</details>
+<details><summary><b><i>crypto/</i></b><br></summary>
+  Folder containing the certificates and the private keys, for TLS protocol, and ECDSA keys. 
+</details>
+<details><summary><b><i>db/</i></b><br></summary>
+  Folder containing the files used for the creation of the PostgreSQL database:
+  <ul>
+    <li><b><i>db_creation.sql</i></b><br>
+      SQL file for the creation of the CloudUser table and related domains.
+    </li>
+    <li><b><i>db_population.csv</i></b><br>
+      SQL file for the population of the CloudUser table.
+    </li>
+  </ul>
+  The database must be created by login to PostgreSQL:<br>
+  <code>
+  psql -U userName
+  </code> on Windows Operating System with <i>postgres</i> as password <br><br>
+  <code>
+  psql -U userName
+  </code> on Linux without default password<br><br>
+  After the login phase, the user must type the following commands on the terminal:<br>
+  <code>
+  \i db_creation.sql
+  </code><br><br>
+  <code>
+  \i db_population.sql
+  </code>
+</details>
+<details><summary><b><i>html/</i></b><br></summary>
+  Folder containing the 3 HTML possible responses of the server for the client, after the authentication phase:
+  <ul>
+    <li><b><i>failure.html</i></b><br>
+      <img src="git_img/failure.PNG" width="650" alt="version_python"><br>
+    </li>
+    <li><b><i>logged.html</i></b><br>
+      <img src="git_img/logged.PNG" width="650" alt="version_python"><br>
+    </li>
+    <li><b><i>no_db_entry.html</i></b><br>
+      <img src="git_img/no_db_entry.PNG" width="650" alt="version_python"><br>
+    </li>
+  </ul>
+  It also contain the response read by the client during the execution of AcCAPPCHA.
+</details>
+<details><summary><b><i>img/</i></b><br></summary>
 It is composed by 2 subfolders:
 <ul>
 <li>spectrum</li>
 <li>wave</li>
 </ul>
-</li>
-</ul>
+</details>
