@@ -80,4 +80,4 @@ This dipendency is important for tensorflow to perform computation using the use
 </details>
 
 ## Data
-You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIWOe266AXYPA4Q/view?usp=sharing) subfolder of PC directory to run the program.
+You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIWOe266AXYPA4Q/view?usp=sharing) folder to be add in the current directory. This is mandatory to run AcCAPPCHA.
