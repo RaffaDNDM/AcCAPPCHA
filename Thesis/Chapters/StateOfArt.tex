@@ -1,23 +1,21 @@
 \chapter{State of the Art}\label{chapter:StateOfArt}
-CAPTCHA is the acronym of \textit{"Completely Automated Public Turing-test-to-tell Computers and Humans Apart"} and it's a challenge born from the union of the following tests\cite{types_CAPTCHA}:
+CAPTCHA is the acronym of \textit{"Completely Automated Public Turing-test-to-tell Computers and Humans Apart"} and it's a challenge born from these two components\cite{types_CAPTCHA}:
 \begin{enumerate}
-\descItem{Turing test}{it's a test used to determine how much a machine could think like a human. The experiment involves three figures: a human examiner, a human and a machine. The examiner asks some questions to the other figures and, after a fixed amount of time, he evaluates if the two answers were different or not.\\
-If they were similar, with respect to the point of view of the examiner, the machine is classified as an AI (Artificial Intelligence). The test is very reliable if each question could have many possibilities.}
 \descItem{Human-Computer Interaction (HCI)}
-{according to cognitive psychology studies, a human processes data in a specific way and this test evaluates the interaction between humans and machines. The HCI model is divided into five levels:
+{it is a research field that studies the computer technology, looking at the interfaces between the users and the machines. A human can interact with a machine at several levels:
 \begin{itemize}
-	\item{task level}
-	\item{semantic level}
-	\item{syntactic level}
-	\item{interactive level}
-	\item{a level of physical devices}
-\end{itemize}   
-Then the obtained information is processed by:
+	\item{Task level}
+	\item{Semantic level}
+	\item{Syntactic level}
+	\item{Interactive level}
+	\item{Physical devices level}
+\end{itemize}
+This discipline tries to analyse the ways in which a human can process data, matching the user's needs and interests. According to cognitive psychology studies, the human interaction with the machine is based on:
 \begin{itemize}
-	\item{reasoning}
-	\item{problem solving}
-	\item{skill acquisition}
-	\item{error}
+	\item{Reasoning}
+	\item{Problem solving}
+	\item{Skill acquisition}
+	\item{Error}
 \end{itemize}   
 }
 \descItem{Human Interactive Proof (HIP)}
@@ -27,11 +25,13 @@ Then the obtained information is processed by:
 	\item{To differentiate a category of the humans}
 	\item{To differentiate a specific human from the category of humans}
 \end{itemize}
-HIP consists of a test program administered to humans and computers. The main problem of this proof is that the complexity of the task is very complex and only a specific group of humans can usually solve the test.}
+HIP consists of a test program administered to humans and computers. The main problem of this proof is that the complexity of the task is very complex and only a specific group of humans can usually solve the test.\\
+Historically the most widely known version is the cognitive one defined by Alan Turing. The Turing test is used to determine how much a machine is capable of thinking like a human. The experiment involves three figures: a human examiner, a human and a machine. The examiner asks some questions to the other figures and, after a fixed amount of time, he evaluates if the two answers were different or not.\\
+If they were similar, with respect to the point of view of the examiner, the machine is classified as an AI (Artificial Intelligence). The test is very reliable if each question could have many possibilities.}
 \end{enumerate}
-The design of CAPTCHA challenges takes inspiration from the previous test because its goal is to establish if the user is a bot or a human. A bot is usually an advanced program that exploits some AI information and pretends to be a human. A CAPTCHA challenge sometimes is so complex that a human user can't solve it. For this reason and in order to guarantee an high level of security, a CAPTCHA has to satisfy the following requirements:
+The design of CAPTCHA challenges takes inspiration from the previous tests because its goal is to establish if the user is a bot or a human. A bot is usually an advanced program that exploits some AI techniques and pretends to be a human. In the endeavor of foiling bots that are getting every day smarter and more sophisticated, a CAPTCHA challenge sometimes is so complex that a human user can't solve it. For this reason and in order to guarantee an high level of security, a CAPTCHA has to satisfy the following requirements:
 \begin{itemize}
-	\item{The solution of a CAPTCHA isn't conditional and it shouldn't depend on the user's language and/or age;}
+	\item{There exists only one solution of a CAPTCHA and it shouldn't depend on the user's language and/or age;}
 	\item{The solution of a CAPTCHA must be easy for the humans and hard for the bots. In fact humans should solve it in no longer than 30 seconds with very high success rate;}
 	\item{The creation of a CAPTCHA shouldn't affect the user privacy.}
 \end{itemize}

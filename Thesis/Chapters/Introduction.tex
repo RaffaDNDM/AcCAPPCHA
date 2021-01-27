@@ -1,29 +1,29 @@
 \chapter{Introduction}
-CAPTCHA (Completely Automated Public Turing Test to Tell Computers and Humans Apart) is a program used to distinguish human users from bots. A bot is a malicious application that automates a task, gathering useful information about user credentials or pretending to do a human interaction with a Web application. In fact the term \textit{"bot"} is an abbreviation of the words "software robot".\\
-The CAPTCHAs are traditionally used in Web applications for\cite{text_audio}:
+CAPTCHA (Completely Automated Public Turing Test to Tell Computers and Humans Apart) is a program used to distinguish human users from bots. A bot is a malicious application that automates a task and may be used to gather useful information about user credentials or pretending to do a human interaction with a Web application. In fact the term \textit{"bot"} is an abbreviation of the words "software robot".\\
+The CAPTCHAs are traditionally used in Web applications\cite{text_audio}:
 \begin{itemize}
-\descItem{Online Polls}
+\descItem{To protect online Polls}
 {CAPTCHAs prevent the creation and the submission of a large number of votes, favouring a party.}
-\descItem{Protecting Web Registration}
+\descItem{To protect Web Registration}
 {CAPTCHAs prevent the creation of free mail account for bots instead of human users. The aim of CAPTCHAs is to remove the possibility that the hacker could take advantages from a large amount of registrations.}
-\descItem{Preventing comment spam}
+\descItem{To prevent comment spam}
 {CAPTCHAs prevent the insertion of many posts made by a bot on pages of social platforms or blogs.}
-\descItem{Search engine bots}
+\descItem{To stop search engine bots}
 {CAPTCHAs are used to guarantee that a website would be unindexed and to prevent search engine bots from reading a page. The CAPTCHAs are added because the html tag, used to unindex the web page, doesn't guarantee unindexing.}
-\descItem{E-Ticketing}
-{CAPTCHAs prevent that a big event would sell out minutes after the tickets become available. In fact CAPTCHAs reduces the number of scalpers that make many ticket purchases and sell them with higher prices.}
-\descItem{Email spam}
+\descItem{To protect E-Ticketing}
+{CAPTCHAs prevent ticket hoarding by resellers so that a big event won't sell out minutes after the tickets become available. In fact CAPTCHAs reduces the number of scalpers that make many ticket purchases and sell them with higher prices.}
+\descItem{To prevent email spam}
 {CAPTCHAs are used to verify that a human has sent an email.}
-\descItem{Preventing Dictionary Attacks}
+\descItem{To prevent Dictionary Attacks}
 {CAPTCHAs prevent bot from guessing the password of a specific user. The hacker could guess the password, taking it from a dictionary. The use of the CAPTCHA challenge prevents the iteration of the login phase made by the bot using all the words of the dictionary. After a certain number of failures POST requests, the CAPTCHA challenge is shown to the user.}
-\descItem{Verifying digitized books}
+\descItem{To verify digitized books}
 {ReCAPTCHA can verify the contents of a scanned piece of paper analysing responses in CAPTCHA fields. A computer can't identify all the words from a digital scan.\\
 The application submits two words to the user during the CAPTCHA challenge: the first one that the machine has already recognized and the other one for which the application wants to associate a word. If the user types the two words and the first one was correctly detected, it assumes that also the second one is correct.\\
 In this case the second word is added to a set of words that are going to be choose to create challenges for other users. If the application receives enough responses with the same typed word related to an unknown word, the program establishes that that label would be associated to it. Hence the CAPTCHA scans digitally the paper during the verification of the user identity.}
 \end{itemize}
-However, over the years, these challenges become more and more complex because a lot of them easily fail against new machine learning techniques (\myref{Chapter}{chapter:StateOfArt}).\\
-Many attacks exploits data, collected by built-in sensors of the victim's machine, to obtain some credentials or useful information (\myref{Chapter}{chapter:SideCH}). Hence, in the last years, the sensors were exploited not only for malicious purposes but also to increase the strength of CAPTCHAs against bot attacks.\\
-CAPTCHAs are also very used during the authentication process. For example, Invisible CAPPCHA is a new CAPTCHA scheme, developed in 2018, that exploits the physical information obtained by motion sensors of the smartphone. Using this CAPTCHA, the user simply authenticates him self and the application analyses in background if this phase was performed by a human (\myref{Chapter}{chapter:InvisibleCAPPCHA}).\\
-From the ideas developed in Invisible CAPPCHA and exploiting the acoustic side-channel, I designed AcCAPPCHA (\myref{Chapter}{chapter:AcCAPPCHA}) to support the authentication from the desktop and the laptop environments.\\
-All the pros and the cons of the new invisible challenge, observed during the testing phase, have been described (\myref{Chapter}{chapter:AcCAPPCHA}) and all the ideas of future improvements are analysed in (\myref{Chapter}{chapter:Future}).\\
+However, over the years, these challenges have become more and more complex because a lot of them easily fail against new machine learning techniques (\myref{Chapter}{chapter:StateOfArt}).\\
+Many attacks exploits data, collected by built-in sensors of the victim's machine, to obtain some credentials or useful information (\myref{Chapter}{chapter:SideCH}). However, at the same time, the very same sensors were also leveraged to increase the strength of CAPTCHAs against bot attacks.\\
+CAPTCHAs are also very used during the authentication process. For example, Invisible CAPPCHA is a new CAPTCHA scheme, developed in 2018, that exploits the physical information obtained by motion sensors of the smartphone\cite{Invisible_CAPPCHA}. Using this CAPTCHA, the user simply authenticates himself and the application analyses in background if this phase was performed by a human (\myref{Chapter}{chapter:InvisibleCAPPCHA}).\\
+From the ideas developed in Invisible CAPPCHA and leveraging an acoustic side-channel, I designed AcCAPPCHA (\myref{Chapter}{chapter:AcCAPPCHA}) to support the authentication from the desktop and the laptop environments.\\
+The pros and the cons of the new invisible challenge, observed during the testing phase, have been described (\myref{Chapter}{chapter:AcCAPPCHA}) and some ideas of future improvements are analysed in (\myref{Chapter}{chapter:Future}).\\
 In the appendices of the current work, you can also find the the key map used by AcCAPPCHA (\myref{Appendix}{appendix:KeyMap}) and the details about its command line arguments (\myref{Appendix}{appendix:Program}).
