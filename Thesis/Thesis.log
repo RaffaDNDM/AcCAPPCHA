@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  27 JAN 2021 08:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2020.1.11)  30 JAN 2021 18:02
 entering extended mode
 **./Thesis.tex
 (Thesis.tex
@@ -996,17 +996,25 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 ]
 Chapter 2.
 [5] [6]
+Overfull \hbox (3.69131pt too wide) in paragraph at lines 42--44
+\T1/cmr/m/n/12 The main types of tra-di-tional CAPTCHAs, namely Audio-based CAP
+TCHAs,
+ []
+
 <Images/StateOfArt/audio_CAPTCHA.png, id=373, 326.21875pt x 136.51pt>
 File: Images/StateOfArt/audio_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/audio_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/audio_CAPTCHA.png  used on input lin
 e 51.
-(pdftex.def)             Requested size: 195.0pt x 81.60251pt.
+(pdftex.def)             Requested size: 155.99762pt x 65.28033pt.
 
 Overfull \hbox (29.53738pt too wide) in paragraph at lines 46--54
 \T1/cmr/m/n/12 ni-tion (ASR) programs[[]] but also Deep Learn-ing tech-niques (
 e.g. DeepCRACk[[]]).
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 <Images/StateOfArt/game_CAPTCHA.png, id=377, 361.35pt x 158.5925pt>
 File: Images/StateOfArt/game_CAPTCHA.png Graphic file (type png)
@@ -1032,9 +1040,13 @@ Overfull \hbox (2.95964pt too wide) in paragraph at lines 56--78
  iden-tity through
  []
 
-[7 <./Images/StateOfArt/audio_CAPTCHA.png>] [8 <./Images/StateOfArt/game_CAPTCH
-A.png> <./Images/StateOfArt/game_CAPTCHA2.png> <./Images/StateOfArt/game_CAPTCH
-A3.png>]
+
+Underfull \vbox (badness 1057) has occurred while \output is active []
+
+ [7]
+[8 <./Images/StateOfArt/audio_CAPTCHA.png> <./Images/StateOfArt/game_CAPTCHA.pn
+g> <./Images/StateOfArt/game_CAPTCHA2.png> <./Images/StateOfArt/game_CAPTCHA3.p
+ng>]
 <Images/StateOfArt/click_CAPTCHA.png, id=403, 387.849pt x 266.79675pt>
 File: Images/StateOfArt/click_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/click_CAPTCHA.png>
@@ -1068,13 +1080,13 @@ ine 129.
 (pdftex.def)             Requested size: 112.32013pt x 122.26881pt.
  [9 <./Images/StateOfArt/click_CAPTCHA.png> <./Images/StateOfArt/sliding_image_
 CAPTCHA.png> <./Images/StateOfArt/sliding_image_CAPTCHA2.png>]
-<Images/StateOfArt/selection_CAPTCHA.jpg, id=431, 176.5797pt x 255.354pt>
+<Images/StateOfArt/selection_CAPTCHA.jpg, id=429, 176.5797pt x 255.354pt>
 File: Images/StateOfArt/selection_CAPTCHA.jpg Graphic file (type jpg)
 <use Images/StateOfArt/selection_CAPTCHA.jpg>
 Package pdftex.def Info: Images/StateOfArt/selection_CAPTCHA.jpg  used on input
  line 156.
 (pdftex.def)             Requested size: 127.29349pt x 184.08073pt.
-<Images/StateOfArt/selection_CAPTCHA2.jpg, id=432, 444.66125pt x 643.40375pt>
+<Images/StateOfArt/selection_CAPTCHA2.jpg, id=430, 444.66125pt x 643.40375pt>
 File: Images/StateOfArt/selection_CAPTCHA2.jpg Graphic file (type jpg)
 <use Images/StateOfArt/selection_CAPTCHA2.jpg>
 Package pdftex.def Info: Images/StateOfArt/selection_CAPTCHA2.jpg  used on inpu
@@ -1087,7 +1099,7 @@ File: Images/StateOfArt/interactive_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/interactive_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/interactive_CAPTCHA.png  used on inp
 ut line 164.
-(pdftex.def)             Requested size: 175.49881pt x 175.50244pt.
+(pdftex.def)             Requested size: 155.99762pt x 155.99702pt.
 <Images/StateOfArt/math_CAPTCHA.png, id=443, 295.1025pt x 136.51pt>
 File: Images/StateOfArt/math_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/math_CAPTCHA.png>
@@ -1104,21 +1116,19 @@ e 179.
 File: Images/StateOfArt/QRBGS.jpg Graphic file (type jpg)
 <use Images/StateOfArt/QRBGS.jpg>
 Package pdftex.def Info: Images/StateOfArt/QRBGS.jpg  used on input line 188.
-(pdftex.def)             Requested size: 234.00238pt x 127.51315pt.
+(pdftex.def)             Requested size: 155.99762pt x 85.00705pt.
+
 [11 <./Images/StateOfArt/selection_CAPTCHA.jpg> <./Images/StateOfArt/selection_
-CAPTCHA2.jpg> <./Images/StateOfArt/interactive_CAPTCHA.png>]
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[12 <./Images/StateOfArt/math_CAPTCHA.png> <./Images/StateOfArt/math_CAPTCHA2.j
-pg>]
-<Images/StateOfArt/taobao_CAPTCHA.png, id=469, 207.77625pt x 63.23625pt>
+CAPTCHA2.jpg> <./Images/StateOfArt/interactive_CAPTCHA.png>] [12 <./Images/Stat
+eOfArt/math_CAPTCHA.png> <./Images/StateOfArt/math_CAPTCHA2.jpg> <./Images/Stat
+eOfArt/QRBGS.jpg>]
+<Images/StateOfArt/taobao_CAPTCHA.png, id=468, 207.77625pt x 63.23625pt>
 File: Images/StateOfArt/taobao_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/taobao_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/taobao_CAPTCHA.png  used on input li
 ne 204.
 (pdftex.def)             Requested size: 149.75923pt x 45.58023pt.
-<Images/StateOfArt/theyMakeApps_CAPTCHA.png, id=470, 331.2375pt x 155.3805pt>
+<Images/StateOfArt/theyMakeApps_CAPTCHA.png, id=469, 331.2375pt x 155.3805pt>
 File: Images/StateOfArt/theyMakeApps_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/theyMakeApps_CAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/theyMakeApps_CAPTCHA.png  used on in
@@ -1129,8 +1139,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 212--212
 []\T1/cmr/m/n/10.95 (b) |\T1/cmr/m/n/10 Ex-am-ple of They-MakeApps.com
  []
 
-[13 <./Images/StateOfArt/QRBGS.jpg> <./Images/StateOfArt/taobao_CAPTCHA.png> <.
-/Images/StateOfArt/theyMakeApps_CAPTCHA.png>]
+[13 <./Images/StateOfArt/taobao_CAPTCHA.png> <./Images/StateOfArt/theyMakeApps_
+CAPTCHA.png>]
 <Images/StateOfArt/text_CAPTCHA.png, id=483, 453.695pt x 286.06876pt>
 File: Images/StateOfArt/text_CAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/text_CAPTCHA.png>
@@ -1155,41 +1165,41 @@ TCHA.jpg> <./Images/StateOfArt/video_CAPTCHA2.jpg>]
 File: Images/StateOfArt/noCAPTCHA.png Graphic file (type png)
 <use Images/StateOfArt/noCAPTCHA.png>
 Package pdftex.def Info: Images/StateOfArt/noCAPTCHA.png  used on input line 28
-9.
+8.
 (pdftex.def)             Requested size: 155.99762pt x 43.79707pt.
  [16 <./Images/StateOfArt/noCAPTCHA.png>] [17]
-<Images/StateOfArt/CAPPCHA.png, id=536, 854.59274pt x 280.04625pt>
+<Images/StateOfArt/CAPPCHA.png, id=538, 854.59274pt x 280.04625pt>
 File: Images/StateOfArt/CAPPCHA.png Graphic file (type png)
 <use Images/StateOfArt/CAPPCHA.png>
-Package pdftex.def Info: Images/StateOfArt/CAPPCHA.png  used on input line 319.
+Package pdftex.def Info: Images/StateOfArt/CAPPCHA.png  used on input line 318.
 
 (pdftex.def)             Requested size: 312.00119pt x 102.24379pt.
 
-Overfull \hbox (8.77766pt too wide) in paragraph at lines 319--321
+Overfull \hbox (8.77766pt too wide) in paragraph at lines 318--320
 \T1/cmr/m/n/12 this is a way to en-force the PIN au-then-ti-ca-tion phase by mo
 -bile phone[[]].
  []
 
 [18 <./Images/StateOfArt/CAPPCHA.png>]
-Overfull \hbox (5.84752pt too wide) in paragraph at lines 342--342
+Overfull \hbox (5.84752pt too wide) in paragraph at lines 341--341
 \T1/cmr/m/n/12 Segmentation tech-niques (e.g. ver-ti-cal his-togram, col-or-fil
 l-ing, snake
  []
 
 
-Overfull \hbox (4.36467pt too wide) in paragraph at lines 342--342
+Overfull \hbox (4.36467pt too wide) in paragraph at lines 341--341
 \T1/cmr/m/n/12 guess-ing the cor-rect an-swer. This at-tack is ef-fec-tive on C
 APTCHAs
  []
 
 [19]
-Overfull \hbox (2.36502pt too wide) in paragraph at lines 357--361
+Overfull \hbox (2.36502pt too wide) in paragraph at lines 356--360
 []\T1/cmr/bx/n/12 Trade-off be-tween Friction-heavy and Fric-tion-less CAPTCHAs
  
  []
 
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 375.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 374.
 ) (Chapters/SideChannel.tex [20] [21] [22
 
 ]
@@ -2165,7 +2175,7 @@ fonts/cm/cmr12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfonts/cm/cmr6.pfb>
 /Miktex/fonts/type1/public/amsfonts/cm/cmtt10.pfb><D:/Programs/Miktex/fonts/typ
 e1/public/amsfonts/cm/cmtt12.pfb><D:/Programs/Miktex/fonts/type1/public/amsfont
 s/cm/cmtt8.pfb>
-Output written on Thesis.pdf (96 pages, 30315489 bytes).
+Output written on Thesis.pdf (96 pages, 30315168 bytes).
 PDF statistics:
  2508 PDF objects out of 2984 (max. 8388607)
  464 named destinations out of 1000 (max. 500000)
