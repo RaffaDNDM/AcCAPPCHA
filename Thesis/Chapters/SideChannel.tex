@@ -125,7 +125,7 @@ These attacks are software-only based and they depend on the installation of the
 \descItem{\textit{Location Inference}}
 {the attacker can obtain user's location without using GPS sensor, that requires permission to be accessed. For example, the accelerometer and the gyroscope can be used to infer car driving routes.}
 \descItem{\textit{Speech Recognition}}
-{the access to the microphone is protected by permissions. The attacker can also exploit gyroscope to obtain information about human speech near to the device.}
+{the access to the microphone is protected by permissions. The attacker can also exploit other sensors to obtain information about human speech near to the device. The gyroscope has a sampling rate up to 200 Hz which covers a portion of the audible range of frequencies. In this way this sensor detects some vibrations caused by a human speech near to the device and the attacker can classify them with machine learning techniques.}
 \descItem{\textit{Soundcomber}}
 {if the attacker obtains permission of the microphone, he can obtain sensitive information (e.g. credit card numbers) on the automated menu services of phones.}
 \end{itemize}
