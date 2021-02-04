@@ -72,7 +72,7 @@ class AcCAPPCHA:
 
     COLORS = ['g', 'r', 'c', 'm', 'y']
     #Tolerance [-100 ms, 100 ms] with respect to stored time instants
-    TIME_THRESHOLD = 0.100
+    TIME_THRESHOLD = 0.05
     MAIN_COLOR = 'red'
     SHADOW_COLOR = 'yellow'
     BACKGROUND_COLOR = 'blue'
@@ -242,8 +242,8 @@ class AcCAPPCHA:
         self.COMPLETED_INSERT = False
         self.KILLED = False
         #Verification parameters
-        self.CHAR_RANGE = num_samples(self.RATE, 0.10)
-        self.ENTER_RANGE = num_samples(self.RATE, 0.2)
+        self.CHAR_RANGE = num_samples(self.RATE, 0.05)
+        #self.ENTER_RANGE = num_samples(self.RATE, 0.2)
         self.TIME_OPTION = time_option
         self.VERIFIED = False
         #Options
@@ -370,7 +370,8 @@ class AcCAPPCHA:
         self.mutex.acquire()
         try:
             self.COMPLETED_INSERT = False    
-            self.SIGNAL = signal[:-self.ENTER_RANGE]
+            #self.SIGNAL = signal[:-self.ENTER_RANGE]
+            self.SIGNAL = signal
             self.verify(folder, option)
         finally:
             self.mutex.release()
@@ -385,13 +386,16 @@ class AcCAPPCHA:
         self.TIMES.append(time.perf_counter())
             
         if char_user != '\r':
+            start = time.time()
             self.PASSWORD += char_user
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}', end='')
+            self.TIMES[-1] -= (time.time()-start)
             return True
 
         else:
             #End of the password
+            start = time.time()
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}')
 
@@ -399,6 +403,7 @@ class AcCAPPCHA:
             self.mutex.acquire()
             try:
                 self.COMPLETED_INSERT = True
+                self.TIMES[-1] -= (time.time()-start)
             finally:
                 self.mutex.release()
 
@@ -508,6 +513,7 @@ class AcCAPPCHA:
         
         #If number of windows lower than number of characters of the password
         length_psswd = len(self.PASSWORD)
+
         if len(char_times) < length_psswd:
             return False, None
 
@@ -863,9 +869,9 @@ class AcCAPPCHA:
             #Go on until (authentication ok) or (maximum attepmts for wrong 
             #credentials or bot deceted are performed)
             #
-            while count_pwd_trials < self.MAX_PWD_TRIALS and \
-                  count_bot_trials < self.MAX_BOT_TRIALS:
-                
+            #while count_pwd_trials < self.MAX_PWD_TRIALS and \
+            #      count_bot_trials < self.MAX_BOT_TRIALS:
+            while True:
                 self.COMPLETED_INSERT = False
                 self.noise_evaluation()
 
@@ -885,7 +891,7 @@ class AcCAPPCHA:
                 
                 #Definition of time intervals w.r.t. the first time instant stored
                 first = self.TIMES[0]
-                self.TIMES = [t-first for t in self.TIMES[:-1]]
+                self.TIMES = [t-first for t in self.TIMES]
 
                 audio_logger.join()
 
@@ -898,7 +904,7 @@ class AcCAPPCHA:
 
                     if check:
                         #If humman, send credentials
-                        msg = s.credentials(username, self.PASSWORD)
+                        msg = s.credentials(username, self.PASSWORD[:-1])
                         
                         #Open the web browser showing the response of the server
                         with open('../dat/html/response.html', 'w') as f:
@@ -923,14 +929,15 @@ class AcCAPPCHA:
                                     username = input(colored('username: ', 'red'))
                                 else:
                                     print('')
-
+                
                             elif 'Wrong password.' in msg:
                                 #Wrong password for the username (it is in database)
                                 cprint(f"The password was wrong", 'yellow')
 
                         else:
                             #User correctly logged in
-                            break
+                            #break
+                            pass
 
                     else:
                         #Bot detected
