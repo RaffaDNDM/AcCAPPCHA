@@ -11,7 +11,7 @@ The responses of AcCAPPCHA for a human user were tested in all the three possibl
 \item{Character correspondence}
 \item{Both time and character correspondence}
 \end{itemize}
-The first method is the most efficient and AcCAPPCHA usually detects the human activity of a user at first or second trial using it. Sometimes the correspondence isn't found at first trial because of background noise. The last two approaches based on deep learning require the reduction of the number of labels for the classification of a key.\\
+Using the first method, AcCAPPCHA usually detects the human activity of a user at first or second trial. The application was executed 100 times for each password with the time correspondence option. At the beginning I tested several sizes of the window, where an audio peak will be searched, and several tolerance values used by the time correspondence. Sometimes the correspondence isn't found at first trial because of background noise. The last two approaches based on deep learning require the reduction of the number of labels for the classification of a key.\\
 In this way I limit the possible characters that user could use. Hence the password can be composed of lower case alphabetic characters, accented vowels or numbers (see \myref{Figure}{Results:keyboard}). For this reason, I trained again the network using less labels and only the audio files related to these labels. However the user can also type the backslash key $\mathtt{\setminus b}$ but the corresponding character isn't analysed in the final verification.\\
 AcCAPPCHA still considers the 10 most probable labels, predicted by the neural network, for each audio peak during the insertion of the password. The prediction apparently seems to work better after the simplification but this happens only because the correct key of an audio peak has higher probability to be predicted on a subset of all the keys of the keyboard.\\
 At the contrary of D. Asonov, R. Agrawal's conclusions\cite{keyboard_acoustic}, I notice that, using the deep learning techniques, there are many false negatives given by the similar sound produced by several keys. The reasons of their presence could be:
@@ -24,7 +24,67 @@ At the contrary of D. Asonov, R. Agrawal's conclusions\cite{keyboard_acoustic}, 
 \end{itemize}
 AcCAPPCHA was executed three times for both the passwords \texttt{bye5} and \texttt{hello35} and for each type of used features. As explained in \myref{Section}{AcCAPPCHA:client}, a human user has at most 3 attempts to be correctly classified as human during an execution of AcCAPPCHA. For each execution of AcCAPPCHA, the \myref{Table}{Results:verification} reports the number of the step in which a human user is correctly detected as a human using both the character and the time correspondences. If the number of the step is replaced by the string NO, it means that AcCAPPCHA wasn't able to understand that the user was a human during the three trials. For each entry of the table where the number of the step is different from one, I also reported the number of characters correctly predicted in all the previous steps.\\
 According to the results in the table, the worst deep learning method is the one that uses the spectrograms and a pre-trained deep learning model to extract the features of a press peak.
-\begin{figure}[H]
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{lccc}
+\cline{2-4}
+&\multicolumn{3}{c}{\textbf{[Window size, tolerance]}}\\
+\cline{2-4}
+\multicolumn{1}{l}{}&{[100 ms, 100 ms]}&{[50 ms, 50 ms]}&{[50 ms, 100 ms]}\\
+\hline
+{\textbf{Accuracy}}&{93\%}&{98\%}&{100\%}\\
+\hline
+{\textbf{$\mathbf{1^{st}}$ trial}}&{55\%}&{61\%}&{76\%}\\
+\hline
+{\textbf{$\mathbf{2^{nd}}$ trial}}&{29\%}&{32\%}&{23\%}\\
+\hline
+{\textbf{$\mathbf{3^{rd}}$ trial}}&{9\%}&{5\%}&{1\%}\\
+\hline
+\end{tabular}
+\caption{\footnotesize{Accuracy of the detection of human user, during the insertion of the password 'bye5'.}}
+\label{Results:bye5}
+\end{table}
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{lccc}
+\cline{2-4}
+&\multicolumn{3}{c}{\textbf{[Window size, tolerance]}}\\
+\cline{2-4}
+\multicolumn{1}{l}{}&{[100 ms, 100 ms]}&{[50 ms, 50 ms]}&{[50 ms, 100 ms]}\\
+\hline
+{\textbf{Accuracy}}&{97\%}&{96\%}&{100\%}\\
+\hline
+{\textbf{$\mathbf{1^{st}}$ trial}}&{65\%}&{55\%}&{76\%}\\
+\hline
+{\textbf{$\mathbf{2^{nd}}$ trial}}&{25\%}&{31\%}&{23\%}\\
+\hline
+{\textbf{$\mathbf{3^{rd}}$ trial}}&{7\%}&{10\%}&{1\%}\\
+\hline
+\end{tabular}
+\caption{\footnotesize{Accuracy of the detection of human user, during the insertion of the password 'hello35'.}}
+\label{Results:hello35}
+\end{table}
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{lccc}
+\cline{2-4}
+&\multicolumn{3}{c}{\textbf{[Window size, tolerance]}}\\
+\cline{2-4}
+\multicolumn{1}{l}{}&{[100 ms, 100 ms]}&{[50 ms, 50 ms]}&{[50 ms, 100 ms]}\\
+\hline
+{\textbf{Accuracy}}&{95\%}&{100\%}&{100\%}\\
+\hline
+{\textbf{$\mathbf{1^{st}}$ trial}}&{56\%}&{62\%}&{80\%}\\
+\hline
+{\textbf{$\mathbf{2^{nd}}$ trial}}&{30\%}&{33\%}&{19\%}\\
+\hline
+{\textbf{$\mathbf{3^{rd}}$ trial}}&{9\%}&{5\%}&{1\%}\\
+\hline
+\end{tabular}
+\caption{\footnotesize{Accuracy of the detection of human user, during the insertion of the password 'he35ghibn564st'.}}
+\label{Results:he35ghibn564st}
+\end{table}
+\begin{figure}[h]
      \centering
 	 \includegraphics[width=0.7\textwidth]{Images/Results/keyboard_less}
      \caption{\footnotesize{Keys to be used in the password (highlighted in green).}}\label{Results:keyboard}
