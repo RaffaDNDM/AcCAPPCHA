@@ -36,9 +36,9 @@ def args_parser():
     
     parser.add_argument("-dir","-d",
                         dest="dir", 
-                        help="""Path of the folder that contains the csv files of 
-                                dataset and labels dictionary and contains/will
-                                contain the json file of model""")
+                        help="""Path of the folder that contains the csv files 
+                                (dataset and labels dictionary) and will contain 
+                                the folder of the trained model""")
 
     #Parse command line arguments
     args = parser.parse_args()

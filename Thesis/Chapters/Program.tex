@@ -1,43 +1,6 @@
 \chapter{Program}\label{appendix:Program}
 In the following sections, I describe the command line parameters of the main programs, developed to perform AcCAPPCHA verification. As explained in the previous chapters, all the code was developed using the \texttt{Python} programming language.
 
-\section{DatasetAcquisition.py}
-\texttt{DatasetAcquisition.py} does several actions: the recording of the audio during the insertion of a key, the plotting of the graphics of the audio files, the extraction of the features from the audio peak in each audio files. The audio recording terminates after a number of key presses. The label related to the first key press defines the name of the subfolder of the output path where the wav file will be stored. By default the program waits only for sequences of 1 key and then stores it.
-
-{\footnotesize
-\begin{longtable}{rl}
-\hline
-\textbf{Parameter} & \textbf{Description}\\
-\hline
-\texttt{-plot} & If specified, the program plots existing audio files\\
-\texttt{-p} &\\
-&\\
-\texttt{-record} & If specified, the program records audio while the keylogger is going on\\
-\texttt{-r} &\\
-&\\
-\texttt{-extract} & If specified, the program extracts features from audio already recorded\\
-\texttt{-e} &\\
-&\\
-&\\
-\texttt{-zoom} & If specified, the program plots the audio peaks of the input files in\\
-\texttt{-z} & graphic images, showing only the signal in the neighbourhood of the peak.\\
-&\\
-\texttt{-file} \textit{path} & It specifies the \textit{path} of the file that you want to plot\\
-\texttt{-f} \textit{path} & or from which you want to extract features\\
-&\\
-\texttt{-dir} \textit{path} & It specifies the \textit{path} of the folder where:\\
-\texttt{-d} \textit{path} & \itemCellTab{\textbf{-r option}}\\
-& \hspace{0.8cm}there will be stored audio files acquired from the work\\
-& \hspace{0.8cm}of both the recorder and the keylogger\\
-&\itemCellTab{\textbf{-p option and -e option}}\\
-& \hspace{0.8cm}there are already the recorded audio files on which the extraction\\
-& \hspace{0.8cm}of the features or the plotting will be performed\\
-&\\
-\texttt{-out} \textit{path} & It specifies the \textit{path} of the output folder where the graphics\\
-\texttt{-o} \textit{path} & will be stored as images (if \texttt{-p/-plot} selected)\\
-\hline
-\end{longtable}}
-
 \section{AcCAPPCHA.py}
 \texttt{AcCAPPCHA.py} runs at the client side and it performs the verification of the user identity, using either time or character correspondence. Then it sends the results to the server and communicates with it during the authentication phase.
 
@@ -58,11 +21,16 @@ In the following sections, I describe the command line parameters of the main pr
 \texttt{-deep} & If specified, AcCAPPCHA performs the character correspondence.\\
 \texttt{-dl} & \\
 &\\
+&\\
 \texttt{-plot} & If specified, AcCAPPCHA plots the graphics of the peaks in the\\
 \texttt{-p} & audio signal recorded during the password insertion.\\
 &\\
 \texttt{-debug} & If specified, AcCAPPCHA shows debug information about the\\
 \texttt{-dbg} & verification phases\\
+&\\
+\texttt{-bound} & It specifies the percentage of relaxation of the time\\
+\texttt{-b} & correspondence as a floating point in [0, 1]\\
+& (by default, no relaxation is applied and the bound value is 1.0)\\
 \hline
 \end{longtable}}
 
@@ -76,6 +44,57 @@ In the following sections, I describe the command line parameters of the main pr
 \hline
 \texttt{-debug} & If specified, the program shows debug information about the remote client\\
 \texttt{-dbg} &\\
+\hline
+\end{tabular}
+\end{table}
+
+\section{DatasetAcquisition.py}
+\texttt{DatasetAcquisition.py} does several actions: the recording of the audio during the insertion of a key, the plotting of the graphics of the audio files, the extraction of the features from the audio peak in each audio files. The audio recording terminates after a number of key presses. The label related to the first key press defines the name of the subfolder of the output path where the wav file will be stored. By default the program waits only for sequences of 1 key and then stores it.
+
+{\footnotesize
+\begin{longtable}{rl}
+\hline
+\textbf{Parameter} & \textbf{Description}\\
+\hline
+\texttt{-plot} & If specified, the program plots existing audio files\\
+\texttt{-p} &\\
+&\\
+\texttt{-record} & If specified, the program records audio while the keylogger is going on\\
+\texttt{-r} &\\
+&\\
+\texttt{-extract} & If specified, the program extracts features from audio already recorded\\
+\texttt{-e} &\\
+&\\
+\texttt{-zoom} & If specified, the program plots the audio peaks of the input files in\\
+\texttt{-z} & graphic images, showing only the signal in the neighbourhood of the peak.\\
+&\\
+\texttt{-file} \textit{path} & It specifies the \textit{path} of the file that you want to plot\\
+\texttt{-f} \textit{path} & or from which you want to extract features\\
+&\\
+\texttt{-dir} \textit{path} & It specifies the \textit{path} of the folder where:\\
+\texttt{-d} \textit{path} & \itemCellTab{\textbf{-r option}}\\
+& \hspace{0.8cm}there will be stored audio files acquired from the work\\
+& \hspace{0.8cm}of both the recorder and the keylogger\\
+&\itemCellTab{\textbf{-p option and -e option}}\\
+& \hspace{0.8cm}there are already the recorded audio files on which the extraction\\
+& \hspace{0.8cm}of the features or the plotting will be performed\\
+&\\
+\texttt{-out} \textit{path} & It specifies the \textit{path} of the output folder where the graphics\\
+\texttt{-o} \textit{path} & will be stored as images (if \texttt{-p/-plot} selected)\\
+\hline
+\end{longtable}}
+
+\section{LearnKeys.py}
+\texttt{DatasetAcquisition.py} performs the training phase of the neural network created from scratch and stores the trained network characteristics in a new subfolder, called \texttt{'model/'}, of the specified input dir.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{rl}
+\hline
+\textbf{Parameter} & \textbf{Description}\\
+\hline
+\texttt{-dir} & Path of the folder that contains the csv files (dataset and labels dictionary)\\
+\texttt{-d} & and will contain the folder of the trained model\\
 \hline
 \end{tabular}
 \end{table}

@@ -12,22 +12,7 @@ The responses of AcCAPPCHA for a human user were tested in all the three possibl
 \item{Both time and character correspondence}
 \end{itemize}
 AcCAPPCHA usually detects the human activity of a user at first or second trial  with the first method. Using a window size different from the size of the press peak the time correspondence improves. If the window size is about the size of the press peak, the number of detected audio peaks increases, introducing also many local maxima, and the application would spend too much time to understand if there exists a correspondence. The tolerance threshold, used in the algorithm, is important to guarantee that some delays in the analysis of the input characters don't affect the time correspondence search. In fact the delays could bring to store a delay time instants, causing the generation of false positive.\\
-To find the best values for the window size and the tolerance, AcCAPPCHA was executed 100 times for each one of the following password: 'bye5', 'hello35', 'he35ghibn564st'. The use of a window size of 50 ms guarantees the best trade-off between the number of audio peaks and the correct detection of all the audio peaks related to the keyboard events. A window size of 100 ms fails the detection of audio peaks when the user write very fast. In this case several press peaks (usually two press peaks) are 
-
-
-The last two approaches based on deep learning require the reduction of the number of labels for the classification of a key.\\
-In this way I limit the possible characters that user could use. Hence the password can be composed of lower case alphabetic characters, accented vowels or numbers (see \myref{Figure}{Results:keyboard}). For this reason, I trained again the network using less labels and only the audio files related to these labels. However the user can also type the backslash key $\mathtt{\setminus b}$ but the corresponding character isn't analysed in the final verification.\\
-AcCAPPCHA still considers the 10 most probable labels, predicted by the neural network, for each audio peak during the insertion of the password. The prediction apparently seems to work better after the simplification but this happens only because the correct key of an audio peak has higher probability to be predicted on a subset of all the keys of the keyboard.\\
-At the contrary of D. Asonov, R. Agrawal's conclusions\cite{keyboard_acoustic}, I notice that, using the deep learning techniques, there are many false negatives given by the similar sound produced by several keys. The reasons of their presence could be:
-\begin{itemize}
-\item{different parts of my keyboard plate produce similar sounds}
-\item{the built-in microphone of my laptop is more affected by the noise than an external microphone}
-\item{the movements of the user's hands influence the noise during the password insertion}
-%WORN OUT = usurato
-\item{some keys are more worn out than other} 
-\end{itemize}
-AcCAPPCHA was executed three times for both the passwords \texttt{bye5} and \texttt{hello35} and for each type of used features. As explained in \myref{Section}{AcCAPPCHA:client}, a human user has at most 3 attempts to be correctly classified as human during an execution of AcCAPPCHA. For each execution of AcCAPPCHA, the \myref{Table}{Results:verification} reports the number of the step in which a human user is correctly detected as a human using both the character and the time correspondences. If the number of the step is replaced by the string NO, it means that AcCAPPCHA wasn't able to understand that the user was a human during the three trials. For each entry of the table where the number of the step is different from one, I also reported the number of characters correctly predicted in all the previous steps.\\
-According to the results in the table, the worst deep learning method is the one that uses the spectrograms and a pre-trained deep learning model to extract the features of a press peak.
+To find the best values for the window size and the tolerance, AcCAPPCHA was executed 100 times for each one of the following password: 'bye5', 'hello35', 'he35ghibn564st' (see \myref{Table}{Results:bye5}, \textbf{\ref{Results:hello35}}, \textbf{\ref{Results:he35ghibn564st}}).
 \begin{table}[H]
 \centering\footnotesize
 \begin{tabular}{lccc}
@@ -48,6 +33,9 @@ According to the results in the table, the worst deep learning method is the one
 \caption{\footnotesize{Accuracy of the detection of human user, during the insertion of the password 'bye5'.}}
 \label{Results:bye5}
 \end{table}
+The use of a window size of 50 ms guarantees the best trade-off between the number of audio peaks and the correct detection of all the audio peaks related to the keyboard events.\\
+The detection of the audio peaks, starting from a window size of 100 ms, often fails when the user write very fast. In fact a window with this size can contain several press peaks and the one with the highest intensity would be considered as the only audio peak in the window, obfuscating the others. The tolerance value, that guarantees the most efficient detection of a human user, is 100 ms. This guarantees that the load of the analysis of the user password will not causes the creation of false positive.\\
+The best couple of window size and tolerance, respectively 50 ms and 100 ms, was chosen by considering the couple with the highest accuracy and the lowest number of executions in which a user is detected as a human at the third trial. Using this couple of parameters for the time correspondence, I relax the problem by using several percentages of accuracy: 100\%, 95\%, 90\%, 85\%. In this case, the tests were performed inserting only the password 'he35ghibn564st', because it could be a real strong password. In fact an attacker would require up to 50 years to hack it by brute-force. All the executions of AcCAPPCHA correctly detect the human activity by using 90\% and 85\% as percentages for the time correspondence. However the best results are reached with 90\% as percentage because a human user is detected at the first trial for the highest number of executions.\\
 \begin{table}[H]
 \centering\footnotesize
 \begin{tabular}{lccc}
@@ -96,7 +84,7 @@ According to the results in the table, the worst deep learning method is the one
 \cline{2-5}
 &{100\%}&{95\%}&{90\%}&{85\%}\\
 \hline
-{\textbf{Accuracy}}&{100\%}&{100\%}&{100\%}{100\%}\\
+{\textbf{Accuracy}}&{100\%}&{100\%}&{100\%}&{100\%}\\
 \hline
 {\textbf{$\mathbf{1^{st}}$ trial}}&{80\%}&{80\%}&{83\%}&{80\%}\\
 \hline
@@ -105,9 +93,22 @@ According to the results in the table, the worst deep learning method is the one
 {\textbf{$\mathbf{3^{rd}}$ trial}}&{1\%}&{1\%}&{0\%}&{0\%}\\
 \hline
 \end{tabular}
-\caption{\footnotesize{Accuracy of the detection of human user with the relaxation of the time correspondence problem.}}
+\caption{\footnotesize{Accuracy of the detection of human user with the relaxation of the time correspondence problem, during the insertion of the password 'he35ghibn564st'.}}
 \label{Results:relaxation_time}
 \end{table}
+The last two approaches based on deep learning were tested using the neural network trained on the audio files of all the keys of the keyboard but the prediction of a key, related to a key event, was always wrong. For this reason I decide to reduce the number of possible labels that the network can classify by limiting also the possible characters that a user could insert in his password.\\
+Hence I consider only passwords composed by lower alphabetic characters, accented vowels and numbers. I trained again the new network using the audio files recorded during the clicks of the key highlighted in green in Figure \myref{Figure}{Results:keyboard}. However the user can type the backslash key $\mathtt{\setminus b}$ but the corresponding character isn't analysed in the final verification.\\
+Even if the network was modified, AcCAPPCHA still considers the 10 most probable labels, predicted by the neural network, for each audio peak detected during the insertion of the password. The prediction apparently seems to work better after the simplification but this happens only because the correct key of an audio peak has higher probability to be predicted on a subset of all the keys of the keyboard.\\
+On the contrary of D. Asonov, R. Agrawal's conclusions\cite{keyboard_acoustic}, I notice that, using the deep learning techniques, there are many false negatives given by the similar sound produced by several keys. The reasons of their presence could be:
+\begin{itemize}
+\item{different parts of my keyboard plate produce similar sounds}
+\item{the built-in microphone of my laptop is more affected by the noise than an external microphone}
+\item{the movements of the user's hands influence the noise during the password insertion}
+%WORN OUT = usurato
+\item{some keys are more worn out than other} 
+\end{itemize}
+AcCAPPCHA was executed three times for both the passwords \texttt{bye5} and \texttt{hello35} and for each type of used features. As explained in \myref{Section}{AcCAPPCHA:client}, a human user has at most 3 trials to be correctly classified as human during an execution of AcCAPPCHA. For each execution of AcCAPPCHA, the \myref{Table}{Results:verification} reports the number of the trial in which a human user is correctly detected as a human using both the character and the time correspondences. If the number of the trial is replaced by the string NO, it means that AcCAPPCHA wasn't able to understand that the user was a human during the three trials. For each entry of the table where the number of the trial is different from one, I also reported the number of characters correctly predicted in all the previous steps.\\
+According to the results in \myref{Table}{Results:verification}, the worst deep learning method is the one that uses the spectrograms and a pre-trained deep learning model to extract the features of a press peak, because AcCAPPCHA didn't detect a human user during the three executions of the challenge.
 \begin{figure}[H]
      \centering
 	 \includegraphics[width=0.7\textwidth]{Images/Results/keyboard_less}
@@ -132,7 +133,7 @@ According to the results in the table, the worst deep learning method is the one
 & {NO (3,2,3)} & {NO (5,4,5)}\\
 \hline
 \end{tabular}
-\caption{\footnotesize{Step number when the human user is correctly identified as a human by AcCAPPCHA (3=maximum).}}
+\caption{\footnotesize{Number of the trial in which a human user is correctly identified as a human by AcCAPPCHA (3=maximum).}}
 \label{Results:verification}
 \end{table}
 
@@ -212,7 +213,7 @@ In the last two approaches the audio files recorded by AcCAPPCHA are very simila
 \descItem{The noise during the noise evaluation is very low}{If this happens, some audio peaks can be found, even if the user was a bot, because there is some noise during the password insertion. However these audio peaks don't have a time correspondence with the time instants stored during the password insertion (see \myref{Figure}{Results:noise_img}). The only case, in which a bot could authenticate it self, is when there is a sequence of audio peaks caused by the noise and the time between them is the same of the stored ones.\\
 However this event isn't very probable because it is hard that there would be an high noise only during the insertion of the password and not during the noise evaluation. If no noise evaluation was performed, the attacker could also analyse the background noise of the user and find a periodic sequence of peaks. Then the hacker could type the characters with the same time intervals discovered in the previous noise pattern. This highlights the strength and the importance of the noise evaluation performed before the insertion of the password.}
 \end{itemize}
-The bots activity was tested only using time correspondence of AcCAPPCHA because this is the best method for the analysis of the user's activity (see \myref{Section}{Results:human}). The tests were not performed using only character correspondence because many false positives can be found. The character correspondence were not applied after the time correspondence because the bots already fail the first verification based on time instants.
+The bots activity was tested using only the time correspondence of AcCAPPCHA because this is the best method for the analysis of the user's activity (see \myref{Section}{Results:human}). The application was executed 10 times for each bot and the user was always classified as a bot. The tests were not performed using only character correspondence because many false positives can be found. The character correspondence were not applied after the time correspondence because the bots already fail the first verification based on time instants.
 \begin{figure}[H]
      \centering
 	 \begin{subfigure}[b]{0.48\textwidth}
@@ -257,11 +258,12 @@ Following the analysis performed for Invisible CAPPCHA\cite{Invisible_CAPPCHA}, 
 }
 \descItem{Denial Of Service (DOS)}
 {If a bot was detected by AcCAPPCHA for 3 times during the execution, the program will block also the next trials on the client side. Hence the server won't be overloaded, because the client will refuse next attempts without communicating any message to the server.}
+\descItem{Eavesdropping attack}
+{All the messages, including the POST requests, are padded with space characters such that an hacker cannot understand which string was sent in every step of the communication. In fact if padding isn't applied, the attacker could analyse the size of the packets to understand which data were exchanged by the parties \cite{side_leaks}.}
 \end{itemize}
-After the analysis of side-channel attacks, I decided also to modify the messages transmitted between the client and the server (see \myref{Section}{AcCAPPCHA:communication_CS}). All the messages, included the POST requests, are padded with space characters such that an hacker cannot understand which string was sent in every step of the communication. In fact if padding isn't applied, as explained in \myref{Section}{SideCH:vicinity}, the attacker could analyse the size of the packets to understand which data were exchanged by the parties.
 
 \subsection{Other security considerations}
-I analyse also other important aspects that guarantee the security of AcCAPPCHA. The first one is the choice of the HTTP POST method instead of HTTP GET method. I choose the first one because it's more secure to exchange sensible information than the second one. In fact, the HTTP GET method is associated to an URL that could be easily stored in the Browser History, even if in my application I didn't exploit the browser while the client sends the HTTP request.\\
+I analyse also other important aspects that guarantee the security of AcCAPPCHA. The first one is the choice of the HTTP POST method instead of HTTP GET method. I choose the first one because it's more secure to exchange sensible information than the second one. In fact, the HTTP GET method is associated to an URL that could be easily stored in the Browser History, even if in my application I didn't leverage the browser while the client sends the HTTP request.\\
 Another important aspect to be considered is that the File Systems of the client and the server must guarantee that the file \texttt{block.txt}, used to manage the block period of a user, the encryption keys and the certificates must be kept secure. The File System has to guarantee the protection of the spectrogram images because the application generates them, during the insertion of the password, and it stores them in a folder. Then AcCAPPCHA accesses the images in the path, using the pre-trained network, and it extracts the features from them. Hence the File System must guarantee that the folder with spectrogram images couldn't be accessed by other applications. A path, for which the same type of protection must be ensured, is the one containing the model of the trained neural network, used for the classification of the key presses.\\
 Another consideration is about the microphone permission that the Windows Operating System asks the user at only the first execution of AcCAPPCHA. The programs that have access to the microphone, as AcCAPPCHA, are listed in \textbf{Settings > Privacy > Permissions > Microphone} on Windows 10. The user could also analyse the list to find a bot that was installed by an attacker on the Operating System and it's trying to access the microphone (e.g. trying to elude AcCAPPCHA verification).\\
 I suggest every user to enable the microphone icon in \textbf{Settings > Personalisation > Taskbar > Turn system icons on or off} even if an attacker could disable it. In this way, every time that an application accesses the microphone resource, the user could see the icon on the taskbar if the option was previously enabled on the settings. If an attacker has remote control of the pc on which client-side AcCAPPCHA runs, the user could understand on Windows 10 that he's under attack by looking at the icon because the microphone is used by AcCAPPCHA.\\
@@ -272,7 +274,7 @@ To use the character correspondence on several keyboard, each producer of keyboa
 I used also other input devices to test the usability of the best method used to very the identity of the user (time correspondence). At first I tested AcCAPPCHA using an external wireless keyboard (Logitech K480) and positioning it in front of my laptop. AcCAPPCHA was tested also considering the interaction of the user with the touch keyboard of Windows 10 using:
 \begin{itemize}
 \item{\textbf{Mouse (}Zelotes T90\textbf{)}\\
-the time correspondence exploits the sound of each mouse click needed to select a key on the keyboard.}
-\descItem{Touchpad}{this device also guarantees to perform the time correspondence exploiting the sound of each click on the touchpad, used to select a key. The only condition, required by AcCAPPCHA to work correctly, is that the user clicks the physical left button at the bottom side of the touchpad.}
+the time correspondence leverages the sound of each mouse click needed to select a key on the keyboard.}
+\descItem{Touchpad}{this device also guarantees to perform the time correspondence leveraging the sound of each click on the touchpad, used to select a key. The only condition, required by AcCAPPCHA to work correctly, is that the user clicks the physical left button at the bottom side of the touchpad.}
 \end{itemize}
-Using these three devices, the results of the time correspondence were equal to the ones obtained using the keyboard of the laptop. Hence the time correspondence is very efficient and it works well in several scenarios because it's not related to the input hardware but only to the microphone. At the contrary character correspondence is limited to the hardware characteristics of the input device. 
+Using these three devices, the results of the time correspondence were equal to the ones obtained using the keyboard of the laptop. Hence the time correspondence is very efficient and it works well in several scenarios because it's not related to the input hardware but only to the microphone. On the contrary character correspondence is limited to the hardware characteristics of the input device. 

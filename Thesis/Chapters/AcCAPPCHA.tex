@@ -292,7 +292,7 @@ If the answer is equal to $\mathtt{OK\setminus r\setminus n}$, the user was a hu
 \end{table}
 where \textbf{SIZE}, \textbf{USERNAME} and \textbf{HASHEDPWD} are replaced respectively with the size of the HTTP body, the username of the client and its password hashed with SHA512. The format of the POST request follows again the grammar of HTTP/1.1, specified in \href{https://tools.ietf.org/html/rfc2616}{RFC 2616}).
 }
-\item{The client waits for the HTTP response of the server, containing HTML code as body. Then the client saves the code on the file system and opens the default web browser to show the HTML page received. The HTML code is intended to show 3 possible scenarios: the user was correctly logged in, the user inserted wrong password, the username wasn't already stored on the server database. The client can insert wrong credentials for at most 3 times. If the limit is reached, the access of the user to the client side of AcCAPPCHA is blocked.}
+\item{The client waits for the HTTP response of the server, containing HTML code as body. Then the client saves the code on the file system and opens the default web browser to show the HTML page received. The HTML code is intended to show 3 possible scenarios: the user was correctly logged in, the user inserted wrong password, the username wasn't already stored on the server database. In the last two scenarios, AcCAPPCHA will ask again the credentials to the user, waiting for the password or both the username and the password. The client can insert wrong credentials for at most 3 times. If the limit is reached, the access of the user to AcCAPPCHA is blocked.}
 \end{enumerate}
 When the user is blocked because the client inserted wrong credentials or a bot was detected, the client-side of AcCAPPCHA stores the datetime in a file called \texttt{block.txt}. At every start-up of AcCAPPCHA on the client side, the program checks if a fixed amount of time was passed from the stored datetime. If the block period is already elapsed, the file \texttt{block.txt} is removed by the client, otherwise it isn't touched and it will be used for future checks. During the testing phase, I used a block period of 100 seconds but in practice it should be bigger.
 
@@ -370,11 +370,9 @@ If the number of the parameters in the POST body is equal to 2, the server will 
 \end{itemize}
 }
 \end{enumerate}
-\vspace{10cm}
 \subsection{Database}
 The database, created to simulate the search of a username by the server, was made using PostgreSQL. I could store all the information in a simple text file or a csv file but I decided to use this approach to be more flexible and to emulate the integration of AcCAPPCHA in more complex web applications.\\
 The database is composed by a single table \texttt{CloudUser} that stores information about the users identities, that are usually asked to the clients during the sign up phase. The creation of the database table was performed using the following instructions:
-\vspace{1cm}
 \lstset{basicstyle=\footnotesize,breaklines=true}
 \lstinputlisting[language=SQL]{../Code/PC/dat/db/db_creation.sql}
 I created several domains to manage the format of some information of the user. For example the password is a string of 128 characters because each password is hashed using SHA512 and then stored as a string of hexadecimal digits.

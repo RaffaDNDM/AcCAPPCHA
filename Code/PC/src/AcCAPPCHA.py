@@ -1158,8 +1158,9 @@ def args_parser():
 
     parser.add_argument("-bound", "-b", 
                     dest="bound",
-                    help="""If specified, it performs time correspondence with bound
-                            tolerance (floating point in [0, 1])""")
+                    help="""It specifies the percentage of relaxation
+                            of the time correspondence 
+                            (floating point in [0, 1])""")
 
     #Parse command line arguments
     args = parser.parse_args()
