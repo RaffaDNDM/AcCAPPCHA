@@ -44,10 +44,10 @@
 \contentsline {chapter}{\numberline {6}Experimental results}{59}{chapter.6}% 
 \contentsline {section}{\numberline {6.1}Security analysis}{59}{section.6.1}% 
 \contentsline {subsection}{\numberline {6.1.1}Human detection}{59}{subsection.6.1.1}% 
-\contentsline {subsection}{\numberline {6.1.2}Bot detection}{62}{subsection.6.1.2}% 
-\contentsline {subsection}{\numberline {6.1.3}Strength against known attacks}{66}{subsection.6.1.3}% 
-\contentsline {subsection}{\numberline {6.1.4}Other security considerations}{67}{subsection.6.1.4}% 
-\contentsline {section}{\numberline {6.2}Usability}{68}{section.6.2}% 
+\contentsline {subsection}{\numberline {6.1.2}Bot detection}{63}{subsection.6.1.2}% 
+\contentsline {subsection}{\numberline {6.1.3}Strength against known attacks}{67}{subsection.6.1.3}% 
+\contentsline {subsection}{\numberline {6.1.4}Other security considerations}{68}{subsection.6.1.4}% 
+\contentsline {section}{\numberline {6.2}Usability}{69}{section.6.2}% 
 \contentsline {chapter}{\numberline {7}Future work}{71}{chapter.7}% 
 \contentsline {chapter}{\numberline {A}Key Map}{73}{appendix.A}% 
 \contentsline {chapter}{\numberline {B}Program}{79}{appendix.B}% 

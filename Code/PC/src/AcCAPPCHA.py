@@ -312,7 +312,7 @@ class AcCAPPCHA:
         #Analysis of audio signal
         self.NOISE = np.max(np.abs(signal))
 
-    def audio(self, folder, option):
+    def audio(self, folder, option, threshold):
         '''
         Record audio while password insertion and verify if the user
         was a human or a bot
@@ -372,7 +372,7 @@ class AcCAPPCHA:
             self.COMPLETED_INSERT = False    
             #self.SIGNAL = signal[:-self.ENTER_RANGE]
             self.SIGNAL = signal
-            self.verify(folder, option)
+            self.verify(folder, option, threshold)
         finally:
             self.mutex.release()
 
@@ -386,16 +386,14 @@ class AcCAPPCHA:
         self.TIMES.append(time.perf_counter())
             
         if char_user != '\r':
-            start = time.time()
             self.PASSWORD += char_user
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}', end='')
-            self.TIMES[-1] -= (time.time()-start)
             return True
 
         else:
             #End of the password
-            start = time.time()
+            self.TIMES = self.TIMES[:-1]
             psswd = self.obfuscate()
             print(f'\r{self.PASSWORD_STRING}{psswd}')
 
@@ -403,13 +401,12 @@ class AcCAPPCHA:
             self.mutex.acquire()
             try:
                 self.COMPLETED_INSERT = True
-                self.TIMES[-1] -= (time.time()-start)
             finally:
                 self.mutex.release()
 
             return False
 
-    def verify(self, folder, option):
+    def verify(self, folder, option, threshold):
         '''
         Verify if the password was inserted by a human or a bot
         
@@ -457,7 +454,7 @@ class AcCAPPCHA:
                 self.PASSWORD = self.remove_backspace()
                 #Time correspondence
                 cprint(utility.LINE, 'blue')
-                verified_time, checked_char_times = self.correspond_time(char_times)
+                verified_time, checked_char_times = self.correspond_time(char_times, threshold)
 
                 #If time correspondence detects bot (verified_time=False)
                 self.VERIFIED = verified_time
@@ -476,7 +473,7 @@ class AcCAPPCHA:
 
             elif self.TIME_OPTION:
                 #Time correspondence
-                self.VERIFIED = self.correspond_time(char_times)[0]
+                self.VERIFIED = self.correspond_time(char_times, threshold)[0]
 
         cprint(utility.LINE, 'blue')
 
@@ -488,7 +485,7 @@ class AcCAPPCHA:
             plt.tick_params(axis='both', which='major', labelsize=6)
             fig.savefig(self.PLOT_FOLDER+self.WAVE_FOLDER+self.FULL_WAVE_IMG)
 
-    def correspond_time(self, char_times):
+    def correspond_time(self, char_times, threshold):
         '''
         Verify if there is a time correspondence between time
         instants of insertion of each character of the password
@@ -512,9 +509,10 @@ class AcCAPPCHA:
         '''
         
         #If number of windows lower than number of characters of the password
-        length_psswd = len(self.PASSWORD)
+        length_thresh = int(len(self.PASSWORD)*threshold)
+        length_passwd = len(self.PASSWORD)
 
-        if len(char_times) < length_psswd:
+        if len(char_times) < length_thresh:
             return False, None
 
         #Find the peak for every window
@@ -536,6 +534,92 @@ class AcCAPPCHA:
                 print(x/self.RATE, end=colored(', ', 'green'))
             
             cprint('\b\b]', 'green')
+
+        max_first = length_passwd-length_thresh
+
+        for first in range(0, max_first+1):
+
+            for i in range(0, len(char_times)):
+                if len(char_times) - i < length_thresh:
+                    return False, None
+
+                checked_char_times = [char_times[i],]
+                checked_password_chars = [self.PASSWORD[first],]
+                start = peak_times[i]/self.RATE
+                #Already verified element in i
+                j=i+1
+                count_verified = 1
+                password_index = first + 1
+
+                #Analysis of next peaks after peak[i]
+                while password_index < length_passwd and j < len(char_times):
+                    #Not enough remaining audio peaks to find time correspondence
+                    if (len(char_times) -j) < (length_thresh - count_verified):
+                        break
+
+                    if ((peak_times[j]/self.RATE)-start) < (self.TIMES[password_index]-self.TIMES[first]-self.TIME_THRESHOLD):
+                        #Too low time between peak[i] and peak[j] (analyse next peak)
+                        j += 1
+                    elif ((peak_times[j]/self.RATE)-start) < (self.TIMES[password_index]-self.TIMES[first]+self.TIME_THRESHOLD):
+                        #peak[j] corresponds to time instant of the count_verified-th character of the password
+                        checked_char_times.append(char_times[j])
+                        checked_password_chars.append(self.PASSWORD[password_index])
+                        count_verified += 1
+                        password_index += 1
+
+                        if count_verified == length_thresh:
+                            #Found time correspondence
+                            print(checked_password_chars)
+                            self.PASSWORD = ''.join(checked_password_chars)
+                            return True, checked_char_times
+
+                        j += 1
+
+                    elif ((peak_times[j]/self.RATE)-start) > (self.TIMES[password_index]-self.TIMES[first]+self.TIME_THRESHOLD):
+                        #Too much time between peak[i] and peak[j] (no time correspondence)
+                        #Change start peak (start = peak[i+1])
+                        password_index += 1
+
+
+        '''
+        for i in range(0, len(char_times)):
+            if len(char_times) - i < length_thresh:
+                return False, None
+
+            checked_char_times = [char_times[i],]
+            checked_password_chars = [self.PASSWORD[0],]
+            start = peak_times[i]/self.RATE
+            #Already verified element in i
+            j=i+1
+            count_verified = password_index = 1
+
+            #Analysis of next peaks after peak[i]
+            while password_index < length_passwd and j < len(char_times):
+                #Not enough remaining audio peaks to find time correspondence
+                if (len(char_times) -j) < (length_thresh - count_verified):
+                    break
+
+                if ((peak_times[j]/self.RATE)-start) < (self.TIMES[password_index]-self.TIMES[i]-self.TIME_THRESHOLD):
+                    #Too low time between peak[i] and peak[j] (analyse next peak)
+                    j += 1
+                elif ((peak_times[j]/self.RATE)-start) < (self.TIMES[password_index]-self.TIMES[i]+self.TIME_THRESHOLD):
+                    #peak[j] corresponds to time instant of the count_verified-th character of the password
+                    checked_char_times.append(char_times[j])
+                    checked_password_chars.append(self.PASSWORD[password_index])
+                    count_verified += 1
+                    password_index += 1
+
+                    if count_verified == length_thresh:
+                        #Found time correspondence
+                        print(checked_password_chars)
+                        return True, checked_char_times
+
+                    j += 1
+
+                elif ((peak_times[j]/self.RATE)-start) > (self.TIMES[password_index]+self.TIME_THRESHOLD):
+                    #Too much time between peak[i] and peak[j] (no time correspondence)
+                    #Change start peak (start = peak[i+1])
+                    password_index += 1
 
         #Look for time correspondence            
         for i in range(0, len(char_times)):
@@ -571,6 +655,7 @@ class AcCAPPCHA:
                 if count_verified == length_psswd:
                     #Found time correspondence
                     return True, checked_char_times
+        '''
 
         #No time correspondence found
         return False, None
@@ -829,7 +914,7 @@ class AcCAPPCHA:
         s_bottom.specgram(img_feature, NFFT=len(features[0]), Fs=self.RATE)
         fig.savefig((self.PLOT_FOLDER+self.WAVE_FOLDER+self.CHAR_WAVE_SPECTRUM_IMG).format(count))
 
-    def run(self, folder, option, username):
+    def run(self, folder, option, username, threshold):
         '''
         Start password insertion for user and audio recorder 
         and verify if the user is a human or a bot
@@ -880,7 +965,7 @@ class AcCAPPCHA:
 
                 #Audio recording thread during the insertion of the password              
                 cprint('password:', 'red', end=' ')
-                audio_logger = threading.Thread(target=self.audio, args=(folder,option))
+                audio_logger = threading.Thread(target=self.audio, args=(folder,option, threshold))
                 audio_logger.start()
 
                 #Insertion of the password
@@ -890,9 +975,9 @@ class AcCAPPCHA:
                     no_end = self.password_from_user()
                 
                 #Definition of time intervals w.r.t. the first time instant stored
-                first = self.TIMES[0]
-                self.TIMES = [t-first for t in self.TIMES]
-
+                #first = self.TIMES[0]
+                #self.TIMES = [t-first for t in self.TIMES[:-1]]
+                
                 audio_logger.join()
 
                 #Connection to the server
@@ -904,7 +989,7 @@ class AcCAPPCHA:
 
                     if check:
                         #If humman, send credentials
-                        msg = s.credentials(username, self.PASSWORD[:-1])
+                        msg = s.credentials(username, self.PASSWORD)
                         
                         #Open the web browser showing the response of the server
                         with open('../dat/html/response.html', 'w') as f:
@@ -912,8 +997,8 @@ class AcCAPPCHA:
                             f.write(msg)
 
                             #Store HTML code in web browser
-                            import webbrowser
-                            webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
+                            #import webbrowser
+                            #webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
 
                         #Analysis of HTML response of the server
                         if not 'Logged in' in msg:
@@ -1071,6 +1156,11 @@ def args_parser():
                         help="""If specified, it shows debug info""",
                         action='store_true')
 
+    parser.add_argument("-bound", "-b", 
+                    dest="bound",
+                    help="""If specified, it performs time correspondence with bound
+                            tolerance (floating point in [0, 1])""")
+
     #Parse command line arguments
     args = parser.parse_args()
 
@@ -1095,13 +1185,20 @@ def args_parser():
         cprint('-deep', 'green', end='\n\n')
         exit(0)
 
-    return args.dir, args.time, args.deep, args.plot, args.debug
+    threshold = 1.0
+    if args.bound:
+        threshold = float(args.bound)
+        
+        if threshold < 0.0 or threshold > 1.0:
+            threshold = 1.0
+
+    return args.dir, args.time, args.deep, args.plot, args.debug, threshold
 
 def main():
     #Colored print
     colorama.init()
     #Read command line arguments
-    folder, time_option, dl_option, plot_option, debug_option = args_parser()
+    folder, time_option, dl_option, plot_option, debug_option, threshold = args_parser()
 
     #Select tye of the feature for deep learning technique
     option = -1
@@ -1116,7 +1213,7 @@ def main():
         #User not blocked
         cprint(f'   Authentication\n{utility.LINE}', 'blue')
         username = input(colored('username: ', 'red'))
-        captcha.run(folder, option, username)
+        captcha.run(folder, option, username, threshold)
 
     except BlockAccessError:
         #User blocked
