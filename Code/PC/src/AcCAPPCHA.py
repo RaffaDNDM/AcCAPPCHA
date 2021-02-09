@@ -954,9 +954,9 @@ class AcCAPPCHA:
             #Go on until (authentication ok) or (maximum attepmts for wrong 
             #credentials or bot deceted are performed)
             #
-            #while count_pwd_trials < self.MAX_PWD_TRIALS and \
-            #      count_bot_trials < self.MAX_BOT_TRIALS:
-            while True:
+            while count_pwd_trials < self.MAX_PWD_TRIALS and \
+                  count_bot_trials < self.MAX_BOT_TRIALS:
+              
                 self.COMPLETED_INSERT = False
                 self.noise_evaluation()
 
@@ -974,10 +974,7 @@ class AcCAPPCHA:
                 while no_end:
                     no_end = self.password_from_user()
                 
-                #Definition of time intervals w.r.t. the first time instant stored
-                #first = self.TIMES[0]
-                #self.TIMES = [t-first for t in self.TIMES[:-1]]
-                
+                #End of audio recording, after the insertion of the password
                 audio_logger.join()
 
                 #Connection to the server
@@ -997,8 +994,8 @@ class AcCAPPCHA:
                             f.write(msg)
 
                             #Store HTML code in web browser
-                            #import webbrowser
-                            #webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
+                            import webbrowser
+                            webbrowser.open('file://' + os.path.abspath('../dat/html/response.html'))
 
                         #Analysis of HTML response of the server
                         if not 'Logged in' in msg:
@@ -1021,8 +1018,7 @@ class AcCAPPCHA:
 
                         else:
                             #User correctly logged in
-                            #break
-                            pass
+                            break
 
                     else:
                         #Bot detected
