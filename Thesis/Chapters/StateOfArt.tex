@@ -19,15 +19,15 @@ This discipline tries to analyse the ways in which a human can process data, mat
 \end{itemize}   
 }
 \descItem{Human Interactive Proof (HIP)}
-{it's used to classify machines and humans looking at a type of interaction, that is simple to be done by a human instead of a bot. The main goals of the test are:
+{it's a proof used to classify machines and humans looking at a specific type of interaction, that is simple to be done by a human instead of a bot. The main goals of the test are:
 \begin{itemize}
 	\item{To differentiate the humans from the computers}
 	\item{To differentiate a category of the humans}
 	\item{To differentiate a specific human from the category of humans}
 \end{itemize}
-HIP consists of a test program administered to humans and computers. The main problem of this proof is that the complexity of the task is very complex and only a specific group of humans can usually solve the test.\\
+HIP consists of a test program administered to humans and computers. The main problem of this proof is that the complexity of the task is often very complex and only a specific group of humans can usually solve the test.\\
 Historically the most widely known version is the cognitive one defined by Alan Turing. The Turing test is used to determine how much a machine is capable of thinking like a human. The experiment involves three figures: a human examiner, a human and a machine. The examiner asks some questions to the other figures and, after a fixed amount of time, he evaluates if the two answers were different or not.\\
-If they were similar, with respect to the point of view of the examiner, the machine is classified as an AI (Artificial Intelligence). The test is very reliable if each question could have many possibilities.}
+If they were similar, with respect to the point of view of the examiner, the machine is classified as an AI (Artificial Intelligence). The test is very reliable if each question could have many possible answers.}
 \end{enumerate}
 The design of CAPTCHA challenges takes inspiration from the previous components because its goal is to establish if the user is a bot or a human. A bot is usually an advanced program that exploits some AI techniques and pretends to be a human. In the endeavor of foiling bots that are getting every day smarter and more sophisticated, a CAPTCHA challenge sometimes is so complex that a human user can't solve it. For this reason and in order to guarantee an high level of security, a CAPTCHA has to satisfy the following requirements:
 \begin{itemize}
@@ -55,7 +55,7 @@ Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) p
 \subsection{Game-based CAPTCHAs}
 This type of CAPTCHAs performs the verification of the user identity through a set of several kinds of games (see \myref{Figure}{soa:game}). The strength of Game-based CAPTCHAs is related to the the rules of the game that only humans can understand.\\
 There exists an implementation of these CAPTCHAs, called \textit{Dynamic Cognitive Game (DCG)}, that is usually developed using Flash, HTML5 and JavaScript. These technologies download the game code to the client and execute it locally.\\
-The code of these challenges must be the obfuscated to prevent that the source file could be stored on different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see \myref{Section}{soa:security_CAPTCHAs}).
+The code of these challenges must be the obfuscated to prevent that the source file could be analysed by an attacker. In fact, the obfuscation guarantees that the source code can not be stored on different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see \myref{Section}{soa:security_CAPTCHAs}).
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
