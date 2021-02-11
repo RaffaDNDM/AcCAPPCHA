@@ -329,10 +329,8 @@ The process used to break many traditional CAPTCHAs, based on text or images, is
 \descItem{Attack phase}
 {the following techniques are usually applied:
 \begin{itemize}
-\descItem{\textit{Object Segmentation attacks}}
-{Segmentation techniques (e.g. vertical histogram, colorfilling, snake segmentation and JSEG) are used to split the CAPTCHA image into segments to simplify the recognition}
 \descItem{\textit{Object recognition attacks}}
-{The most used techniques are pattern matching (e.g. shape context matching, correlation algorithm), OCR recognition, SIFT and machine learning.}
+{The most used techniques are pattern matching (e.g. shape context matching, correlation algorithm), OCR recognition, SIFT and machine learning. They are usually applied after the segmentation of the image with several methods (e.g. vertical histogram, color filling, snake segmentation and JSEG).}
 \descItem{\textit{Random Guess Attacks}}
 {The attacker's program tries to break the CAPTCHA scheme by guessing the correct answer. This attack is effective on CAPTCHAs with few number of different challenges.}
 \descItem{\textit{Human Solver Relay Attacks}}
