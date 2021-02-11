@@ -1,5 +1,5 @@
 \chapter{Introduction}
-CAPTCHA (Completely Automated Public Turing Test to Tell Computers and Humans Apart) is a program used to distinguish human users from bots. A bot is a malicious application that automates a task and may be used to gather useful information about user credentials or pretending to do a human interaction with a Web application. In fact the term \textit{"bot"} is an abbreviation of the words "software robot".\\
+CAPTCHA (Completely Automated Public Turing Test to Tell Computers and Humans Apart) is a program used to distinguish human users from bots. A bot is a malicious application that automates a task and may be used to gather useful information about user credentials or to pretend being a human interacting with a Web application. In fact the term \textit{"bot"} is an abbreviation of the words "software robot".\\
 The CAPTCHAs are traditionally used in Web applications\cite{text_audio}:
 \begin{itemize}
 \descItem{To protect online polls}
@@ -23,7 +23,7 @@ In this case the second word is added to a set of words that are going to be cho
 \end{itemize}
 However, over the years, these challenges have become more and more complex because a lot of them easily fail against new machine learning techniques (\myref{Chapter}{chapter:StateOfArt}).\\
 Many attacks exploit data, collected by built-in sensors of the victim's machine, to obtain some credentials or useful information (\myref{Chapter}{chapter:SideCH}). However, at the same time, the very same sensors were also leveraged to increase the strength of CAPTCHAs against bot attacks.\\
-CAPTCHAs are also very used during the authentication process. For example, Invisible CAPPCHA is a new CAPTCHA scheme, developed in 2018, that leverages the physical information obtained by motion sensors of the smartphone\cite{Invisible_CAPPCHA}. Using this CAPTCHA, the user simply authenticates himself and the application analyses in background if this phase was performed by a human (\myref{Chapter}{chapter:InvisibleCAPPCHA}).\\
+CAPTCHAs are sometimes used during the authentication process. For example, Invisible CAPPCHA is a new CAPTCHA scheme, developed in 2018, that leverages the physical information obtained by motion sensors of the smartphone\cite{Invisible_CAPPCHA}. Using this CAPTCHA, the user simply authenticates himself and the application analyses in background if this phase was performed by a human (\myref{Chapter}{chapter:InvisibleCAPPCHA}).\\
 From the ideas developed in Invisible CAPPCHA and leveraging an acoustic side-channel, I designed AcCAPPCHA (\myref{Chapter}{chapter:AcCAPPCHA}) to support the authentication from the desktop and the laptop environments.\\
 The pros and the cons of the new invisible challenge, observed during the testing phase, have been described (\myref{Chapter}{chapter:Results}) and some ideas of future improvements are analysed in (\myref{Chapter}{chapter:Future}).\\
 In the appendices of the current work, you can also find the the key map used by AcCAPPCHA (\myref{Appendix}{appendix:KeyMap}) and the details about its command line arguments (\myref{Appendix}{appendix:Program}).
