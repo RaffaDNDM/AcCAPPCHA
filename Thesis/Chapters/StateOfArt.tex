@@ -55,7 +55,7 @@ Audio-based CAPTCHAs are vulnerable to many Automatic Speech Recognition (ASR) p
 \subsection{Game-based CAPTCHAs}
 This type of CAPTCHAs performs the verification of the user identity through a set of several kinds of games (see \myref{Figure}{soa:game}). The strength of Game-based CAPTCHAs is related to the the rules of the game that only humans can understand.\\
 There exists an implementation of these CAPTCHAs, called \textit{Dynamic Cognitive Game (DCG)}, that is usually developed using Flash, HTML5 and JavaScript. These technologies download the game code to the client and execute it locally.\\
-The code of these challenges must be the obfuscated to prevent to prevent the attacker from analysing the code. In fact, the obfuscation guarantees that the source code can not be stored on different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see \myref{Section}{soa:security_CAPTCHAs}).
+The code of these challenges must be the obfuscated to prevent the attacker from analysing the code. In fact, the obfuscation guarantees that the source code can not be stored on different internet domains. However for example, there exists a bot attack, called \textit{Stream Relay Attack}, that obtains good results bypassing these challenges \cite{game_CAPTCHA} (see \myref{Section}{soa:security_CAPTCHAs}).
 \begin{figure}[h]
      \centering
      \begin{subfigure}[b]{0.48\textwidth}
@@ -155,7 +155,7 @@ One of the most difficult challenges, to be performed by a computer, is the dete
 \end{figure}
 }
 \descItem{Interactive-based CAPTCHAs}
-{the user needs to discover a secret position in an image using mouse movements or swiping gestures
+{the user needs to discover a secret position in an image using mouse movements or swiping gestures (see \myref{Figure}{soa:interactive_CAPTCHA}).
 \begin{figure}[h]
      \centering
      \includegraphics[width=.4\linewidth]{Images/StateOfArt/interactive_CAPTCHA}
