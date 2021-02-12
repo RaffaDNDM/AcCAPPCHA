@@ -508,11 +508,12 @@ class AcCAPPCHA:
 
         '''
         
-        #If number of windows lower than number of characters of the password
         length_thresh = int(len(self.PASSWORD)*threshold)
         length_passwd = len(self.PASSWORD)
 
-        if len(char_times) < length_thresh:
+        #If number of windows lower than number of characters of the password
+        #or password too short (trivial password)
+        if len(char_times) < length_thresh or length_passwd < 2:
             return False, None
 
         #Find the peak for every window
@@ -1113,6 +1114,35 @@ class AcCAPPCHA:
             cprint('##############', 'blue')
             cprint("#################################", 'blue', end='\n\n')
 
+def select_type_feature():
+    """
+    Select which type of features you want to use
+
+    Returns:
+        option (int): Option selected
+    """
+    
+    check = True
+    while check:
+        try:
+            cprint(f'Select which type of features you want to use:\n{utility.LINE}', 'blue')
+                
+            for i in range(0, len(utility.OPTIONS)):
+                cprint(f'{i})', 'yellow', end=' ')
+                print(f'{utility.OPTIONS[i]}')
+
+            cprint(f'{utility.LINE}', 'blue')
+
+            option = int(input())
+            if option >= 0 and option < len(utility.OPTIONS):
+                check = False
+
+        except ValueError:
+            cprint('[VALUE ERROR]', 'color', end=' ')
+            print('Insert a value of them specified in menu')
+
+    return option
+
 def args_parser():
     '''
     Parser of command line arguments
@@ -1201,7 +1231,7 @@ def main():
     option = -1
     
     if dl_option:
-        option = utility.select_option_feature()
+        option = select_type_feature()
 
     try:
         #Initialize AcCAPPCHA
