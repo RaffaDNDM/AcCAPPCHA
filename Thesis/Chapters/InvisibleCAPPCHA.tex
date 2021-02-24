@@ -34,8 +34,8 @@ An extra message, that tells if the task was performed by a user or not, is sent
 The elliptic cryptography works similarly to RSA but it uses smaller keys. The signature algorithm with elliptic curves is divided in two phases, like the one based on RSA. Considering two users, Alice and Bob, ECDSA phases are explained in the following lines:
 \begin{itemize}
 \descItem{Sign generation}
-{If Alice wants to send a message, protected with digital sign, to Bob, they need to share the following parameters \textit{(curve, G, n)}: \textit{curve} is the equation of an elliptic curve, \textit{G} is the base point of prime order on the curve and \textit{n} is the multiplicative order of \textit{G} for which $n\; x\; G = O$ ($x$ is the scalar multiplication of a point of the curve).
-Alice generates a private key $d_A$ in the range $[1, n-1]$ and a public key $Q_A=d_A\; x\; G$. Alice needs to perform \myref{Algorithm}{inv:ECDSA_sign} to sign a message $m$.
+{If Alice wants to send a message, protected with digital sign, to Bob, they need to share the following parameters \textit{(curve, G, n)}: \textit{curve} is the equation of an elliptic curve, \textit{G} is the base point of prime order on the curve and \textit{n} is the multiplicative order of \textit{G} for which $n\cdot G = O$ ($x$ is the scalar multiplication of a point of the curve).
+Alice generates a private key $d_A$ in the range $[1, n-1]$ and a public key $Q_A=d_A\cdot G$. Alice needs to perform \myref{Algorithm}{inv:ECDSA_sign} to sign a message $m$.
 \begin{algorithm}[h]
 \DontPrintSemicolon\footnotesize
 \KwIn {$\mathtt{m}$= message to be signed}
