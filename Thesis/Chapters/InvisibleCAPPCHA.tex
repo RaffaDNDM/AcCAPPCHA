@@ -34,7 +34,7 @@ An extra message, that tells if the task was performed by a user or not, is sent
 The elliptic cryptography works similarly to RSA but it uses smaller keys. The signature algorithm with elliptic curves is divided in two phases, like the one based on RSA. Considering two users, Alice and Bob, ECDSA phases are explained in the following lines:
 \begin{itemize}
 \descItem{Sign generation}
-{If Alice wants to send a message, protected with digital sign, to Bob, they need to share the following parameters \textit{(curve, G, n)}: \textit{curve} is the equation of an elliptic curve, \textit{G} is the base point of prime order on the curve and \textit{n} is the multiplicative order of \textit{G} for which $n\cdot G = O$ ($x$ is the scalar multiplication of a point of the curve).
+{If Alice wants to send a message, protected with digital sign, to Bob, they need to share the following parameters \textit{(curve, G, n)}: \textit{curve} is the equation of an elliptic curve, \textit{G} is the base point of prime order on the curve and \textit{n} is the multiplicative order of \textit{G} for which $n\cdot G = O$ ($\cdot$ is the scalar multiplication of a point of the curve).
 Alice generates a private key $d_A$ in the range $[1, n-1]$ and a public key $Q_A=d_A\cdot G$. Alice needs to perform \myref{Algorithm}{inv:ECDSA_sign} to sign a message $m$.
 \begin{algorithm}[h]
 \DontPrintSemicolon\footnotesize
@@ -43,16 +43,16 @@ Alice generates a private key $d_A$ in the range $[1, n-1]$ and a public key $Q_
 \BlankLine
 $e\gets HASH(m)\;$where \textit{HASH} is an hash function (e.g. SHA-2)\;
 \BlankLine
-$z \gets$ string composed by the $L_n$ most left bits\;
+$z \gets$ string composed by the $L_n$ most left bits of $e$\;
 $\;\;\;\;\;\;\;$where $L_n$ is the bit length of the group of order $n$\;
 $r\gets 0$\;
 $s\gets 0$\;
 \BlankLine
-\While{$r=0\;mod\;n$ or $r=0\;mod\;n$}{
+\While{$r=0\;mod\;n$ or $s=0\;mod\;n$}{
 	\BlankLine
 	$k\gets RANDOM([1,n-1])$\;
 	\BlankLine
-	$(x_1, y_1)=k\;x\;G$ of the elliptic curve\;
+	$(x_1, y_1)=k\;\cdot\;G$ (point of the elliptic curve)\;
 	\BlankLine
 	$r\gets x_1\; mod\; n$\;
 	\BlankLine
@@ -78,13 +78,13 @@ $\mathtt{check}\gets false$\;
 }
 \BlankLine
 $\setminus\setminus$Element of the curve\;
-\If{$Q_A\;\in$ curve}
+\If{$Q_A\;\not\in$ curve}
 {	
 $\mathtt{check}\gets false$\;
 }
 \BlankLine
 $\setminus\setminus$Correctness of order\;
-\If{not $n\;x\;Q_A=O$}
+\If{$n\;\cdot\;Q_A\not = O$}
 {	
 $\mathtt{check}\gets false$\;
 }
@@ -93,22 +93,20 @@ $\mathtt{check}\gets false$\;
 \begin{algorithm}[h]
 \DontPrintSemicolon\footnotesize
 \KwIn {$\mathtt{(r,s,m)}$= digital sign and message}
-\KwOut {$\mathtt{m}$= message to be signed}
+\KwOut {$\mathtt{m}$= message}
+\If{$r\;\not\in [1, n-1]$ or $s\;\not\in [1, n-1]$}
+{*Invalid sign*}
 \BlankLine
 $e\gets HASH(m)\;$where \textit{HASH} is an hash function (e.g. SHA-2)\;
 \BlankLine
-$z \gets$ string composed by the $L_n$ most left bits\;
-where $L_n$ is the bit length of the group of order $n$\;
+$z \gets$ string composed by the $L_n$ most left bits of $e$\;
+$\;\;\;\;\;\;\;$where $L_n$ is the bit length of the group of order $n$\;
 \BlankLine
-\If{not $r\;\in [1, n-1]$ or not $s\;\in [1, n-1]$}
-{*Invalid sign*}
-$e\gets HASH(m)\;$\;
-\BlankLine$z \gets$ string composed by the $L_n$ most left bits\;
 $w=s^{-1}\; mod\; n$\;
 \BlankLine
 $u_1 =zw\; mod\; n$\;
 $u_2 =rw\; mod\; n$\;
-$(x_1, y_1)=u_1\; x\; G\;+\; u_2\; x\; Q_{A}$ of the elliptic curve\;
+$(x_1, y_1)=u_1\cdot G\;+\; u_2\cdot Q_{A}$ of the elliptic curve\;
 \BlankLine
 \If{$r\equiv x_1\; (mod\; n)$}
 {*Verified sign*}
