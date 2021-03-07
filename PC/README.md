@@ -92,7 +92,7 @@ This dipendency is important for tensorflow to perform computation using the use
 </details>
 
 ## Data
-You need to download [dat](https://drive.google.com/file/d/1KRqN4Q7mTvH0syN4qYIWOe266AXYPA4Q/view?usp=sharing) subfolder of PC directory to run the program.<br> The folder is composed by the following subfolders:
+You need to download [dat](https://drive.google.com/file/d/1R2ns9RYg_OBkqxjnJI7HSekBvEYdNHfd/view?usp=sharing) subfolder of PC directory to run the program. <br> The folder is composed by the following subfolders:
 <details><summary><b><i>audio/</i></b><br></summary>
   It contains a subfolder for each dataset used in the training phase with inside at most three subfolders (<i>spectrum/</i> related to spectrogram features, <i>touch/</i> related to touch features, <i>touch_hit/</i> related to touch features concatenated with the hit features). In each one of these 3 subfolders, there is:
   <ul>
